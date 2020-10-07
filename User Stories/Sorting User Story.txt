@@ -1,0 +1,14 @@
+Sorting - User Story
+
+Main success scenario : 
+1. Navigate to "Artworks" page.
+2. Open sorting menu.
+3. Input the desired price range, style, and medium
+4. Press enter.
+5. Scroll through the results.
+
+Alternative paths : 
+3a. User does not input one or many of the desired price range, style, or medium.
+	2a.1. Default value of "Any" is filled in for attributes left empty.
+4a. User closes the menu without pressing enter.
+	4a.1. The inputted filters are not applied on the artwork, and user is notified of this.
