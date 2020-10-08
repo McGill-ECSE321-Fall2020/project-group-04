@@ -4,10 +4,10 @@ Welcome to group 4's Online Art Gallery!
 Project scope:
   The goal of this project is to provide an online platform for a local art gallery. Any logged in user may choose to purchase listed artwork and pay online. Users may also choose to create an artist profile and list their artwork for sale. The gallery itself may also choose to promote certain pieces of art. This gallery is available on two frontends: a website and an application.
 
-Sprint 1:
+Team Members:
+The following table provides details on the contributors to this project. It displays their general roles and hours worked for each sprint.
 Member | Roey | Stavros | Zachary | Viet | Oliver
 --- | --- | --- | --- |--- |---
 Role |  |  |  |  |  
---- | --- | --- | --- |--- |---
-Hours |  |  |  |  |  
+Sprint 1 |  |  |  |  |  
 
