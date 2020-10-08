@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.smartgallery.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
@@ -41,4 +43,13 @@ public void setGallery(Gallery gallery) {
    this.gallery = gallery;
 }
 
+private int smartGalleryID;
+
+public void setSmartGalleryID(int value) {
+this.smartGalleryID = value;
+    }
+@Id
+public int getSmartGalleryID() {
+return this.smartGalleryID;
+       }
 }

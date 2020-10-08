@@ -1,3 +1,4 @@
+/*
 package ca.mcgill.ecse321.smartgallery.dao;
 
 import org.springframework.data.repository.CrudRepository;
@@ -10,5 +11,5 @@ public interface ArtistRepository extends CrudRepository<Artist, String> {
 	
 	Artist findArtistByEmail(String email);
 	
-
 }
+*/
