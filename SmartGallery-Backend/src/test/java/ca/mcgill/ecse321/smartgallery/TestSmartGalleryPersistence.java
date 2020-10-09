@@ -3,6 +3,9 @@ package ca.mcgill.ecse321.smartgallery;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.sql.Date;
+import java.util.Set;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,6 +61,60 @@ public class TestSmartGalleryPersistence {
 		return gallery;
 	}
 	
+	public Artist createArtist(Date date, String email, String password, SmartGallery smartGallery,
+			String username) {
+		Artist artist = new Artist();
+		artist.setCreationDate(date);
+		artist.setEmail(email);
+		artist.setIsVerified(false);
+		artist.setPassword(password);
+		artist.setSmartGallery(smartGallery);
+		artist.setUsername(username);
+		artistRepository.save(artist);
+		return artist;
+	}
+	
+	public Customer createCustomer(String username, Date date, String email, String password, 
+			SmartGallery smartGallery) {
+		Customer customer = new Customer();
+		customer.setUsername(username);
+		customer.setCreationDate(date);
+		customer.setDefaultPaymentMethod(null);
+		customer.setEmail(email);
+		customer.setPassword(password);
+		customer.setSmartGallery(smartGallery);
+		customerRepository.save(customer);
+		return customer;
+	}
+	
+	public Listing createListing(int id, boolean isSold, Artwork artwork, Date dateListed, Transaction transaction,
+			Gallery gallery) {
+		Listing listing = new Listing();
+		listing.setGallery(gallery);
+		listing.setListingID(id);
+		listing.setIsSold(isSold);
+		listing.setArtwork(artwork);
+		listing.setListedDate(dateListed);
+		listing.setTransaction(transaction);
+		listing.setGallery(gallery);
+		listingRepository.save(listing);
+		return listing;
+	}
+	
+	public Transaction createTransaction(int transactionID, PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, SmartGallery smartGallery, 
+			Set<Profile> profiles, Date paymentDate, Listing listing)
+	{
+		Transaction transaction = new Transaction();
+		transaction.setTransactionID(transactionID);
+		transaction.setPaymentMethod(paymentMethod);
+		transaction.setDeliveryMethod(deliveryMethod);
+		transaction.setProfile(profiles);
+		transaction.setPaymentDate(paymentDate);
+		transaction.setListing(listing);
+		transactionRepository.save(transaction);
+		return transaction;
+	}
+	
 	@Test
 	public void testPersistAndLoadSmartGallery() {
 		int smartGalleryID = 12345;
@@ -85,7 +142,7 @@ public class TestSmartGalleryPersistence {
 		assertNotNull(gallery);
 		assertEquals(galleryName, gallery.getGalleryName());
 	}
-//	
+	
 //	@Test
 //	public void testPersistAndLoadArtist() {
 //		String name = "TestArtist";
