@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.smartgallery.model;
 
 import javax.persistence.Entity;
-
 import java.util.Set;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -42,7 +41,6 @@ this.isBeingPromoted = value;
 public boolean isIsBeingPromoted() {
 return this.isBeingPromoted;
     }
-
 private ArtStyle style;
 
 public void setStyle(ArtStyle value) {
