@@ -28,20 +28,23 @@ public class TestSmartGalleryPersistence {
 	private ArtworkRepository artworkRepository;
 	@Autowired
 	private CustomerRepository customerRepository;
-	//@Autowired
-	//private GalleryRepository galleryRepository;
-	//@Autowired
-	//private ListingRepository listingRepository;
+	@Autowired
+	private GalleryRepository galleryRepository;
+	@Autowired
+	private ListingRepository listingRepository;
 	@Autowired
 	private SmartGalleryRepository smartGalleryRepository;
-	//@Autowired
-	//private TransactionRepository transactionRepository;
+	@Autowired
+	private TransactionRepository transactionRepository;
 
 	@AfterEach
 	public void clearDatabase() {
 		smartGalleryRepository.deleteAll();
-//		galleryRepository.deleteAll();
+		galleryRepository.deleteAll();
 		artistRepository.deleteAll();
+		listingRepository.deleteAll();
+		transactionRepository.deleteAll();
+		
 		
 		
 	}

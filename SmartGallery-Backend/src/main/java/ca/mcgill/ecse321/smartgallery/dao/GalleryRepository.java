@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.smartgallery.model.*;
 public interface GalleryRepository extends CrudRepository<Gallery, String> {
 
-	Gallery findGalleryByName(String name);
+	Gallery findGalleryByGalleryName(String name);
 }
