@@ -1,4 +1,3 @@
-/*
 package ca.mcgill.ecse321.smartgallery.dao;
 
 import java.util.List;
@@ -16,4 +15,3 @@ public interface ArtworkRepository extends CrudRepository<Artwork, String> {
 	List<Artwork> findArtworkByNameIgnoreCase(String name);
 	
 }
-*/
