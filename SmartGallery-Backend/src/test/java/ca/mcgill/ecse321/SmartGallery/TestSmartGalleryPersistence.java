@@ -21,15 +21,29 @@ import ca.mcgill.ecse321.smartgallery.dao.*;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class TestSmartGalleryPersistence {
-	/*
+	
 	@Autowired
 	private ArtistRepository artistRepository;
 	@Autowired
 	private ArtworkRepository artworkRepository;
+	@Autowired
+	private CustomerRepository customerRepository;
+	//@Autowired
+	//private GalleryRepository galleryRepository;
+	//@Autowired
+	//private ListingRepository listingRepository;
+	@Autowired
+	private SmartGalleryRepository smartGalleryRepository;
+	//@Autowired
+	//private TransactionRepository transactionRepository;
 
 	@AfterEach
 	public void clearDatabase() {
-		artworkRepository.deleteAll();
-	*/
+		smartGalleryRepository.deleteAll();
+//		galleryRepository.deleteAll();
+		artistRepository.deleteAll();
+		
+		
+	}
 }
 	
