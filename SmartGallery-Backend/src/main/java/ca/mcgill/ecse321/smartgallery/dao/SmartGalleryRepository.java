@@ -74,4 +74,82 @@ public class SmartGalleryRepository {
 		entityManager.persist(c);
 		return c;
 	}
+	
+	@Transactional 
+	public Customer getCustomer(String username)
+	{
+		Customer customer = entityManager.find(Customer.class, username);
+		return customer;
+	}
+	
+	@Transactional
+	public Listing createListing(int id, boolean isSold, Artwork artwork, Date dateListed, Transaction transaction,
+			Gallery gallery) {
+		
+		Listing listing = new Listing();
+		listing.setGallery(gallery);
+		listing.setListingID(id);
+		listing.setIsSold(isSold);
+		listing.setArtwork(artwork);
+		listing.setListedDate(dateListed);
+		listing.setTransaction(transaction);
+		listing.setGallery(gallery);
+		entityManager.persist(listing);
+		
+		return listing;
+		
+	}
+	
+	@Transactional
+	public Listing getListing(int listingID)
+	{
+		Listing listing = entityManager.find(Listing.class, listingID);
+		return listing;
+				
+	}
+	
+	@Transactional 
+	public Transaction createTransaction(int transactionID, PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, SmartGallery smartGallery, 
+			Set<Profile> profiles, Date paymentDate, Listing listing)
+	{
+		Transaction transaction = new Transaction();
+		transaction.setTransactionID(transactionID);
+		transaction.setPaymentMethod(paymentMethod);
+		transaction.setDeliveryMethod(deliveryMethod);
+		transaction.setProfile(profiles);
+		transaction.setPaymentDate(paymentDate);
+		transaction.setListing(listing);
+		entityManager.persist(transaction);
+		
+		return transaction;
+	}
+	
+	@Transactional
+	public Transaction getTransaction(int transactionID)
+	{
+		Transaction transaction = entityManager.find(Transaction.class, transactionID);
+		
+		return transaction;
+	}
+	
+	@Transactional 
+	public Gallery createGallery(String galleryName, Set<Artwork> artworks, SmartGallery smartGallery, 
+			Set<Listing> listings)
+	{
+		Gallery gallery = new Gallery();
+		gallery.setGalleryName(galleryName);
+		gallery.setArtwork(artworks);
+		gallery.setSmartGallery(smartGallery);
+		gallery.setListing(listings);
+		entityManager.persist(gallery);
+		return gallery;
+	}
+	
+	@Transactional
+	public Gallery getGallery(String galleryName)
+	{
+		Gallery gallery = entityManager.find(Gallery.class, galleryName);
+		
+		return gallery;
+	}
 }
