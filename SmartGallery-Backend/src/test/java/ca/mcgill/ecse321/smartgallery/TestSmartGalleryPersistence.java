@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
@@ -35,6 +36,7 @@ public class TestSmartGalleryPersistence {
 	@Autowired
 	private TransactionRepository transactionRepository;
 
+	
 	@AfterEach
 	public void clearDatabase() {
 		smartGalleryRepository.deleteAll();
@@ -45,6 +47,7 @@ public class TestSmartGalleryPersistence {
 		artworkRepository.deleteAll();
 		customerRepository.deleteAll();
 	}
+	
 	
 	public SmartGallery createSmartGallery(int id) {
 		SmartGallery smartGallery = new SmartGallery();
@@ -61,10 +64,11 @@ public class TestSmartGalleryPersistence {
 		return gallery;
 	}
 	
-	public Artist createArtist(Date date, String email, String password, SmartGallery smartGallery,
+	public Artist createArtist(Date date, String email, String password, SmartGallery smartGallery, PaymentMethod pm,
 			String username) {
 		Artist artist = new Artist();
 		artist.setCreationDate(date);
+		artist.setDefaultPaymentMethod(pm);
 		artist.setEmail(email);
 		artist.setIsVerified(false);
 		artist.setPassword(password);
@@ -87,7 +91,7 @@ public class TestSmartGalleryPersistence {
 		return customer;
 	}
 	
-	public Listing createListing(int id, boolean isSold, Artwork artwork, Date dateListed, Transaction transaction,
+	public Listing createListing(int id, boolean isSold, Artwork artwork, Date dateListed,
 			Gallery gallery) {
 		Listing listing = new Listing();
 		listing.setGallery(gallery);
@@ -95,7 +99,6 @@ public class TestSmartGalleryPersistence {
 		listing.setIsSold(isSold);
 		listing.setArtwork(artwork);
 		listing.setListedDate(dateListed);
-		listing.setTransaction(transaction);
 		listing.setGallery(gallery);
 		listingRepository.save(listing);
 		return listing;
@@ -115,10 +118,29 @@ public class TestSmartGalleryPersistence {
 		return transaction;
 	}
 	
+	public Artwork createArtwork(HashSet<Artist> artists, Gallery gallery, String name, int year, double price, boolean isBeingPromoted, ArtStyle style,
+			int height, int weight, int width, int artwordID) {
+		Artwork artwork = new Artwork();
+		artwork.setArtists(artists);
+		artwork.setGallery(gallery);
+		artwork.setArtworkID(artwordID);
+		artwork.setName(name);
+		artwork.setYear(year);
+		artwork.setPrice(price);
+		artwork.setIsBeingPromoted(isBeingPromoted);
+		artwork.setStyle(style);
+		artwork.setHeight(height);
+		artwork.setWeight(weight);
+		artwork.setWidth(width);
+		artworkRepository.save(artwork);
+		return artwork;
+	}
+	
 	@Test
 	public void testPersistAndLoadSmartGallery() {
 		int smartGalleryID = 12345;
 		SmartGallery smartGallery = createSmartGallery(smartGalleryID);
+		
 		
 		smartGallery = null;
 		
@@ -133,6 +155,7 @@ public class TestSmartGalleryPersistence {
 		int smartGalleryID = 12345;
 		SmartGallery smartGallery = createSmartGallery(smartGalleryID);
 		
+		
 		String galleryName = "galleryName";
 		Gallery gallery = createGallery(galleryName, smartGallery);
 		
@@ -143,29 +166,50 @@ public class TestSmartGalleryPersistence {
 		assertEquals(galleryName, gallery.getGalleryName());
 	}
 	
-//	@Test
-//	public void testPersistAndLoadArtist() {
-//		String name = "TestArtist";
-//		Artist artist = new Artist();
-//		artist.setUsername(name);
-//		artistRepository.save(artist);
-//		artist = null;
-//		artist = artistRepository.findArtistByUsername(name);
-//		assertNotNull(artist);
-//		assertEquals(name, artist.getUsername());
-//	}
-//	
-//	@Test
-//	public void testPersistAndLoadListing() {
-//		int id = 12345;
-//		Listing listing = new Listing();
-//		listing.setListingID(id);
-//		listingRepository.save(listing);
-//		listing = null;
-//		listing = listingRepository.findListingByListingID(id);
-//		assertNotNull(listing);
-//		assertEquals(id, listing.getListingID());
-//	}
+	
+	@Test
+	public void testPersistAndLoadArtist() {
+		
+		int smartGalleryID = 12345;
+		SmartGallery smartGallery = createSmartGallery(smartGalleryID);
+		String name = "aritistTest";
+		 String str="2020-10-09";  
+		Date date=Date.valueOf(str);//converting string into sql date  
+		Artist artist = createArtist(date, "email", "password", smartGallery, PaymentMethod.CREDIT,
+				name);
+		
+		artist = null;
+		artist = artistRepository.findArtistByUsername(name);
+		assertNotNull(artist);
+		assertEquals(name, artist.getUsername());
+	}
+	
+/*
+	@Test
+	public void testPersistAndLoadListing() {
+		int smartGalleryID = 12345;
+		String galleryName = "gallery";
+		String str="2020-10-09";  
+		Date date=Date.valueOf(str);//converting string into sql date  
+		
+		SmartGallery smartGallery = createSmartGallery(smartGalleryID);
+		Gallery gallery = createGallery(galleryName, smartGallery);
+		Artist artist = createArtist(date, "email", "password", smartGallery, PaymentMethod.CREDIT,
+				"name");
+		HashSet<Artist> artists = new HashSet<>();
+		artists.add(artist);
+		Artwork artwork = createArtwork(artists, gallery, "artwork", 2020, 500.0, false,ArtStyle.REALIST,50,
+			50, 80, 70);
+		Date dateListed = Date.valueOf(str);
+		int listingID = 123;
+		Listing listing = createListing(listingID, false, artwork, dateListed,gallery);
+		listing = null;
+		listing = listingRepository.findListingByListingID(listingID);
+		assertNotNull(listing);
+		assertEquals(listingID, listing.getListingID());
+	}
+	*/
+	
 //	
 //	@Test
 //	public void testPersistAndLoadTransaction() {
