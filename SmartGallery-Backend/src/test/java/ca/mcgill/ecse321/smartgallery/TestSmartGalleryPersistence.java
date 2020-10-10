@@ -99,7 +99,6 @@ public class TestSmartGalleryPersistence {
 		listing.setIsSold(isSold);
 		listing.setArtwork(artwork);
 		listing.setListedDate(dateListed);
-		listing.setGallery(gallery);
 		listingRepository.save(listing);
 		return listing;
 	}
@@ -119,11 +118,11 @@ public class TestSmartGalleryPersistence {
 	}
 	
 	public Artwork createArtwork(HashSet<Artist> artists, Gallery gallery, String name, int year, double price, boolean isBeingPromoted, ArtStyle style,
-			int height, int weight, int width, int artwordID) {
+			int height, int weight, int width, int artworkID) {
 		Artwork artwork = new Artwork();
 		artwork.setArtists(artists);
 		artwork.setGallery(gallery);
-		artwork.setArtworkID(artwordID);
+		artwork.setArtworkID(artworkID);
 		artwork.setName(name);
 		artwork.setYear(year);
 		artwork.setPrice(price);
@@ -187,22 +186,19 @@ public class TestSmartGalleryPersistence {
 
 	@Test
 	public void testPersistAndLoadListing() {
-		int smartGalleryID = 12345;
-		String galleryName = "gallery";
-		String str="2020-10-09";  
-		Date date=Date.valueOf(str);//converting string into sql date  
-		
-		SmartGallery smartGallery = createSmartGallery(smartGalleryID);
-		Gallery gallery = createGallery(galleryName, smartGallery);
+		int listingID = 123;
+
+		Date date=Date.valueOf("2020-10-09"); // converting string into sql date  
+		SmartGallery smartGallery = createSmartGallery(12345);
+		Gallery gallery = createGallery("gallery", smartGallery);
 		Artist artist = createArtist(date, "email", "password", smartGallery, PaymentMethod.CREDIT,
 				"name");
 		HashSet<Artist> artists = new HashSet<>();
 		artists.add(artist);
-		Artwork artwork = createArtwork(artists, gallery, "artwork", 2020, 500.0, false,ArtStyle.REALIST,50,
+		Artwork artwork = createArtwork(artists, gallery, "artwork", 2020, 500.0, false, ArtStyle.REALIST,50,
 			50, 80, 70);
-		Date dateListed = Date.valueOf(str);
-		int listingID = 123;
-		Listing listing = createListing(listingID, false, artwork, dateListed,gallery);
+		
+		Listing listing = createListing(listingID, false, artwork, date, gallery);
 		listing = null;
 		listing = listingRepository.findListingByListingID(listingID);
 		assertNotNull(listing);
