@@ -191,16 +191,27 @@ public class TestSmartGalleryPersistence {
 //		assertEquals(id, artwork.getArtworkID());
 //	}
 //	
-//	@Test
-//	public void testPersistAndLoadCustomer() {
-//		String name = "TestCustomer";
-//		Customer customer = new Customer();
-//		customer.setUsername(name);
-//		customerRepository.save(customer);
-//		customer = null;
-//		customer = customerRepository.findCustomerByUsername(name);
-//		assertNotNull(customer);
-//		assertEquals(name, customer.getUsername());
-//	}
+	@Test
+	public void testPersistAndLoadCustomer() {
+		int smartGalleryID = 12345;
+		SmartGallery smartGallery = createSmartGallery(smartGalleryID);
+		
+		String galleryName = "galleryName";
+		Gallery gallery = createGallery(galleryName, smartGallery);
+		
+		String username = "username";
+		Date date = new Date(20000);
+		String email = "test@email.com";
+		String password = "password";
+		
+		Customer customer = createCustomer(username, date, email, password, smartGallery);
+		customerRepository.save(customer);
+		
+		customer = null;
+		
+		customer = customerRepository.findCustomerByUsername(username);
+		assertNotNull(customer);
+		assertEquals(username, customer.getUsername());
+	}
 }
 	
