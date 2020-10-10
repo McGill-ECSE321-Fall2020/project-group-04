@@ -26,7 +26,7 @@ return this.isSold;
     }
 private Artwork artwork;
 
-@OneToOne/*(optional=false)*/
+@OneToOne
 public Artwork getArtwork() {
    return this.artwork;
 }

@@ -98,8 +98,8 @@ public class TestSmartGalleryPersistence {
 		listing.setListingID(id);
 		listing.setIsSold(isSold);
 		listing.setArtwork(artwork);
+		artwork.setListing(listing);
 		listing.setListedDate(dateListed);
-		listing.setGallery(gallery);
 		listingRepository.save(listing);
 		return listing;
 	}
@@ -120,11 +120,11 @@ public class TestSmartGalleryPersistence {
 	}
 	
 	public Artwork createArtwork(HashSet<Artist> artists, Gallery gallery, String name, int year, double price, boolean isBeingPromoted, ArtStyle style,
-			int height, int weight, int width, int artwordID) {
+			int height, int weight, int width, int artworkID) {
 		Artwork artwork = new Artwork();
 		artwork.setArtists(artists);
 		artwork.setGallery(gallery);
-		artwork.setArtworkID(artwordID);
+		artwork.setArtworkID(artworkID);
 		artwork.setName(name);
 		artwork.setYear(year);
 		artwork.setPrice(price);
@@ -165,6 +165,11 @@ public class TestSmartGalleryPersistence {
 		gallery = galleryRepository.findGalleryByGalleryName(galleryName);
 		assertNotNull(gallery);
 		assertEquals(galleryName, gallery.getGalleryName());
+		assertEquals(gallery.getSmartGallery().getSmartGalleryID(), smartGallery.getSmartGalleryID());
+		
+		smartGallery = null;
+		smartGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(smartGalleryID);
+		assertEquals(smartGallery.getGallery().getGalleryName(), galleryName);
 	}
 	
 	
@@ -183,28 +188,22 @@ public class TestSmartGalleryPersistence {
 		artist = artistRepository.findArtistByUsername(name);
 		assertNotNull(artist);
 		assertEquals(name, artist.getUsername());
+		assertEquals(artist.getSmartGallery().getSmartGalleryID(), smartGallery.getSmartGalleryID());
 	}
 	
 	@Test
 	public void testPersistAndLoadListing() {
-		int smartGalleryID = 12345;
-		SmartGallery smartGallery = createSmartGallery(smartGalleryID);
-		String artistName = "artistTest";
-		String str="2020-10-09";  
-		Date date=Date.valueOf(str);//converting string into sql date  
+		int listingID = 123;
+
+		Date date=Date.valueOf("2020-10-09"); // converting string into sql date  
+		SmartGallery smartGallery = createSmartGallery(12345);
+		String galleryName = "gallery";
+		Gallery gallery = createGallery(galleryName, smartGallery);
+		String artistName = "artistName";
 		Artist artist = createArtist(date, "email", "password", smartGallery, PaymentMethod.CREDIT,
 				artistName);
-		String galleryName = "galleryName";
-		Gallery gallery = createGallery(galleryName, smartGallery);
 		HashSet<Artist> artists = new HashSet<Artist>();
 		artists.add(artist);
-		
-		String username = "username";
-		Date customerDate = new Date(20000);
-		String email = "test@email.com";
-		String password = "password";
-		
-		Customer customer = createCustomer(username, customerDate, email, password, smartGallery);
 		
 		String artworkName = "artwork";
 		int year = 2000;
@@ -216,18 +215,23 @@ public class TestSmartGalleryPersistence {
 		Artwork artwork = createArtwork(artists, gallery, artworkName, year, price, false, ArtStyle.REALIST,
 				height, weight, width, artworkID);
 		
-		int listingID = 12;
 		String strListing = "2020-10-08";  
-		Date listingDate = Date.valueOf(str);//converting string into sql date 
-		System.out.println(artwork.getName());
+		Date listingDate = Date.valueOf(strListing);//converting string into sql date 
 		Listing listing = createListing(listingID, false, artwork, listingDate,
 				gallery);
-		System.out.println(listing.getArtwork().getName());
+		
+		System.out.println(artwork.getListing().getListingID());
 		
 		listing = null;
 		listing = listingRepository.findListingByListingID(listingID);
+		listing.getArtwork().getName();
 		assertNotNull(listing);
 		assertEquals(listingID, listing.getListingID());
+		assertEquals(listing.getGallery().getGalleryName(), gallery.getGalleryName());
+		
+		gallery = null;
+		gallery = galleryRepository.findGalleryByGalleryName(galleryName);
+		assertEquals(listing.getGallery().getGalleryName(), galleryName);
 	}
 		
 	@Test
@@ -263,11 +267,13 @@ public class TestSmartGalleryPersistence {
 		
 		int listingID = 12;
 		String strListing = "2020-10-08";  
-		Date listingDate = Date.valueOf(str);//converting string into sql date 
-		System.out.println(artwork.getName());
+		Date listingDate = Date.valueOf(strListing);//converting string into sql date 
 		Listing listing = createListing(listingID, false, artwork, listingDate,
 				gallery);
-		System.out.println(listing.getArtwork().getName());
+		
+		artwork = null;
+		artwork = artworkRepository.findArtworkByName(artworkName).get(0);
+		System.out.println(artwork.getListing().getListingID());		
 		
 		int transactionID = 1234;
 		HashSet<Profile> profiles = new HashSet<Profile>();
@@ -278,29 +284,36 @@ public class TestSmartGalleryPersistence {
 				profiles, paymentDate, listing);
 		transaction = null;
 		transaction = transactionRepository.findTransactionByTransactionID(transactionID);
+		
 		assertNotNull(transaction);
 		assertEquals(transactionID, transaction.getTransactionID());
+		assertEquals(transaction.getListing().getListingID(), listing.getListingID());
+	}	
+	
+	@Test
+	public void testPersistAndLoadArtwork() {
+		int id = 12345;
+		
+		SmartGallery smartGallery = createSmartGallery(12345);
+		Gallery gallery = createGallery("galleryName", smartGallery);
+		Date date=Date.valueOf("2020-10-09");
+		Artist artist = createArtist(date, "email", "password", smartGallery, PaymentMethod.CREDIT,
+				"aritistTest");
+		HashSet<Artist> set = new HashSet<>();
+		set.add(artist);
+		
+		Artwork artwork = createArtwork(set, gallery, "artworkName", 2000, 5.0, true, ArtStyle.IMPRESSIONIST, 5, 4, 3, id);
+		artwork = null;
+		artwork = artworkRepository.findArtworkByArtworkID(id);
+		assertNotNull(artwork);
+		assertEquals(id, artwork.getArtworkID());
+		assertEquals(gallery.getGalleryName(), artwork.getGallery().getGalleryName());
 	}
-//	
-//	@Test
-//	public void testPersistAndLoadArtwork() {
-//		int id = 12345;
-//		Artwork artwork = new Artwork();
-//		artwork.setArtworkID(id);
-//		artworkRepository.save(artwork);
-//		artwork = null;
-//		artwork = artworkRepository.findArtworkByArtworkID(id);
-//		assertNotNull(artwork);
-//		assertEquals(id, artwork.getArtworkID());
-//	}
-//	
+	
 	@Test
 	public void testPersistAndLoadCustomer() {
 		int smartGalleryID = 12345;
 		SmartGallery smartGallery = createSmartGallery(smartGalleryID);
-		
-		String galleryName = "galleryName";
-		Gallery gallery = createGallery(galleryName, smartGallery);
 		
 		String username = "username";
 		Date date = new Date(20000);
@@ -314,6 +327,7 @@ public class TestSmartGalleryPersistence {
 		customer = customerRepository.findCustomerByUsername(username);
 		assertNotNull(customer);
 		assertEquals(username, customer.getUsername());
+		assertEquals(smartGallery.getSmartGalleryID(), customer.getSmartGallery().getSmartGalleryID());
 	}
 }
 	
