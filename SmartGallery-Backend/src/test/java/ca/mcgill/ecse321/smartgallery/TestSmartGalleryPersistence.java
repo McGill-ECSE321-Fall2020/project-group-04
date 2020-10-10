@@ -114,6 +114,7 @@ public class TestSmartGalleryPersistence {
 		transaction.setProfile(profiles);
 		transaction.setPaymentDate(paymentDate);
 		transaction.setListing(listing);
+		transaction.setSmartGallery(smartGallery);
 		transactionRepository.save(transaction);
 		return transaction;
 	}
@@ -184,44 +185,102 @@ public class TestSmartGalleryPersistence {
 		assertEquals(name, artist.getUsername());
 	}
 	
-/*
 	@Test
 	public void testPersistAndLoadListing() {
 		int smartGalleryID = 12345;
-		String galleryName = "gallery";
+		SmartGallery smartGallery = createSmartGallery(smartGalleryID);
+		String artistName = "artistTest";
 		String str="2020-10-09";  
 		Date date=Date.valueOf(str);//converting string into sql date  
-		
-		SmartGallery smartGallery = createSmartGallery(smartGalleryID);
-		Gallery gallery = createGallery(galleryName, smartGallery);
 		Artist artist = createArtist(date, "email", "password", smartGallery, PaymentMethod.CREDIT,
-				"name");
-		HashSet<Artist> artists = new HashSet<>();
+				artistName);
+		String galleryName = "galleryName";
+		Gallery gallery = createGallery(galleryName, smartGallery);
+		HashSet<Artist> artists = new HashSet<Artist>();
 		artists.add(artist);
-		Artwork artwork = createArtwork(artists, gallery, "artwork", 2020, 500.0, false,ArtStyle.REALIST,50,
-			50, 80, 70);
-		Date dateListed = Date.valueOf(str);
-		int listingID = 123;
-		Listing listing = createListing(listingID, false, artwork, dateListed,gallery);
+		
+		String username = "username";
+		Date customerDate = new Date(20000);
+		String email = "test@email.com";
+		String password = "password";
+		
+		Customer customer = createCustomer(username, customerDate, email, password, smartGallery);
+		
+		String artworkName = "artwork";
+		int year = 2000;
+		double price = 10.0;
+		int height = 10;
+		int weight = 10;
+		int width = 0;
+		int artworkID = 123;
+		Artwork artwork = createArtwork(artists, gallery, artworkName, year, price, false, ArtStyle.REALIST,
+				height, weight, width, artworkID);
+		
+		int listingID = 12;
+		String strListing = "2020-10-08";  
+		Date listingDate = Date.valueOf(str);//converting string into sql date 
+		System.out.println(artwork.getName());
+		Listing listing = createListing(listingID, false, artwork, listingDate,
+				gallery);
+		System.out.println(listing.getArtwork().getName());
+		
 		listing = null;
 		listing = listingRepository.findListingByListingID(listingID);
 		assertNotNull(listing);
 		assertEquals(listingID, listing.getListingID());
 	}
-	*/
-	
-//	
-//	@Test
-//	public void testPersistAndLoadTransaction() {
-//		int id = 12345;
-//		Transaction transaction = new Transaction();
-//		transaction.setTransactionID(id);
-//		transactionRepository.save(transaction);
-//		transaction = null;
-//		transaction = transactionRepository.findTransactionByTransactionID(id);
-//		assertNotNull(transaction);
-//		assertEquals(id, transaction.getTransactionID());
-//	}
+		
+	@Test
+	public void testPersistAndLoadTransaction() {
+		int smartGalleryID = 12345;
+		SmartGallery smartGallery = createSmartGallery(smartGalleryID);
+		String artistName = "artistTest";
+		String str="2020-10-09";  
+		Date date=Date.valueOf(str);//converting string into sql date  
+		Artist artist = createArtist(date, "email", "password", smartGallery, PaymentMethod.CREDIT,
+				artistName);
+		String galleryName = "galleryName";
+		Gallery gallery = createGallery(galleryName, smartGallery);
+		HashSet<Artist> artists = new HashSet<Artist>();
+		artists.add(artist);
+		
+		String username = "username";
+		Date customerDate = new Date(20000);
+		String email = "test@email.com";
+		String password = "password";
+		
+		Customer customer = createCustomer(username, customerDate, email, password, smartGallery);
+		
+		String artworkName = "artwork";
+		int year = 2000;
+		double price = 10.0;
+		int height = 10;
+		int weight = 10;
+		int width = 0;
+		int artworkID = 123;
+		Artwork artwork = createArtwork(artists, gallery, artworkName, year, price, false, ArtStyle.REALIST,
+				height, weight, width, artworkID);
+		
+		int listingID = 12;
+		String strListing = "2020-10-08";  
+		Date listingDate = Date.valueOf(str);//converting string into sql date 
+		System.out.println(artwork.getName());
+		Listing listing = createListing(listingID, false, artwork, listingDate,
+				gallery);
+		System.out.println(listing.getArtwork().getName());
+		
+		int transactionID = 1234;
+		HashSet<Profile> profiles = new HashSet<Profile>();
+		profiles.add(artist);
+		profiles.add(customer);
+		Date paymentDate = Date.valueOf(str);//converting string into sql date
+		Transaction transaction = createTransaction(transactionID, PaymentMethod.CREDIT, DeliveryMethod.PICKUP, smartGallery, 
+				profiles, paymentDate, listing);
+		transaction = null;
+		transaction = transactionRepository.findTransactionByTransactionID(transactionID);
+		assertNotNull(transaction);
+		assertEquals(transactionID, transaction.getTransactionID());
+	}
 //	
 //	@Test
 //	public void testPersistAndLoadArtwork() {
@@ -249,7 +308,6 @@ public class TestSmartGalleryPersistence {
 		String password = "password";
 		
 		Customer customer = createCustomer(username, date, email, password, smartGallery);
-		customerRepository.save(customer);
 		
 		customer = null;
 		
