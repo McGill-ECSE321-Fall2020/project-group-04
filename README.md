@@ -6,7 +6,9 @@ Welcome to group 4's Online Art Gallery!
 
 **Team Members**:
 The following table provides details on the contributors to this project. It displays their general roles and hours worked for each sprint.
-| Member | Role | Sprint 1 Hours 
+
+| Member  |Main Responsibilities| Hours  |
+|---------------------|-----------------------|-------|
 | Roey | System Requirements, Domain model, Use cases, Project Report, Welcome Page, Testing of Persistence Layer | 24 |
 | Stavros | System Requirements, Domain Model, Setup of persistence layer, Testing Persistence layer, Domain Model Design Choices | 24  |
 | Zachary | System Requirements, Initial Domain Model, Use Cases, Setup of Persistence Layer, Testing of Persistence Layer | 25|
