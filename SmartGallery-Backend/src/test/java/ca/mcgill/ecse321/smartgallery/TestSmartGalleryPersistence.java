@@ -184,7 +184,7 @@ public class TestSmartGalleryPersistence {
 		assertEquals(name, artist.getUsername());
 	}
 	
-/*
+
 	@Test
 	public void testPersistAndLoadListing() {
 		int smartGalleryID = 12345;
@@ -208,7 +208,7 @@ public class TestSmartGalleryPersistence {
 		assertNotNull(listing);
 		assertEquals(listingID, listing.getListingID());
 	}
-	*/
+	
 	
 //	
 //	@Test
@@ -223,18 +223,27 @@ public class TestSmartGalleryPersistence {
 //		assertEquals(id, transaction.getTransactionID());
 //	}
 //	
-//	@Test
-//	public void testPersistAndLoadArtwork() {
-//		int id = 12345;
-//		Artwork artwork = new Artwork();
-//		artwork.setArtworkID(id);
-//		artworkRepository.save(artwork);
-//		artwork = null;
-//		artwork = artworkRepository.findArtworkByArtworkID(id);
-//		assertNotNull(artwork);
-//		assertEquals(id, artwork.getArtworkID());
-//	}
-//	
+	
+	
+	@Test
+	public void testPersistAndLoadArtwork() {
+		int id = 12345;
+		
+		SmartGallery smartGallery = createSmartGallery(12345);
+		Gallery gallery = createGallery("galleryName", smartGallery);
+		Date date=Date.valueOf("2020-10-09");
+		Artist artist = createArtist(date, "email", "password", smartGallery, PaymentMethod.CREDIT,
+				"aritistTest");
+		HashSet<Artist> set = new HashSet<>();
+		set.add(artist);
+		
+		Artwork artwork = createArtwork(set, gallery, "artworkName", 2000, 5.0, true, ArtStyle.IMPRESSIONIST, 5, 4, 3, id);
+		artwork = null;
+		artwork = artworkRepository.findArtworkByArtworkID(id);
+		assertNotNull(artwork);
+		assertEquals(id, artwork.getArtworkID());
+	}
+	
 	@Test
 	public void testPersistAndLoadCustomer() {
 		int smartGalleryID = 12345;
