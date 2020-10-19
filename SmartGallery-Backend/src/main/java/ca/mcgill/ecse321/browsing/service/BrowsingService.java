@@ -40,7 +40,8 @@ public class BrowsingService {
 	public HashSet<Artist> searchArtist(SmartGallery smartGallery, String searchInput) {
 		HashSet<Artist> results = new HashSet<>();
 		for (Profile profile : smartGallery.getProfile()) {
-			if (profile instanceof Artist && profile.getUsername().toLowerCase().replaceAll("\\s+","").contains(searchInput.toLowerCase().replaceAll("\\s+",""))) {
+			if (profile instanceof Artist && profile.getUsername().toLowerCase()
+					.replaceAll("\\s+","").contains(searchInput.toLowerCase().replaceAll("\\s+",""))) {
 				results.add((Artist) profile);
 			}
 		}
@@ -52,7 +53,9 @@ public class BrowsingService {
 		HashSet<Listing> results = new HashSet<>();
 		for (Listing listing : gallery.getListing()) {
 			Artwork artwork = listing.getArtwork();
-			if (artwork.getName().toLowerCase().replaceAll("\\s+","").contains(searchInput.toLowerCase().replaceAll("\\s+","")) && artwork.getPrice() >= minPrice && artwork.getPrice() <= maxPrice && artwork.getStyle().equals(artStyle)) {
+			if (artwork.getName().toLowerCase().replaceAll("\\s+","").contains
+					(searchInput.toLowerCase().replaceAll("\\s+","")) && artwork.getPrice() >= minPrice 
+					&& artwork.getPrice() <= maxPrice && artwork.getStyle().equals(artStyle)) {
 				results.add(listing);
 			}
 		}
@@ -64,7 +67,9 @@ public class BrowsingService {
 		HashSet<Listing> results = new HashSet<>();
 		for (Listing listing : gallery.getListing()) {
 			Artwork artwork = listing.getArtwork();
-			if (artwork.getName().toLowerCase().replaceAll("\\s+","").contains(searchInput.toLowerCase().replaceAll("\\s+","")) && artwork.getPrice() >= minPrice && artwork.getPrice() <= maxPrice) {
+			if (artwork.getName().toLowerCase().replaceAll("\\s+","").contains
+					(searchInput.toLowerCase().replaceAll("\\s+","")) && artwork.getPrice() >= minPrice 
+					&& artwork.getPrice() <= maxPrice) {
 				results.add(listing);
 			}
 		}
@@ -77,7 +82,8 @@ public class BrowsingService {
 		HashSet<Listing> results = new HashSet<>();
 		for (Listing listing : gallery.getListing()) {
 			Artwork artwork = listing.getArtwork();
-			if (artwork.getName().toLowerCase().replaceAll("\\s+","").contains(searchInput.toLowerCase().replaceAll("\\s+","")) && artwork.getStyle().equals(artStyle)) {
+			if (artwork.getName().toLowerCase().replaceAll("\\s+","").contains
+					(searchInput.toLowerCase().replaceAll("\\s+","")) && artwork.getStyle().equals(artStyle)) {
 				results.add(listing);
 			}
 		}
@@ -89,7 +95,8 @@ public class BrowsingService {
 		HashSet<Listing> results = new HashSet<>();
 		for (Listing listing : gallery.getListing()) {
 			Artwork artwork = listing.getArtwork();
-			if (artwork.getName().toLowerCase().replaceAll("\\s+","").contains(searchInput.toLowerCase().replaceAll("\\s+",""))) {
+			if (artwork.getName().toLowerCase().replaceAll("\\s+","").contains
+					(searchInput.toLowerCase().replaceAll("\\s+",""))) {
 				results.add(listing);
 			}
 		}
