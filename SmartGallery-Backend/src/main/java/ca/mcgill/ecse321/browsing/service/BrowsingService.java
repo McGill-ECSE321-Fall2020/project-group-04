@@ -72,6 +72,30 @@ public class BrowsingService {
 	}
 	
 	@Transactional
+	public HashSet<Listing> sortArtworks(Gallery gallery, double minPrice, double maxPrice) {
+		HashSet<Listing> results = new HashSet<>();
+		for (Listing listing : gallery.getListing()) {
+			Artwork artwork = listing.getArtwork();
+			if (artwork.getPrice() >= minPrice && artwork.getPrice() <= maxPrice) {
+				results.add(listing);
+			}
+		}
+		return results;
+	}
+	
+	@Transactional
+	public HashSet<Listing> sortArtworks(Gallery gallery, ArtStyle artStyle) {
+		HashSet<Listing> results = new HashSet<>();
+		for (Listing listing : gallery.getListing()) {
+			Artwork artwork = listing.getArtwork();
+			if (artwork.getStyle().equals(artStyle)) {
+				results.add(listing);
+			}
+		}
+		return results;
+	}
+	
+	@Transactional
 	public void addToBrowseHistory(Customer customer, Artwork artwork) {
 		Set<Artwork> viewedArtworks = customer.getArtworksViewed();
 		viewedArtworks.add(artwork);
