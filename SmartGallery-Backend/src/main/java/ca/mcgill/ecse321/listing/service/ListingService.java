@@ -13,6 +13,7 @@ public class ListingService {
 
 	@Autowired
 	ListingRepository listingRepository;
+	ArtworkRepository artworkRepository;
 	
 	/**
 	 * @author Stavros Mitsoglou
@@ -29,7 +30,7 @@ public class ListingService {
 			Gallery gallery)
 	{
 		Listing listing = new Listing();
-		listing.setListingID(artwork.getName().hashCode() * artwork.getArtists().iterator().next().getUsername().hashCode());
+		listing.setListingID(artwork.getArtworkID() * artwork.getArtists().iterator().next().getUsername().hashCode());
 		listing.setIsSold(false);
 		listing.setArtwork(artwork);
 		listing.setListedDate(dateListed);
@@ -40,12 +41,73 @@ public class ListingService {
 		
 	}
 	
+	/**
+	 * @author Stavros Mitsoglou
+	 * @param listing Listing where the artwork details are being updated
+	 * the following parameters are some of the artwork fields that can be updated
+	 * @param name 
+	 * @param year 
+	 * @param price
+	 * @param style
+	 * @param height
+	 * @param width
+	 * @param weight
+	 * @return
+	 * This method will update the above characteristics of the artwork in question. 
+	 * Note that the artist, gallery, and artwork ID should not change.
+	 */
+	
+	@Transactional
+	public Artwork updateArtworkListed(Listing listing, String name, int year, double price, ArtStyle style, int height, int width, int weight)
+	{
+		Artwork artwork = listing.getArtwork();
+		artwork.setName(name);
+		artwork.setYear(year);
+		artwork.setPrice(price);
+		artwork.setStyle(style);
+		artwork.setHeight(height);
+		artwork.setWidth(width);
+		artwork.setWeight(weight);
+		artworkRepository.save(artwork);
+		
+		return artwork;
+	}
+	
+	@Transactional
+	/**
+	 * @author Stavros Mitsoglou
+	 * @param listing -> listing we are trying to find
+	 * @return
+	 * Method will return true if there is a duplicate listing
+	 */
+	public boolean foundListing(Listing listing)
+	{ 
+		boolean found = true;
+		Listing l = getListing(listing.getListingID());
+		if(l == null)
+			found = false;
+		
+		return found;
+	}
+	
+	/**
+	 * @author Stavros Mitsoglou
+	 * @param listingID
+	 * @return listing corresponding to the listing id
+	 * 
+	 * This method returns a listing from its id.
+	 */
 	@Transactional 
 	public Listing getListing(int listingID){
 		
 		return listingRepository.findListingByListingID(listingID);
 	}
 	
+	/**
+	 * @author Stavros Mitsoglou
+	 * @return all listings
+	 * Return all listings in repository.
+	 */
 	@Transactional 
 	
 	public List<Listing> getAllListings()
