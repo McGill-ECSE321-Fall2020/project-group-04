@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.listing.service;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,43 @@ public class ListingService {
 	
 	/**
 	 * @author Stavros Mitsoglou
+	 * The following parameters are those concerning an Artwork
+	 * @param name
+	 * @param year
+	 * @param price
+	 * @param isBeingPromoted
+	 * @param style
+	 * @param height
+	 * @param weight
+	 * @param width
+	 * @param artists
+	 * @param gallery
+	 * @return
+	 * 
+	 * This method creates and saves an Artwork.
+	 */
+	@Transactional
+	public Artwork createArtwork(String name, int year, double price, boolean isBeingPromoted, ArtStyle style, int height,
+			int weight, int width, Set<Artist> artists, Gallery gallery)
+	{
+		Artwork artwork = new Artwork();
+		artwork.setName(name);
+		artwork.setYear(year);
+		artwork.setPrice(price);
+		artwork.setPrice(price);
+		artwork.setIsBeingPromoted(isBeingPromoted);
+		artwork.setStyle(style);
+		artwork.setHeight(height);
+		artwork.setWeight(weight);
+		artwork.setWidth(width);
+		artwork.setArtists(artists);
+		artwork.setGallery(gallery);
+		artwork.setArtworkID(artists.iterator().next().getUsername().hashCode() * gallery.getGalleryName().hashCode());
+		artworkRepository.save(artwork);
+		return artwork;
+	}
+	/**
+	 * @author Stavros Mitsoglou
 	 * @param artwork Artwork related to the listing
 	 * @param dateListed listed date 
 	 * @param gallery gallery related to the artwork
@@ -26,9 +64,10 @@ public class ListingService {
 	 * the listing id is created using the hashcode of the artwork name and the username of the artist (to make it unique)
 	 */
 	@Transactional
-	public Listing createListing(Artwork artwork, Date dateListed, 
+	public Listing createListing(Artwork artwork, Date dateListed, double price, 
 			Gallery gallery)
 	{
+		
 		Listing listing = new Listing();
 		listing.setListingID(artwork.getArtworkID() * artwork.getArtists().iterator().next().getUsername().hashCode());
 		listing.setIsSold(false);
@@ -36,7 +75,9 @@ public class ListingService {
 		listing.setListedDate(dateListed);
 		listing.setGallery(gallery);
 		listingRepository.save(listing);
-		
+		artwork.setListing(listing);
+		artwork.setPrice(price);
+		artworkRepository.save(artwork);
 		return listing;
 		
 	}
