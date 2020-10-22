@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.browsing.service;
+package ca.mcgill.ecse321.service;
 
 import java.util.ArrayList;
 import java.util.Set;

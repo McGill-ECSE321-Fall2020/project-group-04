@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.listing.service;
+package ca.mcgill.ecse321.service;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
