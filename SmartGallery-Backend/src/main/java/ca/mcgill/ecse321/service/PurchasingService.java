@@ -5,77 +5,110 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.mcgill.ecse321.smartgallery.dao.ListingRepository;
 import ca.mcgill.ecse321.smartgallery.dao.TransactionRepository;
 import ca.mcgill.ecse321.smartgallery.model.*;
 
 public class PurchasingService {
-
+	
+	@Autowired
 	private TransactionRepository transactionRepository;
+	
+	@Autowired
+	private ListingRepository listingRepository;
 
-	// Getting users
 
-	public Transaction createTransaction(int transactionID, PaymentMethod paymentMethod, DeliveryMethod deliveryMethod,
+	/**
+	 * Method that creates a transaction and sets the id based on the
+	 * listing/customer username
+	 * 
+	 * @param paymentMethod
+	 * @param deliveryMethod
+	 * @param smartGallery
+	 * @param profiles
+	 * @param paymentDate
+	 * @param listing
+	 * @return Transaction transaction
+	 */
+	@Transactional
+	public Transaction createTransaction(PaymentMethod paymentMethod, DeliveryMethod deliveryMethod,
 			SmartGallery smartGallery, Set<Profile> profiles, Date paymentDate, Listing listing) {
-			
+
+		// Find customer id
 		String error = "";
-		
-		if(transactionID == 0) {
-			error += "Transaction id must be non zero";
-		}
-		
-		if(paymentMethod.equals(null)) {
+
+		if (paymentMethod.equals(null)) {
 			error += "Payment method must be specified";
 		}
-		
-		if(deliveryMethod.equals(null)) {
+
+		if (deliveryMethod.equals(null)) {
 			error += "Delivery method must be specified";
 		}
-		
-		if(smartGallery.equals(null)) {
+
+		if (smartGallery.equals(null)) {
 			error += "System must be specified";
 		}
-		
-		if(profiles.size() == 0) {
-			error += "Users must be specified";
+
+		if (profiles.size() == 0) {
+			error += "Customers/Artists must be specified";
 		}
-		
-		if(paymentDate.equals(null)) {
+
+		if (paymentDate.equals(null)) {
 			error += "Payment date must be specified";
 		}
-		
-		if(listing.equals(null) || listing.isIsSold()) {
+
+		if (listing.equals(null) || listing.isIsSold()) {
 			error += "Listing must exist";
 		}
-		
-		if(error.length() > 0) {
+
+		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
-		
-		
+
+		String customerID = "";
+
+		// Should transaction be directly associated to customer since artist is already
+		// present in listing?
+		for (Profile p : profiles) {
+			if (p instanceof Customer) {
+				customerID += p.getUsername();
+			}
+		}
+
 		Transaction transaction = new Transaction();
-		transaction.setTransactionID(transactionID);
+		transaction.setTransactionID(customerID.hashCode() * listing.getListingID());
 		transaction.setPaymentMethod(paymentMethod);
 		transaction.setDeliveryMethod(deliveryMethod);
 		transaction.setProfile(profiles);
 		transaction.setPaymentDate(paymentDate);
 		transaction.setListing(listing);
+		listing.setIsSold(true);
+		listingRepository.save(listing);
 		transaction.setSmartGallery(smartGallery);
 		transactionRepository.save(transaction);
 		return transaction;
-		
+
 	}
 
-	// Creating a transaction
+	/**
+	 * @param transactionID
+	 * @return transaction associated to this id
+	 */
 	@Transactional
-	public Transaction getTransactionByID(Integer transactionID) {
-
-		if (transactionID == 0) {
+	public Transaction getTransactionByID(String customerName, Integer listingID) {
+	
+		if(customerName == null) {
+			throw new IllegalArgumentException("Must provide valid customer username");
+		}
+		
+		if (listingID == 0) {
 			throw new IllegalArgumentException("Must provide an id");
 		}
 
-		return transactionRepository.findTransactionByTransactionID(transactionID);
+		return transactionRepository.findTransactionByTransactionID(customerName.hashCode() * listingID);
 	}
 
 	public List<Transaction> getAllTransactions() {

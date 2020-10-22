@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.smartgallery.dto;
 
 import java.sql.Date;
+import java.util.Set;
 
 import ca.mcgill.ecse321.smartgallery.model.DeliveryMethod;
 import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
@@ -12,15 +13,16 @@ public class TransactionDTO {
 	private PaymentMethod paymentMethod;
 	private DeliveryMethod deliveryMethod;
 	private Date paymentDate;
+	private Set<ProfileDTO> profiles;
 	
 	public TransactionDTO() {
 		
 	}
 	
 	
-	public TransactionDTO(SmartGalleryDTO smartGallery, ListingDTO listing, int transactionID,
+	public TransactionDTO(SmartGalleryDTO smartGallery, ListingDTO listing, Set<ProfileDTO> profiles, int transactionID,
 			PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, Date paymentDate) {
-		super();
+		this.profiles = profiles;
 		this.smartGallery = smartGallery;
 		this.listing = listing;
 		this.transactionID = transactionID;
