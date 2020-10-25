@@ -49,7 +49,7 @@ public class ListingService {
 		artwork.setWidth(width);
 		artwork.setArtists(artists);
 		artwork.setGallery(gallery);
-		artwork.setArtworkID(artists.iterator().next().getUsername().hashCode() * gallery.getGalleryName().hashCode());
+		artwork.setArtworkID(artists.iterator().next().getUsername().hashCode() * artwork.getName().hashCode());
 		artworkRepository.save(artwork);
 		return artwork;
 	}
