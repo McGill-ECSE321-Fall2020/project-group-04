@@ -146,6 +146,17 @@ public class ListingService {
 	
 	/**
 	 * @author Stavros Mitsoglou
+	 * @param artworkID 
+	 * @return
+	 * This method returns an artwork from its id.
+	 */
+	@Transactional 
+	public Artwork getArtwork(int artworkID) {
+		return artworkRepository.findArtworkByArtworkID(artworkID);
+	}
+	
+	/**
+	 * @author Stavros Mitsoglou
 	 * @return all listings
 	 * Return all listings in repository.
 	 */
