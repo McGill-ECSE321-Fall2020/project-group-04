@@ -5,6 +5,10 @@ public class SmartGalleryDTO {
 	
 	public SmartGalleryDTO() {
 	}
+	
+	public SmartGalleryDTO(int id) {
+		this.smartGalleryID = id;
+	}
 
 	/**
 	 * @return the smartGalleryID

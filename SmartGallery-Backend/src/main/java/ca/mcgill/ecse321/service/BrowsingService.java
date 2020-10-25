@@ -3,7 +3,7 @@ package ca.mcgill.ecse321.service;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
-
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +25,25 @@ public class BrowsingService {
 //	private GalleryRepository galleryRepository;
 //	@Autowired
 //	private ListingRepository listingRepository;
-//	@Autowired
-//	private SmartGalleryRepository smartGalleryRepository;
+	@Autowired
+	private SmartGalleryRepository smartGalleryRepository;
 //	@Autowired
 //	private TransactionRepository transactionRepository;
 
 	// ??? not sure how to make 
+	@Transactional 
+	public SmartGallery createSmartGallery(int smartGalleryID) {
+		SmartGallery smartGallery = new SmartGallery();
+		smartGallery.setSmartGalleryID(smartGalleryID);
+		smartGalleryRepository.save(smartGallery);
+		return smartGallery;
+	}
+	
+	@Transactional
+	public List<SmartGallery> getAllSmartGalleries() {
+		return toList(smartGalleryRepository.findAll());
+	}
+	
 	@Transactional
 	public void promoteArtwork(Artwork artwork) {
 		artwork.setIsBeingPromoted(true);
@@ -113,6 +126,14 @@ public class BrowsingService {
 	@Transactional
 	public Set<Artwork> viewBrowsingHistory(Customer customer) {
 		return customer.getArtworksViewed();
+	}
+	
+	private <T> List<T> toList(Iterable<T> iterable){
+		List<T> resultList = new ArrayList<T>();
+		for (T t : iterable) {
+			resultList.add(t);
+		}
+		return resultList;
 	}
 
 }
