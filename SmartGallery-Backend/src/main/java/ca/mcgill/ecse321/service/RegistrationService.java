@@ -29,13 +29,11 @@ public class RegistrationService {
 	 * @param defaultPaymentMethod 	A default payment method for purchases
 	 * @param creationDate 			Date the customer profile was created
 	 * @param smartGallery 			The smartGallery system
-	 * @param transactions			The transactions the customer has/had
-	 * @param artworksViewed		Artwork pieces viewed by the customer
 	 * @return customer				The created customer
 	 */
 	@Transactional
 	public Customer createCustomer(String username, String password, String email, PaymentMethod defaultPaymentMethod,
-			Date creationDate, SmartGallery smartGallery, Set<Transaction> transactions, Set<Artwork> artworksViewed) {
+			Date creationDate, SmartGallery smartGallery) {
 		
 		// Create a customer object and initialize all parameters
 		Customer customer = new Customer();
@@ -45,8 +43,6 @@ public class RegistrationService {
 		customer.setDefaultPaymentMethod(defaultPaymentMethod);
 		customer.setCreationDate(creationDate);
 		customer.setSmartGallery(smartGallery);
-		customer.setTransaction(transactions);
-		customer.setArtworksViewed(artworksViewed);
 		customerRepository.save(customer);		// Save to customer repository
 		return customer;						// Return customer with updated parameters
 	}
@@ -56,6 +52,7 @@ public class RegistrationService {
 	 * Method that gets an existing customer given a username
 	 * 
 	 * @param username 				Username for the profile
+	 * @return customer				The customer given by username
 	 */
 	@Transactional
 	public Customer getCustomer(String username) {
@@ -68,6 +65,8 @@ public class RegistrationService {
 	/**
 	 * @author roeywine
 	 * Method that gets all existing customers
+	 * 
+	 * @return customer list
 	 */
 	@Transactional
 	public List<Customer> getAllCustomers() {
@@ -87,12 +86,11 @@ public class RegistrationService {
 	 * @param creationDate 			Date the customer profile was created
 	 * @param isVerified			Whether or not the author is verified by the system
 	 * @param smartGallery 			The smartGallery system
-	 * @param transactions			The transactions the customer has/had
-	 * @param artworks				Artwork pieces created by the artist
+	 * @return artist				The artist created
 	 */
 	@Transactional
 	public Artist createArtist(String username, String password, String email, PaymentMethod defaultPaymentMethod,
-			Date creationDate, boolean isVerified, SmartGallery smartGallery, Set<Transaction> transactions, Set<Artwork> artworks) {
+			Date creationDate, boolean isVerified, SmartGallery smartGallery) {
 		
 		// Create a customer object and initialize all parameters
 		Artist artist = new Artist();
@@ -103,8 +101,6 @@ public class RegistrationService {
 		artist.setCreationDate(creationDate);
 		artist.setIsVerified(false); 			// When an artists profile is made, they are not verified initially
 		artist.setSmartGallery(smartGallery);
-		artist.setTransaction(transactions);
-		artist.setArtworks(artworks);
 		artistRepository.save(artist);			// Save to customer repository
 		return artist;							// Return artist with updated parameters
 	}
@@ -114,6 +110,7 @@ public class RegistrationService {
 	 * Method that gets an existing artist given a username
 	 * 
 	 * @param username 				Username for the profile
+	 * @return artist				The artist given by username
 	 */
 	@Transactional
 	public Artist getArtist(String username) {
@@ -126,12 +123,25 @@ public class RegistrationService {
 	/**
 	 * @author roeywine
 	 * Method that gets all existing artists
+	 * 
+	 * @return artist list
 	 */
 	@Transactional
 	public List<Artist> getAllArtists() {
 		
 		// Uses existing method in customer repository to find all the existing customers
 		return toList(artistRepository.findAll());
+	}
+	
+	/**
+	 * @author roeywine
+	 * Method to verify an artist
+	 * 
+	 * @param artist				The artist being verified
+	 */
+	@Transactional
+	public void verifyArtist(Artist artist) {
+		artist.setIsVerified(true);
 	}
 	
 	// Helper method to retrieve lists of objects
