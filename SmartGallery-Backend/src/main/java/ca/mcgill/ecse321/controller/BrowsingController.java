@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.service.BrowsingService;
@@ -32,8 +33,10 @@ public class BrowsingController {
 	@Autowired
 	private BrowsingService browsingService;
 	
+	//TODO : Make PostMapping and GetMappings work; I can't do the get and post on 
+	
 	@PostMapping(value = { "/smartGallery/{smartGalleryID}", "/smartGallery/{smartGalleryID}/" } )
-	public SmartGalleryDTO createEvent(@PathVariable("smartGalleryID") int smartGalleryID)
+	public SmartGalleryDTO createSmartGallery(@PathVariable("smartGalleryID") int smartGalleryID)
 	throws IllegalArgumentException {
 		SmartGallery smartGallery = browsingService.createSmartGallery(smartGalleryID);
 		return convertToDto(smartGallery);
@@ -47,6 +50,17 @@ public class BrowsingController {
 		}
 		return smartGalleryDTOs;
 	}
+	
+	@PostMapping(value = { "/gallery/{galleryName}/{commission}", "/gallery/{galleryName}/{commission}/" } )
+	public GalleryDTO createGallery(@PathVariable("galleryName") String galleryName, 
+			@PathVariable(name = "commission", required = false) double commission)
+	throws IllegalArgumentException {
+		SmartGallery smartGallery = browsingService.getAllSmartGalleries().get(0);
+		Gallery gallery = browsingService.createGallery(galleryName, smartGallery, commission);
+		return convertToDto(gallery);
+	}
+	
+	
 	
 	private SmartGalleryDTO convertToDto(SmartGallery s) {
 		if (s == null) {

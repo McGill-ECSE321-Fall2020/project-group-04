@@ -3,11 +3,13 @@ package ca.mcgill.ecse321.smartgallery.dao;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import ca.mcgill.ecse321.smartgallery.model.ArtStyle;
 import ca.mcgill.ecse321.smartgallery.model.Artwork;
 
-public interface ArtworkRepository extends CrudRepository<Artwork, String> {
+@RepositoryRestResource(collectionResourceRel = "artwork_data", path = "artwork_data")
+public interface ArtworkRepository extends CrudRepository<Artwork, Integer> {
 	
 	Artwork findArtworkByArtworkID(int artworkID);
 	

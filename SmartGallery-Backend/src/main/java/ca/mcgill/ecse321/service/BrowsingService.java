@@ -15,22 +15,21 @@ import ca.mcgill.ecse321.smartgallery.model.*;
 @Service
 public class BrowsingService {
 	
-//	@Autowired
-//	private ArtistRepository artistRepository;
-//	@Autowired
-//	private ArtworkRepository artworkRepository;
-//	@Autowired
-//	private CustomerRepository customerRepository;
-//	@Autowired
-//	private GalleryRepository galleryRepository;
-//	@Autowired
-//	private ListingRepository listingRepository;
+	@Autowired
+	private ArtistRepository artistRepository;
+	@Autowired
+	private ArtworkRepository artworkRepository;
+	@Autowired
+	private CustomerRepository customerRepository;
+	@Autowired
+	private GalleryRepository galleryRepository;
+	@Autowired
+	private ListingRepository listingRepository;
 	@Autowired
 	private SmartGalleryRepository smartGalleryRepository;
-//	@Autowired
-//	private TransactionRepository transactionRepository;
+	@Autowired
+	private TransactionRepository transactionRepository;
 
-	// ??? not sure how to make 
 	@Transactional 
 	public SmartGallery createSmartGallery(int smartGalleryID) {
 		SmartGallery smartGallery = new SmartGallery();
@@ -42,6 +41,21 @@ public class BrowsingService {
 	@Transactional
 	public List<SmartGallery> getAllSmartGalleries() {
 		return toList(smartGalleryRepository.findAll());
+	}
+	
+	@Transactional 
+	public Gallery createGallery(String galleryName, SmartGallery smartGallery, double commission) {
+		Gallery gallery = new Gallery();
+		gallery.setGalleryName(galleryName);
+		gallery.setSmartGallery(smartGallery);
+		gallery.setComissionPercentage(commission);
+		galleryRepository.save(gallery);
+		return gallery;
+	}
+	
+	@Transactional
+	public List<Gallery> getAllGalleries() {
+		return toList(galleryRepository.findAll());
 	}
 	
 	@Transactional
