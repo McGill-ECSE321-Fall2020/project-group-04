@@ -1,52 +1,40 @@
 package ca.mcgill.ecse321.controller;
-
-
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import ca.mcgill.ecse321.service.BrowsingService;
-import ca.mcgill.ecse321.smartgallery.dto.ArtistDTO;
-import ca.mcgill.ecse321.smartgallery.dto.ArtworkDTO;
-import ca.mcgill.ecse321.smartgallery.dto.GalleryDTO;
-import ca.mcgill.ecse321.smartgallery.dto.SmartGalleryDTO;
-import ca.mcgill.ecse321.smartgallery.model.ArtStyle;
-import ca.mcgill.ecse321.smartgallery.model.Artist;
-import ca.mcgill.ecse321.smartgallery.model.Artwork;
-import ca.mcgill.ecse321.smartgallery.model.Gallery;
-import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
-import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
+import ca.mcgill.ecse321.smartgallery.dto.*;
+import ca.mcgill.ecse321.smartgallery.model.*;
+import ca.mcgill.ecse321.service.ListingService;
+//import ca.mcgill.ecse321.controller.*;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class BrowsingController {
+public class ListingController {
 	
 	@Autowired
-	private BrowsingService browsingService;
+	private ListingService listingService;
 	
-	@PostMapping(value = { "/smartGallery/{smartGalleryID}", "/smartGallery/{smartGalleryID}/" } )
-	public SmartGalleryDTO createEvent(@PathVariable("smartGalleryID") int smartGalleryID)
-	throws IllegalArgumentException {
-		SmartGallery smartGallery = browsingService.createSmartGallery(smartGalleryID);
-		return convertToDto(smartGallery);
+	@GetMapping(value = { "/listing", "/listing/" })
+	public List<ListingDTO> getAllListings() {
+		return listingService.getAllListings().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
 	}
 	
-	@GetMapping(value = { "/smartGallery", "/smartGallery/" } )
-	public List<SmartGalleryDTO> getAllSmartGalleries() {
-		List<SmartGalleryDTO> smartGalleryDTOs = new ArrayList<>();
-		for (SmartGallery smartGallery : browsingService.getAllSmartGalleries()) {
-			smartGalleryDTOs.add(convertToDto(smartGallery));
-		}
-		return smartGalleryDTOs;
+	
+	@PostMapping(value = { "/listing/{listingID}", "/listing/{ListingID}/" })
+	public ListingDTO createListing(@RequestParam("artwork") Artwork artwork, @PathVariable("dateListed") Date dateListed, 
+		@PathVariable("price") double price, @RequestParam(name = "gallery") Gallery gallery) throws IllegalArgumentException {
+		Listing listing = listingService.createListing(artwork,dateListed, price,  gallery);
+		return convertToDto(listing);
 	}
 	
 	private SmartGalleryDTO convertToDto(SmartGallery s) {
@@ -90,4 +78,16 @@ public class BrowsingController {
 				a.getHeight(), a.getWeight(), a.getWidth(), a.getArtworkID());
 		return artworkDTO;
 	}
+	
+	private ListingDTO convertToDto(Listing l) {
+		if (l == null) {
+			throw new IllegalArgumentException("There is no such Listing");
+		}
+		ListingDTO listingDto = new ListingDTO(convertToDto(l.getGallery()), convertToDto(l.getArtwork()), l.getListedDate(), l.isIsSold(), l.getListingID());
+		return listingDto;
+	}
+	
+	
+
+
 }
