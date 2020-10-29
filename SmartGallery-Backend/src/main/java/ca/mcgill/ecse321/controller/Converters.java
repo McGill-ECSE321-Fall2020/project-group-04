@@ -3,6 +3,15 @@ package ca.mcgill.ecse321.controller;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
+import ca.mcgill.ecse321.smartgallery.dao.ArtworkRepository;
+import ca.mcgill.ecse321.smartgallery.dao.CustomerRepository;
+import ca.mcgill.ecse321.smartgallery.dao.GalleryRepository;
+import ca.mcgill.ecse321.smartgallery.dao.ListingRepository;
+import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
+import ca.mcgill.ecse321.smartgallery.dao.TransactionRepository;
 import ca.mcgill.ecse321.smartgallery.dto.ArtistDTO;
 import ca.mcgill.ecse321.smartgallery.dto.ArtworkDTO;
 import ca.mcgill.ecse321.smartgallery.dto.CustomerDTO;
@@ -21,6 +30,21 @@ import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
 import ca.mcgill.ecse321.smartgallery.model.Transaction;
 
 public class Converters {
+
+	@Autowired
+	private static ArtistRepository artistRepository;
+	@Autowired
+	private static ArtworkRepository artworkRepository;
+	@Autowired
+	private static CustomerRepository customerRepository;
+	@Autowired
+	private static GalleryRepository galleryRepository;
+	@Autowired
+	private static ListingRepository listingRepository;
+	@Autowired
+	private static SmartGalleryRepository smartGalleryRepository;
+	@Autowired
+	private static TransactionRepository transactionRepository;
 
 	/*
 	 * ========================== DTO CONVERTERS ==========================
@@ -157,5 +181,104 @@ public class Converters {
 		return new TransactionDTO(convertToDto(transaction.getSmartGallery()), convertToDto(transaction.getListing()),
 				convertToDto(transaction.getProfile()), transaction.getTransactionID(), transaction.getPaymentMethod(),
 				transaction.getDeliveryMethod(), transaction.getPaymentDate());
+	}
+	
+	
+	/**
+	 * Converts SmartGalleryDTO to its Object equivalent
+	 * @param smartGalleryDTO The SmartGalleryDTO to convert
+	 * @return smartGallery
+	 */
+	public static SmartGallery convertToObject(SmartGalleryDTO smartGalleryDTO) {
+		if (smartGalleryDTO == null) {
+			throw new IllegalArgumentException("There is no such SmartGalleryDTO.");
+		}
+		
+		SmartGallery smartGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(smartGalleryDTO.getSmartGalleryID());
+		return smartGallery;
+	}
+	
+	/**
+	 * Converts GalleryDTO to its Object equivalent
+	 * @param galleryDTO The GalleryDTO to convert
+	 * @return gallery
+	 */
+	public static Gallery convertToObject(GalleryDTO galleryDTO) {
+		if (galleryDTO == null) {
+			throw new IllegalArgumentException("There is no such GalleryDTO.");
+		}
+		
+		Gallery gallery = galleryRepository.findGalleryByGalleryName(galleryDTO.getGalleryName());
+		return gallery;
+	}
+	
+	/**
+	 * Converts ArtistDTO to its Object equivalent
+	 * @param artistDTO The ArtistDTO to convert
+	 * @return artist
+	 */
+	public static Artist convertToObject(ArtistDTO artistDTO) {
+		if (artistDTO == null) {
+			throw new IllegalArgumentException("There is no such GalleryDTO.");
+		}
+		
+		Artist artist = artistRepository.findArtistByUsername(artistDTO.getUsername());
+		return artist;
+	}
+	
+	/**
+	 * Converts ArtworkDTO to its Object equivalent
+	 * @param artworkDTO The ArtworkDTO to convert
+	 * @return artwork
+	 */
+	public static Artwork convertToObject(ArtworkDTO artworkDTO) {
+		if (artworkDTO == null) {
+			throw new IllegalArgumentException("There is no such GalleryDTO.");
+		}
+		
+		Artwork artwork = artworkRepository.findArtworkByArtworkID(artworkDTO.getArtworkID());
+		return artwork;
+	}
+	
+	/**
+	 * Converts CustomerDTO to its Object equivalent
+	 * @param customerDTO The CustomerDTO to convert
+	 * @return customer
+	 */
+	public static Customer convertToObject(CustomerDTO customerDTO) {
+		if (customerDTO == null) {
+			throw new IllegalArgumentException("There is no such GalleryDTO.");
+		}
+		
+		Customer customer = customerRepository.findCustomerByUsername(customerDTO.getUsername());
+		return customer;
+	}
+	
+	/**
+	 * Converts ListingDTO to its Object equivalent
+	 * @param listingDTO The ListingDTO to convert
+	 * @return listing
+	 */
+	public static Listing convertToObject(ListingDTO listingDTO) {
+		if (listingDTO == null) {
+			throw new IllegalArgumentException("There is no such GalleryDTO.");
+		}
+		
+		Listing listing = listingRepository.findListingByListingID(listingDTO.getListingID());
+		return listing;
+	}
+	
+	/**
+	 * Converts TransactionDTO to its Object equivalent
+	 * @param transactionDTO The ListingDTO to convert
+	 * @return transaction
+	 */
+	public static Transaction convertToObject(TransactionDTO transactionDTO) {
+		if (transactionDTO == null) {
+			throw new IllegalArgumentException("There is no such GalleryDTO.");
+		}
+		
+		Transaction transaction = transactionRepository.findTransactionByTransactionID(transactionDTO.getTransactionID());
+		return transaction;
 	}
 }
