@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.smartgallery.dto.*;
 import ca.mcgill.ecse321.smartgallery.model.*;
 import ca.mcgill.ecse321.service.ListingService;
+import ca.mcgill.ecse321.smartgallery.dao.*;
+//import ca.mcgill.ecse321.controller.*;
 //import ca.mcgill.ecse321.controller.*;
 
 @CrossOrigin(origins = "*")
@@ -24,17 +26,24 @@ public class ListingController {
 
 	@Autowired
 	private ListingService listingService;
+	private ArtworkRepository artworkRepository;
+	private GalleryRepository galleryRepository;
+	
 
-	@GetMapping(value = { "/listing", "/listing/" })
+	@GetMapping(value = { "/listings/", "/listings/" })
 	public List<ListingDTO> getAllListings() {
 		return listingService.getAllListings().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 
-	@PostMapping(value = { "/listing/{listingID}", "/listing/{ListingID}/" })
-	public ListingDTO createListing(@RequestParam("artwork") Artwork artwork,
+	@PostMapping(value = { "/listing/", "/listing/" })
+	public ListingDTO createListing(@PathVariable("artwork") int artworkID,
 			@PathVariable("dateListed") Date dateListed, @PathVariable("price") double price,
-			@RequestParam(name = "gallery") Gallery gallery) throws IllegalArgumentException {
+			@PathVariable("gallery") String galleryName) throws IllegalArgumentException {
+		Artwork artwork = artworkRepository.findArtworkByArtworkID(artworkID);
+		//ArtworkDTO artworkDto = Converters.convertToDto(artwork);
+		Gallery gallery = galleryRepository.findGalleryByGalleryName(galleryName);
+		//GalleryDTO galleryDto = Converters.convertToDto(gallery);
 		Listing listing = listingService.createListing(artwork, dateListed, price, gallery);
 		return Converters.convertToDto(listing);
 	}
