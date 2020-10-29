@@ -4,8 +4,11 @@ import java.sql.Date;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,29 +27,22 @@ public class PurchaseController {
 
 	@Autowired
 	private PurchaseService purchaseService;
-	
-	public TransactionDTO createTransaction(@RequestParam PaymentMethod paymentMethod, @RequestParam DeliveryMethod deliveryMethod, 
-			@PathVariable(name = "smartGallery") SmartGalleryDTO smartGalleryDTO, @RequestParam(name = "profiles") Set<ProfileDTO> profiles,
-			@RequestParam Date paymentDate, @PathVariable(name = "listing") ListingDTO listing) throws IllegalArgumentException {
-//		Transaction transaction = purchaseService.createTransaction(paymentMethod, deliveryMethod, smartGallery, profiles, paymentDate, listing);
-//		return(toDTO(transaction));
-		return null;
-	}
-	
-	
-	
-	
-	public static TransactionDTO toDTO(Transaction transaction) {
-		if(transaction.equals(null)) {
-			throw new IllegalArgumentException("No transaction exists");
-		}
 
+	@PostMapping(value = { "/transaction", "/transaction/" })
+	public TransactionDTO createTransaction(@RequestParam PaymentMethod paymentMethod,
+			@RequestParam DeliveryMethod deliveryMethod,
+			@PathVariable(name = "smartGallery") SmartGalleryDTO smartGalleryDTO,
+			@RequestParam(name = "profiles") Set<ProfileDTO> profiles,
+			@DateTimeFormat(pattern = "MM/dd/yyyy") Date paymentDate,
+			@PathVariable(name = "listing") ListingDTO listing) throws IllegalArgumentException {
 		
-//		return new TransactionDTO(transaction.getSmartGallery(), transaction.getListing(), transaction.getTransactionID(),
-//				transaction.getPaymentMethod(),transaction.getDeliveryMethod(),transaction.getPaymentDate());
+		
+		
+		
+//		Transaction transaction = purchaseService.createTransaction(paymentMethod, deliveryMethod, smartGallery,
+//				profiles, paymentDate, listing);
+//		return (Converters.convertToDto(transaction));
 		return null;
 	}
-	
-	//TODO convert dto methods
-	
+
 }

@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.controller;
 
-
 import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,36 +22,20 @@ public class RegistrationController {
 
 	@Autowired
 	private RegistrationService registrationService;
-	
+
 	@GetMapping(value = { "/customer", "/customer/" })
 	public List<CustomerDTO> getAllCustomers() {
-		return registrationService.getAllCustomers().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+		return registrationService.getAllCustomers().stream().map(p -> Converters.convertToDto(p))
+				.collect(Collectors.toList());
 	}
-	
+
 	@PostMapping(value = { "/customer/{customerID}", "/customer/{customerID}/" })
-	public CustomerDTO createCustomer(@PathVariable("username") String username, @PathVariable("password") String password, 
-		@PathVariable("email") String email, @RequestParam PaymentMethod defaultPaymentMethod, @RequestParam Date creationDate,
-		@RequestParam(name = "smartGallery") SmartGallery smartGallery) throws IllegalArgumentException {
-		Customer customer = registrationService.createCustomer(username, password, email, defaultPaymentMethod, 
-		creationDate, smartGallery);
-		return convertToDto(customer);
+	public CustomerDTO createCustomer(@PathVariable("username") String username,
+			@PathVariable("password") String password, @PathVariable("email") String email,
+			@RequestParam PaymentMethod defaultPaymentMethod, @RequestParam Date creationDate,
+			@RequestParam(name = "smartGallery") SmartGallery smartGallery) throws IllegalArgumentException {
+		Customer customer = registrationService.createCustomer(username, password, email, defaultPaymentMethod,
+				creationDate, smartGallery);
+		return Converters.convertToDto(customer);
 	}
-	
-	private SmartGalleryDTO convertToDto(SmartGallery s) {
-		if (s == null) {
-			throw new IllegalArgumentException("There is no such SmartGallery.");
-		}
-		SmartGalleryDTO smartGalleryDTO = new SmartGalleryDTO(s.getSmartGalleryID());
-		return smartGalleryDTO;
-	}
-	
-	private CustomerDTO convertToDto(Customer c) {
-		if (c == null) {
-			throw new IllegalArgumentException("There is no such Customer!");
-		}
-		CustomerDTO customerDto = new CustomerDTO(convertToDto(c.getSmartGallery()), c.getUsername(), c.getPassword(),
-				c.getEmail(), c.getDefaultPaymentMethod(), c.getCreationDate());
-		return customerDto;
-	}
-	
 }

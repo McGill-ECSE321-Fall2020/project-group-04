@@ -90,7 +90,7 @@ public class PurchaseService {
 		return transaction;
 
 	}
-
+	
 	/**
 	 * @param transactionID
 	 * @return transaction associated to this id
@@ -102,7 +102,7 @@ public class PurchaseService {
 			throw new IllegalArgumentException("Must provide valid customer username");
 		}
 		
-		if (listingID == 0) {
+		if (listingID == null) {
 			throw new IllegalArgumentException("Must provide an id");
 		}
 

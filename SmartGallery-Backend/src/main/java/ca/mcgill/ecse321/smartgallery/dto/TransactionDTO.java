@@ -78,5 +78,13 @@ public class TransactionDTO {
 	public Date getPaymentDate() {
 		return paymentDate;
 	}
+
+
+	/**
+	 * @return the profiles
+	 */
+	public Set<ProfileDTO> getProfiles() {
+		return profiles;
+	}
 	
 }
