@@ -12,7 +12,7 @@ import ca.mcgill.ecse321.smartgallery.dao.ListingRepository;
 import ca.mcgill.ecse321.smartgallery.dao.TransactionRepository;
 import ca.mcgill.ecse321.smartgallery.model.*;
 
-public class PurchasingService {
+public class PurchaseService {
 	
 	@Autowired
 	private TransactionRepository transactionRepository;
@@ -70,8 +70,6 @@ public class PurchasingService {
 
 		String customerID = "";
 
-		// Should transaction be directly associated to customer since artist is already
-		// present in listing?
 		for (Profile p : profiles) {
 			if (p instanceof Customer) {
 				customerID += p.getUsername();
