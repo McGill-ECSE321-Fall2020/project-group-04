@@ -147,7 +147,7 @@ public class ListingService {
 	public boolean foundListing(Listing listing)
 	{ 
 		boolean found = true;
-		Listing l = getListing(listing.getListingID());
+		Listing l = getListingByID(listing.getListingID());
 		if(l == null)
 			found = false;
 		
@@ -162,10 +162,12 @@ public class ListingService {
 	 * This method returns a listing from its id.
 	 */
 	@Transactional 
-	public Listing getListing(int listingID){
+	public Listing getListingByID(int listingID){
 		
 		return listingRepository.findListingByListingID(listingID);
 	}
+	
+
 	
 	/**
 	 * @author Stavros Mitsoglou
@@ -174,7 +176,7 @@ public class ListingService {
 	 * This method returns an artwork from its id.
 	 */
 	@Transactional 
-	public Artwork getArtwork(int artworkID) {
+	public Artwork getArtworkByID(int artworkID) {
 		return artworkRepository.findArtworkByArtworkID(artworkID);
 	}
 	

@@ -60,7 +60,7 @@ public class PurchaseController {
 			@RequestParam int listingID) throws IllegalArgumentException {
 
 		// Find objects
-		Listing listing = listingService.getListing(listingID);
+		Listing listing = listingService.getListingByID(listingID);
 		SmartGallery sGallery = browsingService.getAllSmartGalleries().get(0);
 		Customer customer = registrationService.getCustomer(username);
 

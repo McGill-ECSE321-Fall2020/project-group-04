@@ -1,9 +1,7 @@
 package ca.mcgill.ecse321.smartgallery.controller;
 
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +10,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.smartgallery.dto.*;
 import ca.mcgill.ecse321.smartgallery.model.*;
 import ca.mcgill.ecse321.smartgallery.service.ListingService;
 import ca.mcgill.ecse321.smartgallery.dao.*;
-//import ca.mcgill.ecse321.controller.*;
-//import ca.mcgill.ecse321.controller.*;
+
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -39,13 +37,23 @@ public class ListingController {
 	private ListingRepository listingRepository;
 	
 
-	@GetMapping(value = { "/listings", "/listings/" })
+	@GetMapping(value = { "/listing", "/listing/" })
 	public List<ListingDTO> getAllListings() {
 		return listingService.getAllListings().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 	
+	@GetMapping(value = { "/listing/{listingID}", "/listing/{listingID}" })
+	public ListingDTO getListingByID(@PathVariable("listingID") int listingID) {
+		return Converters.convertToDto(listingService.getListingByID(listingID));
+				
+	}
 	
+	@GetMapping(value = { "/artwork/{artworkID}", "/listing/{artworkID}" })
+	public ArtworkDTO getArtworkByID(@PathVariable("listingID") int artworkID) {
+		return Converters.convertToDto(listingService.getArtworkByID(artworkID));
+				
+	}
 	
 	@PostMapping(value = { "/listing/{artworkID}", "/listing/{artworkID}/" })
 	public ListingDTO createListing(@PathVariable("artwork") int artworkID,
@@ -75,7 +83,7 @@ public class ListingController {
 		
 	}
 	
-	@PostMapping(value = {"/artwork/{artworkID}/addArtist/{artistName}", "/artwork/{artworkID}/addArtist/{artistName}"})
+	@PutMapping(value = {"/artwork/addArtist/{artworkID}//{artistName}", "/artwork//addArtist/{artworkID}/{artistName}"})
 	public ArtworkDTO addArtistToArtwork(@PathVariable("artworkID") int artworkID, 
 			@PathVariable("artist") String artistName) throws IllegalArgumentException{
 		
@@ -86,7 +94,7 @@ public class ListingController {
 	}
 	
 	
-	@PostMapping(value = {"listing/{listingID}/updateArtwork", "listing/{listingID}/updateArtwork/"})
+	@PutMapping(value = {"listing//updateArtwork/{listingID}", "listing//updateArtwork/{listingID}/"})
 	public ArtworkDTO updateArtwork(@PathVariable("listing")int listingID, 
 			@RequestParam("artworkName")String name, 
 			@RequestParam("year")int year, 
@@ -101,6 +109,9 @@ public class ListingController {
 		return Converters.convertToDto(artwork);
 
 	}
+	
+	
+	  
 	
 
 }

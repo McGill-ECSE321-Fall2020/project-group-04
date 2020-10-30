@@ -154,20 +154,20 @@ public class BrowsingController {
 	public List<ArtworkDTO> addToBrowseHistory(@PathVariable("username") String username,
 			@PathVariable("artworkID") int artworkID) {
 		Customer customer = registrationService.getCustomer(username);
-		Artwork artwork = listingService.getArtwork(artworkID);
+		Artwork artwork = listingService.getArtworkByID(artworkID);
 		return browsingService.addToBrowseHistory(customer, artwork).stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 
 	@PutMapping(value = { "/artwork/promote/{artworkID}", "/artwork/promote/{artworkID}/" })
 	public ArtworkDTO promoteArtwork(@PathVariable("artworkID") int artworkID) {
-		Artwork artwork = listingService.getArtwork(artworkID);
+		Artwork artwork = listingService.getArtworkByID(artworkID);
 		return Converters.convertToDto(browsingService.promoteArtwork(artwork));
 	}
 
 	@PutMapping(value = { "/artwork/unpromote/{artworkID}", "/artwork/unpromote/{artworkID}/" })
 	public ArtworkDTO unpromoteArtwork(@PathVariable("artworkID") int artworkID) {
-		Artwork artwork = listingService.getArtwork(artworkID);
+		Artwork artwork = listingService.getArtworkByID(artworkID);
 		return Converters.convertToDto(browsingService.unpromoteArtwork(artwork));
 	}
 
