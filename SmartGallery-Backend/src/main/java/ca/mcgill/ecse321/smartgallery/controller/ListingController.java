@@ -26,7 +26,9 @@ public class ListingController {
 
 	@Autowired
 	private ListingService listingService;
+	@Autowired
 	private ArtworkRepository artworkRepository;
+	@Autowired
 	private GalleryRepository galleryRepository;
 	
 
