@@ -149,8 +149,8 @@ public class BrowsingController {
 				.collect(Collectors.toList());
 	}
 
-	@PutMapping(value = { "/customer/addToBrowsingHistory/{username}/{artworkID}",
-			"/customer/addToBrowsingHistory/{username}/{artworkID}/" })
+	@PutMapping(value = { "/customer/addToBrowseHistory/{username}/{artworkID}",
+			"/customer/addToBrowseHistory/{username}/{artworkID}/" })
 	public List<ArtworkDTO> addToBrowseHistory(@PathVariable("username") String username,
 			@PathVariable("artworkID") int artworkID) {
 		Customer customer = registrationService.getCustomer(username);
