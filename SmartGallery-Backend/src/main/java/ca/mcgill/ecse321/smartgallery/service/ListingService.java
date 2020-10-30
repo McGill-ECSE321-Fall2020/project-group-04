@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.smartgallery.service;
  import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +38,7 @@ public class ListingService {
 	 */
 	@Transactional
 	public Artwork createArtwork(String name, int year, double price, boolean isBeingPromoted, ArtStyle style, int height,
-			int weight, int width, Set<Artist> artists, Gallery gallery)
+			int weight, int width, Artist artist, Gallery gallery)
 	{
 		Artwork artwork = new Artwork();
 		artwork.setName(name);
@@ -49,6 +50,8 @@ public class ListingService {
 		artwork.setHeight(height);
 		artwork.setWeight(weight);
 		artwork.setWidth(width);
+		HashSet<Artist> artists = new HashSet<>();
+		artists.add(artist);
 		artwork.setArtists(artists);
 		artwork.setGallery(gallery);
 		artwork.setArtworkID(artists.iterator().next().getUsername().hashCode() * artwork.getName().hashCode());
@@ -84,6 +87,24 @@ public class ListingService {
 		
 	}
 	
+	/**
+	 * 
+	 * @param artist Artist to be added to artwork
+	 * @param artworkID 
+	 * @return the updated set of artitsts for an artwork
+	 * 
+	 * Add artist to an existing artwork
+	 */
+	
+	@Transactional
+	public Artwork addArtist(Artist artist, int artworkID) {
+		Artwork artwork = artworkRepository.findArtworkByArtworkID(artworkID);
+		Set<Artist> artists = artwork.getArtists();
+		artists.add(artist);
+		artwork.setArtists(artists);
+		artworkRepository.save(artwork);
+		return artwork;
+	}
 	/**
 	 * @author Stavros Mitsoglou
 	 * @param listing Listing where the artwork details are being updated
