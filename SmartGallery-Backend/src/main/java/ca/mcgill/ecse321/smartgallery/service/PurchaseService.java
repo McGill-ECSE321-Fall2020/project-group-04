@@ -41,18 +41,17 @@ public class PurchaseService {
 			SmartGallery smartGallery, Customer customer, Date paymentDate, Listing listing) {
 
 
-		// Find customer id
 		String error = "";
 
-		if (paymentMethod.equals(null)) {
+		if (paymentMethod == null) {
 			error += "Payment method must be specified";
 		}
 
-		if (deliveryMethod.equals(null)) {
+		if (deliveryMethod == null) {
 			error += "Delivery method must be specified";
 		}
 
-		if (smartGallery.equals(null)) {
+		if (smartGallery == null) {
 			error += "System must be specified";
 		}
 
@@ -60,11 +59,11 @@ public class PurchaseService {
 			error += "Customers/Artists must be specified";
 		}
 
-		if (paymentDate.equals(null)) {
+		if (paymentDate == null) {
 			error += "Payment date must be specified";
 		}
 
-		if (listing.equals(null) || listing.isIsSold()) {
+		if (listing == null || listing.isIsSold()) {
 			error += "Listing must exist";
 		}
 
@@ -106,6 +105,42 @@ public class PurchaseService {
 		return transactionRepository.findTransactionByTransactionID(customerName.hashCode() * listingID);
 	}
 
+	/**
+	 * 
+	 * @param customer
+	 * @return a list of the customer's transactions
+	 */
+	@Transactional
+	public List<Transaction> getTransactionByCustomer(Customer customer) {
+		if(customer == null) {
+			throw new IllegalArgumentException("Must provide a valid customer");
+		}
+		
+		return transactionRepository.findTransactionByCustomer(customer);
+	}
+	
+	/**
+	 * 
+	 * @param date
+	 * @return a list of transactions that happened on a given date
+	 */
+	@Transactional
+	public List<Transaction> getTransactionByPaymentDate(Date date){
+		if(date == null) {
+			throw new IllegalArgumentException("No date has been provided");
+		}
+		
+		//TODO Check for date format
+		
+		
+		return transactionRepository.findTransactionByPaymentDate(date);
+	}
+	
+	/**
+	 * 
+	 * @return all the transaction in the system
+	 */
+	@Transactional
 	public List<Transaction> getAllTransactions() {
 		return toList(transactionRepository.findAll());
 	}

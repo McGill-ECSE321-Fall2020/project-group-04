@@ -29,12 +29,25 @@ public class RegistrationController {
 				.collect(Collectors.toList());
 	}
 
-	@PostMapping(value = { "/customer/{customerID}", "/customer/{customerID}/" })
+	@PostMapping(value = { "/customer/{username}", "/customer/{username}/" })
 	public CustomerDTO createCustomer(@PathVariable("username") String username,
 			@PathVariable("password") String password, @PathVariable("email") String email,
 			@RequestParam PaymentMethod defaultPaymentMethod, @RequestParam Date creationDate,
 			@RequestParam(name = "smartGallery") SmartGallery smartGallery) throws IllegalArgumentException {
 		Customer customer = registrationService.createCustomer(username, password, email, defaultPaymentMethod);
 		return Converters.convertToDto(customer);
+	}
+	
+	
+	@PostMapping(value = { "/customer/delete/{username}","/customer/delete/{username}"})
+	public CustomerDTO deleteCustomer(@PathVariable("username") String username) {
+		Customer customer = registrationService.deleteCustomer(username);
+		return Converters.convertToDto(customer);
+	}
+	
+	@PostMapping(value = { "/artist/delete/{username}","/artist/delete/{username}"})
+	public ArtistDTO deleteArtist(@PathVariable("username") String username) {
+		Artist artist = registrationService.deleteArtist(username);
+		return Converters.convertToDto(artist);
 	}
 }
