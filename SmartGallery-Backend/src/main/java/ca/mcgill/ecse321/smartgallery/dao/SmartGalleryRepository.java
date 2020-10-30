@@ -11,5 +11,4 @@ public interface SmartGalleryRepository extends CrudRepository<SmartGallery, Int
 	
 	SmartGallery findSmartGalleryBySmartGalleryID(int smartGalleryID);
 
-
 }

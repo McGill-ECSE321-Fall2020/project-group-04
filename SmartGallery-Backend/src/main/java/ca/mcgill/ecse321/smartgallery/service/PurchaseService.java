@@ -37,7 +37,9 @@ public class PurchaseService {
 	 */
 	@Transactional
 	public Transaction createTransaction(PaymentMethod paymentMethod, DeliveryMethod deliveryMethod,
+
 			SmartGallery smartGallery, Customer customer, Date paymentDate, Listing listing) {
+
 
 		// Find customer id
 		String error = "";

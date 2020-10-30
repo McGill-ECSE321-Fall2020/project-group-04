@@ -59,20 +59,51 @@ public class BrowsingService {
 	}
 	
 	@Transactional
-	public void promoteArtwork(Artwork artwork) {
-		artwork.setIsBeingPromoted(true);
+
+	public void promoteArtwork(int artworkID) {
+		artworkRepository.findArtworkByArtworkID(artworkID).setIsBeingPromoted(true);
 	}
 	
 	@Transactional
-	public HashSet<Artist> searchArtist(SmartGallery smartGallery, String searchInput) {
-		HashSet<Artist> results = new HashSet<>();
-		for (Profile profile : smartGallery.getProfile()) {
-			if (profile instanceof Artist && profile.getUsername().toLowerCase()
-					.replaceAll("\\s+","").contains(searchInput.toLowerCase().replaceAll("\\s+",""))) {
-				results.add((Artist) profile);
-			}
-		}
-		return results;
+	public void unpromoteArtwork(int artworkID) {
+		artworkRepository.findArtworkByArtworkID(artworkID).setIsBeingPromoted(false);
+	}
+	
+	@Transactional
+	public List<Artwork> getAllPromotedArtworks() {
+		return artworkRepository.findArtworkByIsBeingPromoted(true);
+	}
+	
+//	@Transactional
+//	public HashSet<Artist> searchArtist(SmartGallery smartGallery, String searchInput) {
+//		HashSet<Artist> results = new HashSet<>();
+//		for (Profile profile : smartGallery.getProfile()) {
+//			if (profile instanceof Artist && profile.getUsername().toLowerCase()
+//					.replaceAll("\\s+","").contains(searchInput.toLowerCase().replaceAll("\\s+",""))) {
+//				results.add((Artist) profile);
+//			}
+//		}
+//		return results;
+//	}
+	
+	@Transactional
+	public Artist findArtistByUsername(String username) {
+		return artistRepository.findArtistByUsername(username);
+	}
+	
+	@Transactional
+	public List<Artist> findArtistByUsernameContaining(String usernameFragment) {
+		return artistRepository.findArtistByUsernameContaining(usernameFragment);
+	}
+	
+	@Transactional
+	public List<Artwork> findArtworkByName(String name) {
+		return artworkRepository.findArtworkByName(name);
+	}
+	
+	@Transactional
+	public List<Artwork> findArtworkByNameContaining(String nameFragment) {
+		return artworkRepository.findArtworkByNameContaining(nameFragment);
 	}
 	
 	@Transactional
@@ -132,9 +163,10 @@ public class BrowsingService {
 	
 	@Transactional
 	public void addToBrowseHistory(Customer customer, Artwork artwork) {
-		Set<Artwork> viewedArtworks = customer.getArtworksViewed();
-		viewedArtworks.add(artwork);
-		customer.setArtworksViewed(viewedArtworks);
+//		Set<Artwork> viewedArtworks = customer.getArtworksViewed();
+//		viewedArtworks.add(artwork);
+//		customer.setArtworksViewed(viewedArtworks);
+		customer.getArtworksViewed().add(artwork);
 	}
 	
 	@Transactional

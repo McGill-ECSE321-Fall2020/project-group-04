@@ -26,17 +26,22 @@ public class ListingController {
 
 	@Autowired
 	private ListingService listingService;
+
+
+	@Autowired
 	private ArtworkRepository artworkRepository;
+	@Autowired
 	private GalleryRepository galleryRepository;
 	
 
-	@GetMapping(value = { "/listings/", "/listings/" })
+	@GetMapping(value = { "/listing", "/listing/" })
 	public List<ListingDTO> getAllListings() {
 		return listingService.getAllListings().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 
-	@PostMapping(value = { "/listing/", "/listing/" })
+
+	@PostMapping(value = { "/listing/{listingID}", "/listing/listingID}/" })
 	public ListingDTO createListing(@PathVariable("artwork") int artworkID,
 			@PathVariable("dateListed") Date dateListed, @PathVariable("price") double price,
 			@PathVariable("gallery") String galleryName) throws IllegalArgumentException {
