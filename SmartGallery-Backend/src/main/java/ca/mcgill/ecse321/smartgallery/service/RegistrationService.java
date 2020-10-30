@@ -146,6 +146,39 @@ public class RegistrationService {
 		artist.setIsVerified(true);
 	}
 	
+	/**
+	 * @author roeywine
+	 * Method to unverify an artist
+	 * 
+	 * @param artist				The artist being unverified
+	 */
+	@Transactional
+	public void unverifyArtist(Artist artist) {
+		artist.setIsVerified(false);
+	}
+	
+	/**
+	 * @author roeywine
+	 * Method to get all verified artists
+	 * 
+	 * @return A list of all verified artists
+	 */
+	@Transactional
+	public List<Artist> getAllVerifiedArtists() {
+		return artistRepository.findArtistByIsVerified(true);
+	}
+	
+	/**
+	 * @author roeywine
+	 * Method to get all non verified artists
+	 * 
+	 * @return A list of all non verified artists
+	 */
+	@Transactional
+	public List<Artist> getAllNonVerifiedArtists() {
+		return artistRepository.findArtistByIsVerified(false);
+	}
+	
 	// Helper method to retrieve lists of objects
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
