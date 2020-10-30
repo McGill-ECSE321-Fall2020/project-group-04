@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.smartgallery.service.BrowsingService;
-import ca.mcgill.ecse321.smartgallery.service.ListingService;
-import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
 import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
 import ca.mcgill.ecse321.smartgallery.dao.ArtworkRepository;
 import ca.mcgill.ecse321.smartgallery.dao.CustomerRepository;
@@ -28,13 +24,15 @@ import ca.mcgill.ecse321.smartgallery.dto.ArtworkDTO;
 import ca.mcgill.ecse321.smartgallery.dto.GalleryDTO;
 import ca.mcgill.ecse321.smartgallery.dto.ListingDTO;
 import ca.mcgill.ecse321.smartgallery.dto.SmartGalleryDTO;
-import ca.mcgill.ecse321.smartgallery.model.ArtStyle;
 import ca.mcgill.ecse321.smartgallery.model.Artist;
 import ca.mcgill.ecse321.smartgallery.model.Artwork;
 import ca.mcgill.ecse321.smartgallery.model.Customer;
 import ca.mcgill.ecse321.smartgallery.model.Gallery;
 import ca.mcgill.ecse321.smartgallery.model.Listing;
 import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
+import ca.mcgill.ecse321.smartgallery.service.BrowsingService;
+import ca.mcgill.ecse321.smartgallery.service.ListingService;
+import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
 
 @CrossOrigin(origins = "*")
 @RestController

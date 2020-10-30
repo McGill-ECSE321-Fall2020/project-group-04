@@ -48,6 +48,8 @@ public class BrowsingService {
 		Gallery gallery = new Gallery();
 		gallery.setGalleryName(galleryName);
 		gallery.setSmartGallery(smartGallery);
+		smartGallery.setGallery(gallery);
+		smartGalleryRepository.save(smartGallery);
 		gallery.setComissionPercentage(commission);
 		galleryRepository.save(gallery);
 		return gallery;
