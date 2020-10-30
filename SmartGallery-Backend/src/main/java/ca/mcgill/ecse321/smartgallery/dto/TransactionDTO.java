@@ -13,16 +13,16 @@ public class TransactionDTO {
 	private PaymentMethod paymentMethod;
 	private DeliveryMethod deliveryMethod;
 	private Date paymentDate;
-	private Set<ProfileDTO> profiles;
+	private CustomerDTO customer;
 	
 	public TransactionDTO() {
 		
 	}
 	
 	
-	public TransactionDTO(SmartGalleryDTO smartGallery, ListingDTO listing, Set<ProfileDTO> profiles, int transactionID,
+	public TransactionDTO(SmartGalleryDTO smartGallery, ListingDTO listing, CustomerDTO customer, int transactionID,
 			PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, Date paymentDate) {
-		this.profiles = profiles;
+		this.customer = customer;
 		this.smartGallery = smartGallery;
 		this.listing = listing;
 		this.transactionID = transactionID;
@@ -81,10 +81,11 @@ public class TransactionDTO {
 
 
 	/**
-	 * @return the profiles
+	 * @return the customer
 	 */
-	public Set<ProfileDTO> getProfiles() {
-		return profiles;
+	public CustomerDTO getCustomer() {
+		return customer;
 	}
+
 	
 }

@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.controller;
+package ca.mcgill.ecse321.smartgallery.controller;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -179,7 +179,7 @@ public class Converters {
 		}
 
 		return new TransactionDTO(convertToDto(transaction.getSmartGallery()), convertToDto(transaction.getListing()),
-				convertToDto(transaction.getProfile()), transaction.getTransactionID(), transaction.getPaymentMethod(),
+				convertToDto(transaction.getCustomer()), transaction.getTransactionID(), transaction.getPaymentMethod(),
 				transaction.getDeliveryMethod(), transaction.getPaymentDate());
 	}
 	
