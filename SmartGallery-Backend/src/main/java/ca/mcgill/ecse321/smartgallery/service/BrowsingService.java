@@ -59,6 +59,7 @@ public class BrowsingService {
 	}
 	
 	@Transactional
+
 	public void promoteArtwork(int artworkID) {
 		artworkRepository.findArtworkByArtworkID(artworkID).setIsBeingPromoted(true);
 	}

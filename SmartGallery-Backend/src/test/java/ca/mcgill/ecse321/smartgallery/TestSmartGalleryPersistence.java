@@ -105,13 +105,13 @@ public class TestSmartGalleryPersistence {
 	}
 	
 	public Transaction createTransaction(int transactionID, PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, SmartGallery smartGallery, 
-			Set<Profile> profiles, Date paymentDate, Listing listing)
+			Customer customer, Date paymentDate, Listing listing)
 	{
 		Transaction transaction = new Transaction();
 		transaction.setTransactionID(transactionID);
 		transaction.setPaymentMethod(paymentMethod);
 		transaction.setDeliveryMethod(deliveryMethod);
-		transaction.setProfile(profiles);
+		transaction.setCustomer(customer);
 		transaction.setPaymentDate(paymentDate);
 		transaction.setListing(listing);
 		transaction.setSmartGallery(smartGallery);
@@ -276,12 +276,9 @@ public class TestSmartGalleryPersistence {
 		System.out.println(artwork.getListing().getListingID());		
 		
 		int transactionID = 1234;
-		HashSet<Profile> profiles = new HashSet<Profile>();
-		profiles.add(artist);
-		profiles.add(customer);
 		Date paymentDate = Date.valueOf(str);//converting string into sql date
 		Transaction transaction = createTransaction(transactionID, PaymentMethod.CREDIT, DeliveryMethod.PICKUP, smartGallery, 
-				profiles, paymentDate, listing);
+				customer, paymentDate, listing);
 		transaction = null;
 		transaction = transactionRepository.findTransactionByTransactionID(transactionID);
 		

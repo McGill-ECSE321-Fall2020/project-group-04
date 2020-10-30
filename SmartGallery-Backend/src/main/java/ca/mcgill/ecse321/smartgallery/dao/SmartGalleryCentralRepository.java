@@ -95,13 +95,13 @@ public class SmartGalleryCentralRepository {
 	
 	@Transactional 
 	public Transaction createTransaction(int transactionID, PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, SmartGallery smartGallery, 
-			Set<Profile> profiles, Date paymentDate, Listing listing)
+			Customer customer, Date paymentDate, Listing listing)
 	{
 		Transaction transaction = new Transaction();
 		transaction.setTransactionID(transactionID);
 		transaction.setPaymentMethod(paymentMethod);
 		transaction.setDeliveryMethod(deliveryMethod);
-		transaction.setProfile(profiles);
+		transaction.setCustomer(customer);
 		transaction.setPaymentDate(paymentDate);
 		transaction.setListing(listing);
 		entityManager.persist(transaction);

@@ -37,7 +37,9 @@ public class PurchaseService {
 	 */
 	@Transactional
 	public Transaction createTransaction(PaymentMethod paymentMethod, DeliveryMethod deliveryMethod,
-			SmartGallery smartGallery, Set<Profile> profiles, Date paymentDate, Listing listing) {
+
+			SmartGallery smartGallery, Customer customer, Date paymentDate, Listing listing) {
+
 
 		// Find customer id
 		String error = "";
@@ -54,7 +56,7 @@ public class PurchaseService {
 			error += "System must be specified";
 		}
 
-		if (profiles.size() == 0) {
+		if (customer == null) {
 			error += "Customers/Artists must be specified";
 		}
 
@@ -70,19 +72,12 @@ public class PurchaseService {
 			throw new IllegalArgumentException(error);
 		}
 
-		String customerID = "";
-
-		for (Profile p : profiles) {
-			if (p instanceof Customer) {
-				customerID += p.getUsername();
-			}
-		}
 
 		Transaction transaction = new Transaction();
-		transaction.setTransactionID(customerID.hashCode() * listing.getListingID());
+		transaction.setTransactionID(customer.getUsername().hashCode() * listing.getListingID());
 		transaction.setPaymentMethod(paymentMethod);
 		transaction.setDeliveryMethod(deliveryMethod);
-		transaction.setProfile(profiles);
+		transaction.setCustomer(customer);
 		transaction.setPaymentDate(paymentDate);
 		transaction.setListing(listing);
 		listing.setIsSold(true);

@@ -26,6 +26,8 @@ public class ListingController {
 
 	@Autowired
 	private ListingService listingService;
+
+
 	@Autowired
 	private ArtworkRepository artworkRepository;
 	@Autowired
@@ -37,6 +39,7 @@ public class ListingController {
 		return listingService.getAllListings().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
+
 
 	@PostMapping(value = { "/listing/{listingID}", "/listing/listingID}/" })
 	public ListingDTO createListing(@PathVariable("artwork") int artworkID,

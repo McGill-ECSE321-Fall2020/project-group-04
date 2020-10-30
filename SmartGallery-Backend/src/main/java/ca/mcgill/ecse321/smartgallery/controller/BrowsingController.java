@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import ca.mcgill.ecse321.smartgallery.service.BrowsingService;
 import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
 import ca.mcgill.ecse321.smartgallery.dao.ArtworkRepository;
@@ -31,6 +32,7 @@ import ca.mcgill.ecse321.smartgallery.service.BrowsingService;
 public class BrowsingController {
 
 	@Autowired
+
 	private static ArtistRepository artistRepository;
 	@Autowired
 	private static ArtworkRepository artworkRepository;
@@ -63,7 +65,7 @@ public class BrowsingController {
 		}
 		return smartGalleryDTOs;
 	}
-	
+
 	@PostMapping(value = {"/gallery/{smartGalleryID}/{galleryName}/{commission}",
 			"/gallery/{smartGalleryID}/{galleryName}/{commission}/" })
 	public GalleryDTO createGallery(@PathVariable("smartGalleryID") int smartGalleryID,

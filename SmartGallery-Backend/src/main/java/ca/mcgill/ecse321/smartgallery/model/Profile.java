@@ -53,17 +53,6 @@ public void setSmartGallery(SmartGallery smartGallery) {
    this.smartGallery = smartGallery;
 }
 
-private Set<Transaction> transaction;
-
-@ManyToMany(mappedBy="profile")
-public Set<Transaction> getTransaction() {
-   return this.transaction;
-}
-
-public void setTransaction(Set<Transaction> transactions) {
-   this.transaction = transactions;
-}
-
 private Date creationDate;
 
 public void setCreationDate(Date value) {
