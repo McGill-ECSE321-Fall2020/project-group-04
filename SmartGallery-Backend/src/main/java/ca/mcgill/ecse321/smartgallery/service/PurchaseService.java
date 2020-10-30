@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.service;
+package ca.mcgill.ecse321.smartgallery.service;
 
 import java.sql.Date;
 import java.util.ArrayList;

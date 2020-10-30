@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.controller;
+package ca.mcgill.ecse321.smartgallery.controller;
 
 import java.util.HashSet;
 import java.util.Set;

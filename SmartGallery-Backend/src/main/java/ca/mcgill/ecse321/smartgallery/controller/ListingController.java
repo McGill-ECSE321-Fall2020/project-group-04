@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.controller;
+package ca.mcgill.ecse321.smartgallery.controller;
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.smartgallery.dto.*;
 import ca.mcgill.ecse321.smartgallery.model.*;
-import ca.mcgill.ecse321.service.ListingService;
+import ca.mcgill.ecse321.smartgallery.service.ListingService;
 import ca.mcgill.ecse321.smartgallery.dao.*;
 //import ca.mcgill.ecse321.controller.*;
 //import ca.mcgill.ecse321.controller.*;
@@ -30,13 +30,13 @@ public class ListingController {
 	private GalleryRepository galleryRepository;
 	
 
-	@GetMapping(value = { "/listings/", "/listings/" })
+	@GetMapping(value = { "/listing", "/listing/" })
 	public List<ListingDTO> getAllListings() {
 		return listingService.getAllListings().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 
-	@PostMapping(value = { "/listing/", "/listing/" })
+	@PostMapping(value = { "/listing/{listingID}", "/listing/listingID}/" })
 	public ListingDTO createListing(@PathVariable("artwork") int artworkID,
 			@PathVariable("dateListed") Date dateListed, @PathVariable("price") double price,
 			@PathVariable("gallery") String galleryName) throws IllegalArgumentException {

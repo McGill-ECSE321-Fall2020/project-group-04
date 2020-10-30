@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.controller;
+package ca.mcgill.ecse321.smartgallery.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.service.BrowsingService;
+
 import ca.mcgill.ecse321.smartgallery.dto.SmartGalleryDTO;
 import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
+import ca.mcgill.ecse321.smartgallery.service.BrowsingService;
 
 @CrossOrigin(origins = "*")
 @RestController

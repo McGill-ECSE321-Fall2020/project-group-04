@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.controller;
+package ca.mcgill.ecse321.smartgallery.controller;
 
 import java.sql.Date;
 import java.util.Set;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.service.PurchaseService;
 import ca.mcgill.ecse321.smartgallery.dto.ListingDTO;
 import ca.mcgill.ecse321.smartgallery.dto.ProfileDTO;
 import ca.mcgill.ecse321.smartgallery.dto.SmartGalleryDTO;
@@ -20,6 +19,7 @@ import ca.mcgill.ecse321.smartgallery.dto.TransactionDTO;
 import ca.mcgill.ecse321.smartgallery.model.DeliveryMethod;
 import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
 import ca.mcgill.ecse321.smartgallery.model.Transaction;
+import ca.mcgill.ecse321.smartgallery.service.PurchaseService;
 
 @CrossOrigin(origins = "*")
 @RestController
