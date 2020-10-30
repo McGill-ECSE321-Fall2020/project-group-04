@@ -21,6 +21,8 @@ public class RegistrationService {
 	@Autowired
 	private ArtistRepository artistRepository;
 	
+	/* **** CUSTOMER METHODS **** */
+	
 	/**
 	 * @author roeywine
 	 * Method that creates and saves a customer
@@ -29,13 +31,42 @@ public class RegistrationService {
 	 * @param password 				Password for the profile
 	 * @param email 				Email to be used in the profile
 	 * @param defaultPaymentMethod 	A default payment method for purchases
-	 * @param creationDate 			Date the customer profile was created
-	 * @param smartGallery 			The smartGallery system
 	 * @return customer				The created customer
 	 */
 	@Transactional
-	public Customer createCustomer(String username, String password, String email, PaymentMethod defaultPaymentMethod,
-			Date creationDate, SmartGallery smartGallery) {
+	public Customer createCustomer(String username, String password, String email, PaymentMethod defaultPaymentMethod) {
+		
+		// The first section of this method tests for valid inputs
+		String error = "";
+		
+		// Checking if username exists already
+		if (getCustomer(username) != null) { 
+			error += "Username already exists";
+		}
+		
+		// Checks if password is null or not long enough
+		if (password == null || password.length() < 6) {
+			error += "Password with 7 or more characters is required";
+		}
+		
+		// Checks if email is valid **could be improved**
+		if (email == null || email.equals("")) {
+			error += "Non empty email must be provided";
+		}
+		
+		// Checks if payment method is set correctly
+		if (!defaultPaymentMethod.equals(PaymentMethod.CREDIT) || !defaultPaymentMethod.equals(PaymentMethod.PAYPAL)) {
+			error += "Default payment method must be set to 'credit' or 'paypal'";
+		}
+		
+		// If an error is found, throw an exception
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+
+		// Set the current date as creation date
+		long millis = System.currentTimeMillis();  
+		Date creationDate = new java.sql.Date(millis);  
 		
 		// Create a customer object and initialize all parameters
 		Customer customer = new Customer();
@@ -44,7 +75,9 @@ public class RegistrationService {
 		customer.setEmail(email);
 		customer.setDefaultPaymentMethod(defaultPaymentMethod);
 		customer.setCreationDate(creationDate);
-		customer.setSmartGallery(smartGallery);
+		customer.setArtworksViewed(null);
+		customer.setTransaction(null);
+		// customer.setSmartGallery(smartGallery); ** Not sure how to do this **
 		customerRepository.save(customer);		// Save to customer repository
 		return customer;						// Return customer with updated parameters
 	}
@@ -55,13 +88,29 @@ public class RegistrationService {
 	 * 
 	 * @param username 				Username for the profile
 	 * @return customer				The customer given by username
-	 */
+	 */ 
 	@Transactional
 	public Customer getCustomer(String username) {
 		
-		// Uses existing method in customer repository to find a customer by username
-		Customer customer = customerRepository.findCustomerByUsername(username);
-		return customer;
+		if (username != null) {
+			
+			// Uses existing method in customer repository to find a customer by username
+			Customer customer = customerRepository.findCustomerByUsername(username);
+			
+			// If the customer doesn't exist, throw an error
+			if (customer == null) {
+				String error = "Customer doesn't exist";
+				throw new IllegalArgumentException(error);
+			}
+			
+			// Otherwise return the found customer
+			return customer;
+		}
+		
+		// If the username input is null, return null
+		else {
+			return null;
+		}
 	}
 	
 	/**
@@ -79,21 +128,79 @@ public class RegistrationService {
 	
 	/**
 	 * @author roeywine
+	 * Method that deletes a customer profile
+	 * 
+	 * @param username				Username for the account being deleted
+	 */
+	public void deleteCustomer(String username) {
+		
+		if (username != null) {
+			
+			// Uses existing method in customer repository to find a customer by username
+			Customer customer = customerRepository.findCustomerByUsername(username);
+			
+			// If the customer doesn't exist, throw an error
+			if (customer == null) {
+				String error = "Customer doesn't exist";
+				throw new IllegalArgumentException(error);
+			}
+			
+			// ** Will need to delete transactions
+			// Delete customer from repository
+			customerRepository.delete(customer);
+		}
+	}
+	
+	
+	/* **** ARTIST METHODS **** */
+	
+	/**
+	 * @author roeywine
 	 * Method that creates and saves an artist
 	 * 
 	 * @param username 				Username for the profile
 	 * @param password 				Password for the profile
 	 * @param email 				Email to be used in the profile
 	 * @param defaultPaymentMethod 	A default payment method for purchases
-	 * @param creationDate 			Date the customer profile was created
 	 * @param isVerified			Whether or not the author is verified by the system
-	 * @param smartGallery 			The smartGallery system
 	 * @return artist				The artist created
 	 */
 	@Transactional
 	public Artist createArtist(String username, String password, String email, PaymentMethod defaultPaymentMethod,
-			Date creationDate, boolean isVerified, SmartGallery smartGallery) {
+			boolean isVerified) {
 		
+		// The first section of this method tests for valid inputs
+		String error = "";
+
+		// Checking if username exists already
+		if (getArtist(username) != null) { 
+			error += "Username already exists";
+		}
+
+		// Checks if password is null or not long enough
+		if (password == null || password.length() < 6) {
+			error += "Password with 7 or more characters is required";
+		}
+
+		// Checks if email is valid **could be improved**
+		if (email == null || email.equals("")) {
+			error += "Non empty email must be provided";
+		}
+
+		// Checks if payment method is set correctly
+		if (!defaultPaymentMethod.equals(PaymentMethod.CREDIT) || !defaultPaymentMethod.equals(PaymentMethod.PAYPAL)) {
+			error += "Default payment method must be set to 'credit' or 'paypal'";
+		}
+
+		// If an error is found, throw an exception
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+
+		// Set the current date as creation date
+		long millis = System.currentTimeMillis();  
+		Date creationDate = new java.sql.Date(millis);  
+
 		// Create a customer object and initialize all parameters
 		Artist artist = new Artist();
 		artist.setUsername(username);
@@ -102,7 +209,6 @@ public class RegistrationService {
 		artist.setDefaultPaymentMethod(defaultPaymentMethod);
 		artist.setCreationDate(creationDate);
 		artist.setIsVerified(false); 			// When an artists profile is made, they are not verified initially
-		artist.setSmartGallery(smartGallery);
 		artistRepository.save(artist);			// Save to customer repository
 		return artist;							// Return artist with updated parameters
 	}
@@ -117,9 +223,25 @@ public class RegistrationService {
 	@Transactional
 	public Artist getArtist(String username) {
 		
-		// Uses existing method in artist repository to find an artist by username
-		Artist artist = artistRepository.findArtistByUsername(username);
-		return artist;
+		if (username != null) {
+
+			// Uses existing method in artist repository to find an artist by username
+			Artist artist = artistRepository.findArtistByUsername(username);
+
+			// If the artist doesn't exist, throw an error
+			if (artist == null) {
+				String error = "Artist doesn't exist";
+				throw new IllegalArgumentException(error);
+			}
+
+			// Otherwise return the found artist
+			return artist;
+		}
+
+		// If the username input is null, return null
+		else {
+			return null;
+		}
 	}
 	
 	/**
@@ -178,6 +300,32 @@ public class RegistrationService {
 	public List<Artist> getAllNonVerifiedArtists() {
 		return artistRepository.findArtistByIsVerified(false);
 	}
+	
+	/**
+	 * @author roeywine
+	 * Method that deletes an artist profile
+	 * 
+	 * @param username				Username for the account being deleted
+	 */
+	public void deleteArtist(String username) {
+		
+		if (username != null) {
+			
+			// Uses existing method in artist repository to find an artist by username
+			Artist artist = artistRepository.findArtistByUsername(username);
+			
+			// If the artist doesn't exist, throw an error
+			if (artist == null) {
+				String error = "Artist doesn't exist";
+				throw new IllegalArgumentException(error);
+			}
+			
+			// ** Will need to delete transactions and artworks
+			// Delete artist from repository
+			artistRepository.delete(artist);
+		}
+	}
+	
 	
 	// Helper method to retrieve lists of objects
 	private <T> List<T> toList(Iterable<T> iterable){

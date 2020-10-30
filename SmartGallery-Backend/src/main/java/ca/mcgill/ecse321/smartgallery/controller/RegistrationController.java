@@ -34,8 +34,7 @@ public class RegistrationController {
 			@PathVariable("password") String password, @PathVariable("email") String email,
 			@RequestParam PaymentMethod defaultPaymentMethod, @RequestParam Date creationDate,
 			@RequestParam(name = "smartGallery") SmartGallery smartGallery) throws IllegalArgumentException {
-		Customer customer = registrationService.createCustomer(username, password, email, defaultPaymentMethod,
-				creationDate, smartGallery);
+		Customer customer = registrationService.createCustomer(username, password, email, defaultPaymentMethod);
 		return Converters.convertToDto(customer);
 	}
 }
