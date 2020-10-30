@@ -47,7 +47,7 @@ public void setSmartGallery(SmartGallery smartGallery) {
 }
 private Customer customer;
 
-@ManyToOne(optional=false)
+@ManyToOne
 public Customer getCustomer() {
    return this.customer;
 }
