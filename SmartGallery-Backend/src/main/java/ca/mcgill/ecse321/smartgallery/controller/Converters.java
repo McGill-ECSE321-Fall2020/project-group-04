@@ -20,11 +20,14 @@ import ca.mcgill.ecse321.smartgallery.dto.ListingDTO;
 import ca.mcgill.ecse321.smartgallery.dto.ProfileDTO;
 import ca.mcgill.ecse321.smartgallery.dto.SmartGalleryDTO;
 import ca.mcgill.ecse321.smartgallery.dto.TransactionDTO;
+import ca.mcgill.ecse321.smartgallery.model.ArtStyle;
 import ca.mcgill.ecse321.smartgallery.model.Artist;
 import ca.mcgill.ecse321.smartgallery.model.Artwork;
 import ca.mcgill.ecse321.smartgallery.model.Customer;
+import ca.mcgill.ecse321.smartgallery.model.DeliveryMethod;
 import ca.mcgill.ecse321.smartgallery.model.Gallery;
 import ca.mcgill.ecse321.smartgallery.model.Listing;
+import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
 import ca.mcgill.ecse321.smartgallery.model.Profile;
 import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
 import ca.mcgill.ecse321.smartgallery.model.Transaction;
@@ -281,4 +284,57 @@ public class Converters {
 		Transaction transaction = transactionRepository.findTransactionByTransactionID(transactionDTO.getTransactionID());
 		return transaction;
 	}
+	
+	/**
+	 * Converts a string to its ArtStyle enum equivalent
+	 * @param artStyle The ArtStyle string to convert
+	 * @return ArtStyle
+	 */
+	public static ArtStyle convertStringToArtStyle(String artStyle) {
+		switch (artStyle.toLowerCase()) {
+		case "realist":
+			return ArtStyle.REALIST;
+		case "rennaisance":
+			return ArtStyle.RENAISSANCE;
+		case "surrealist":
+			return ArtStyle.SURREALIST;
+		case "impressionist":
+			return ArtStyle.IMPRESSIONIST;
+		default:
+			throw new IllegalArgumentException("No corresponding art style to input");
+		}
+	}
+	
+	/**
+	 * Converts a string to its DeliveryMethod enum equivalent
+	 * @param deliveryMethod The DeliveryMethod string to convert
+	 * @return DeliveryMethod
+	 */
+	public static DeliveryMethod convertStringToDeliveryMethod(String deliveryMethod) {
+		switch (deliveryMethod.toLowerCase()) {
+		case "pickup":
+			return DeliveryMethod.PICKUP;
+		case "shipping":
+			return DeliveryMethod.SHIPPING;
+		default:
+			throw new IllegalArgumentException("No corresponding delivery method to input");
+		}
+	}
+	
+	/**
+	 * Converts a string to its PaymentMethod enum equivalent
+	 * @param paymentMethod The PaymentMethod string to convert
+	 * @return PaymentMethod
+	 */
+	public static PaymentMethod convertStringToPaymentMethod(String paymentMethod) {
+		switch (paymentMethod.toLowerCase()) {
+		case "credit":
+			return PaymentMethod.CREDIT;
+		case "paypal":
+			return PaymentMethod.PAYPAL;
+		default:
+			throw new IllegalArgumentException("No corresponding payment method to input");
+		}
+	}
+
 }
