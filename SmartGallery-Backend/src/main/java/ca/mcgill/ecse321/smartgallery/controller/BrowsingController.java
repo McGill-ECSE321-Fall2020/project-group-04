@@ -176,6 +176,16 @@ public class BrowsingController {
 		return browsingService.getAllPromotedArtworks().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
+	
+	@GetMapping(value = { "/smartGallery/{smartGalleryID}", "/smartGallery/{smartGalleryID}/" })
+	public SmartGalleryDTO getSmartGalleryByID(@PathVariable("smartGalleryID") int smartGalleryID) {
+		return Converters.convertToDto(browsingService.getSmartGalleryByID(smartGalleryID));
+	}
+	
+	@GetMapping(value = { "/gallery/{galleryName}", "/gallery/{galleryName}/" })
+	public GalleryDTO getGalleryByID(@PathVariable("galleryName") String galleryName) {
+		return Converters.convertToDto(browsingService.getGalleryByName(galleryName));
+	}
 
 
 }

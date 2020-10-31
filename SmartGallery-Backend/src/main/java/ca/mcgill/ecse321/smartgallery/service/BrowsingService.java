@@ -32,6 +32,10 @@ public class BrowsingService {
 
 	@Transactional
 	public SmartGallery createSmartGallery(int smartGalleryID) {
+		// Checking if ID exists already
+		if (getSmartGalleryByID(smartGalleryID) != null) {
+			throw new IllegalArgumentException("A smartGallery with that ID already exists");
+		}
 		SmartGallery smartGallery = new SmartGallery();
 		smartGallery.setSmartGalleryID(smartGalleryID);
 		smartGalleryRepository.save(smartGallery);
@@ -44,7 +48,25 @@ public class BrowsingService {
 	}
 
 	@Transactional
+	public SmartGallery getSmartGalleryByID(int smartGalleryID) {
+		// Uses existing method in smartGallery repository to find a smartGallery by ID
+		SmartGallery smartGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(smartGalleryID);
+
+		// If the smartGallery doesn't exist, throw an error
+		if (smartGallery == null) {
+			throw new IllegalArgumentException("smartGallery doesn't exist");
+		}
+
+		// Otherwise return the found smartGallery
+		return smartGallery;
+	}
+
+	@Transactional
 	public Gallery createGallery(String galleryName, SmartGallery smartGallery, double commission) {
+		// Checking if ID exists already
+		if (getGalleryByName(galleryName) != null) {
+			throw new IllegalArgumentException("A gallery with that name already exists");
+		}
 		Gallery gallery = new Gallery();
 		gallery.setGalleryName(galleryName);
 		gallery.setSmartGallery(smartGallery);
@@ -59,6 +81,20 @@ public class BrowsingService {
 	public List<Gallery> getAllGalleries() {
 		return toList(galleryRepository.findAll());
 	}
+	
+	@Transactional
+	public Gallery getGalleryByName(String galleryName) {
+		// Uses existing method in gallery repository to find a gallery by name
+		Gallery gallery = galleryRepository.findGalleryByGalleryName(galleryName);
+
+		// If the gallery doesn't exist, throw an error
+		if (gallery == null) {
+			throw new IllegalArgumentException("gallery doesn't exist");
+		}
+
+		// Otherwise return the found gallery
+		return gallery;
+	}
 
 	@Transactional
 	public Artwork promoteArtwork(Artwork artwork) {
@@ -70,7 +106,7 @@ public class BrowsingService {
 	@Transactional
 	public Artwork unpromoteArtwork(Artwork artwork) {
 		artwork.setIsBeingPromoted(false);
-		artworkRepository.save(artwork);	
+		artworkRepository.save(artwork);
 		return artwork;
 	}
 
@@ -89,26 +125,6 @@ public class BrowsingService {
 			}
 		}
 		return results;
-	}
-
-	@Transactional
-	public Artist findArtistByUsername(String username) {
-		return artistRepository.findArtistByUsername(username);
-	}
-
-	@Transactional
-	public List<Artist> findArtistByUsernameContaining(String usernameFragment) {
-		return artistRepository.findArtistByUsernameContaining(usernameFragment);
-	}
-
-	@Transactional
-	public List<Artwork> findArtworkByName(String name) {
-		return artworkRepository.findArtworkByName(name);
-	}
-
-	@Transactional
-	public List<Artwork> findArtworkByNameContaining(String nameFragment) {
-		return artworkRepository.findArtworkByNameContaining(nameFragment);
 	}
 
 	@Transactional
