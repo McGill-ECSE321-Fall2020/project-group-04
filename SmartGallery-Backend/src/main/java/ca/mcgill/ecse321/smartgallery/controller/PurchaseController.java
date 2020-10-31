@@ -55,9 +55,10 @@ public class PurchaseController {
 	 * @throws IllegalArgumentException
 	 */
 	@PostMapping(value = { "/transaction", "/transaction/" })
-	public TransactionDTO createTransaction(@RequestParam String paymentMethod, @RequestParam String deliveryMethod,
-			@RequestParam String username, @DateTimeFormat(pattern = "MM/dd/yyyy") Date paymentDate,
-			@RequestParam int listingID) throws IllegalArgumentException {
+	public TransactionDTO createTransaction(@RequestParam("paymentMethod") String paymentMethod,
+			@RequestParam("deliveryMethod") String deliveryMethod, @RequestParam("username") String username,
+			@DateTimeFormat(pattern = "MM/dd/yyyy") Date paymentDate, @RequestParam("listingID") int listingID)
+			throws IllegalArgumentException {
 
 		// Find objects
 		Listing listing = listingService.getListingByID(listingID);
@@ -78,6 +79,16 @@ public class PurchaseController {
 	public List<TransactionDTO> getTransactions() {
 		return purchaseService.getAllTransactions().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
+	}
+
+	/**
+	 * 
+	 * @return transaction corresponding to that id
+	 */
+	@GetMapping(value = { "/transaction/{id}", "/transaction/{id}/" })
+	public TransactionDTO getTransactionById(@PathVariable("id") int transactionID) {
+		Transaction transaction = purchaseService.getTransactionByID(transactionID);
+		return Converters.convertToDto(transaction);
 	}
 
 	/**

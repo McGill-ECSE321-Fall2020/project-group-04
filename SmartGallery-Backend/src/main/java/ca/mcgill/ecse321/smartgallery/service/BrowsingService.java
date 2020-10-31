@@ -36,12 +36,18 @@ public class BrowsingService {
 		if (getSmartGalleryByID(smartGalleryID) != null) {
 			throw new IllegalArgumentException("A smartGallery with that ID already exists");
 		}
+		
+		if(smartGalleryID == 0) {
+			throw new IllegalArgumentException("Id must not be zero");
+		}
+		
 		SmartGallery smartGallery = new SmartGallery();
 		smartGallery.setSmartGalleryID(smartGalleryID);
 		smartGalleryRepository.save(smartGallery);
 		return smartGallery;
 	}
 
+	
 	@Transactional
 	public List<SmartGallery> getAllSmartGalleries() {
 		return toList(smartGalleryRepository.findAll());

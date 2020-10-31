@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.smartgallery;
+package ca.mcgill.ecse321.smartgallery.service;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

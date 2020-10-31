@@ -55,27 +55,29 @@ public class PurchaseService {
 		String error = "";
 
 		if (paymentMethod == null) {
-			error += "Payment method must be specified";
+			error += "Payment method must be specified\n";
 		}
 
 		if (deliveryMethod == null) {
-			error += "Delivery method must be specified";
+			error += "Delivery method must be specified\n";
 		}
 
 		if (smartGallery == null) {
-			error += "System must be specified";
+			error += "System must be specified\n";
 		}
 
 		if (customer == null) {
-			error += "Customers/Artists must be specified";
+			error += "Customers must be specified\n";
 		}
 
 		if (paymentDate == null) {
-			error += "Payment date must be specified";
+			error += "Payment date must be specified\n";
 		}
 
-		if (listing == null || listing.isIsSold()) {
-			error += "Listing must exist";
+		if (listing == null) {
+			error += "Listing must exist\n";
+		} else if (listing.isIsSold()) {
+			error += "Listing has already been sold\n";
 		}
 
 		if (error.length() > 0) {
@@ -87,7 +89,10 @@ public class PurchaseService {
 		transaction.setPaymentMethod(paymentMethod);
 		transaction.setDeliveryMethod(deliveryMethod);
 		transaction.setCustomer(customer);
-		HashSet<Transaction> tSet = new HashSet<>(customer.getTransaction());
+		HashSet<Transaction> tSet = new HashSet<>();
+		if (customer.getTransaction() != null) {
+			tSet = new HashSet<>(customer.getTransaction());
+		}
 		tSet.add(transaction);
 		customer.setTransaction(tSet);
 		transaction.setPaymentDate(paymentDate);
@@ -95,7 +100,10 @@ public class PurchaseService {
 		listing.setIsSold(true);
 		listing.setTransaction(transaction);
 		transaction.setSmartGallery(smartGallery);
-		tSet = new HashSet<Transaction>(smartGallery.getTransaction());
+		tSet = new HashSet<Transaction>();
+		if (smartGallery.getTransaction() != null) {
+			tSet = new HashSet<>(smartGallery.getTransaction());
+		}
 		tSet.add(transaction);
 		smartGallery.setTransaction(tSet);
 		customerRepository.save(customer);
@@ -111,17 +119,13 @@ public class PurchaseService {
 	 * @return transaction associated to this id
 	 */
 	@Transactional
-	public Transaction getTransactionByID(String customerName, Integer listingID) {
+	public Transaction getTransactionByID(int transactionID) {
 
-		if (customerName == null) {
-			throw new IllegalArgumentException("Must provide valid customer username");
+		if (transactionID == 0) {
+			throw new IllegalArgumentException("Must provide valid id");
 		}
 
-		if (listingID == null) {
-			throw new IllegalArgumentException("Must provide an id");
-		}
-
-		return transactionRepository.findTransactionByTransactionID(customerName.hashCode() * listingID);
+		return transactionRepository.findTransactionByTransactionID(transactionID);
 	}
 
 	/**
@@ -150,7 +154,6 @@ public class PurchaseService {
 		}
 
 		// TODO Check for date format
-
 		return transactionRepository.findTransactionByPaymentDate(date);
 	}
 
