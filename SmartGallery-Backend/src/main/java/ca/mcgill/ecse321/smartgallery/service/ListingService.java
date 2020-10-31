@@ -289,9 +289,9 @@ public class ListingService {
 	}
 	
 	@Transactional
-	public boolean deleteListingAndArtwork(Listing listing) {
+	public Artwork deleteListingAndArtwork(Listing listing) {
 		
-		boolean deleted = false;
+	
 		String error = "";
 		if(listing == null) {
 			error += "Listing must be specified";
@@ -314,10 +314,10 @@ public class ListingService {
 		{
 			listingRepository.delete(listing);
 			artworkRepository.delete(artwork);
-			deleted  = true;
+			
 		}
 		
-		return deleted;
+		return artwork;
 	}
 	
 	@Transactional
