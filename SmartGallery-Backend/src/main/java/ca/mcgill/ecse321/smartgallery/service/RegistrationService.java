@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.mcgill.ecse321.smartgallery.controller.Converters;
 import ca.mcgill.ecse321.smartgallery.dao.*;
 import ca.mcgill.ecse321.smartgallery.model.*;
 
@@ -33,14 +34,18 @@ public class RegistrationService {
 	 * @return customer The created customer
 	 */
 	@Transactional
-	public Customer createCustomer(String username, String password, String email, PaymentMethod defaultPaymentMethod) {
+	public Customer createCustomer(String username, String password, String email, String defaultPaymentMethod) {
 
 		// The first section of this method tests for valid inputs
 		String error = "";
 
 		// Checking if username exists already
-		if (getCustomer(username) != null) {
-			error += "Username already exists";
+		try {
+			if (getCustomer(username) != null) {
+				error += "Username already exists";
+			}
+		}
+		catch (IllegalArgumentException e) {
 		}
 
 		// Checks if password is null or not long enough
@@ -54,7 +59,8 @@ public class RegistrationService {
 		}
 
 		// Checks if payment method is set correctly
-		if (!defaultPaymentMethod.equals(PaymentMethod.CREDIT) || !defaultPaymentMethod.equals(PaymentMethod.PAYPAL)) {
+		System.out.println(defaultPaymentMethod);
+		if (!defaultPaymentMethod.equals("credit") && !defaultPaymentMethod.equals("paypal")) {
 			error += "Default payment method must be set to 'credit' or 'paypal'";
 		}
 
@@ -72,7 +78,7 @@ public class RegistrationService {
 		customer.setUsername(username);
 		customer.setPassword(password);
 		customer.setEmail(email);
-		customer.setDefaultPaymentMethod(defaultPaymentMethod);
+		customer.setDefaultPaymentMethod(Converters.convertStringToPaymentMethod(defaultPaymentMethod));
 		customer.setCreationDate(creationDate);
 		customer.setArtworksViewed(null);
 		customer.setTransaction(null);
@@ -165,7 +171,7 @@ public class RegistrationService {
 	 * @return artist The artist created
 	 */
 	@Transactional
-	public Artist createArtist(String username, String password, String email, PaymentMethod defaultPaymentMethod) {
+	public Artist createArtist(String username, String password, String email, String defaultPaymentMethod) {
 
 		// The first section of this method tests for valid inputs
 		String error = "";
@@ -186,7 +192,7 @@ public class RegistrationService {
 		}
 
 		// Checks if payment method is set correctly
-		if (!defaultPaymentMethod.equals(PaymentMethod.CREDIT) || !defaultPaymentMethod.equals(PaymentMethod.PAYPAL)) {
+		if (!defaultPaymentMethod.equals("credit") || !defaultPaymentMethod.equals("paypal")) {
 			error += "Default payment method must be set to 'credit' or 'paypal'";
 		}
 
@@ -204,7 +210,7 @@ public class RegistrationService {
 		artist.setUsername(username);
 		artist.setPassword(password);
 		artist.setEmail(email);
-		artist.setDefaultPaymentMethod(defaultPaymentMethod);
+		artist.setDefaultPaymentMethod(Converters.convertStringToPaymentMethod(defaultPaymentMethod));
 		artist.setCreationDate(creationDate);
 		artist.setIsVerified(false); // When an artists profile is made, they are not verified initially
 		artistRepository.save(artist); // Save to customer repository

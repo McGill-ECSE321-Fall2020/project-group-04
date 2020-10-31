@@ -29,13 +29,12 @@ public class RegistrationController {
 				.collect(Collectors.toList());
 	}
 
-	@PostMapping(value = { "/customer/{username}", "/customer/{username}/" })
-	public CustomerDTO createCustomer(@RequestParam("username") String username,
-			@RequestParam("password") String password, @RequestParam("email") String email,
-			@RequestParam("defaultPaymentMethod") String defaultPaymentMethod,
-			@RequestParam("creationDate") Date creationDate) throws IllegalArgumentException {
-		Customer customer = registrationService.createCustomer(username, password, email,
-				Converters.convertStringToPaymentMethod(defaultPaymentMethod));
+	@PostMapping(value = { "/customer/{username}/{password}/{email}/{defaultPaymentMethod}" })
+	public CustomerDTO createCustomer(@PathVariable("username") String username,
+			@PathVariable("password") String password, @PathVariable("email") String email,
+			@PathVariable("defaultPaymentMethod") String defaultPaymentMethod) 
+			throws IllegalArgumentException {
+		Customer customer = registrationService.createCustomer(username, password, email, defaultPaymentMethod);
 		return Converters.convertToDto(customer);
 	}
 
@@ -53,10 +52,9 @@ public class RegistrationController {
 
 	@PostMapping(value = { "/artist/{username}", "/artist/{username}/" })
 	public ArtistDTO createArtist(@PathVariable("username") String username, @RequestParam("password") String password,
-			@RequestParam("email") String email, @RequestParam("defaultPaymentMethod") String defaultPaymentMethod,
-			@RequestParam("creationDate") Date creationDate) throws IllegalArgumentException {
-		Artist artist = registrationService.createArtist(username, password, email,
-				Converters.convertStringToPaymentMethod(defaultPaymentMethod));
+			@RequestParam("email") String email, @RequestParam("defaultPaymentMethod") String defaultPaymentMethod) 
+			throws IllegalArgumentException {
+		Artist artist = registrationService.createArtist(username, password, email, defaultPaymentMethod);
 		return Converters.convertToDto(artist);
 	}
 
