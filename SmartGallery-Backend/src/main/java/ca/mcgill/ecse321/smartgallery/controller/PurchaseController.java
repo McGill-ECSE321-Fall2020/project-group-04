@@ -25,7 +25,7 @@ import ca.mcgill.ecse321.smartgallery.service.PurchaseService;
 @RestController
 public class PurchaseController {
 
-	@Autowired
+	//@Autowired
 	private PurchaseService purchaseService;
 
 	@PostMapping(value = { "/transaction", "/transaction/" })

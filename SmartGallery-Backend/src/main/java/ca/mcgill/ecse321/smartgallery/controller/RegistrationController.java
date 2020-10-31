@@ -20,7 +20,7 @@ import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
 @RestController
 public class RegistrationController {
 
-	@Autowired
+	//@Autowired
 	private RegistrationService registrationService;
 
 	@GetMapping(value = { "/customer", "/customer/" })

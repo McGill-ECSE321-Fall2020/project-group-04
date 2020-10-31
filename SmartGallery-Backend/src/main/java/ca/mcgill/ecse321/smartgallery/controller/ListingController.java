@@ -24,7 +24,7 @@ import ca.mcgill.ecse321.smartgallery.dao.*;
 @RestController
 public class ListingController {
 
-	@Autowired
+	//@Autowired
 	private ListingService listingService;
 	private ArtworkRepository artworkRepository;
 	private GalleryRepository galleryRepository;
