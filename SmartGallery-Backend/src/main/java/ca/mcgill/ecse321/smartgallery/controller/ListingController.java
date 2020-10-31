@@ -83,7 +83,7 @@ public class ListingController {
 		
 	}
 	
-	@PutMapping(value = {"/artwork/addArtist/{artworkID}//{artistName}", "/artwork//addArtist/{artworkID}/{artistName}"})
+	@PutMapping(value = {"/artwork/addArtist/{artworkID}/{artistName}", "/artwork//addArtist/{artworkID}/{artistName}"})
 	public ArtworkDTO addArtistToArtwork(@PathVariable("artworkID") int artworkID, 
 			@PathVariable("artist") String artistName) throws IllegalArgumentException{
 		
@@ -94,7 +94,7 @@ public class ListingController {
 	}
 	
 	
-	@PutMapping(value = {"listing//updateArtwork/{listingID}", "listing//updateArtwork/{listingID}/"})
+	@PutMapping(value = {"listing/updateArtwork/{listingID}", "listing/updateArtwork/{listingID}/"})
 	public ArtworkDTO updateArtwork(@PathVariable("listing")int listingID, 
 			@RequestParam("artworkName")String name, 
 			@RequestParam("year")int year, 
@@ -109,6 +109,7 @@ public class ListingController {
 		return Converters.convertToDto(artwork);
 
 	}
+	
 	
 	
 	  
