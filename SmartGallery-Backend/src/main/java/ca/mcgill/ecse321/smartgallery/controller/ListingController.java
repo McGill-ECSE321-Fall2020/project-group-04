@@ -43,14 +43,14 @@ public class ListingController {
 				.collect(Collectors.toList());
 	}
 	
-	@GetMapping(value = { "/listing/{listingID}", "/listing/{listingID}" })
+	@GetMapping(value = { "/listing/{listingID}", "/listing/{listingID}/" })
 	public ListingDTO getListingByID(@PathVariable("listingID") int listingID) {
 		return Converters.convertToDto(listingService.getListingByID(listingID));
 				
 	}
 	
-	@GetMapping(value = { "/artwork/{artworkID}", "/listing/{artworkID}" })
-	public ArtworkDTO getArtworkByID(@PathVariable("listingID") int artworkID) {
+	@GetMapping(value = { "/artwork/{artworkID}", "/artwork/{artworkID}/" })
+	public ArtworkDTO getArtworkByID(@PathVariable("artworkID") int artworkID) {
 		return Converters.convertToDto(listingService.getArtworkByID(artworkID));
 				
 	}
@@ -83,7 +83,7 @@ public class ListingController {
 		
 	}
 	
-	@PutMapping(value = {"/artwork/addArtist/{artworkID}/{artistName}", "/artwork//addArtist/{artworkID}/{artistName}"})
+	@PutMapping(value = {"/artwork/addArtist/{artworkID}/{artistName}", "/artwork/addArtist/{artworkID}/{artistName}/"})
 	public ArtworkDTO addArtistToArtwork(@PathVariable("artworkID") int artworkID, 
 			@PathVariable("artist") String artistName) throws IllegalArgumentException{
 		
