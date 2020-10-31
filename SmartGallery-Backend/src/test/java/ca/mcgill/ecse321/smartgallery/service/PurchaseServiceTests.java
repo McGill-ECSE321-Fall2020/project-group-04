@@ -73,7 +73,11 @@ public class PurchaseServiceTests {
 	private static final String CUSTOMER_PASSWORD = "testcpass";
 	private static final Date CUSTOMER_CREATION_DATE = Date.valueOf("2020-09-01");
 	private static final PaymentMethod DEFAULTPAY = PaymentMethod.CREDIT;
-
+	
+	private static final String CUSTOMER_USERNAME2 = "testcustomer2";
+	private static final String CUSTOMER_EMAIL2 = "testcustomer2@email.com";
+	private static final String CUSTOMER_PASSWORD2 = "testcpass2";
+	private static final Date CUSTOMER_CREATION_DATE2 = Date.valueOf("2020-07-09");
 	// Artist Variables
 	private static final String ARTIST_USERNAME = "testartist";
 	private static final String ARTIST_EMAIL = "testartist@email.com";
@@ -108,7 +112,10 @@ public class PurchaseServiceTests {
 	private static final Date PAYMENT_DATE = Date.valueOf("2020-08-22");
 	private static final DeliveryMethod DELIVERY_METHOD = DeliveryMethod.PICKUP;
 	private static final int T_ID = CUSTOMER_USERNAME.hashCode() * L_ID;
+	private static Customer CUSTOMER1;
 
+	private static final Date WRONG_DATE = Date.valueOf("2018-05-06");
+	
 	@BeforeEach
 	public void setMockOutput() {
 		MockitoAnnotations.initMocks(this);
@@ -143,6 +150,14 @@ public class PurchaseServiceTests {
 						customer.setPassword(CUSTOMER_PASSWORD);
 						customer.setEmail(CUSTOMER_EMAIL);
 						customer.setCreationDate(CUSTOMER_CREATION_DATE);
+						customer.setDefaultPaymentMethod(DEFAULTPAY);
+						return customer;
+					}else if(invocation.getArgument(0).equals(CUSTOMER_USERNAME2)) {
+						Customer customer = new Customer();
+						customer.setUsername(CUSTOMER_USERNAME2);
+						customer.setPassword(CUSTOMER_PASSWORD2);
+						customer.setEmail(CUSTOMER_EMAIL2);
+						customer.setCreationDate(CUSTOMER_CREATION_DATE2);
 						customer.setDefaultPaymentMethod(DEFAULTPAY);
 						return customer;
 					} else {
@@ -227,42 +242,34 @@ public class PurchaseServiceTests {
 
 		lenient().when(transactionRepository.findTransactionByCustomer(any(Customer.class)))
 				.thenAnswer((InvocationOnMock invocation) -> {
-					Customer customer = new Customer();
-					customer.setUsername(CUSTOMER_USERNAME);
-					customer.setPassword(CUSTOMER_PASSWORD);
-					customer.setEmail(CUSTOMER_EMAIL);
-					customer.setCreationDate(CUSTOMER_CREATION_DATE);
-					customer.setDefaultPaymentMethod(DEFAULTPAY);
-					if (invocation.getArgument(0).equals(customer)) {
+					if (invocation.getArgument(0).equals(CUSTOMER1)) {
 						List<Transaction> transactions = new ArrayList<>();
 						Transaction transaction = new Transaction();
 						transaction.setTransactionID(T_ID);
-						transaction.setCustomer(customer);
+						transaction.setCustomer(CUSTOMER1);
 						transactions.add(transaction);
-						customer.setTransaction(new HashSet<>(transactions));
+						CUSTOMER1.setTransaction(new HashSet<>(transactions));
 						return transactions;
-					}else {
+					} else {
 						return null;
 					}
 				});
-		
+
 		lenient().when(transactionRepository.findTransactionByPaymentDate(any(Date.class)))
-		.thenAnswer((InvocationOnMock invocation) -> {
-			if(invocation.getArgument(0).equals(PAYMENT_DATE)) {
-				List<Transaction> transactions = new ArrayList<>();
-				Transaction transaction = new Transaction();
-				transaction.setTransactionID(T_ID);
-				transaction.setPaymentDate(PAYMENT_DATE);
-				return transactions;
-			}else {
-				return null;
-			}
-		});
+				.thenAnswer((InvocationOnMock invocation) -> {
+					if (invocation.getArgument(0).equals(PAYMENT_DATE)) {
+						List<Transaction> transactions = new ArrayList<>();
+						Transaction transaction = new Transaction();
+						transaction.setTransactionID(T_ID);
+						transaction.setPaymentDate(PAYMENT_DATE);
+						transactions.add(transaction);
+						return transactions;
+					} else {
+						return null;
+					}
+				});
 
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
-//		 lenient().when(listingRepository.save(any(Listing.class))).thenAnswer(returnParameterAsAnswer);
-//		 lenient().when(customerRepository.save(any(Customer.class))).thenAnswer(returnParameterAsAnswer);
-//		 lenient().when(smartGalleryRepository.save(any(SmartGallery.class))).thenAnswer(returnParameterAsAnswer);
 		lenient().when(transactionRepository.save(any(Transaction.class))).thenAnswer(returnParameterAsAnswer);
 
 	}
@@ -399,24 +406,64 @@ public class PurchaseServiceTests {
 		List<Transaction> transactionList = purchaseService.getAllTransactions();
 		assertEquals(transaction.getTransactionID(), transactionList.get(0).getTransactionID());
 	}
-	
+
 	@Test
 	public void testGetTransactionByCustomer() {
-		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
+		CUSTOMER1 = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
 		Listing listing = listingRepository.findListingByListingID(L_ID);
 		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
 
 		Transaction transaction = null;
 		try {
-			transaction = purchaseService.createTransaction(DEFAULTPAY, DELIVERY_METHOD, sGallery, customer,
+			transaction = purchaseService.createTransaction(DEFAULTPAY, DELIVERY_METHOD, sGallery, CUSTOMER1,
 					PAYMENT_DATE, listing);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
-		List<Transaction> transactionList = purchaseService.getTransactionByCustomer(customer);
+		List<Transaction> transactionList = purchaseService.getTransactionByCustomer(CUSTOMER1);
 		assertEquals(transaction.getTransactionID(), transactionList.get(0).getTransactionID());
 	}
+
+	@Test
+	public void testGetTransactionNoCustomer() {
+		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
+		Listing listing = listingRepository.findListingByListingID(L_ID);
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+
+		try {
+			purchaseService.createTransaction(DEFAULTPAY, DELIVERY_METHOD, sGallery, customer, PAYMENT_DATE, listing);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			purchaseService.getTransactionByCustomer(null);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Must provide a valid customer", e.getMessage());
+		}
+
+	}
 	
+	@Test
+	public void testGetTransactionWrongCustomer() {
+		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
+		Listing listing = listingRepository.findListingByListingID(L_ID);
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		Customer customer2 = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME2);
+		try {
+			purchaseService.createTransaction(DEFAULTPAY, DELIVERY_METHOD, sGallery, customer, PAYMENT_DATE, listing);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			purchaseService.getTransactionByCustomer(customer2);
+		} catch (IllegalArgumentException e) {
+			assertEquals("This customer does not have any associated transactions", e.getMessage());
+		}
+
+	}
+
 	@Test
 	public void testGetTransactionByDate() {
 		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
@@ -434,4 +481,43 @@ public class PurchaseServiceTests {
 		assertEquals(transaction.getTransactionID(), transactionList.get(0).getTransactionID());
 		assertEquals(transaction.getPaymentDate(), transactionList.get(0).getPaymentDate());
 	}
+
+	@Test
+	public void testGetTransactionNoDate() {
+		Listing listing = listingRepository.findListingByListingID(L_ID);
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
+		try {
+			purchaseService.createTransaction(DEFAULTPAY, DELIVERY_METHOD, sGallery, customer, PAYMENT_DATE, listing);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			purchaseService.getTransactionByPaymentDate(WRONG_DATE);
+		} catch (IllegalArgumentException e) {
+			assertEquals("No transactions exist on this date", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGetTransactionWrongDate() {
+		Listing listing = listingRepository.findListingByListingID(L_ID);
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
+		try {
+			purchaseService.createTransaction(DEFAULTPAY, DELIVERY_METHOD, sGallery, customer, PAYMENT_DATE, listing);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+
+		
+		try {
+			purchaseService.getTransactionByPaymentDate(null);
+		} catch (IllegalArgumentException e) {
+			assertEquals("No date has been provided", e.getMessage());
+		}
+	}
+
+
 }

@@ -121,11 +121,13 @@ public class PurchaseService {
 	@Transactional
 	public Transaction getTransactionByID(int transactionID) {
 
-		if (transactionID == 0) {
-			throw new IllegalArgumentException("Must provide valid id");
+		Transaction transaction = transactionRepository.findTransactionByTransactionID(transactionID);
+		
+		if(transaction == null) {
+			throw new IllegalArgumentException("No transaction is associated to this id");
 		}
-
-		return transactionRepository.findTransactionByTransactionID(transactionID);
+		
+		return transaction;
 	}
 
 	/**
@@ -138,8 +140,14 @@ public class PurchaseService {
 		if (customer == null) {
 			throw new IllegalArgumentException("Must provide a valid customer");
 		}
-
-		return transactionRepository.findTransactionByCustomer(customer);
+		
+		List<Transaction> transactions = transactionRepository.findTransactionByCustomer(customer);
+		
+		if(transactions == null) {
+			throw new IllegalArgumentException("This customer does not have any associated transactions");
+		}
+		
+		return transactions;
 	}
 
 	/**
@@ -152,9 +160,14 @@ public class PurchaseService {
 		if (date == null) {
 			throw new IllegalArgumentException("No date has been provided");
 		}
-
+		
+		List<Transaction> transactions = transactionRepository.findTransactionByPaymentDate(date);
+		
+		if(transactions == null) {
+			throw new IllegalArgumentException("No transactions exist on this date");
+		}
 		// TODO Check for date format
-		return transactionRepository.findTransactionByPaymentDate(date);
+		return transactions;
 	}
 
 	/**
