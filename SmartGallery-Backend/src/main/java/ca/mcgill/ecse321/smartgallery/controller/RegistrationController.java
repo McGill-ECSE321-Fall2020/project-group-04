@@ -32,8 +32,8 @@ public class RegistrationController {
 	@PostMapping(value = { "/customer/{username}", "/customer/{username}/" })
 	public CustomerDTO createCustomer(@PathVariable("username") String username,
 			@PathVariable("password") String password, @PathVariable("email") String email,
-			@RequestParam PaymentMethod defaultPaymentMethod, @RequestParam Date creationDate,
-			@RequestParam(name = "smartGallery") SmartGallery smartGallery) throws IllegalArgumentException {
+			@RequestParam PaymentMethod defaultPaymentMethod, @RequestParam Date creationDate) 
+			throws IllegalArgumentException {
 		Customer customer = registrationService.createCustomer(username, password, email, defaultPaymentMethod);
 		return Converters.convertToDto(customer);
 	}
@@ -43,6 +43,21 @@ public class RegistrationController {
 	public CustomerDTO deleteCustomer(@PathVariable("username") String username) {
 		Customer customer = registrationService.deleteCustomer(username);
 		return Converters.convertToDto(customer);
+	}
+	
+	@GetMapping(value = { "/artist", "/artist/" })
+	public List<ArtistDTO> getAllArtists() {
+		return registrationService.getAllArtists().stream().map(p -> Converters.convertToDto(p))
+				.collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = { "/artist/{username}", "/artist/{username}/" })
+	public ArtistDTO createArtist(@PathVariable("username") String username,
+			@PathVariable("password") String password, @PathVariable("email") String email,
+			@RequestParam PaymentMethod defaultPaymentMethod, @RequestParam Date creationDate) 
+			throws IllegalArgumentException {
+		Artist artist = registrationService.createArtist(username, password, email, defaultPaymentMethod);
+		return Converters.convertToDto(artist);
 	}
 	
 	@PostMapping(value = { "/artist/delete/{username}","/artist/delete/{username}"})

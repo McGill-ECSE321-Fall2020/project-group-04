@@ -165,8 +165,7 @@ public class RegistrationService {
 	 * @return artist The artist created
 	 */
 	@Transactional
-	public Artist createArtist(String username, String password, String email, PaymentMethod defaultPaymentMethod,
-			boolean isVerified) {
+	public Artist createArtist(String username, String password, String email, PaymentMethod defaultPaymentMethod) {
 
 		// The first section of this method tests for valid inputs
 		String error = "";
