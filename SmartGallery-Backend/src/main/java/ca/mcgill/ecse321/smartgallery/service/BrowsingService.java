@@ -38,7 +38,7 @@ public class BrowsingService {
 		}
 		
 		if(smartGalleryID == 0) {
-			throw new IllegalArgumentException("Id must not be zero");
+			throw new IllegalArgumentException("SmartGallery ID must not be zero");
 		}
 		
 		SmartGallery smartGallery = new SmartGallery();
@@ -60,7 +60,7 @@ public class BrowsingService {
 
 		// If the smartGallery doesn't exist, throw an error
 		if (smartGallery == null) {
-			throw new IllegalArgumentException("smartGallery doesn't exist");
+			throw new IllegalArgumentException("SmartGallery doesn't exist");
 		}
 
 		// Otherwise return the found smartGallery
@@ -72,6 +72,15 @@ public class BrowsingService {
 		// Checking if ID exists already
 		if (getGalleryByName(galleryName) != null) {
 			throw new IllegalArgumentException("A gallery with that name already exists");
+		}
+		if (galleryName == null || galleryName == "" || galleryName.isBlank()) {
+			throw new IllegalArgumentException("Gallery Name cannot be empty");
+		}
+		if (commission < 0 || commission > 100) {
+			throw new IllegalArgumentException("The commission percentage must be between 0 and 100 inclusive");
+		}
+		if (smartGallery == null) {
+			throw new IllegalArgumentException("A SmartGallery is need to create a Gallery");
 		}
 		Gallery gallery = new Gallery();
 		gallery.setGalleryName(galleryName);
