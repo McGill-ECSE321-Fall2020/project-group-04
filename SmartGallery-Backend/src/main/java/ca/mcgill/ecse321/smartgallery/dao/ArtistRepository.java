@@ -14,6 +14,8 @@ public interface ArtistRepository extends CrudRepository<Artist, String> {
 	
 	Artist findArtistByEmail(String email);
 	
+	List<Artist> findArtistByIsVerified(boolean isVerified);
+	
 	List<Artist> findArtistByUsernameContaining(String usernameFragment);
 	
 }

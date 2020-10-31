@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.smartgallery.service;
  import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -10,12 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.smartgallery.model.*;
 import ca.mcgill.ecse321.smartgallery.dao.*;
 
+@Service
 public class ListingService {
 
 	@Autowired
 	ListingRepository listingRepository;
 	@Autowired
 	ArtworkRepository artworkRepository;
+	@Autowired
+	ArtistRepository artistRepository;
+	@Autowired 
+	GalleryRepository galleryRepository;
+	@Autowired
+	TransactionRepository transactionRepository;
 	
 	/**
 	 * @author Stavros Mitsoglou
@@ -35,9 +43,65 @@ public class ListingService {
 	 * This method creates and saves an Artwork.
 	 */
 	@Transactional
-	public Artwork createArtwork(String name, int year, double price, boolean isBeingPromoted, ArtStyle style, int height,
-			int weight, int width, Set<Artist> artists, Gallery gallery)
+	public Artwork createArtwork(String name, Integer year, Double price, boolean isBeingPromoted, ArtStyle style, Integer height,
+			Integer weight, Integer width, Artist artist, Gallery gallery)
 	{
+		String error = "";
+
+		if (name == null || name.trim().length() == 0) {
+			error += "Artwork name must be specified";
+		}
+
+		if (price == null) {
+			error += "Price must be specified";
+		}
+
+		if (isBeingPromoted !=true || isBeingPromoted !=false) {
+			error += "Promotion must be specified";
+		}
+
+		if (style == null) {
+			error += "Art style must be specified";
+		}
+
+		if (height == null) {
+			error += "Height must be specified";
+		}
+
+		if (weight == null) {
+			error += "Height must be specified";
+		}
+		
+		if(width == null) {
+			error += "Width must be specified";
+		}
+		
+		if (artist == null) {
+			error += "Artist must be specified";
+			
+		}
+		else if(!artistRepository.existsById(artist.getUsername())) {
+			error += "Artist must exist";
+		}
+		
+		if (gallery == null) {
+			error += "Gallery must be specified";
+		}
+		
+		else if(!galleryRepository.existsById(gallery.getGalleryName())) {
+			error += "Gallery must exist";
+		}
+		
+		int potentialArtworkId = artist.getUsername().hashCode() * name.hashCode();
+		if(!artworkRepository.existsById(potentialArtworkId)) {
+			error += "This artwork for the specified user already exists";
+		}
+		
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+
 		Artwork artwork = new Artwork();
 		artwork.setName(name);
 		artwork.setYear(year);
@@ -48,6 +112,8 @@ public class ListingService {
 		artwork.setHeight(height);
 		artwork.setWeight(weight);
 		artwork.setWidth(width);
+		HashSet<Artist> artists = new HashSet<>();
+		artists.add(artist);
 		artwork.setArtists(artists);
 		artwork.setGallery(gallery);
 		artwork.setArtworkID(artists.iterator().next().getUsername().hashCode() * artwork.getName().hashCode());
@@ -65,9 +131,37 @@ public class ListingService {
 	 * the listing id is created using the hashcode of the artwork name and the username of the artist (to make it unique)
 	 */
 	@Transactional
-	public Listing createListing(Artwork artwork, Date dateListed, double price, 
+	public Listing createListing(Artwork artwork, Date dateListed, Double price, 
 			Gallery gallery)
 	{
+		String error = "";
+
+		if (artwork == null) {
+			error += "Artwork must be specified";
+		}
+		else if(!artworkRepository.existsById(artwork.getArtworkID())) {
+			error += "Artwork must exist";
+		}
+
+		if (dateListed == null) {
+			error += "Lisred date must be specified";
+		}
+
+		if (price == null) {
+			error += "Price must be specified";
+		}
+
+		if (gallery==null) {
+			error += "Gallery must be specified";
+		}
+		else if(!galleryRepository.existsById(gallery.getGalleryName())) {
+			error += "Gallery must exist";
+		}
+
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		
 		Listing listing = new Listing();
 		listing.setListingID(artwork.getArtworkID() * artwork.getArtists().iterator().next().getUsername().hashCode());
@@ -83,6 +177,41 @@ public class ListingService {
 		
 	}
 	
+	/**
+	 * 
+	 * @param artist Artist to be added to artwork
+	 * @param artworkID 
+	 * @return the updated set of artitsts for an artwork
+	 * 
+	 * Add artist to an existing artwork
+	 */
+	
+	@Transactional
+	public Artwork addArtist(Artist artist, Integer artworkID) {
+		
+		String error = "";
+
+		if (artist == null) {
+			error += "Artist must be specified";
+		}
+		else if(!artistRepository.existsById(artist.getUsername())) {
+			error += "Artist must exist";
+		}
+
+		if (!artworkRepository.existsById(artworkID)) {
+			error += "Lisred date must be specified";
+		}
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		Artwork artwork = artworkRepository.findArtworkByArtworkID(artworkID);
+		Set<Artist> artists = artwork.getArtists();
+		artists.add(artist);
+		artwork.setArtists(artists);
+		artworkRepository.save(artwork);
+		return artwork;
+	}
 	/**
 	 * @author Stavros Mitsoglou
 	 * @param listing Listing where the artwork details are being updated
@@ -100,8 +229,52 @@ public class ListingService {
 	 */
 	
 	@Transactional
-	public Artwork updateArtworkListed(Listing listing, String name, int year, double price, ArtStyle style, int height, int width, int weight)
+	public Artwork updateArtworkListed(Listing listing, String name, Integer year, Double price, ArtStyle style, Integer height, Integer width, Integer weight)
 	{
+		
+		String error = "";
+
+		if (name == null || name.trim().length() == 0) {
+			error += "Artwork name must be specified";
+		}
+
+		if (listing == null) {
+			error += "Listing must be specified";
+		}
+		
+		else if(!listingRepository.existsById(listing.getListingID())) {
+			error += "Listing must exist";
+		}
+
+		if (year == null) {
+			error += "Year must be specified";
+		}
+
+		if (price == null) {
+			error += "Price must be specified";
+		}
+
+		if (style == null) {
+			error += "Art style must be specified";
+		}
+
+		if (height == null) {
+			error += "Height must be specified";
+		}
+
+		if (weight == null) {
+			error += "Height must be specified";
+		}
+		
+		if(width == null) {
+			error += "Width must be specified";
+		}
+		
+	
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		Artwork artwork = listing.getArtwork();
 		artwork.setName(name);
 		artwork.setYear(year);
@@ -116,6 +289,38 @@ public class ListingService {
 	}
 	
 	@Transactional
+	public Artwork deleteListingAndArtwork(Listing listing) {
+		
+	
+		String error = "";
+		if(listing == null) {
+			error += "Listing must be specified";
+		}
+		
+		else if(!listingRepository.existsById(listing.getListingID()))
+		{
+			error += "Listing must exist";
+		}
+	
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		
+		
+		Artwork artwork = listing.getArtwork();
+		Transaction transaction = listing.getTransaction();
+		
+		if(transaction==null || !transactionRepository.existsById(transaction.getTransactionID()))
+		{
+			listingRepository.delete(listing);
+			artworkRepository.delete(artwork);
+			
+		}
+		
+		return artwork;
+	}
+	
+	@Transactional
 	/**
 	 * @author Stavros Mitsoglou
 	 * @param listing -> listing we are trying to find
@@ -125,12 +330,14 @@ public class ListingService {
 	public boolean foundListing(Listing listing)
 	{ 
 		boolean found = true;
-		Listing l = getListing(listing.getListingID());
+		Listing l = getListingByID(listing.getListingID());
 		if(l == null)
 			found = false;
 		
 		return found;
 	}
+	
+	
 	
 	/**
 	 * @author Stavros Mitsoglou
@@ -140,10 +347,12 @@ public class ListingService {
 	 * This method returns a listing from its id.
 	 */
 	@Transactional 
-	public Listing getListing(int listingID){
+	public Listing getListingByID(int listingID){
 		
 		return listingRepository.findListingByListingID(listingID);
 	}
+	
+
 	
 	/**
 	 * @author Stavros Mitsoglou
@@ -152,7 +361,7 @@ public class ListingService {
 	 * This method returns an artwork from its id.
 	 */
 	@Transactional 
-	public Artwork getArtwork(int artworkID) {
+	public Artwork getArtworkByID(int artworkID) {
 		return artworkRepository.findArtworkByArtworkID(artworkID);
 	}
 	

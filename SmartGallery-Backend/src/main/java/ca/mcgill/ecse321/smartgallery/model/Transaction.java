@@ -45,16 +45,15 @@ public SmartGallery getSmartGallery() {
 public void setSmartGallery(SmartGallery smartGallery) {
    this.smartGallery = smartGallery;
 }
+private Customer customer;
 
-private Set<Profile> profile;
-
-@ManyToMany
-public Set<Profile> getProfile() {
-   return this.profile;
+@ManyToOne
+public Customer getCustomer() {
+   return this.customer;
 }
 
-public void setProfile(Set<Profile> profiles) {
-   this.profile = profiles;
+public void setCustomer(Customer customer) {
+   this.customer = customer;
 }
 
 private Date paymentDate;
