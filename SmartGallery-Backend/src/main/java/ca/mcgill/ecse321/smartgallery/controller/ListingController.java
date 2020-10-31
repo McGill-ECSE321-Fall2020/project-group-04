@@ -111,6 +111,14 @@ public class ListingController {
 	}
 	
 	
+	@PostMapping(value = {"listing/deleteListingAndArtwork/{listingID}", "listing/deleteListingAndArtwork/{listingID}/"})
+	public boolean deleteListingAndArtwork(@PathVariable("listing")int listingID) throws IllegalArgumentException{
+		
+		Listing listing = listingRepository.findListingByListingID(listingID);
+		return listingService.deleteListingAndArtwork(listing);
+
+	}
+	
 	
 	  
 	

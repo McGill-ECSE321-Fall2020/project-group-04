@@ -22,6 +22,8 @@ public class ListingService {
 	ArtistRepository artistRepository;
 	@Autowired 
 	GalleryRepository galleryRepository;
+	@Autowired
+	TransactionRepository transactionRepository;
 	
 	/**
 	 * @author Stavros Mitsoglou
@@ -287,6 +289,38 @@ public class ListingService {
 	}
 	
 	@Transactional
+	public boolean deleteListingAndArtwork(Listing listing) {
+		
+		boolean deleted = false;
+		String error = "";
+		if(listing == null) {
+			error += "Listing must be specified";
+		}
+		
+		else if(!listingRepository.existsById(listing.getListingID()))
+		{
+			error += "Listing must exist";
+		}
+	
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		
+		
+		Artwork artwork = listing.getArtwork();
+		Transaction transaction = listing.getTransaction();
+		
+		if(transaction==null || !transactionRepository.existsById(transaction.getTransactionID()))
+		{
+			listingRepository.delete(listing);
+			artworkRepository.delete(artwork);
+			deleted  = true;
+		}
+		
+		return deleted;
+	}
+	
+	@Transactional
 	/**
 	 * @author Stavros Mitsoglou
 	 * @param listing -> listing we are trying to find
@@ -302,6 +336,8 @@ public class ListingService {
 		
 		return found;
 	}
+	
+	
 	
 	/**
 	 * @author Stavros Mitsoglou
