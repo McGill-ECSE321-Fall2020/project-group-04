@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
+import ca.mcgill.ecse321.smartgallery.dao.ArtworkRepository;
 import ca.mcgill.ecse321.smartgallery.dao.CustomerRepository;
 import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
 import ca.mcgill.ecse321.smartgallery.model.Artist;
+import ca.mcgill.ecse321.smartgallery.model.Artwork;
 import ca.mcgill.ecse321.smartgallery.model.Customer;
 import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
 import ca.mcgill.ecse321.smartgallery.model.Profile;
@@ -30,6 +33,9 @@ public class RegistrationService {
 
 	@Autowired
 	private SmartGalleryRepository smartGalleryRepository;
+	
+	@Autowired
+	private ArtworkRepository artworkRepository;
 
 	/* **** CUSTOMER METHODS **** */
 
@@ -367,8 +373,14 @@ public class RegistrationService {
 			String error = "Artist doesn't exist";
 			throw new IllegalArgumentException(error);
 		}
+		
+		// Delete all the artist's artworks
+		Set<Artwork> artworksDeleting = artist.getArtworks();
+		for (Artwork artwork : artworksDeleting) {
+			artist.getArtworks().remove(artwork);
+			artworkRepository.delete(artwork);
+		}
 
-		// ** Will need to delete transactions and artworks
 		// Delete artist from repository
 		artistRepository.delete(artist);
 

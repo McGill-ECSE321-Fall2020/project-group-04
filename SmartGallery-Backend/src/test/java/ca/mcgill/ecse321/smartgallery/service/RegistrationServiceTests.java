@@ -374,13 +374,13 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
-	public void getCustomerByName() {
+	public void testGetCustomerByName() {
 		Customer c2 = registrationService.getCustomer(CUSTOMER_USERNAME);
 		assertEquals(CUSTOMER_USERNAME, c2.getUsername());
 	}
 
 	@Test
-	public void getCustomerByEmptyName() {
+	public void testGetCustomerByEmptyName() {
 		try {
 			registrationService.getCustomer("");
 		} catch (IllegalArgumentException e) {
@@ -389,7 +389,7 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
-	public void getCustomerByNullName() {
+	public void testGetCustomerByNullName() {
 		try {
 			registrationService.getCustomer(null);
 		} catch (IllegalArgumentException e) {
@@ -398,7 +398,7 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
-	public void getCustomerByInvalidName() {
+	public void testGetCustomerByInvalidName() {
 		try {
 			registrationService.getCustomer("wronguser");
 		} catch (IllegalArgumentException e) {
@@ -407,13 +407,13 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
-	public void getCustomerByEmail() {
+	public void testGetCustomerByEmail() {
 		Customer c2 = registrationService.getCustomerByEmail(CUSTOMER_EMAIL);
 		assertEquals(CUSTOMER_EMAIL, c2.getEmail());
 	}
 
 	@Test
-	public void getCustomerByEmptyEmail() {
+	public void testGetCustomerByEmptyEmail() {
 		try {
 			registrationService.getCustomerByEmail("");
 		} catch (IllegalArgumentException e) {
@@ -422,7 +422,7 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
-	public void getCustomerByNullEmail() {
+	public void testGetCustomerByNullEmail() {
 		try {
 			registrationService.getCustomerByEmail(null);
 		} catch (IllegalArgumentException e) {
@@ -431,7 +431,7 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
-	public void getCustomerByInvalidEmail() {
+	public void testGetCustomerByInvalidEmail() {
 		try {
 			registrationService.getCustomerByEmail("abc123");
 		} catch (IllegalArgumentException e) {
@@ -441,7 +441,7 @@ public class RegistrationServiceTests {
 	}
 	
 	@Test
-	public void getCustomerByNonRegisteredEmail() {
+	public void testGetCustomerByNonRegisteredEmail() {
 		try {
 			registrationService.getCustomerByEmail("abc123@gmail.com");
 		} catch (IllegalArgumentException e) {
@@ -451,7 +451,7 @@ public class RegistrationServiceTests {
 	}
 	
 	@Test
-	public void getAllCustomers() {
+	public void testGetAllCustomers() {
 		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
 		Customer customer = null;
 		try {
@@ -567,13 +567,13 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
-	public void getArtistByName() {
+	public void testGetArtistByName() {
 		Artist c2 = registrationService.getArtist(ARTIST_USERNAME);
 		assertEquals(ARTIST_USERNAME, c2.getUsername());
 	}
 
 	@Test
-	public void getArtistByEmptyName() {
+	public void testGetArtistByEmptyName() {
 		try {
 			registrationService.getArtist("");
 		} catch (IllegalArgumentException e) {
@@ -582,7 +582,7 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
-	public void getArtistByNullName() {
+	public void testGetArtistByNullName() {
 		try {
 			registrationService.getArtist(null);
 		} catch (IllegalArgumentException e) {
@@ -591,7 +591,7 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
-	public void getArtistByInvalidName() {
+	public void testGetArtistByInvalidName() {
 		try {
 			registrationService.getArtist("wronguser");
 		} catch (IllegalArgumentException e) {
@@ -600,13 +600,13 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
-	public void getArtistByEmail() {
+	public void testGetArtistByEmail() {
 		Artist c2 = registrationService.getArtistByEmail(ARTIST_EMAIL);
 		assertEquals(ARTIST_EMAIL, c2.getEmail());
 	}
 
 	@Test
-	public void getArtistByEmptyEmail() {
+	public void testGetArtistByEmptyEmail() {
 		try {
 			registrationService.getArtistByEmail("");
 		} catch (IllegalArgumentException e) {
@@ -615,7 +615,7 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
-	public void getArtistByNullEmail() {
+	public void testGetArtistByNullEmail() {
 		try {
 			registrationService.getArtistByEmail(null);
 		} catch (IllegalArgumentException e) {
@@ -624,7 +624,7 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
-	public void getArtistByInvalidEmail() {
+	public void testGetArtistByInvalidEmail() {
 		try {
 			registrationService.getArtistByEmail("abc123");
 		} catch (IllegalArgumentException e) {
@@ -634,7 +634,7 @@ public class RegistrationServiceTests {
 	}
 	
 	@Test
-	public void getArtistByNonRegisteredEmail() {
+	public void testGetArtistByNonRegisteredEmail() {
 		try {
 			registrationService.getArtistByEmail("abc123@gmail.com");
 		} catch (IllegalArgumentException e) {
@@ -644,7 +644,7 @@ public class RegistrationServiceTests {
 	}
 	
 	@Test
-	public void getAllArtists() {
+	public void testGetAllArtists() {
 		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
 		Artist artist = null;
 		try {
@@ -658,5 +658,56 @@ public class RegistrationServiceTests {
 		assertEquals(artist.getUsername(),artists.get(0).getUsername());
 		
 	}
-
+	
+	@Test
+	public void testVerifyAndUnverifyArtist() {
+		
+		Artist artist = registrationService.getArtist(ARTIST_USERNAME);
+			
+		assertTrue(artist.isVerified());
+		registrationService.verifyArtist(artist);
+		assertTrue(artist.isVerified());
+		
+		registrationService.unverifyArtist(artist);
+		assertFalse(artist.isVerified());
+		
+		registrationService.unverifyArtist(artist);
+		assertFalse(artist.isVerified());
+		
+		registrationService.verifyArtist(artist);
+		assertTrue(artist.isVerified());
+	}
+	
+	@Test
+	public void testGetAllVerifiedArtists() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		Artist artist = null;
+		try {
+			artist = registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY,
+					sGallery);
+			registrationService.verifyArtist(artist);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		List<Artist> artists = new ArrayList<>();
+		artists = registrationService.getAllVerifiedArtists();
+		assertEquals(artist.getUsername(),artists.get(0).getUsername());
+	}
+	
+	@Test
+	public void testGetAllNonVerifiedArtists() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		Artist artist = null;
+		try {
+			artist = registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY,
+					sGallery);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		List<Artist> artists = new ArrayList<>();
+		artists = registrationService.getAllVerifiedArtists();
+		assertEquals(artist.getUsername(),artists.get(0).getUsername());
+	}
+	
+	// TODO Delete artist tests
 }

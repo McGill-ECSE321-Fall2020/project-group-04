@@ -184,13 +184,13 @@ public class RegistrationController {
 				.collect(Collectors.toList());
 	}
 
-	@GetMapping(value = { "/Artist/name/{username}", "/Artist/email/{username}/" })
+	@GetMapping(value = { "artist/name/{username}", "artist/email/{username}/" })
 	public ArtistDTO getArtistByUsername(@PathVariable("username") String username) {
 		Artist artist = registrationService.getArtist(username);
 		return Converters.convertToDto(artist);
 	}
 
-	@GetMapping(value = { "/Artist/email/{email}", "/Artist/email/{email}/" })
+	@GetMapping(value = { "/artist/email/{email}", "/artist/email/{email}/" })
 	public ArtistDTO getArtistByEmail(@PathVariable("email") String email) {
 		Artist artist = registrationService.getArtistByEmail(email);
 		return Converters.convertToDto(artist);
@@ -204,6 +204,32 @@ public class RegistrationController {
 		Artist artist = registrationService.createArtist(username, password, email,
 				Converters.convertStringToPaymentMethod(defaultPaymentMethod), sg);
 		return Converters.convertToDto(artist);
+	}
+	
+	@PostMapping(value = { "/artist/verify/{username}", "/artist/verify/{username}/"})
+	public ArtistDTO verifyArtist(@PathVariable("username") String username) throws IllegalArgumentException {
+		Artist artist = registrationService.getArtist(username);
+		registrationService.verifyArtist(artist);
+		return Converters.convertToDto(artist);
+	}
+	
+	@PostMapping(value = { "/artist/verify/{username}", "/artist/verify/{username}/"})
+	public ArtistDTO unverifyArtist(@PathVariable("username") String username) throws IllegalArgumentException {
+		Artist artist = registrationService.getArtist(username);
+		registrationService.unverifyArtist(artist);
+		return Converters.convertToDto(artist);
+	}
+	
+	@GetMapping(value = { "/artist/verified", "/artist/verified/" })
+	public List<ArtistDTO> getAllVerifiedArtists() {
+		return registrationService.getAllVerifiedArtists().stream().map(p -> Converters.convertToDto(p))
+				.collect(Collectors.toList());
+	}
+	
+	@GetMapping(value = { "/artist/nonverified", "/artist/nonverified/" })
+	public List<ArtistDTO> getAllNonverifiedArtists() {
+		return registrationService.getAllNonVerifiedArtists().stream().map(p -> Converters.convertToDto(p))
+				.collect(Collectors.toList());
 	}
 
 	@PostMapping(value = { "/artist/delete/{username}", "/artist/delete/{username}" })

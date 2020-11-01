@@ -93,7 +93,7 @@ public class Converters {
 			throw new IllegalArgumentException("There is no such Artist.");
 		}
 		ArtistDTO artistDTO = new ArtistDTO(convertToDto(a.getSmartGallery()), a.getUsername(), a.getPassword(),
-				a.getEmail(), a.getDefaultPaymentMethod(), a.getCreationDate(), a.isLoggedIn(), a.isIsVerified());
+				a.getEmail(), a.getDefaultPaymentMethod(), a.getCreationDate(), a.isLoggedIn(), a.isVerified());
 		return artistDTO;
 	}
 
