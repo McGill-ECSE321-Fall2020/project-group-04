@@ -112,10 +112,10 @@ public class PurchaseService {
 		}
 		tSet.add(transaction);
 		smartGallery.setTransaction(tSet);
+		transactionRepository.save(transaction);
 		customerRepository.save(customer);
 		listingRepository.save(listing);
 		smartGalleryRepository.save(smartGallery);
-		transactionRepository.save(transaction);
 		return transaction;
 
 	}

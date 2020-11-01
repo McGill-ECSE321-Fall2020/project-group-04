@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.smartgallery.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -66,7 +67,7 @@ return this.paymentDate;
     }
 private Listing listing;
 
-@OneToOne(optional=false)
+@OneToOne(optional=false, cascade=CascadeType.ALL)
 public Listing getListing() {
    return this.listing;
 }

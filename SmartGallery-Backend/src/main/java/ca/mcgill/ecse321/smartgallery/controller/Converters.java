@@ -297,7 +297,7 @@ public class Converters {
 		switch (artStyle.toLowerCase()) {
 		case "realist":
 			return ArtStyle.REALIST;
-		case "rennaisance":
+		case "renaissance":
 			return ArtStyle.RENAISSANCE;
 		case "surrealist":
 			return ArtStyle.SURREALIST;
