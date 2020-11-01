@@ -289,7 +289,7 @@ public class PurchaseServiceTests {
 		}
 
 		assertNotNull(transaction);
-		assertEquals(transaction.getTransactionID(), customer.getUsername().hashCode() * listing.getListingID());
+		assertEquals(transaction.getTransactionID(), T_ID);
 	}
 
 	@Test

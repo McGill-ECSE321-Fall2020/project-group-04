@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.smartgallery.dto.*;
-import ca.mcgill.ecse321.smartgallery.model.*;
+import ca.mcgill.ecse321.smartgallery.dto.ArtistDTO;
+import ca.mcgill.ecse321.smartgallery.dto.CustomerDTO;
+import ca.mcgill.ecse321.smartgallery.model.Artist;
+import ca.mcgill.ecse321.smartgallery.model.Customer;
+import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
+import ca.mcgill.ecse321.smartgallery.service.BrowsingService;
 import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
 
 @CrossOrigin(origins = "*")
@@ -22,6 +26,7 @@ public class RegistrationController {
 
 	@Autowired
 	private RegistrationService registrationService;
+	private BrowsingService browsingService;
 
 	@GetMapping(value = { "/customer", "/customer/" })
 	public List<CustomerDTO> getAllCustomers() {
@@ -34,8 +39,9 @@ public class RegistrationController {
 			@RequestParam("password") String password, @RequestParam("email") String email,
 			@RequestParam("defaultPaymentMethod") String defaultPaymentMethod,
 			@RequestParam("creationDate") Date creationDate) throws IllegalArgumentException {
+		SmartGallery sGallery = browsingService.getAllSmartGalleries().get(0);
 		Customer customer = registrationService.createCustomer(username, password, email,
-				Converters.convertStringToPaymentMethod(defaultPaymentMethod));
+				Converters.convertStringToPaymentMethod(defaultPaymentMethod),sGallery);
 		return Converters.convertToDto(customer);
 	}
 
@@ -44,19 +50,45 @@ public class RegistrationController {
 		Customer customer = registrationService.deleteCustomer(username);
 		return Converters.convertToDto(customer);
 	}
+	
+	@GetMapping(value = { "/customer/name/{username}", "/customer/name/{username}/" })
+	public CustomerDTO getCustomerByUsername(@PathVariable("username") String username) {
+		Customer customer = registrationService.getCustomer(username);
+		return Converters.convertToDto(customer);
+	}
+	
+	@GetMapping(value = { "/customer/email/{email}", "/customer/email/{email}/" })
+	public CustomerDTO getCustomerByEmail(@PathVariable("email") String email) {
+		Customer customer = registrationService.getCustomerByEmail(email);
+		return Converters.convertToDto(customer);
+	}
+
 
 	@GetMapping(value = { "/artist", "/artist/" })
 	public List<ArtistDTO> getAllArtists() {
 		return registrationService.getAllArtists().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
+	
+	@GetMapping(value = { "/Artist/name/{username}", "/Artist/email/{username}/" })
+	public ArtistDTO getArtistByUsername(@PathVariable("username") String username) {
+		Artist artist = registrationService.getArtist(username);
+		return Converters.convertToDto(artist);
+	}
+	
+	@GetMapping(value = { "/Artist/email/{email}", "/Artist/email/{email}/" })
+	public ArtistDTO getArtistByEmail(@PathVariable("email") String email) {
+		Artist artist = registrationService.getArtistByEmail(email);
+		return Converters.convertToDto(artist);
+	}
 
 	@PostMapping(value = { "/artist/{username}", "/artist/{username}/" })
 	public ArtistDTO createArtist(@PathVariable("username") String username, @RequestParam("password") String password,
 			@RequestParam("email") String email, @RequestParam("defaultPaymentMethod") String defaultPaymentMethod,
 			@RequestParam("creationDate") Date creationDate) throws IllegalArgumentException {
+		SmartGallery sGallery = browsingService.getAllSmartGalleries().get(0);
 		Artist artist = registrationService.createArtist(username, password, email,
-				Converters.convertStringToPaymentMethod(defaultPaymentMethod));
+				Converters.convertStringToPaymentMethod(defaultPaymentMethod),sGallery);
 		return Converters.convertToDto(artist);
 	}
 

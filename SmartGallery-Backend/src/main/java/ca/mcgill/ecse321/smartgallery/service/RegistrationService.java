@@ -2,15 +2,22 @@ package ca.mcgill.ecse321.smartgallery.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ca.mcgill.ecse321.smartgallery.dao.*;
-import ca.mcgill.ecse321.smartgallery.model.*;
+import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
+import ca.mcgill.ecse321.smartgallery.dao.CustomerRepository;
+import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
+import ca.mcgill.ecse321.smartgallery.model.Artist;
+import ca.mcgill.ecse321.smartgallery.model.Customer;
+import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
+import ca.mcgill.ecse321.smartgallery.model.Profile;
+import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
 
 @Service
 public class RegistrationService {
@@ -20,6 +27,9 @@ public class RegistrationService {
 
 	@Autowired
 	private ArtistRepository artistRepository;
+
+	@Autowired
+	private SmartGalleryRepository smartGalleryRepository;
 
 	/* **** CUSTOMER METHODS **** */
 
@@ -33,14 +43,18 @@ public class RegistrationService {
 	 * @return customer The created customer
 	 */
 	@Transactional
-	public Customer createCustomer(String username, String password, String email, PaymentMethod defaultPaymentMethod) {
+	public Customer createCustomer(String username, String password, String email, PaymentMethod defaultPaymentMethod,
+			SmartGallery smartGallery) {
 
 		// The first section of this method tests for valid inputs
 		String error = "";
 
-		// Checking if username exists already
-		if (getCustomer(username) != null) {
-			error += "Username already exists";
+		if (username == null || username.equals("")) {
+			error += "Non empty username must be provided";
+		}
+
+		if (!checkExistingUsernameAndEmail(username, email)) {
+			error += "This username/email have already been used";
 		}
 
 		// Checks if password is null or not long enough
@@ -54,7 +68,8 @@ public class RegistrationService {
 		}
 
 		// Checks if payment method is set correctly
-		if (!defaultPaymentMethod.equals(PaymentMethod.CREDIT) || !defaultPaymentMethod.equals(PaymentMethod.PAYPAL)) {
+		if (defaultPaymentMethod == null || !defaultPaymentMethod.name().equalsIgnoreCase("credit")
+				&& !defaultPaymentMethod.name().equalsIgnoreCase("paypal")) {
 			error += "Default payment method must be set to 'credit' or 'paypal'";
 		}
 
@@ -76,7 +91,8 @@ public class RegistrationService {
 		customer.setCreationDate(creationDate);
 		customer.setArtworksViewed(null);
 		customer.setTransaction(null);
-		// customer.setSmartGallery(smartGallery); ** Not sure how to do this **
+		customer.setSmartGallery(smartGallery);
+		smartGalleryRepository.save(smartGallery);
 		customerRepository.save(customer); // Save to customer repository
 		return customer; // Return customer with updated parameters
 	}
@@ -90,25 +106,39 @@ public class RegistrationService {
 	@Transactional
 	public Customer getCustomer(String username) {
 
-		if (username != null) {
-
-			// Uses existing method in customer repository to find a customer by username
-			Customer customer = customerRepository.findCustomerByUsername(username);
-
-			// If the customer doesn't exist, throw an error
-			if (customer == null) {
-				String error = "Customer doesn't exist";
-				throw new IllegalArgumentException(error);
-			}
-
-			// Otherwise return the found customer
-			return customer;
+		if (username == null || username.equals("")) {
+			throw new IllegalArgumentException("Username is empty");
 		}
 
-		// If the username input is null, return null
-		else {
-			return null;
+		// Uses existing method in customer repository to find a customer by username
+		Customer customer = customerRepository.findCustomerByUsername(username);
+
+		// If the customer doesn't exist, throw an error
+		if (customer == null) {
+			throw new IllegalArgumentException("Customer doesn't exist");
 		}
+
+		// Otherwise return the found customer
+		return customer;
+
+	}
+
+	@Transactional
+	public Customer getCustomerByEmail(String email) {
+		if (email == null || email == "") {
+			throw new IllegalArgumentException("Empty email was provided");
+		}
+		
+		if(!validateEmail(email)) {
+			throw new IllegalArgumentException("Invalid email format");
+		}
+		
+		Customer customer = customerRepository.findCustomerByEmail(email);
+
+		if (customer == null) {
+			throw new IllegalArgumentException("Customer with this email doesn't exist");
+		}
+		return customer;
 	}
 
 	/**
@@ -165,10 +195,15 @@ public class RegistrationService {
 	 * @return artist The artist created
 	 */
 	@Transactional
-	public Artist createArtist(String username, String password, String email, PaymentMethod defaultPaymentMethod) {
+	public Artist createArtist(String username, String password, String email, PaymentMethod defaultPaymentMethod,
+			SmartGallery smartGallery) {
 
 		// The first section of this method tests for valid inputs
 		String error = "";
+
+		if (username == null || username.equals("")) {
+			error += "Non empty username must be provided";
+		}
 
 		// Checking if username exists already
 		if (getArtist(username) != null) {
@@ -183,6 +218,15 @@ public class RegistrationService {
 		// Checks if email is valid **could be improved**
 		if (email == null || email.equals("")) {
 			error += "Non empty email must be provided";
+		}
+
+		// Check if email is already taken
+		if (getCustomerByEmail(email) != null || getArtistByEmail(email) != null) {
+			error += "Account with this email already exists";
+		}
+
+		if (!validateEmail(email)) {
+			error += "Invalid email format";
 		}
 
 		// Checks if payment method is set correctly
@@ -207,6 +251,14 @@ public class RegistrationService {
 		artist.setDefaultPaymentMethod(defaultPaymentMethod);
 		artist.setCreationDate(creationDate);
 		artist.setIsVerified(false); // When an artists profile is made, they are not verified initially
+		artist.setSmartGallery(smartGallery);
+		HashSet<Profile> pSet = new HashSet<>();
+		if (smartGallery.getProfile() != null) {
+			pSet = new HashSet<>(smartGallery.getProfile());
+		}
+		pSet.add(artist);
+		smartGallery.setProfile(pSet);
+		smartGalleryRepository.save(smartGallery);
 		artistRepository.save(artist); // Save to customer repository
 		return artist; // Return artist with updated parameters
 	}
@@ -317,9 +369,38 @@ public class RegistrationService {
 		// ** Will need to delete transactions and artworks
 		// Delete artist from repository
 		artistRepository.delete(artist);
-		
+
 		return artist;
 
+	}
+
+	@Transactional
+	public Artist getArtistByEmail(String email) {
+		if (email == null || email == "") {
+			throw new IllegalArgumentException("Empty username was provided");
+		}
+		Artist artist = artistRepository.findArtistByEmail(email);
+		if (artist == null) {
+			throw new IllegalArgumentException("Artist with this email doesn't exist");
+		}
+		return artist;
+	}
+
+	// ValidateParameters
+
+	private boolean checkExistingUsernameAndEmail(String username, String email) {
+		boolean user = artistRepository.findArtistByUsername(username) == null
+				&& customerRepository.findCustomerByUsername(username) == null;
+		boolean validEmail = artistRepository.findArtistByEmail(email) == null
+				&& customerRepository.findCustomerByEmail(email) == null;
+		return user && validEmail;
+	}
+
+	private boolean validateEmail(String email) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
+				+ "A-Z]{2,7}$";
+		Pattern pattern = Pattern.compile(emailRegex);
+		return pattern.matcher(email).matches();
 	}
 
 	// Helper method to retrieve lists of objects
