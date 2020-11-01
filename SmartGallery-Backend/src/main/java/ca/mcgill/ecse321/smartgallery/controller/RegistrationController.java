@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
+import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
+import ca.mcgill.ecse321.smartgallery.dao.ArtworkRepository;
+import ca.mcgill.ecse321.smartgallery.dao.CustomerRepository;
+import ca.mcgill.ecse321.smartgallery.dao.GalleryRepository;
+import ca.mcgill.ecse321.smartgallery.dao.ListingRepository;
+import ca.mcgill.ecse321.smartgallery.dao.TransactionRepository;
 import ca.mcgill.ecse321.smartgallery.dto.*;
 import ca.mcgill.ecse321.smartgallery.model.*;
 import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
@@ -22,10 +28,143 @@ import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
 public class RegistrationController {
 	
 	@Autowired
-	private static SmartGalleryRepository smartGalleryRepository;
+	private ArtistRepository artistRepository;
+	@Autowired
+	private ArtworkRepository artworkRepository;
+	@Autowired
+	private CustomerRepository customerRepository;
+	@Autowired
+	private GalleryRepository galleryRepository;
+	@Autowired
+	private ListingRepository listingRepository;
+	@Autowired
+	private SmartGalleryRepository smartGalleryRepository;
+	@Autowired
+	private TransactionRepository transactionRepository;
+
 
 	@Autowired
 	private RegistrationService registrationService;
+	
+	@PostMapping(value = {"/login", "/login/"})
+	public boolean login(@RequestParam(name = "username") String username, 
+			@RequestParam(name = "password") String password) {
+		Customer customer = customerRepository.findCustomerByUsername(username);
+		if (customer != null) {
+			if (customer.getPassword() == password) {
+				registrationService.login(customer);
+				return true;
+			}
+		} else {
+			Artist artist = artistRepository.findArtistByUsername(username);
+			if (artist != null) {
+				if (artist.getPassword() == password) {
+					registrationService.login(artist);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	@PostMapping(value = {"/customer/login", "/customer/login/"})
+	public boolean customerLogin(@RequestParam(name = "username") String username, 
+			@RequestParam(name = "password") String password) {
+		Customer customer = customerRepository.findCustomerByUsername(username);
+		if (customer != null) {
+			if (customer.getPassword() == password) {
+				registrationService.login(customer);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@PostMapping(value = {"/artist/login", "/artist/login/"})
+	public boolean customeartistLogin(@RequestParam(name = "username") String username, 
+			@RequestParam(name = "password") String password) {
+		Artist artist = artistRepository.findArtistByUsername(username);
+		if (artist != null) {
+			if (artist.getPassword() == password) {
+				registrationService.login(artist);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@PostMapping(value = {"/logout", "/logout/"})
+	public boolean logout(@RequestParam(name = "username") String username) {
+		Customer customer = customerRepository.findCustomerByUsername(username);
+		if (customer != null) {
+			registrationService.logout(customer);
+			return true;
+		} else {
+			Artist artist = artistRepository.findArtistByUsername(username);
+			if (artist != null) {
+				registrationService.logout(artist);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	
+	@PostMapping(value = {"/customer/logout", "/customer/logout/"})
+	public boolean customerLogout(@RequestParam(name = "username") String username) {
+		Customer customer = customerRepository.findCustomerByUsername(username);
+		if (customer != null) {
+			registrationService.logout(customer);
+			return true;
+		}
+		return false;
+	}
+	
+	@PostMapping(value = {"/artist/logout", "/artist/logout/"})
+	public boolean artistLogout(@RequestParam(name = "username") String username) {
+		Artist artist = artistRepository.findArtistByUsername(username);
+		if (artist != null) {
+			registrationService.logout(artist);
+			return true;
+		}
+		return false;
+	}
+	
+	@PostMapping(value = {"/email/change","/email/change/"})
+	public boolean changeEmail(@RequestParam(name = "username") String username,
+			@RequestParam(name = "password") String password, 
+			@RequestParam(name = "newEmail") String email) {
+		Profile profile = customerRepository.findCustomerByUsername(username);
+		if (profile == null) {
+			profile = artistRepository.findArtistByUsername(username);
+		}
+		if (profile == null) {
+			return false;
+		}
+		if (profile.getPassword() != password) {
+			return false;
+		}
+		registrationService.updateEmail(profile.getEmail(), email);
+		return true;
+	}
+	
+	@PostMapping(value = {"/password/change","/password/change/"})
+	public boolean changePassword(@RequestParam(name = "username") String username,
+			@RequestParam(name = "oldPassword") String oldPassword, 
+			@RequestParam(name = "newPassword") String newPassword) {
+		Profile profile = customerRepository.findCustomerByUsername(username);
+		if (profile == null) {
+			profile = artistRepository.findArtistByUsername(username);
+		}
+		if (profile == null) {
+			return false;
+		}
+		if (profile.getPassword() != oldPassword) {
+			return false;
+		}
+		registrationService.updatePassword(profile, newPassword);
+		return true;
+	}
 
 	@GetMapping(value = { "/customer", "/customer/" })
 	public List<CustomerDTO> getAllCustomers() {

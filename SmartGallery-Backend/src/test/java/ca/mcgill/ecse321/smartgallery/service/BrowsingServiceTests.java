@@ -42,14 +42,49 @@ public class BrowsingServiceTests {
 	@Mock
 	private GalleryRepository galleryDao;
 	
+	@Mock
+	private ArtworkRepository artworkDao;
+	
+	@Mock
+	private ListingRepository listingDao;
+	
+	@Mock
+	private ArtistRepository artistDao;
+		
 	@InjectMocks
 	private BrowsingService service;
 	
+	// SmartGallery variables
 	private static final int SMARTGALLERY_KEY = 12345;
 	private static final int NONEXISTING_SMARTGALLERY_KEY  = 00000;
 	
+	// Gallery variables
 	private static final String GALLERY_KEY = "TestGallery";
 	private static final String NONEXISTING_GALLERY_KEY = "NotAGallery";
+	
+	// Artwork variables
+	private static String ARTWORK_NAME = "artwork";
+	private static final int YEAR = 2019;
+	private static final double PRICE = 200;
+	private static final boolean PROMOTED = true;
+	private static final ArtStyle STYLE = ArtStyle.IMPRESSIONIST;
+	private static final int HEIGHT = 300;
+	private static final int WEIGHT = 25;
+	private static final int A_ID = 393939;
+	
+	// Listing variables
+	private static final boolean SOLD = true;
+	private static final boolean NOT_SOLD = false;
+	private static final Date DATE_LISTED = Date.valueOf("2020-11-25");
+	private static final int L_ID = 321;
+	private static final int L_ID2 = 9393;
+	
+	// Artist variables
+	private static final String ARTIST_USERNAME = "testartist";
+	private static final String ARTIST_EMAIL = "testartist@email.com";
+	private static final String ARTIST_PASSWORD = "testapass";
+	private static final boolean VERIFIED = true;
+	private static final Date ARTIST_CREATION_DATE = Date.valueOf("2020-09-10");
 
 	@BeforeEach
 	public void setMockOutput() {
@@ -74,6 +109,48 @@ public class BrowsingServiceTests {
 				return null;
 			}
 		});
+		
+		lenient().when(artistDao.findArtistByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).equals(ARTIST_USERNAME)) {
+				Artist artist = new Artist();
+				artist.setUsername(ARTIST_USERNAME);
+				return artist;
+			} else {
+				return null;
+			}
+		});
+		
+		lenient().when(listingDao.findListingByListingID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).equals(L_ID)) {
+				Listing listing = new Listing();
+				listing.setIsSold(NOT_SOLD);
+				listing.setListingID(L_ID);
+				return listing;
+			} else if (invocation.getArgument(0).equals(L_ID2)) {
+				Listing listing = new Listing();
+				listing.setIsSold(SOLD);
+				listing.setListingID(L_ID);
+				return listing;
+			} else {
+				return null;
+			}
+		});
+		
+		// TODO PORT
+		lenient().when(artworkDao.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).equals(A_ID)) {
+				Artwork artwork = new Artwork();
+				artwork.setArtworkID(A_ID);
+				artwork.setIsBeingPromoted(PROMOTED);
+				artwork.setStyle(STYLE);
+				artwork.setName(ARTWORK_NAME);
+				return artwork;
+			} else {
+				return null;
+			}
+		});
+		
+		
 		// Whenever anything is saved, just return the parameter object
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
@@ -82,9 +159,9 @@ public class BrowsingServiceTests {
 		lenient().when(galleryDao.save(any(Gallery.class))).thenAnswer(returnParameterAsAnswer);
 	}
 	
-	/* ============================================
+	/* ========================================================
 	 *  			SMARTGALLERY TESTS
-	 * ============================================
+	 * ========================================================
 	 */
 	
 	@Test
@@ -145,9 +222,9 @@ public class BrowsingServiceTests {
 		assertNull(service.getSmartGalleryByID(NONEXISTING_SMARTGALLERY_KEY));
 	}
 	
-	/* ============================================
+	/* =======================================================
 	 *  				GALLERY TESTS
-	 * ============================================
+	 * =======================================================
 	 */
 	
 	@Test
@@ -280,6 +357,23 @@ public class BrowsingServiceTests {
 		assertNull(service.getGalleryByName(NONEXISTING_GALLERY_KEY));
 	}
 	
+	/* =========================================================
+	 *  				PROMOTED ARTWORK TESTS
+	 * =========================================================
+	 */
+	
+//	@Test
+//	public void testPromoteArtwork() {
+//		Gallery gallery = null;
+//		String error = null;
+//		try {
+//			gallery = service.createGallery(GALLERY_KEY, new SmartGallery(), 105);
+//		} catch (IllegalArgumentException e) {
+//			error = e.getMessage();
+//		}
+//		assertNull(gallery);
+//		assertNotNull("The commission percentage must be between 0 and 100 inclusive", error);
+//	}
 	
 }	
 

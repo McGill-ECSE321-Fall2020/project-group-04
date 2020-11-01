@@ -61,4 +61,23 @@ this.creationDate = value;
 public Date getCreationDate() {
 return this.creationDate;
        }
+
+private boolean loggedIn;
+
+public void setLoggedIn(boolean loggedIn) {
+	this.loggedIn = loggedIn;
+}
+
+public void login() {
+	loggedIn = true;
+}
+
+public void logout() {
+	loggedIn = false;
+}
+
+public boolean isLoggedIn() {
+	return loggedIn;
+}
+
    }

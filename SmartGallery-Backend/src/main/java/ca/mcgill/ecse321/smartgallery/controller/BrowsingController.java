@@ -39,20 +39,19 @@ import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
 public class BrowsingController {
 
 	@Autowired
-
-	private static ArtistRepository artistRepository;
+	private  ArtistRepository artistRepository;
 	@Autowired
-	private static ArtworkRepository artworkRepository;
+	private ArtworkRepository artworkRepository;
 	@Autowired
-	private static CustomerRepository customerRepository;
+	private CustomerRepository customerRepository;
 	@Autowired
-	private static GalleryRepository galleryRepository;
+	private GalleryRepository galleryRepository;
 	@Autowired
-	private static ListingRepository listingRepository;
+	private ListingRepository listingRepository;
 	@Autowired
-	private static SmartGalleryRepository smartGalleryRepository;
+	private SmartGalleryRepository smartGalleryRepository;
 	@Autowired
-	private static TransactionRepository transactionRepository;
+	private TransactionRepository transactionRepository;
 
 	@Autowired
 	private BrowsingService browsingService;

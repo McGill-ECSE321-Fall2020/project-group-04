@@ -14,8 +14,8 @@ public class ArtistDTO extends ProfileDTO {
 
 
 	public ArtistDTO(SmartGalleryDTO smartGallery,String username, String password, String email, PaymentMethod defaultPaymentMethod,
-			Date creationDate, boolean isVerified) {
-		super(smartGallery,username, password, email, defaultPaymentMethod, creationDate);
+			Date creationDate, boolean loggedIn, boolean isVerified) {
+		super(smartGallery,username, password, email, defaultPaymentMethod, creationDate, loggedIn);
 		this.isVerified = isVerified;
 	}
 
