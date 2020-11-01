@@ -59,12 +59,8 @@ public class RegistrationService {
 			error += "Non empty username must be provided";
 		}
 
-		// Remove spaces
-		username = username.trim();
-
 		if (!checkExistingUsernameAndEmail(username, email)) {
 			error += "This username/email have already been used";
-
 		}
 
 		// Checks if password is null or not long enough
@@ -78,8 +74,8 @@ public class RegistrationService {
 		}
 
 		// Checks if payment method is set correctly
-		if (defaultPaymentMethod == null || !defaultPaymentMethod.name().equalsIgnoreCase("credit")
-				&& !defaultPaymentMethod.name().equalsIgnoreCase("paypal")) {
+		if (defaultPaymentMethod == null || (!defaultPaymentMethod.name().equalsIgnoreCase("credit")
+				&& !defaultPaymentMethod.name().equalsIgnoreCase("paypal"))) {
 
 			error += "Default payment method must be set to 'credit' or 'paypal'";
 		}
@@ -89,6 +85,8 @@ public class RegistrationService {
 			throw new IllegalArgumentException(error);
 		}
 
+		// Remove spaces
+		username = username.trim();
 		// Set the current date as creation date
 		long millis = System.currentTimeMillis();
 		Date creationDate = new java.sql.Date(millis);
@@ -220,9 +218,6 @@ public class RegistrationService {
 			error += "Non empty username must be provided";
 		}
 
-		// Remove spaces
-		username = username.trim();
-
 		// Checking if username exists already
 		if (!checkExistingUsernameAndEmail(username, email)) {
 			error += "This username/email have already been used";
@@ -239,8 +234,8 @@ public class RegistrationService {
 		}
 
 		// Checks if payment method is set correctly
-		if (defaultPaymentMethod == null || !defaultPaymentMethod.name().equalsIgnoreCase("credit")
-				&& !defaultPaymentMethod.name().equalsIgnoreCase("paypal")) {
+		if (defaultPaymentMethod == null || (!defaultPaymentMethod.name().equalsIgnoreCase("credit")
+				&& !defaultPaymentMethod.name().equalsIgnoreCase("paypal"))) {
 			error += "Default payment method must be set to 'credit' or 'paypal'";
 		}
 
@@ -249,6 +244,8 @@ public class RegistrationService {
 			throw new IllegalArgumentException(error);
 		}
 
+		// Remove spaces
+		username = username.trim();
 		// Set the current date as creation date
 		long millis = System.currentTimeMillis();
 		Date creationDate = new java.sql.Date(millis);

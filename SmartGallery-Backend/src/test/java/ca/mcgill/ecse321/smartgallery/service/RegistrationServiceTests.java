@@ -283,6 +283,24 @@ public class RegistrationServiceTests {
 	}
 
 	@Test
+	public void testInvalidLogin() {
+		try{
+			registrationService.login(null, "");
+		}catch(IllegalArgumentException e) {
+			assertEquals("Profile doesn't exist",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testInvalidLogout() {
+		try{
+			registrationService.logout(null);
+		}catch(IllegalArgumentException e) {
+			assertEquals("Profile doesn't exist",e.getMessage());
+		}
+	}
+	
+	@Test
 	public void testPasswordChange() {
 		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
 		Artist artist = artistRepository.findArtistByUsername(ARTIST_USERNAME);
@@ -346,6 +364,18 @@ public class RegistrationServiceTests {
 		assertEquals(customer.getUsername(), UNIQUE_USER);
 	}
 
+	@Test
+	public void testCreateCustomerExistingInfo() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		Customer customer = null;
+		try {
+			customer = registrationService.createCustomer(CUSTOMER_USERNAME, CUSTOMER_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY,
+					sGallery);
+		} catch (IllegalArgumentException e) {
+			assertEquals("This username/email have already been used",e.getMessage());
+		}
+	}
+	
 	@Test
 	public void testCreateCustomerNoUsername() {
 		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
@@ -579,6 +609,16 @@ public class RegistrationServiceTests {
 		assertEquals(artist.getUsername(), UNIQUE_USER);
 	}
 
+	
+	@Test
+	public void testCreateArtistExistingInfo() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		try {
+			registrationService.createArtist(ARTIST_EMAIL, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY, sGallery);
+		} catch (IllegalArgumentException e) {
+			assertEquals("This username/email have already been used", e.getMessage());
+		}
+	}
 	@Test
 	public void testCreateArtistNoUsername() {
 		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
