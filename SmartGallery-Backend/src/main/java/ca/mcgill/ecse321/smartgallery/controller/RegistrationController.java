@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
 import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
 import ca.mcgill.ecse321.smartgallery.dao.ArtworkRepository;
 import ca.mcgill.ecse321.smartgallery.dao.CustomerRepository;
 import ca.mcgill.ecse321.smartgallery.dao.GalleryRepository;
 import ca.mcgill.ecse321.smartgallery.dao.ListingRepository;
-import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
 import ca.mcgill.ecse321.smartgallery.dao.TransactionRepository;
 import ca.mcgill.ecse321.smartgallery.dto.*;
 import ca.mcgill.ecse321.smartgallery.model.*;
@@ -26,7 +26,7 @@ import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
 @CrossOrigin(origins = "*")
 @RestController
 public class RegistrationController {
-	
+
 	@Autowired
 	private ArtistRepository artistRepository;
 	@Autowired
@@ -44,9 +44,9 @@ public class RegistrationController {
 
 	@Autowired
 	private RegistrationService registrationService;
-	
-	@PostMapping(value = {"/login", "/login/"})
-	public boolean login(@RequestParam(name = "username") String username, 
+
+	@PostMapping(value = { "/login", "/login/" })
+	public boolean login(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password) {
 		Customer customer = customerRepository.findCustomerByUsername(username);
 		if (customer != null) {
@@ -59,9 +59,9 @@ public class RegistrationController {
 		}
 		return false;
 	}
-	
-	@PostMapping(value = {"/customer/login", "/customer/login/"})
-	public boolean customerLogin(@RequestParam(name = "username") String username, 
+
+	@PostMapping(value = { "/customer/login", "/customer/login/" })
+	public boolean customerLogin(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password) {
 		Customer customer = customerRepository.findCustomerByUsername(username);
 		if (customer != null) {
@@ -69,7 +69,7 @@ public class RegistrationController {
 		}
 		return false;
 	}
-	
+  
 	@PostMapping(value = {"/artist/login", "/artist/login/"})
 	public boolean artistLogin(@RequestParam(name = "username") String username, 
 			@RequestParam(name = "password") String password) {
@@ -79,8 +79,8 @@ public class RegistrationController {
 		}
 		return false;
 	}
-	
-	@PostMapping(value = {"/logout", "/logout/"})
+
+	@PostMapping(value = { "/logout", "/logout/" })
 	public boolean logout(@RequestParam(name = "username") String username) {
 		Customer customer = customerRepository.findCustomerByUsername(username);
 		if (customer != null) {
@@ -96,8 +96,7 @@ public class RegistrationController {
 		return false;
 	}
 
-	
-	@PostMapping(value = {"/customer/logout", "/customer/logout/"})
+	@PostMapping(value = { "/customer/logout", "/customer/logout/" })
 	public boolean customerLogout(@RequestParam(name = "username") String username) {
 		Customer customer = customerRepository.findCustomerByUsername(username);
 		if (customer != null) {
@@ -106,8 +105,8 @@ public class RegistrationController {
 		}
 		return false;
 	}
-	
-	@PostMapping(value = {"/artist/logout", "/artist/logout/"})
+
+	@PostMapping(value = { "/artist/logout", "/artist/logout/" })
 	public boolean artistLogout(@RequestParam(name = "username") String username) {
 		Artist artist = artistRepository.findArtistByUsername(username);
 		if (artist != null) {
@@ -116,11 +115,10 @@ public class RegistrationController {
 		}
 		return false;
 	}
-	
-	@PostMapping(value = {"/email/change","/email/change/"})
+
+	@PostMapping(value = { "/email/change", "/email/change/" })
 	public boolean changeEmail(@RequestParam(name = "username") String username,
-			@RequestParam(name = "password") String password, 
-			@RequestParam(name = "newEmail") String email) {
+			@RequestParam(name = "password") String password, @RequestParam(name = "newEmail") String email) {
 		Profile profile = customerRepository.findCustomerByUsername(username);
 		if (profile == null) {
 			profile = artistRepository.findArtistByUsername(username);
@@ -130,10 +128,10 @@ public class RegistrationController {
 		}
 		return registrationService.updateEmail(profile, email, password);
 	}
-	
-	@PostMapping(value = {"/password/change","/password/change/"})
+
+	@PostMapping(value = { "/password/change", "/password/change/" })
 	public boolean changePassword(@RequestParam(name = "username") String username,
-			@RequestParam(name = "oldPassword") String oldPassword, 
+			@RequestParam(name = "oldPassword") String oldPassword,
 			@RequestParam(name = "newPassword") String newPassword) {
 		Profile profile = customerRepository.findCustomerByUsername(username);
 		if (profile == null) {
@@ -154,9 +152,11 @@ public class RegistrationController {
 	@PostMapping(value = { "/customer/{username}/{password}/{email}/{defaultPaymentMethod}" })
 	public CustomerDTO createCustomer(@PathVariable("username") String username,
 			@PathVariable("password") String password, @PathVariable("email") String email,
-			@PathVariable("defaultPaymentMethod") String defaultPaymentMethod) 
-			throws IllegalArgumentException {
-		Customer customer = registrationService.createCustomer(username, password, email, defaultPaymentMethod);
+			@PathVariable("defaultPaymentMethod") String defaultPaymentMethod,
+			@RequestParam("smartGalleryID") int smartGalleryID) throws IllegalArgumentException {
+		SmartGallery smartGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(smartGalleryID);
+		Customer customer = registrationService.createCustomer(username, password, email,
+				Converters.convertStringToPaymentMethod(defaultPaymentMethod), smartGallery);
 		return Converters.convertToDto(customer);
 	}
 
@@ -166,17 +166,43 @@ public class RegistrationController {
 		return Converters.convertToDto(customer);
 	}
 
+	@GetMapping(value = { "/customer/name/{username}", "/customer/name/{username}/" })
+	public CustomerDTO getCustomerByUsername(@PathVariable("username") String username) {
+		Customer customer = registrationService.getCustomer(username);
+		return Converters.convertToDto(customer);
+	}
+
+	@GetMapping(value = { "/customer/email/{email}", "/customer/email/{email}/" })
+	public CustomerDTO getCustomerByEmail(@PathVariable("email") String email) {
+		Customer customer = registrationService.getCustomerByEmail(email);
+		return Converters.convertToDto(customer);
+	}
+
 	@GetMapping(value = { "/artist", "/artist/" })
 	public List<ArtistDTO> getAllArtists() {
 		return registrationService.getAllArtists().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 
+	@GetMapping(value = { "/Artist/name/{username}", "/Artist/email/{username}/" })
+	public ArtistDTO getArtistByUsername(@PathVariable("username") String username) {
+		Artist artist = registrationService.getArtist(username);
+		return Converters.convertToDto(artist);
+	}
+
+	@GetMapping(value = { "/Artist/email/{email}", "/Artist/email/{email}/" })
+	public ArtistDTO getArtistByEmail(@PathVariable("email") String email) {
+		Artist artist = registrationService.getArtistByEmail(email);
+		return Converters.convertToDto(artist);
+	}
+
 	@PostMapping(value = { "/artist/{username}", "/artist/{username}/" })
 	public ArtistDTO createArtist(@PathVariable("username") String username, @RequestParam("password") String password,
-			@RequestParam("email") String email, @RequestParam("defaultPaymentMethod") String defaultPaymentMethod) 
-			throws IllegalArgumentException {
-		Artist artist = registrationService.createArtist(username, password, email, defaultPaymentMethod);
+			@RequestParam("email") String email, @RequestParam("defaultPaymentMethod") String defaultPaymentMethod,
+			@RequestParam("smartGalleryID") int smartGalleryID) throws IllegalArgumentException {
+		SmartGallery sg = smartGalleryRepository.findSmartGalleryBySmartGalleryID(smartGalleryID);
+		Artist artist = registrationService.createArtist(username, password, email,
+				Converters.convertStringToPaymentMethod(defaultPaymentMethod), sg);
 		return Converters.convertToDto(artist);
 	}
 
