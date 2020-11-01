@@ -52,7 +52,6 @@ public class ListingController {
 	@GetMapping(value = { "/artwork/{artworkID}", "/artwork/{artworkID}/" })
 	public ArtworkDTO getArtworkByID(@PathVariable("artworkID") int artworkID) {
 		return Converters.convertToDto(listingService.getArtworkByID(artworkID));
-				
 	}
 	
 	@PostMapping(value = { "/listing/{artworkID}", "/listing/{artworkID}/" })

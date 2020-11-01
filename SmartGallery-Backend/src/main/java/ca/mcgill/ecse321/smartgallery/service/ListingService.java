@@ -115,11 +115,15 @@ public class ListingService {
 		artwork.setWeight(weight);
 		artwork.setWidth(width);
 		HashSet<Artist> artists = new HashSet<>();
+		HashSet<Artwork> artworkss = new HashSet<>();
+		artworkss.add(artwork);
+		artist.setArtworks(artworkss);
 		artists.add(artist);
 		artwork.setArtists(artists);
 		artwork.setGallery(gallery);
 		artwork.setArtworkID(artists.iterator().next().getUsername().hashCode() * artwork.getName().hashCode());
 		artworkRepository.save(artwork);
+		artistRepository.save(artist);
 		return artwork;
 	}
 	/**
@@ -173,8 +177,8 @@ public class ListingService {
 		listing.setGallery(gallery);
 		artwork.setListing(listing);
 		artwork.setPrice(price);
-		artworkRepository.save(artwork);
 		listingRepository.save(listing);
+		artworkRepository.save(artwork);
 		return listing;
 		
 	}
@@ -322,6 +326,7 @@ public class ListingService {
 			Set<Artwork> artworks = a.getArtworks();
 			artworks.remove(artwork);
 			a.setArtworks(artworks);
+			artistRepository.save(a);
 		}
 		
 		if(transaction==null)
