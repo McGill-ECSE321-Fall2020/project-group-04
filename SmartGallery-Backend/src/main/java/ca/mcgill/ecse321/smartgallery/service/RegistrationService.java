@@ -321,6 +321,101 @@ public class RegistrationService {
 		return artist;
 
 	}
+	
+	/**
+	 * Log into a profile
+	 * @param profile
+	 */
+	public void login(Profile profile) {
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		profile.login();
+	}
+	
+	/**
+	 * Log into a profile
+	 * @param username
+	 */
+	public void login(String username) {
+		Customer customer = customerRepository.findCustomerByUsername(username);
+		Artist artist = artistRepository.findArtistByUsername(username);
+		Profile profile = null;
+		if(customer != null) {
+			profile = customer;
+		} else if (artist != null) {
+			profile = artist;
+		}
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		profile.login();
+	}
+	
+	/**
+	 * Log out of a profile
+	 * @param profile
+	 */
+	public void logout(Profile profile) {
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		profile.logout();
+	}
+	
+	/**
+	 * Log out of a profile
+	 * @param username
+	 */
+	public void logout(String username) {
+		Customer customer = customerRepository.findCustomerByUsername(username);
+		Artist artist = artistRepository.findArtistByUsername(username);
+		Profile profile = null;
+		if(customer != null) {
+			profile = customer;
+		} else if (artist != null) {
+			profile = artist;
+		}
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		profile.logout();
+	}
+	
+	public void updateEmail(String oldEmail, String newEmail) {
+		Profile profile = null;
+		profile = customerRepository.findCustomerByEmail(oldEmail);
+		if (profile == null) {
+			profile = artistRepository.findArtistByEmail(oldEmail);
+		}
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		profile.setEmail(newEmail);
+		if (profile instanceof Customer) {
+			customerRepository.save((Customer) profile);
+		} else {
+			artistRepository.save((Artist) profile);
+		}
+	}
+	
+	public void updatePassword(Profile profile, String password) {
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		profile.setPassword(password);
+		if (profile instanceof Customer) {
+			customerRepository.save((Customer) profile);
+		} else {
+			artistRepository.save((Artist) profile);
+		}
+	}
 
 	// Helper method to retrieve lists of objects
 	private <T> List<T> toList(Iterable<T> iterable) {

@@ -11,19 +11,21 @@ public abstract class ProfileDTO {
 	private String email;
 	private PaymentMethod defaultPaymentMethod;
 	private Date creationDate;
+	private boolean loggedIn;
 	
 	public ProfileDTO() {
 		
 	}
 	
 	public ProfileDTO(SmartGalleryDTO smartGallery,String username, String password, String email, PaymentMethod defaultPaymentMethod,
-			Date creationDate) {
+			Date creationDate, boolean loggedIn) {
 		this.smartGallery = smartGallery;
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.defaultPaymentMethod = defaultPaymentMethod;
 		this.creationDate = creationDate;
+		this.loggedIn = loggedIn;
 	}
 
 	
@@ -69,5 +71,8 @@ public abstract class ProfileDTO {
 		return creationDate;
 	}
 
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
 
 }
