@@ -169,7 +169,9 @@ public class ListingServiceTests {
 				listing.setListedDate(DATE_LISTED);
 				listing.setListingID(L_ID);
 				listing.setArtwork(artwork);
-			
+				HashSet<Artwork> artworkss = new HashSet<>();
+				artworkss.add(artwork);
+				artist.setArtworks(artworkss);
 				return listing;
 			} else {
 				return null;
