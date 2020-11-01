@@ -22,8 +22,7 @@ public class ListingService {
 	ArtistRepository artistRepository;
 	@Autowired 
 	GalleryRepository galleryRepository;
-	@Autowired
-	TransactionRepository transactionRepository;
+
 	
 	/**
 	 * @author Stavros Mitsoglou
@@ -56,10 +55,10 @@ public class ListingService {
 			error += "Price must be specified";
 		}
 
-		if (isBeingPromoted !=true || isBeingPromoted !=false) {
-			error += "Promotion must be specified";
+		if(year == null) {
+			error += "Year must be specified";
 		}
-
+		
 		if (style == null) {
 			error += "Art style must be specified";
 		}
@@ -69,7 +68,7 @@ public class ListingService {
 		}
 
 		if (weight == null) {
-			error += "Height must be specified";
+			error += "Weight must be specified";
 		}
 		
 		if(width == null) {
@@ -77,23 +76,26 @@ public class ListingService {
 		}
 		
 		if (artist == null) {
-			error += "Artist must be specified";
+			error += "Artist must exist";
 			
 		}
-		else if(!artistRepository.existsById(artist.getUsername())) {
+		else if(artistRepository.findArtistByUsername(artist.getUsername()) == null) {
 			error += "Artist must exist";
 		}
 		
 		if (gallery == null) {
-			error += "Gallery must be specified";
-		}
-		
-		else if(!galleryRepository.existsById(gallery.getGalleryName())) {
 			error += "Gallery must exist";
 		}
 		
-		int potentialArtworkId = artist.getUsername().hashCode() * name.hashCode();
-		if(!artworkRepository.existsById(potentialArtworkId)) {
+		else if(galleryRepository.findGalleryByGalleryName(gallery.getGalleryName()) == null) {
+			error += "Gallery must exist";
+		}
+		
+		int potentialArtworkId=0;
+		if(artist!=null && name!=null) {
+			potentialArtworkId = artist.getUsername().hashCode() * name.hashCode();
+		}
+		if(artworkRepository.existsById(potentialArtworkId)) {
 			error += "This artwork for the specified user already exists";
 		}
 		
@@ -137,14 +139,14 @@ public class ListingService {
 		String error = "";
 
 		if (artwork == null) {
-			error += "Artwork must be specified";
+			error += "Artwork must exist";
 		}
-		else if(!artworkRepository.existsById(artwork.getArtworkID())) {
+		else if(artworkRepository.findArtworkByArtworkID(artwork.getArtworkID()) == null) {
 			error += "Artwork must exist";
 		}
 
 		if (dateListed == null) {
-			error += "Lisred date must be specified";
+			error += "Listed date must be specified";
 		}
 
 		if (price == null) {
@@ -152,9 +154,9 @@ public class ListingService {
 		}
 
 		if (gallery==null) {
-			error += "Gallery must be specified";
+			error += "Gallery must exist";
 		}
-		else if(!galleryRepository.existsById(gallery.getGalleryName())) {
+		else if(galleryRepository.findGalleryByGalleryName(gallery.getGalleryName()) == null) {
 			error += "Gallery must exist";
 		}
 
@@ -192,23 +194,28 @@ public class ListingService {
 		String error = "";
 
 		if (artist == null) {
-			error += "Artist must be specified";
+			error += "Artist must exist";
 		}
-		else if(!artistRepository.existsById(artist.getUsername())) {
+		else if(artistRepository.findArtistByUsername(artist.getUsername()) == null) {
 			error += "Artist must exist";
 		}
 
-		if (!artworkRepository.existsById(artworkID)) {
-			error += "Lisred date must be specified";
+		if (artworkRepository.findArtworkByArtworkID(artworkID) == null) {
+			error += "Artwork must exist";
 		}
 
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
 		Artwork artwork = artworkRepository.findArtworkByArtworkID(artworkID);
+		Artist artistToAdd = artistRepository.findArtistByUsername(artist.getUsername());
 		Set<Artist> artists = artwork.getArtists();
 		artists.add(artist);
 		artwork.setArtists(artists);
+		Set<Artwork> artworks = artistToAdd.getArtworks();
+		artworks.add(artwork);
+		artistToAdd.setArtworks(artworks);
+		artistRepository.save(artistToAdd);
 		artworkRepository.save(artwork);
 		return artwork;
 	}
@@ -239,10 +246,10 @@ public class ListingService {
 		}
 
 		if (listing == null) {
-			error += "Listing must be specified";
+			error += "Listing must exist";
 		}
 		
-		else if(!listingRepository.existsById(listing.getListingID())) {
+		else if(listingRepository.findListingByListingID(listing.getListingID()) == null) {
 			error += "Listing must exist";
 		}
 
@@ -263,7 +270,7 @@ public class ListingService {
 		}
 
 		if (weight == null) {
-			error += "Height must be specified";
+			error += "Weight must be specified";
 		}
 		
 		if(width == null) {
@@ -294,10 +301,10 @@ public class ListingService {
 	
 		String error = "";
 		if(listing == null) {
-			error += "Listing must be specified";
+			error += "Listing must exist";
 		}
 		
-		else if(!listingRepository.existsById(listing.getListingID()))
+		else if(listingRepository.findListingByListingID(listing.getListingID()) == null)
 		{
 			error += "Listing must exist";
 		}
@@ -310,8 +317,10 @@ public class ListingService {
 		Artwork artwork = listing.getArtwork();
 		Transaction transaction = listing.getTransaction();
 		
-		if(transaction==null || !transactionRepository.existsById(transaction.getTransactionID()))
+		if(transaction==null)
 		{
+			listing.setArtwork(null);
+			artwork.setListing(null);
 			listingRepository.delete(listing);
 			artworkRepository.delete(artwork);
 			
@@ -320,24 +329,7 @@ public class ListingService {
 		return artwork;
 	}
 	
-	@Transactional
-	/**
-	 * @author Stavros Mitsoglou
-	 * @param listing -> listing we are trying to find
-	 * @return
-	 * Method will return true if there is a duplicate listing
-	 */
-	public boolean foundListing(Listing listing)
-	{ 
-		boolean found = true;
-		Listing l = getListingByID(listing.getListingID());
-		if(l == null)
-			found = false;
-		
-		return found;
-	}
-	
-	
+
 	
 	/**
 	 * @author Stavros Mitsoglou
