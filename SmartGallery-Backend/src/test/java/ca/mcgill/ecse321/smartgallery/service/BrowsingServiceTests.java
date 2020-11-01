@@ -155,8 +155,6 @@ public class BrowsingServiceTests {
 			}
 		});
 		
-
-		// TODO PORT
 		lenient().when(artworkDao.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(A_ID)) {
 				Artwork artwork = new Artwork();
