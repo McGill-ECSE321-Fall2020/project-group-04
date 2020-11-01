@@ -37,8 +37,8 @@ public class BrowsingService {
 			throw new IllegalArgumentException("A smartGallery with that ID already exists");
 		}
 		
-		if(smartGalleryID == 0) {
-			throw new IllegalArgumentException("Id must not be zero");
+		if (smartGalleryID == 0) {
+			throw new IllegalArgumentException("SmartGallery ID must not be zero");
 		}
 		
 		SmartGallery smartGallery = new SmartGallery();
@@ -60,7 +60,7 @@ public class BrowsingService {
 
 		// If the smartGallery doesn't exist, throw an error
 		if (smartGallery == null) {
-			throw new IllegalArgumentException("smartGallery doesn't exist");
+			throw new IllegalArgumentException("SmartGallery doesn't exist");
 		}
 
 		// Otherwise return the found smartGallery
@@ -72,6 +72,15 @@ public class BrowsingService {
 		// Checking if ID exists already
 		if (getGalleryByName(galleryName) != null) {
 			throw new IllegalArgumentException("A gallery with that name already exists");
+		}
+		if (galleryName == null || galleryName == "" || galleryName.isBlank()) {
+			throw new IllegalArgumentException("Gallery Name cannot be empty");
+		}
+		if (commission < 0 || commission > 100) {
+			throw new IllegalArgumentException("The commission percentage must be between 0 and 100 inclusive");
+		}
+		if (smartGallery == null) {
+			throw new IllegalArgumentException("A SmartGallery is need to create a Gallery");
 		}
 		Gallery gallery = new Gallery();
 		gallery.setGalleryName(galleryName);
@@ -90,12 +99,16 @@ public class BrowsingService {
 	
 	@Transactional
 	public Gallery getGalleryByName(String galleryName) {
+		if (galleryName == null || galleryName == "" || galleryName.isBlank()) {
+			throw new IllegalArgumentException("Gallery Name cannot be empty");
+		}
+		
 		// Uses existing method in gallery repository to find a gallery by name
 		Gallery gallery = galleryRepository.findGalleryByGalleryName(galleryName);
 
 		// If the gallery doesn't exist, throw an error
 		if (gallery == null) {
-			throw new IllegalArgumentException("gallery doesn't exist");
+			throw new IllegalArgumentException("Gallery doesn't exist");
 		}
 
 		// Otherwise return the found gallery
@@ -104,6 +117,9 @@ public class BrowsingService {
 
 	@Transactional
 	public Artwork promoteArtwork(Artwork artwork) {
+		if (artwork == null) {
+			throw new IllegalArgumentException("Artwork doesn't exist");
+		}
 		artwork.setIsBeingPromoted(true);
 		artworkRepository.save(artwork);
 		return artwork;
@@ -111,6 +127,9 @@ public class BrowsingService {
 
 	@Transactional
 	public Artwork unpromoteArtwork(Artwork artwork) {
+		if (artwork == null) {
+			throw new IllegalArgumentException("Artwork doesn't exist");
+		}
 		artwork.setIsBeingPromoted(false);
 		artworkRepository.save(artwork);
 		return artwork;
@@ -123,6 +142,12 @@ public class BrowsingService {
 
 	@Transactional
 	public HashSet<Artist> searchArtist(List<Artist> artists, String searchInput) {
+		if (artists == null) {
+			throw new IllegalArgumentException("Artists must be provided");
+		}
+		if (searchInput == null || searchInput == "" || searchInput.isBlank()) {
+			throw new IllegalArgumentException("Search cannot be empty");
+		}
 		HashSet<Artist> results = new HashSet<>();
 		for (Artist artist : artists) {
 			if (artist.getUsername().toLowerCase().replaceAll("\\s+", "")
@@ -136,6 +161,18 @@ public class BrowsingService {
 	@Transactional
 	public HashSet<Listing> searchArtwork(List<Listing> listings, String searchInput, double minPrice, double maxPrice,
 			ArtStyle artStyle) {
+		if (listings == null) {
+			throw new IllegalArgumentException("Listings must be provided");
+		}
+		if (searchInput == null || searchInput == "" || searchInput.isBlank()) {
+			throw new IllegalArgumentException("Search cannot be empty");
+		}
+		if (minPrice > maxPrice) {
+			throw new IllegalArgumentException("Min price cannot be larger than max price");
+		}
+		if (artStyle == null) {
+			throw new IllegalArgumentException("ArtStyle cannot be null");
+		}
 		HashSet<Listing> results = new HashSet<>();
 		for (Listing listing : listings) {
 			if (!listing.isIsSold()) { // only show artworks for sale
@@ -153,6 +190,15 @@ public class BrowsingService {
 	@Transactional
 	public HashSet<Listing> searchArtwork(List<Listing> listings, String searchInput, double minPrice,
 			double maxPrice) {
+		if (listings == null) {
+			throw new IllegalArgumentException("Listings must be provided");
+		}
+		if (searchInput == null || searchInput == "" || searchInput.isBlank()) {
+			throw new IllegalArgumentException("Search cannot be empty");
+		}
+		if (minPrice > maxPrice) {
+			throw new IllegalArgumentException("Min price cannot be larger than max price");
+		}
 		HashSet<Listing> results = new HashSet<>();
 		for (Listing listing : listings) {
 			if (!listing.isIsSold()) { // only show artworks for sale
@@ -169,6 +215,15 @@ public class BrowsingService {
 
 	@Transactional
 	public HashSet<Listing> searchArtwork(List<Listing> listings, String searchInput, ArtStyle artStyle) {
+		if (listings == null) {
+			throw new IllegalArgumentException("Listings must be provided");
+		}
+		if (searchInput == null || searchInput == "" || searchInput.isBlank()) {
+			throw new IllegalArgumentException("Search cannot be empty");
+		}
+		if (artStyle == null) {
+			throw new IllegalArgumentException("ArtStyle cannot be null");
+		}
 		HashSet<Listing> results = new HashSet<>();
 		for (Listing listing : listings) {
 			if (!listing.isIsSold()) { // only show artworks for sale
@@ -184,6 +239,12 @@ public class BrowsingService {
 
 	@Transactional
 	public HashSet<Listing> searchArtwork(List<Listing> listings, String searchInput) {
+		if (listings == null) {
+			throw new IllegalArgumentException("Listings must be provided");
+		}
+		if (searchInput == null || searchInput == "" || searchInput.isBlank()) {
+			throw new IllegalArgumentException("Search cannot be empty");
+		}
 		HashSet<Listing> results = new HashSet<>();
 		for (Listing listing : listings) {
 			if (!listing.isIsSold()) { // only show artworks for sale
@@ -199,6 +260,12 @@ public class BrowsingService {
 
 	@Transactional
 	public Set<Artwork> addToBrowseHistory(Customer customer, Artwork artwork) {
+		if (customer == null) {
+			throw new IllegalArgumentException("Customer doesn't exist");
+		}
+		if (artwork == null) {
+			throw new IllegalArgumentException("Artwork doesn't exist");
+		}
 		Set<Artwork> viewedArtworks = customer.getArtworksViewed();
 		if (viewedArtworks.contains(artwork)) { // if that artwork was already in browsing history
 			viewedArtworks.remove(artwork); // put it back in front
@@ -209,6 +276,9 @@ public class BrowsingService {
 
 	@Transactional
 	public Set<Artwork> viewBrowsingHistory(Customer customer) {
+		if (customer == null) {
+			throw new IllegalArgumentException("Customer doesn't exist");
+		}
 		return customer.getArtworksViewed();
 	}
 

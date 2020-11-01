@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
+import ca.mcgill.ecse321.smartgallery.dao.ArtworkRepository;
+import ca.mcgill.ecse321.smartgallery.dao.CustomerRepository;
+import ca.mcgill.ecse321.smartgallery.dao.GalleryRepository;
+import ca.mcgill.ecse321.smartgallery.dao.ListingRepository;
+import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
+import ca.mcgill.ecse321.smartgallery.dao.TransactionRepository;
 import ca.mcgill.ecse321.smartgallery.dto.TransactionDTO;
 import ca.mcgill.ecse321.smartgallery.model.Customer;
 import ca.mcgill.ecse321.smartgallery.model.Listing;
@@ -31,6 +38,21 @@ import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
 @CrossOrigin(origins = "*")
 @RestController
 public class PurchaseController {
+	
+	@Autowired
+	private ArtistRepository artistRepository;
+	@Autowired
+	private ArtworkRepository artworkRepository;
+	@Autowired
+	private CustomerRepository customerRepository;
+	@Autowired
+	private GalleryRepository galleryRepository;
+	@Autowired
+	private ListingRepository listingRepository;
+	@Autowired
+	private SmartGalleryRepository smartGalleryRepository;
+	@Autowired
+	private TransactionRepository transactionRepository;
 
 	@Autowired
 	private PurchaseService purchaseService;

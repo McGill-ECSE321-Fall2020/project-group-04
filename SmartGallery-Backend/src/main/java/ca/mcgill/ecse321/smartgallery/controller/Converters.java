@@ -93,7 +93,7 @@ public class Converters {
 			throw new IllegalArgumentException("There is no such Artist.");
 		}
 		ArtistDTO artistDTO = new ArtistDTO(convertToDto(a.getSmartGallery()), a.getUsername(), a.getPassword(),
-				a.getEmail(), a.getDefaultPaymentMethod(), a.getCreationDate(), a.isIsVerified());
+				a.getEmail(), a.getDefaultPaymentMethod(), a.getCreationDate(), a.isLoggedIn(), a.isIsVerified());
 		return artistDTO;
 	}
 
@@ -108,7 +108,7 @@ public class Converters {
 			throw new IllegalArgumentException("There is no such Customer.");
 		}
 		CustomerDTO customerDto = new CustomerDTO(convertToDto(c.getSmartGallery()), c.getUsername(), c.getPassword(),
-				c.getEmail(), c.getDefaultPaymentMethod(), c.getCreationDate());
+				c.getEmail(), c.getDefaultPaymentMethod(), c.getCreationDate(), c.isLoggedIn());
 		return customerDto;
 	}
 

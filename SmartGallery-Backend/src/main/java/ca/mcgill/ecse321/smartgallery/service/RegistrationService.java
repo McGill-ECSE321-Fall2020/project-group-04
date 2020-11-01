@@ -55,6 +55,7 @@ public class RegistrationService {
 
 		if (!checkExistingUsernameAndEmail(username, email)) {
 			error += "This username/email have already been used";
+
 		}
 
 		// Checks if password is null or not long enough
@@ -70,6 +71,7 @@ public class RegistrationService {
 		// Checks if payment method is set correctly
 		if (defaultPaymentMethod == null || !defaultPaymentMethod.name().equalsIgnoreCase("credit")
 				&& !defaultPaymentMethod.name().equalsIgnoreCase("paypal")) {
+
 			error += "Default payment method must be set to 'credit' or 'paypal'";
 		}
 
@@ -87,7 +89,7 @@ public class RegistrationService {
 		customer.setUsername(username);
 		customer.setPassword(password);
 		customer.setEmail(email);
-		customer.setDefaultPaymentMethod(defaultPaymentMethod);
+		customer.setDefaultPaymentMethod(Converters.convertStringToPaymentMethod(defaultPaymentMethod));
 		customer.setCreationDate(creationDate);
 		customer.setArtworksViewed(null);
 		customer.setTransaction(null);
@@ -230,7 +232,7 @@ public class RegistrationService {
 		}
 
 		// Checks if payment method is set correctly
-		if (!defaultPaymentMethod.equals(PaymentMethod.CREDIT) || !defaultPaymentMethod.equals(PaymentMethod.PAYPAL)) {
+		if (!defaultPaymentMethod.equals("credit") || !defaultPaymentMethod.equals("paypal")) {
 			error += "Default payment method must be set to 'credit' or 'paypal'";
 		}
 
@@ -248,7 +250,7 @@ public class RegistrationService {
 		artist.setUsername(username);
 		artist.setPassword(password);
 		artist.setEmail(email);
-		artist.setDefaultPaymentMethod(defaultPaymentMethod);
+		artist.setDefaultPaymentMethod(Converters.convertStringToPaymentMethod(defaultPaymentMethod));
 		artist.setCreationDate(creationDate);
 		artist.setIsVerified(false); // When an artists profile is made, they are not verified initially
 		artist.setSmartGallery(smartGallery);
@@ -372,6 +374,101 @@ public class RegistrationService {
 
 		return artist;
 
+	}
+	
+	/**
+	 * Log into a profile
+	 * @param profile
+	 */
+	public void login(Profile profile) {
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		profile.login();
+	}
+	
+	/**
+	 * Log into a profile
+	 * @param username
+	 */
+	public void login(String username) {
+		Customer customer = customerRepository.findCustomerByUsername(username);
+		Artist artist = artistRepository.findArtistByUsername(username);
+		Profile profile = null;
+		if(customer != null) {
+			profile = customer;
+		} else if (artist != null) {
+			profile = artist;
+		}
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		profile.login();
+	}
+	
+	/**
+	 * Log out of a profile
+	 * @param profile
+	 */
+	public void logout(Profile profile) {
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		profile.logout();
+	}
+	
+	/**
+	 * Log out of a profile
+	 * @param username
+	 */
+	public void logout(String username) {
+		Customer customer = customerRepository.findCustomerByUsername(username);
+		Artist artist = artistRepository.findArtistByUsername(username);
+		Profile profile = null;
+		if(customer != null) {
+			profile = customer;
+		} else if (artist != null) {
+			profile = artist;
+		}
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		profile.logout();
+	}
+	
+	public void updateEmail(String oldEmail, String newEmail) {
+		Profile profile = null;
+		profile = customerRepository.findCustomerByEmail(oldEmail);
+		if (profile == null) {
+			profile = artistRepository.findArtistByEmail(oldEmail);
+		}
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		profile.setEmail(newEmail);
+		if (profile instanceof Customer) {
+			customerRepository.save((Customer) profile);
+		} else {
+			artistRepository.save((Artist) profile);
+		}
+	}
+	
+	public void updatePassword(Profile profile, String password) {
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		profile.setPassword(password);
+		if (profile instanceof Customer) {
+			customerRepository.save((Customer) profile);
+		} else {
+			artistRepository.save((Artist) profile);
+		}
 	}
 
 	@Transactional
