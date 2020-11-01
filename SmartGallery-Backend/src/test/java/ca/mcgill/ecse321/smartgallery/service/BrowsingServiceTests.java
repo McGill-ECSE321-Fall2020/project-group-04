@@ -110,7 +110,15 @@ public class BrowsingServiceTests {
 						return null;
 					}
 				});
-
+		
+		lenient().when(smartGalleryDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+			List<SmartGallery> smartGalleries = new ArrayList<>();
+			SmartGallery smartGallery = new SmartGallery();
+			smartGallery.setSmartGalleryID(SMARTGALLERY_KEY);
+			smartGalleries.add(smartGallery);
+			return smartGalleries;
+		});
+		
 		lenient().when(galleryDao.findGalleryByGalleryName(anyString())).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(GALLERY_KEY)) {
 				Gallery gallery = new Gallery();
@@ -119,6 +127,14 @@ public class BrowsingServiceTests {
 			} else {
 				return null;
 			}
+		});
+		
+		lenient().when(galleryDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+			List<Gallery> galleries = new ArrayList<>();
+			Gallery gallery = new Gallery();
+			gallery.setGalleryName(GALLERY_KEY);
+			galleries.add(gallery);
+			return galleries;
 		});
 
 		lenient().when(artistDao.findArtistByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
@@ -189,8 +205,6 @@ public class BrowsingServiceTests {
 
 	@Test
 	public void testCreateSmartGallery() {
-		assertEquals(0, service.getAllSmartGalleries().size());
-
 		int key = 2325;
 		SmartGallery smartGallery = null;
 		try {
@@ -252,6 +266,19 @@ public class BrowsingServiceTests {
 		}
 		assertEquals("SmartGallery doesn't exist", error);
 	}
+	
+	@Test
+	public void testGetAllSmartGalleries() {
+		SmartGallery smartGallery =  new SmartGallery();
+		smartGallery.setSmartGalleryID(SMARTGALLERY_KEY);
+		List<SmartGallery> smartGalleries = new ArrayList<>();
+		try {
+			smartGalleries = service.getAllSmartGalleries();
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertEquals(smartGallery.getSmartGalleryID(), smartGalleries.get(0).getSmartGalleryID());
+	}
 		
 	/*
 	 * ======================================================= 
@@ -261,8 +288,6 @@ public class BrowsingServiceTests {
 
 	@Test
 	public void testCreateGallery() {
-		assertEquals(0, service.getAllGalleries().size());
-
 		String key = "test1";
 		Gallery gallery = null;
 		try {
@@ -408,11 +433,24 @@ public class BrowsingServiceTests {
 		}
 		assertEquals("Gallery Name cannot be empty", error);
 	}
+	
+	@Test
+	public void testGetAllGalleries() {
+		Gallery gallery =  new Gallery();
+		gallery.setGalleryName(GALLERY_KEY);
+		List<Gallery> galleries = new ArrayList<>();
+		try {
+			galleries = service.getAllGalleries();
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertEquals(gallery.getGalleryName(), galleries.get(0).getGalleryName());
+	}
 
 	/*
 	 * ========================================================= 
-	 * 				PROMOTED ARTWORK
-	 * 					TESTS
+	 * 					PROMOTED ARTWORK
+	 * 						TESTS
 	 *  =========================================================
 	 */
 
@@ -479,7 +517,7 @@ public class BrowsingServiceTests {
 
 	/*
 	 * ========================================================= 
-	 * 				SEARCHARTISTS TESTS
+	 * 					SEARCHARTISTS TESTS
 	 * =========================================================
 	 */
 
