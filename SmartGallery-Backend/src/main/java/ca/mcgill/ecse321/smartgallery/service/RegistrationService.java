@@ -464,6 +464,7 @@ public class RegistrationService {
 			throw new IllegalArgumentException(error);
 		}
 		if (profile.getPassword().equals(oldPassword)) {
+			System.out.println("We have indeed gotten here");
 			profile.setPassword(newPassword);
 			return true;
 		} else

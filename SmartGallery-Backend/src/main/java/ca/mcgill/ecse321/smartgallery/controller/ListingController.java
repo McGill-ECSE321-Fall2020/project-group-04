@@ -56,10 +56,12 @@ public class ListingController {
 	}
 	
 	@PostMapping(value = { "/listing/{artworkID}", "/listing/{artworkID}/" })
-	public ListingDTO createListing(@PathVariable("artwork") int artworkID,
-			@DateTimeFormat(pattern = "MM/dd/yyyy") Date dateListed, @RequestParam("price") double price,
+	public ListingDTO createListing(@PathVariable("artworkID") int artworkID,
+			@RequestParam("price") double price,
 			@RequestParam("gallery") String galleryName) throws IllegalArgumentException {
 		Artwork artwork = artworkRepository.findArtworkByArtworkID(artworkID);
+		long millis = System.currentTimeMillis();
+		Date dateListed = new java.sql.Date(millis);
 		Gallery gallery = galleryRepository.findGalleryByGalleryName(galleryName);
 		Listing listing = listingService.createListing(artwork, dateListed, price, gallery);
 		return Converters.convertToDto(listing);
@@ -69,21 +71,22 @@ public class ListingController {
 	public ArtworkDTO createArtwork( @PathVariable("artworkName") String artworkName, @RequestParam("year")int year, 
 			@RequestParam("price") double price, 
 			@RequestParam("isPromoted")boolean isBeingPromoted, 
-			@RequestParam("style")ArtStyle style, 
+			@RequestParam("style")String style, 
 			@RequestParam("height")int height,
 			@RequestParam("weight")int weight, 
 			@RequestParam("width")int width, 
-			@RequestParam("aritst") String artistName, 
+			@RequestParam("artist") String artistName, 
 			@RequestParam("gallery") String galleryName)throws IllegalArgumentException{
 		
 		Artist artist = artistRepository.findArtistByUsername(artistName);
+		ArtStyle artStyle = Converters.convertStringToArtStyle(style);
 		Gallery gallery = galleryRepository.findGalleryByGalleryName(galleryName);
-		Artwork artwork = listingService.createArtwork(artworkName, year, price, isBeingPromoted, style, height, weight, width, artist, gallery);
+		Artwork artwork = listingService.createArtwork(artworkName, year, price, isBeingPromoted, artStyle, height, weight, width, artist, gallery);
 		return Converters.convertToDto(artwork);
 		
 	}
 	
-	@PutMapping(value = {"/artwork/addArtist/{artworkID}/{artistName}", "/artwork/addArtist/{artworkID}/{artistName}/"})
+	@PutMapping(value = {"/artwork/addArtist/{artworkID}/{artist}", "/artwork/addArtist/{artworkID}/{artist}/"})
 	public ArtworkDTO addArtistToArtwork(@PathVariable("artworkID") int artworkID, 
 			@PathVariable("artist") String artistName) throws IllegalArgumentException{
 		

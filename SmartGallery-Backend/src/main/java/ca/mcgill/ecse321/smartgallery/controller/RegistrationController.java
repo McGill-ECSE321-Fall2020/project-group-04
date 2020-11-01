@@ -45,6 +45,12 @@ public class RegistrationController {
 	@Autowired
 	private RegistrationService registrationService;
 
+	/**
+	 * Login method for any profile
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	@PostMapping(value = { "/login", "/login/" })
 	public boolean login(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password) {
@@ -60,6 +66,12 @@ public class RegistrationController {
 		return false;
 	}
 
+	/**
+	 * Login method specifically for a customer. Not currently used.
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	@PostMapping(value = { "/customer/login", "/customer/login/" })
 	public boolean customerLogin(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password) {

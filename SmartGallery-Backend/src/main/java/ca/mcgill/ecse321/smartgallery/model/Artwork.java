@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.smartgallery.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.util.Set;
 import javax.persistence.ManyToMany;
@@ -108,7 +109,7 @@ public void setGallery(Gallery gallery) {
 
 private Listing listing;
 
-@OneToOne(mappedBy="artwork")
+@OneToOne(mappedBy="artwork", cascade=CascadeType.ALL)
 public Listing getListing() {
    return this.listing;
 }
