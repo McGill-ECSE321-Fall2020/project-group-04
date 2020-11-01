@@ -97,7 +97,6 @@ public class ListingServiceTests {
 					if (invocation.getArgument(0).equals(G_ID)) {
 						Gallery gallery = new Gallery();
 						gallery.setGalleryName(G_ID);
-						galleryRepository.save(gallery);
 						return gallery;
 					} else {
 						return null;
@@ -113,7 +112,6 @@ public class ListingServiceTests {
 				artist.setEmail(ARTIST_EMAIL);
 				artist.setCreationDate(ARTIST_CREATION_DATE);
 				artist.setIsVerified(VERIFIED);
-				artistRepository.save(artist);
 				return artist;
 			}
 
@@ -139,8 +137,6 @@ public class ListingServiceTests {
 				HashSet<Artwork> artworks = new HashSet();
 				artworks.add(artwork);
 				artist.setArtworks(artworks);
-				artworkRepository.save(artwork);
-				artistRepository.save(artist);
 				return artist;
 			} else {
 				return null;
@@ -168,14 +164,12 @@ public class ListingServiceTests {
 				HashSet<Artist> artists = new HashSet();
 				artists.add(artist);
 				artwork.setArtists(artists);
-				artistRepository.save(artist);
-				artworkRepository.save(artwork);
 				Listing listing = new Listing();
 				listing.setIsSold(NOT_SOLD);
 				listing.setListedDate(DATE_LISTED);
 				listing.setListingID(L_ID);
 				listing.setArtwork(artwork);
-				listingRepository.save(listing);
+			
 				return listing;
 			} else {
 				return null;
@@ -203,8 +197,7 @@ public class ListingServiceTests {
 				HashSet<Artist> artists = new HashSet();
 				artists.add(artist);
 				artwork.setArtists(artists);
-				artistRepository.save(artist);
-				artworkRepository.save(artwork);
+				
 				return artwork;
 			} else {
 				return null;
