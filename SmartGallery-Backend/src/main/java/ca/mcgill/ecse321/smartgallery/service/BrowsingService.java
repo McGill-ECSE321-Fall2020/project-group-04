@@ -33,18 +33,24 @@ public class BrowsingService {
 	@Transactional
 	public SmartGallery createSmartGallery(int smartGalleryID) {
 		// Checking if ID exists already
-		if (getSmartGalleryByID(smartGalleryID) != null) {
-			throw new IllegalArgumentException("A smartGallery with that ID already exists");
-		}
-		
 		if (smartGalleryID == 0) {
 			throw new IllegalArgumentException("SmartGallery ID must not be zero");
 		}
-		
+		if (validateSmartGalleryID(smartGalleryID)) {
+			throw new IllegalArgumentException("A smartGallery with that ID already exists");
+		}
+
 		SmartGallery smartGallery = new SmartGallery();
 		smartGallery.setSmartGalleryID(smartGalleryID);
 		smartGalleryRepository.save(smartGallery);
 		return smartGallery;
+	}
+	
+	private boolean validateSmartGalleryID (int smartGalleryID) {
+		if (smartGalleryRepository.findSmartGalleryBySmartGalleryID(smartGalleryID) == null) {
+			return false;
+		}
+		return true;
 	}
 
 	
@@ -70,7 +76,7 @@ public class BrowsingService {
 	@Transactional
 	public Gallery createGallery(String galleryName, SmartGallery smartGallery, double commission) {
 		// Checking if ID exists already
-		if (getGalleryByName(galleryName) != null) {
+		if (validateGalleryName(galleryName)) {
 			throw new IllegalArgumentException("A gallery with that name already exists");
 		}
 		if (galleryName == null || galleryName == "" || galleryName.isBlank()) {
@@ -90,6 +96,13 @@ public class BrowsingService {
 		gallery.setComissionPercentage(commission);
 		galleryRepository.save(gallery);
 		return gallery;
+	}
+	
+	private boolean validateGalleryName(String galleryName) {
+		if (galleryRepository.findGalleryByGalleryName(galleryName) == null) {
+			return false;
+		}
+		return true;
 	}
 
 	@Transactional
@@ -114,7 +127,7 @@ public class BrowsingService {
 		// Otherwise return the found gallery
 		return gallery;
 	}
-
+	
 	@Transactional
 	public Artwork promoteArtwork(Artwork artwork) {
 		if (artwork == null) {
@@ -266,6 +279,12 @@ public class BrowsingService {
 		if (artwork == null) {
 			throw new IllegalArgumentException("Artwork doesn't exist");
 		}
+		if (customer.getArtworksViewed() == null) {
+			HashSet<Artwork> viewedArtworks = new HashSet<Artwork>();
+			viewedArtworks.add(artwork);
+			customer.setArtworksViewed(viewedArtworks);
+			return customer.getArtworksViewed();
+		}
 		Set<Artwork> viewedArtworks = customer.getArtworksViewed();
 		if (viewedArtworks.contains(artwork)) { // if that artwork was already in browsing history
 			viewedArtworks.remove(artwork); // put it back in front
@@ -278,6 +297,11 @@ public class BrowsingService {
 	public Set<Artwork> viewBrowsingHistory(Customer customer) {
 		if (customer == null) {
 			throw new IllegalArgumentException("Customer doesn't exist");
+		}
+		if (customer.getArtworksViewed() == null) {
+			HashSet<Artwork> viewedArtworks = new HashSet<Artwork>();
+			customer.setArtworksViewed(viewedArtworks);
+			return customer.getArtworksViewed();
 		}
 		return customer.getArtworksViewed();
 	}
