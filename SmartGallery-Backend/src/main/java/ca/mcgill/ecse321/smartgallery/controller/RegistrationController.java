@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.smartgallery.controller;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,11 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
 import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
-import ca.mcgill.ecse321.smartgallery.dao.ArtworkRepository;
 import ca.mcgill.ecse321.smartgallery.dao.CustomerRepository;
-import ca.mcgill.ecse321.smartgallery.dao.GalleryRepository;
-import ca.mcgill.ecse321.smartgallery.dao.ListingRepository;
-import ca.mcgill.ecse321.smartgallery.dao.TransactionRepository;
 import ca.mcgill.ecse321.smartgallery.dto.*;
 import ca.mcgill.ecse321.smartgallery.model.*;
 import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
@@ -30,17 +25,9 @@ public class RegistrationController {
 	@Autowired
 	private ArtistRepository artistRepository;
 	@Autowired
-	private ArtworkRepository artworkRepository;
-	@Autowired
 	private CustomerRepository customerRepository;
 	@Autowired
-	private GalleryRepository galleryRepository;
-	@Autowired
-	private ListingRepository listingRepository;
-	@Autowired
 	private SmartGalleryRepository smartGalleryRepository;
-	@Autowired
-	private TransactionRepository transactionRepository;
 
 	@Autowired
 	private RegistrationService registrationService;

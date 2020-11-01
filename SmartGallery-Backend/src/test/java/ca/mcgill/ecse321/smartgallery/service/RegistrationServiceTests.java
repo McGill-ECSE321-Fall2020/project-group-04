@@ -775,7 +775,7 @@ public class RegistrationServiceTests {
 		}
 
 	}
-
+ 
 	@Test
 	public void testGetAllArtists() {
 		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
@@ -856,7 +856,6 @@ public class RegistrationServiceTests {
 
 	@Test
 	public void testDeleteArtistNoLogin() {
-		Artist artist = artistRepository.findArtistByUsername(ARTIST_USERNAME);
 		try {
 			registrationService.deleteArtist(ARTIST_USERNAME);
 		} catch (IllegalArgumentException e) {
