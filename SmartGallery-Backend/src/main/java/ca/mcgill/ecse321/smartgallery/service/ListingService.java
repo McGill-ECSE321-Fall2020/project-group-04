@@ -171,10 +171,10 @@ public class ListingService {
 		listing.setArtwork(artwork);
 		listing.setListedDate(dateListed);
 		listing.setGallery(gallery);
-		listingRepository.save(listing);
 		artwork.setListing(listing);
 		artwork.setPrice(price);
 		artworkRepository.save(artwork);
+		listingRepository.save(listing);
 		return listing;
 		
 	}

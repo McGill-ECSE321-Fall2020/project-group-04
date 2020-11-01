@@ -32,12 +32,18 @@ public class RegistrationController {
 	@Autowired
 	private RegistrationService registrationService;
 
+	/**
+	 * Login method for any profile
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	@PostMapping(value = { "/login", "/login/" })
 	public boolean login(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password) {
 		Customer customer = customerRepository.findCustomerByUsername(username);
 		if (customer != null) {
-			registrationService.login(customer, password);
+			return registrationService.login(customer, password);
 		} else {
 			Artist artist = artistRepository.findArtistByUsername(username);
 			if (artist != null) {
@@ -47,6 +53,12 @@ public class RegistrationController {
 		return false;
 	}
 
+	/**
+	 * Login method specifically for a customer. Not currently used.
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	@PostMapping(value = { "/customer/login", "/customer/login/" })
 	public boolean customerLogin(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password) {

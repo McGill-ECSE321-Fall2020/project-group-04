@@ -58,6 +58,11 @@ public class RegistrationService {
 		if (username == null || username.equals("")) {
 			error += "Non empty username must be provided";
 		}
+		
+		// If an error is found, throw an exception
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 
 		if (!checkExistingUsernameAndEmail(username, email)) {
 			error += "This username/email have already been used";
@@ -216,6 +221,11 @@ public class RegistrationService {
 
 		if (username == null || username.equals("")) {
 			error += "Non empty username must be provided";
+		}
+		
+		// If an error is found, throw an exception
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
 		}
 
 		// Checking if username exists already
@@ -454,6 +464,7 @@ public class RegistrationService {
 			throw new IllegalArgumentException(error);
 		}
 		if (profile.getPassword().equals(oldPassword)) {
+			System.out.println("We have indeed gotten here");
 			profile.setPassword(newPassword);
 			return true;
 		} else
