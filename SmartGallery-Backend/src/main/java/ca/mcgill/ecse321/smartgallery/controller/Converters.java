@@ -287,6 +287,9 @@ public class Converters {
 	
 	/**
 	 * Converts a string to its ArtStyle enum equivalent
+	 * 
+	 * @author OliverStappas
+	 * 
 	 * @param artStyle The ArtStyle string to convert
 	 * @return ArtStyle
 	 */
@@ -307,6 +310,9 @@ public class Converters {
 	
 	/**
 	 * Converts a string to its DeliveryMethod enum equivalent
+	 * 
+	 * @author OliverStappas
+	 * 
 	 * @param deliveryMethod The DeliveryMethod string to convert
 	 * @return DeliveryMethod
 	 */
@@ -323,6 +329,9 @@ public class Converters {
 	
 	/**
 	 * Converts a string to its PaymentMethod enum equivalent
+	 * 
+	 * @author OliverStappas
+	 * 
 	 * @param paymentMethod The PaymentMethod string to convert
 	 * @return PaymentMethod
 	 */
