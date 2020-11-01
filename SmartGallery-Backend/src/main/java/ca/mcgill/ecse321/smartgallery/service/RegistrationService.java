@@ -34,7 +34,8 @@ public class RegistrationService {
 	 * @return customer The created customer
 	 */
 	@Transactional
-	public Customer createCustomer(String username, String password, String email, String defaultPaymentMethod) {
+	public Customer createCustomer(String username, String password, String email, 
+			String defaultPaymentMethod, SmartGallery smartGallery) {
 
 		// The first section of this method tests for valid inputs
 		String error = "";
@@ -82,7 +83,7 @@ public class RegistrationService {
 		customer.setCreationDate(creationDate);
 		customer.setArtworksViewed(null);
 		customer.setTransaction(null);
-		// customer.setSmartGallery(smartGallery); ** Not sure how to do this **
+		customer.setSmartGallery(smartGallery); // ** Not sure how to do this **
 		customerRepository.save(customer); // Save to customer repository
 		return customer; // Return customer with updated parameters
 	}

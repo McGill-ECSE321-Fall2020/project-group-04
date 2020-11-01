@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
 import ca.mcgill.ecse321.smartgallery.dto.*;
 import ca.mcgill.ecse321.smartgallery.model.*;
 import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
@@ -19,6 +20,9 @@ import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
 @CrossOrigin(origins = "*")
 @RestController
 public class RegistrationController {
+	
+	@Autowired
+	private static SmartGalleryRepository smartGalleryRepository;
 
 	@Autowired
 	private RegistrationService registrationService;
@@ -32,9 +36,12 @@ public class RegistrationController {
 	@PostMapping(value = { "/customer/{username}/{password}/{email}/{defaultPaymentMethod}" })
 	public CustomerDTO createCustomer(@PathVariable("username") String username,
 			@PathVariable("password") String password, @PathVariable("email") String email,
-			@PathVariable("defaultPaymentMethod") String defaultPaymentMethod) 
+			@PathVariable("defaultPaymentMethod") String defaultPaymentMethod,
+			@RequestParam("smartGalleryID") int smartGalleryID) 
 			throws IllegalArgumentException {
-		Customer customer = registrationService.createCustomer(username, password, email, defaultPaymentMethod);
+		SmartGallery smartGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(smartGalleryID);
+		Customer customer = registrationService.createCustomer(username, password, email, 
+				defaultPaymentMethod, smartGallery);
 		return Converters.convertToDto(customer);
 	}
 
