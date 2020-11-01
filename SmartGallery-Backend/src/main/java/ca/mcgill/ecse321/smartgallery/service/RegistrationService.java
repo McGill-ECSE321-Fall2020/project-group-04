@@ -89,7 +89,7 @@ public class RegistrationService {
 		customer.setUsername(username);
 		customer.setPassword(password);
 		customer.setEmail(email);
-		customer.setDefaultPaymentMethod(Converters.convertStringToPaymentMethod(defaultPaymentMethod));
+		customer.setDefaultPaymentMethod(defaultPaymentMethod);
 		customer.setCreationDate(creationDate);
 		customer.setArtworksViewed(null);
 		customer.setTransaction(null);
@@ -250,7 +250,7 @@ public class RegistrationService {
 		artist.setUsername(username);
 		artist.setPassword(password);
 		artist.setEmail(email);
-		artist.setDefaultPaymentMethod(Converters.convertStringToPaymentMethod(defaultPaymentMethod));
+		artist.setDefaultPaymentMethod(defaultPaymentMethod);
 		artist.setCreationDate(creationDate);
 		artist.setIsVerified(false); // When an artists profile is made, they are not verified initially
 		artist.setSmartGallery(smartGallery);

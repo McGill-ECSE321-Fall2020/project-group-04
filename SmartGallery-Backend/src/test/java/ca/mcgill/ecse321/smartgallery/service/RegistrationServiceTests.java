@@ -346,6 +346,7 @@ public class RegistrationServiceTests {
 		
 	}
 	
+	//TODO to test artists
 	
 
 }
