@@ -66,12 +66,6 @@ public class RegistrationServiceTests {
 
 	@Mock
 	private ArtworkRepository artworkRepository;
-
-	@InjectMocks
-	private RegistrationService registrationService;
-	
-	// Customer Variables
-	private static final String CUSTOMER_USERNAME = "testcustomer";
   
 	@InjectMocks
 	private RegistrationService registrationService;
@@ -279,10 +273,7 @@ public class RegistrationServiceTests {
 		registrationService.updateEmail(artist, email, password);
 		assertEquals(artist.getEmail(), email);
 	}
-	
-}
 
-	}
 
 	/*
 	 * =========================== Customer ===========================
@@ -477,5 +468,195 @@ public class RegistrationServiceTests {
 	
 	//TODO to test artists
 	
+	/*
+	 * =========================== Artist ===========================
+	 */
+	
+	@Test
+	public void testCreateArtist() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		Artist artist = null;
+		try {
+			artist = registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY,
+					sGallery);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(artist);
+		assertEquals(artist.getUsername(), UNIQUE_USER);
+	}
+	
+	@Test
+	public void testCreateArtistNoUsername() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		try {
+			registrationService.createArtist(null, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY, sGallery);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Non empty username must be provided", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testCreateArtistEmptyUsername() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		try {
+			registrationService.createArtist("", ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY, sGallery);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Non empty username must be provided", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testCreateArtistNoPass() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		try {
+			registrationService.createArtist(UNIQUE_USER, null, UNIQUE_EMAIL, DEFAULTPAY, sGallery);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Password with 7 or more characters is required", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testCreateArtistShortPass() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		try {
+			registrationService.createArtist(UNIQUE_USER, "", UNIQUE_EMAIL, DEFAULTPAY, sGallery);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Password with 7 or more characters is required", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testCreateArtistNoEmail() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		try {
+			registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, null, DEFAULTPAY, sGallery);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Non empty email must be provided", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testCreateArtistEmptyEmail() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		try {
+			registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, "", DEFAULTPAY, sGallery);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Non empty email must be provided", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testCreateArtistInvalidEmail() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		try {
+			registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, "asldkfj", DEFAULTPAY, sGallery);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Invalid email format", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testCreateArtistInvalidPayment() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		try {
+			registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, UNIQUE_EMAIL, null, sGallery);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Default payment method must be set to 'credit' or 'paypal'", e.getMessage());
+		}
+	}
+
+	@Test
+	public void getArtistByName() {
+		Artist c2 = registrationService.getArtist(ARTIST_USERNAME);
+		assertEquals(ARTIST_USERNAME, c2.getUsername());
+	}
+
+	@Test
+	public void getArtistByEmptyName() {
+		try {
+			registrationService.getArtist("");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Username is empty", e.getMessage());
+		}
+	}
+
+	@Test
+	public void getArtistByNullName() {
+		try {
+			registrationService.getArtist(null);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Username is empty", e.getMessage());
+		}
+	}
+
+	@Test
+	public void getArtistByInvalidName() {
+		try {
+			registrationService.getArtist("wronguser");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Artist doesn't exist", e.getMessage());
+		}
+	}
+
+	@Test
+	public void getArtistByEmail() {
+		Artist c2 = registrationService.getArtistByEmail(ARTIST_EMAIL);
+		assertEquals(ARTIST_EMAIL, c2.getEmail());
+	}
+
+	@Test
+	public void getArtistByEmptyEmail() {
+		try {
+			registrationService.getArtistByEmail("");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Empty email was provided", e.getMessage());
+		}
+	}
+
+	@Test
+	public void getArtistByNullEmail() {
+		try {
+			registrationService.getArtistByEmail(null);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Empty email was provided", e.getMessage());
+		}
+	}
+
+	@Test
+	public void getArtistByInvalidEmail() {
+		try {
+			registrationService.getArtistByEmail("abc123");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Invalid email format", e.getMessage());
+		}
+
+	}
+	
+	@Test
+	public void getArtistByNonRegisteredEmail() {
+		try {
+			registrationService.getArtistByEmail("abc123@gmail.com");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Artist with this email doesn't exist", e.getMessage());
+		}
+
+	}
+	
+	@Test
+	public void getAllArtists() {
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		Artist artist = null;
+		try {
+			artist = registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY,
+					sGallery);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		List<Artist> artists = new ArrayList<>();
+		artists = registrationService.getAllArtists();
+		assertEquals(artist.getUsername(),artists.get(0).getUsername());
+		
+	}
 
 }
