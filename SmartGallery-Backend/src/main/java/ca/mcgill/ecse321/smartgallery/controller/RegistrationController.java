@@ -50,17 +50,11 @@ public class RegistrationController {
 			@RequestParam(name = "password") String password) {
 		Customer customer = customerRepository.findCustomerByUsername(username);
 		if (customer != null) {
-			if (customer.getPassword() == password) {
-				registrationService.login(customer);
-				return true;
-			}
+			registrationService.login(customer, password);
 		} else {
 			Artist artist = artistRepository.findArtistByUsername(username);
 			if (artist != null) {
-				if (artist.getPassword() == password) {
-					registrationService.login(artist);
-					return true;
-				}
+				return registrationService.login(artist, password);
 			}
 		}
 		return false;
@@ -71,23 +65,17 @@ public class RegistrationController {
 			@RequestParam(name = "password") String password) {
 		Customer customer = customerRepository.findCustomerByUsername(username);
 		if (customer != null) {
-			if (customer.getPassword() == password) {
-				registrationService.login(customer);
-				return true;
-			}
+			return registrationService.login(customer, password);
 		}
 		return false;
 	}
-
-	@PostMapping(value = { "/artist/login", "/artist/login/" })
-	public boolean customeartistLogin(@RequestParam(name = "username") String username,
+  
+	@PostMapping(value = {"/artist/login", "/artist/login/"})
+	public boolean artistLogin(@RequestParam(name = "username") String username, 
 			@RequestParam(name = "password") String password) {
 		Artist artist = artistRepository.findArtistByUsername(username);
 		if (artist != null) {
-			if (artist.getPassword() == password) {
-				registrationService.login(artist);
-				return true;
-			}
+			registrationService.login(artist, password);
 		}
 		return false;
 	}
@@ -138,11 +126,7 @@ public class RegistrationController {
 		if (profile == null) {
 			return false;
 		}
-		if (profile.getPassword() != password) {
-			return false;
-		}
-		registrationService.updateEmail(profile.getEmail(), email);
-		return true;
+		return registrationService.updateEmail(profile, email, password);
 	}
 
 	@PostMapping(value = { "/password/change", "/password/change/" })
@@ -156,11 +140,7 @@ public class RegistrationController {
 		if (profile == null) {
 			return false;
 		}
-		if (profile.getPassword() != oldPassword) {
-			return false;
-		}
-		registrationService.updatePassword(profile, newPassword);
-		return true;
+		return registrationService.updatePassword(profile, oldPassword, newPassword);
 	}
 
 	@GetMapping(value = { "/customer", "/customer/" })
