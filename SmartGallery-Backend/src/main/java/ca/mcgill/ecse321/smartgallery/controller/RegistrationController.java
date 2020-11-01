@@ -213,6 +213,13 @@ public class RegistrationController {
 		return Converters.convertToDto(artist);
 	}
 	
+	@PostMapping(value = { "/artist/unverify/{username}", "/artist/unverify/{username}/"})
+	public ArtistDTO unverifyArtist(@PathVariable("username") String username) throws IllegalArgumentException {
+		Artist artist = registrationService.getArtist(username);
+		registrationService.unverifyArtist(artist);
+		return Converters.convertToDto(artist);
+	}
+	
 	@GetMapping(value = { "/artist/verified", "/artist/verified/" })
 	public List<ArtistDTO> getAllVerifiedArtists() {
 		return registrationService.getAllVerifiedArtists().stream().map(p -> Converters.convertToDto(p))
