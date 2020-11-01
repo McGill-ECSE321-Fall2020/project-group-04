@@ -59,6 +59,9 @@ public class RegistrationService {
 			error += "Non empty username must be provided";
 		}
 
+		// Remove spaces
+		username = username.trim();
+
 		if (!checkExistingUsernameAndEmail(username, email)) {
 			error += "This username/email have already been used";
 
@@ -183,6 +186,9 @@ public class RegistrationService {
 			throw new IllegalArgumentException(error);
 		}
 
+		if (!customer.isLoggedIn()) {
+			throw new IllegalArgumentException("Customer must be logged in");
+		}
 		// ** Will need to delete transactions
 		// Delete customer from repository
 		customerRepository.delete(customer);
@@ -213,6 +219,9 @@ public class RegistrationService {
 		if (username == null || username.equals("")) {
 			error += "Non empty username must be provided";
 		}
+
+		// Remove spaces
+		username = username.trim();
 
 		// Checking if username exists already
 		if (!checkExistingUsernameAndEmail(username, email)) {
@@ -365,6 +374,10 @@ public class RegistrationService {
 			throw new IllegalArgumentException(error);
 		}
 
+		if (!artist.isLoggedIn()) {
+			throw new IllegalArgumentException("Artist must be logged in");
+		}
+
 		// Delete all the artist's artworks
 		Set<Artwork> artworksDeleting = artist.getArtworks();
 		if (artworksDeleting != null) {
@@ -372,7 +385,7 @@ public class RegistrationService {
 				if (artwork.getListing() == null && artwork.getArtists().size() > 1) {
 					artist.getArtworks().remove(artwork);
 					artworkRepository.delete(artwork);
-				}else {
+				} else {
 					artwork.getArtists().remove(artist);
 				}
 			}

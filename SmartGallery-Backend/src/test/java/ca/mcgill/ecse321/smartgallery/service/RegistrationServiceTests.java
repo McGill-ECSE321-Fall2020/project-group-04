@@ -87,6 +87,10 @@ public class RegistrationServiceTests {
 	private static final String ARTIST_PASSWORD = "testapass";
 	private static final boolean VERIFIED = true;
 	private static final Date ARTIST_CREATION_DATE = Date.valueOf("2020-09-10");
+	
+	private static final String ARTIST_USERNAME2 = "testartist42";
+	private static final String ARTIST_EMAIL2 = "testartist333@email.com";
+	private static final String ARTIST_PASSWORD2 = "testapassqwerq";
 
 	// Gallery
 	private static final String G_ID = "gallery";
@@ -141,6 +145,7 @@ public class RegistrationServiceTests {
 						customer.setEmail(CUSTOMER_EMAIL2);
 						customer.setCreationDate(CUSTOMER_CREATION_DATE2);
 						customer.setDefaultPaymentMethod(DEFAULTPAY);
+						customer.setLoggedIn(true);
 						return customer;
 					} else {
 						return null;
@@ -181,6 +186,16 @@ public class RegistrationServiceTests {
 				artist.setDefaultPaymentMethod(DEFAULTPAY);
 				artist.setIsVerified(VERIFIED);
 				return artist;
+			}else if (invocation.getArgument(0).equals(ARTIST_USERNAME2)) {
+				Artist artist = new Artist();
+				artist.setUsername(ARTIST_USERNAME2);
+				artist.setPassword(ARTIST_PASSWORD2);
+				artist.setEmail(ARTIST_EMAIL2);
+				artist.setCreationDate(ARTIST_CREATION_DATE);
+				artist.setDefaultPaymentMethod(DEFAULTPAY);
+				artist.setIsVerified(VERIFIED);
+				artist.setLoggedIn(true);
+				return artist;
 			} else {
 				return null;
 			}
@@ -218,7 +233,7 @@ public class RegistrationServiceTests {
 						artist.setUsername(UNIQUE_USER);
 						artists.add(artist);
 						return artists;
-					}else {
+					} else {
 						List<Artist> artists = new ArrayList<>();
 						Artist artist = new Artist();
 						artist.setIsVerified(!VERIFIED);
@@ -233,7 +248,8 @@ public class RegistrationServiceTests {
 		lenient().when(customerRepository.save(any(Customer.class))).thenAnswer(returnParameterAsAnswer);
 		lenient().when(artistRepository.save(any(Artist.class))).thenAnswer(returnParameterAsAnswer);
 		lenient().when(transactionRepository.save(any(Transaction.class))).thenAnswer(returnParameterAsAnswer);
-
+		lenient().doNothing().when(customerRepository).delete(any(Customer.class));
+		lenient().doNothing().when(artistRepository).delete(any(Artist.class));
 	}
 
 	@Test
@@ -503,7 +519,48 @@ public class RegistrationServiceTests {
 
 	}
 
-	// TODO to test artists
+	@Test
+	public void testDeleteCustomer() {
+		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME2);
+		customer.setLoggedIn(true);
+		Customer c2 = null;
+		try {
+			c2 = registrationService.deleteCustomer(CUSTOMER_USERNAME2);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(c2);
+		assertEquals(customer.getUsername(), c2.getUsername());
+	}
+
+	@Test
+	public void testDeleteCustomerNoLogin() {
+		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
+		customer.setLoggedIn(false);
+		try {
+			registrationService.deleteCustomer(CUSTOMER_USERNAME);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Customer must be logged in", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testDeleteNonExistingCustomer() {
+		try {
+			registrationService.deleteCustomer("invalidUser");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Customer doesn't exist", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testDeleteCustomerWrongUsername() {
+		try {
+			registrationService.deleteCustomer("");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Empty username was provided", e.getMessage());
+		}
+	}
 
 	/*
 	 * =========================== Artist ===========================
@@ -744,5 +801,44 @@ public class RegistrationServiceTests {
 		assertFalse(artists.get(0).isVerified());
 	}
 
-	// TODO Delete artist tests
+	@Test
+	public void testDeleteArtist() {
+		Artist artist = artistRepository.findArtistByUsername(ARTIST_USERNAME2);
+		Artist a = null;
+		try {
+			a = registrationService.deleteArtist(ARTIST_USERNAME2);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(a);
+		assertEquals(artist.getUsername(), a.getUsername());
+	}
+
+	@Test
+	public void testDeleteArtistNoLogin() {
+		Artist artist = artistRepository.findArtistByUsername(ARTIST_USERNAME);
+		try {
+			registrationService.deleteArtist(ARTIST_USERNAME);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Artist must be logged in", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testDeleteNonExistingArtist() {
+		try {
+			registrationService.deleteArtist("invaliduser");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Artist doesn't exist", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testDeleteWrongUsername() {
+		try {
+			registrationService.deleteArtist("");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Empty username was provided", e.getMessage());
+		}
+	}
 }
