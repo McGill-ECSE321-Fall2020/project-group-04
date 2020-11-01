@@ -796,18 +796,18 @@ public class RegistrationServiceTests {
 
 		Artist artist = registrationService.getArtist(ARTIST_USERNAME);
 
-		assertTrue(artist.isVerified());
+		assertTrue(artist.isIsVerified());
 		registrationService.verifyArtist(artist);
-		assertTrue(artist.isVerified());
+		assertTrue(artist.isIsVerified());
 
 		registrationService.unverifyArtist(artist);
-		assertFalse(artist.isVerified());
+		assertFalse(artist.isIsVerified());
 
 		registrationService.unverifyArtist(artist);
-		assertFalse(artist.isVerified());
+		assertFalse(artist.isIsVerified());
 
 		registrationService.verifyArtist(artist);
-		assertTrue(artist.isVerified());
+		assertTrue(artist.isIsVerified());
 	}
 
 	@Test
@@ -823,7 +823,7 @@ public class RegistrationServiceTests {
 		List<Artist> artists = new ArrayList<>();
 		artists = registrationService.getAllVerifiedArtists();
 		assertEquals(artist.getUsername(), artists.get(0).getUsername());
-		assertTrue(artists.get(0).isVerified());
+		assertTrue(artists.get(0).isIsVerified());
 	}
 
 	@Test
@@ -838,7 +838,7 @@ public class RegistrationServiceTests {
 		List<Artist> artists = new ArrayList<>();
 		artists = registrationService.getAllNonVerifiedArtists();
 		assertEquals(artist.getUsername(), artists.get(0).getUsername());
-		assertFalse(artists.get(0).isVerified());
+		assertFalse(artists.get(0).isIsVerified());
 	}
 
 	@Test

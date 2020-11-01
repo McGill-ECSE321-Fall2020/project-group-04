@@ -22,7 +22,7 @@ private boolean isVerified;
 public void setIsVerified(boolean value) {
 this.isVerified = value;
     }
-public boolean isVerified() {
+public boolean isIsVerified() {
 return this.isVerified;
        }
    }
