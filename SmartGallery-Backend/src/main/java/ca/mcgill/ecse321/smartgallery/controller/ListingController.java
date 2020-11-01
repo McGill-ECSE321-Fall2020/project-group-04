@@ -98,24 +98,25 @@ public class ListingController {
 	
 	
 	@PutMapping(value = {"listing/updateArtwork/{listingID}", "listing/updateArtwork/{listingID}/"})
-	public ArtworkDTO updateArtwork(@PathVariable("listing")int listingID, 
+	public ArtworkDTO updateArtwork(@PathVariable("listingID")int listingID, 
 			@RequestParam("artworkName")String name, 
 			@RequestParam("year")int year, 
 			@RequestParam("price")double price, 
-			@RequestParam("style")ArtStyle style, 
+			@RequestParam("style")String style, 
 			@RequestParam("height")int height, 
 			@RequestParam("width")int width, 
 			@RequestParam("weight")int weight) throws IllegalArgumentException{
 		
 		Listing listing = listingRepository.findListingByListingID(listingID);
-		Artwork artwork = listingService.updateArtworkListed(listing, name, year, price, style, height, width, weight);
+		ArtStyle artStyle = Converters.convertStringToArtStyle(style);
+		Artwork artwork = listingService.updateArtworkListed(listing, name, year, price, artStyle, height, width, weight);
 		return Converters.convertToDto(artwork);
 
 	}
 	
 	
 	@PostMapping(value = {"listing/deleteListingAndArtwork/{listingID}", "listing/deleteListingAndArtwork/{listingID}/"})
-	public ArtworkDTO deleteListingAndArtwork(@PathVariable("listing")int listingID) throws IllegalArgumentException{
+	public ArtworkDTO deleteListingAndArtwork(@PathVariable("listingID")int listingID) throws IllegalArgumentException{
 		
 		Listing listing = listingRepository.findListingByListingID(listingID);
 		Artwork deletedArtwork = listingService.deleteListingAndArtwork(listing);

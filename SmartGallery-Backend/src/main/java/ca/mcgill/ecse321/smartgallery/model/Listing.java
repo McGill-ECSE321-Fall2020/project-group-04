@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.smartgallery.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.sql.Date;
 import javax.persistence.OneToOne;
@@ -26,7 +27,7 @@ return this.isSold;
     }
 private Artwork artwork;
 
-@OneToOne
+@OneToOne(cascade=CascadeType.ALL)
 public Artwork getArtwork() {
    return this.artwork;
 }

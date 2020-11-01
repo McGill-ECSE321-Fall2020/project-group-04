@@ -317,6 +317,13 @@ public class ListingService {
 		Artwork artwork = listing.getArtwork();
 		Transaction transaction = listing.getTransaction();
 		
+		Set<Artist> artists = artwork.getArtists();
+		for(Artist a : artists) {
+			Set<Artwork> artworks = a.getArtworks();
+			artworks.remove(artwork);
+			a.setArtworks(artworks);
+		}
+		
 		if(transaction==null)
 		{
 			listing.setArtwork(null);
