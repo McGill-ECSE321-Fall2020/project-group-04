@@ -33,7 +33,7 @@ public class RegistrationService {
 
 	@Autowired
 	private SmartGalleryRepository smartGalleryRepository;
-	
+
 	@Autowired
 	private ArtworkRepository artworkRepository;
 
@@ -70,8 +70,8 @@ public class RegistrationService {
 		}
 
 		// Checks if email is valid **could be improved**
-		if (email == null || email.equals("")) {
-			error += "Non empty email must be provided";
+		if (email == null || !validateEmail(email)) {
+			error += "Invalid email format";
 		}
 
 		// Checks if payment method is set correctly
@@ -136,11 +136,11 @@ public class RegistrationService {
 		if (email == null || email == "") {
 			throw new IllegalArgumentException("Empty email was provided");
 		}
-		
-		if(!validateEmail(email)) {
+
+		if (!validateEmail(email)) {
 			throw new IllegalArgumentException("Invalid email format");
 		}
-		
+
 		Customer customer = customerRepository.findCustomerByEmail(email);
 
 		if (customer == null) {
@@ -167,6 +167,7 @@ public class RegistrationService {
 	 * 
 	 * @param username Username for the account being deleted
 	 */
+	@Transactional
 	public Customer deleteCustomer(String username) {
 
 		if (username == null || username == "") {
@@ -214,8 +215,8 @@ public class RegistrationService {
 		}
 
 		// Checking if username exists already
-		if (getArtist(username) != null) {
-			error += "Username already exists";
+		if (!checkExistingUsernameAndEmail(username, email)) {
+			error += "This username/email have already been used";
 		}
 
 		// Checks if password is null or not long enough
@@ -223,22 +224,14 @@ public class RegistrationService {
 			error += "Password with 7 or more characters is required";
 		}
 
-		// Checks if email is valid **could be improved**
-		if (email == null || email.equals("")) {
-			error += "Non empty email must be provided";
-		}
-
-		// Check if email is already taken
-		if (getCustomerByEmail(email) != null || getArtistByEmail(email) != null) {
-			error += "Account with this email already exists";
-		}
-
-		if (!validateEmail(email)) {
+		// Checks if email is valid
+		if (email == null || !validateEmail(email)) {
 			error += "Invalid email format";
 		}
 
 		// Checks if payment method is set correctly
-		if (!defaultPaymentMethod.equals("credit") || !defaultPaymentMethod.equals("paypal")) {
+		if (defaultPaymentMethod == null || !defaultPaymentMethod.name().equalsIgnoreCase("credit")
+				&& !defaultPaymentMethod.name().equalsIgnoreCase("paypal")) {
 			error += "Default payment method must be set to 'credit' or 'paypal'";
 		}
 
@@ -280,25 +273,22 @@ public class RegistrationService {
 	@Transactional
 	public Artist getArtist(String username) {
 
-		if (username != null) {
-
-			// Uses existing method in artist repository to find an artist by username
-			Artist artist = artistRepository.findArtistByUsername(username);
-
-			// If the artist doesn't exist, throw an error
-			if (artist == null) {
-				String error = "Artist doesn't exist";
-				throw new IllegalArgumentException(error);
-			}
-
-			// Otherwise return the found artist
-			return artist;
+		if (username == null || username.equals("")) {
+			throw new IllegalArgumentException("Username is empty");
 		}
 
-		// If the username input is null, return null
-		else {
-			return null;
+		// Uses existing method in artist repository to find an artist by username
+		Artist artist = artistRepository.findArtistByUsername(username);
+
+		// If the artist doesn't exist, throw an error
+		if (artist == null) {
+			String error = "Artist doesn't exist";
+			throw new IllegalArgumentException(error);
 		}
+
+		// Otherwise return the found artist
+		return artist;
+
 	}
 
 	/**
@@ -359,6 +349,7 @@ public class RegistrationService {
 	 * 
 	 * @param username Username for the account being deleted
 	 */
+	@Transactional
 	public Artist deleteArtist(String username) {
 
 		if (username == null || username == "") {
@@ -373,23 +364,29 @@ public class RegistrationService {
 			String error = "Artist doesn't exist";
 			throw new IllegalArgumentException(error);
 		}
-		
+
 		// Delete all the artist's artworks
 		Set<Artwork> artworksDeleting = artist.getArtworks();
-		for (Artwork artwork : artworksDeleting) {
-			artist.getArtworks().remove(artwork);
-			artworkRepository.delete(artwork);
+		if (artworksDeleting != null) {
+			for (Artwork artwork : artworksDeleting) {
+				if (artwork.getListing() == null && artwork.getArtists().size() > 1) {
+					artist.getArtworks().remove(artwork);
+					artworkRepository.delete(artwork);
+				}else {
+					artwork.getArtists().remove(artist);
+				}
+			}
 		}
-
 		// Delete artist from repository
 		artistRepository.delete(artist);
 
 		return artist;
 
 	}
-	
+
 	/**
 	 * Log into a profile
+	 * 
 	 * @param profile
 	 */
 	@Transactional
@@ -398,14 +395,16 @@ public class RegistrationService {
 			String error = "Profile doesn't exist";
 			throw new IllegalArgumentException(error);
 		}
-		if(profile.getPassword().equals(password)) {
+		if (profile.getPassword().equals(password)) {
 			profile.login();
 			return true;
-		} else return false;
+		} else
+			return false;
 	}
-	
+
 	/**
 	 * Log out of a profile
+	 * 
 	 * @param profile
 	 */
 	@Transactional
@@ -416,7 +415,7 @@ public class RegistrationService {
 		}
 		profile.logout();
 	}
-	
+
 	@Transactional
 	public boolean updateEmail(Profile profile, String newEmail, String password) {
 		if (profile == null) {
@@ -426,11 +425,13 @@ public class RegistrationService {
 		if (profile.getPassword().equals(password)) {
 			profile.setEmail(newEmail);
 			return true;
-		} else return false;
+		} else
+			return false;
 	}
-	
+
 	/**
 	 * Update the password of a profile
+	 * 
 	 * @param profile
 	 * @param oldPassword
 	 * @param newPassword
@@ -445,14 +446,20 @@ public class RegistrationService {
 		if (profile.getPassword().equals(oldPassword)) {
 			profile.setPassword(newPassword);
 			return true;
-		} else return false;
+		} else
+			return false;
 	}
 
 	@Transactional
 	public Artist getArtistByEmail(String email) {
 		if (email == null || email == "") {
-			throw new IllegalArgumentException("Empty username was provided");
+			throw new IllegalArgumentException("Empty email was provided");
 		}
+
+		if (!validateEmail(email)) {
+			throw new IllegalArgumentException("Invalid email format");
+		}
+
 		Artist artist = artistRepository.findArtistByEmail(email);
 		if (artist == null) {
 			throw new IllegalArgumentException("Artist with this email doesn't exist");

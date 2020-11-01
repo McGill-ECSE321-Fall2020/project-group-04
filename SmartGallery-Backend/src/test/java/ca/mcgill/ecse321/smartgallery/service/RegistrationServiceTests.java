@@ -6,13 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -32,13 +32,9 @@ import ca.mcgill.ecse321.smartgallery.dao.GalleryRepository;
 import ca.mcgill.ecse321.smartgallery.dao.ListingRepository;
 import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
 import ca.mcgill.ecse321.smartgallery.dao.TransactionRepository;
-import ca.mcgill.ecse321.smartgallery.model.ArtStyle;
 import ca.mcgill.ecse321.smartgallery.model.Artist;
-import ca.mcgill.ecse321.smartgallery.model.Artwork;
 import ca.mcgill.ecse321.smartgallery.model.Customer;
-import ca.mcgill.ecse321.smartgallery.model.DeliveryMethod;
 import ca.mcgill.ecse321.smartgallery.model.Gallery;
-import ca.mcgill.ecse321.smartgallery.model.Listing;
 import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
 import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
 import ca.mcgill.ecse321.smartgallery.model.Transaction;
@@ -66,14 +62,14 @@ public class RegistrationServiceTests {
 
 	@Mock
 	private ArtworkRepository artworkRepository;
-  
+
 	@InjectMocks
 	private RegistrationService registrationService;
 
 	// Customer Variables
 	private static final String CUSTOMER_USERNAME = "testcustomer";
 	private static final String UNIQUE_USER = "uniqueuser";
-	private static final String UNIQUE_EMAIL = "testcustomer4321@email.com";
+	private static final String UNIQUE_EMAIL = "uniqueuser@email.com";
 
 	private static final String CUSTOMER_EMAIL = "testcustomer@email.com";
 	private static final String CUSTOMER_PASSWORD = "testcpass";
@@ -91,7 +87,7 @@ public class RegistrationServiceTests {
 	private static final String ARTIST_PASSWORD = "testapass";
 	private static final boolean VERIFIED = true;
 	private static final Date ARTIST_CREATION_DATE = Date.valueOf("2020-09-10");
-	
+
 	// Gallery
 	private static final String G_ID = "gallery";
 
@@ -165,7 +161,7 @@ public class RegistrationServiceTests {
 						return null;
 					}
 				});
-		
+
 		lenient().when(customerRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
 			List<Customer> customers = new ArrayList<>();
 			Customer customer = new Customer();
@@ -190,44 +186,86 @@ public class RegistrationServiceTests {
 			}
 		});
 
+		lenient().when(artistRepository.findArtistByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).equals(ARTIST_EMAIL)) {
+				Artist artist = new Artist();
+				artist.setUsername(ARTIST_USERNAME);
+				artist.setPassword(ARTIST_PASSWORD);
+				artist.setEmail(ARTIST_EMAIL);
+				artist.setCreationDate(ARTIST_CREATION_DATE);
+				artist.setDefaultPaymentMethod(DEFAULTPAY);
+				artist.setIsVerified(VERIFIED);
+				return artist;
+			} else {
+				return null;
+			}
+		});
+
+		lenient().when(artistRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+			List<Artist> artists = new ArrayList<>();
+			Artist artist = new Artist();
+			artist.setUsername(UNIQUE_USER);
+			artists.add(artist);
+			return artists;
+		});
+
+		lenient().when(artistRepository.findArtistByIsVerified(anyBoolean()))
+				.thenAnswer((InvocationOnMock invocation) -> {
+					if (invocation.getArgument(0).equals(true)) {
+						List<Artist> artists = new ArrayList<>();
+						Artist artist = new Artist();
+						artist.setIsVerified(VERIFIED);
+						artist.setUsername(UNIQUE_USER);
+						artists.add(artist);
+						return artists;
+					}else {
+						List<Artist> artists = new ArrayList<>();
+						Artist artist = new Artist();
+						artist.setIsVerified(!VERIFIED);
+						artist.setUsername(UNIQUE_USER);
+						artists.add(artist);
+						return artists;
+					}
+				});
+
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
-    
-    lenient().when(customerRepository.save(any(Customer.class))).thenAnswer(returnParameterAsAnswer);
+
+		lenient().when(customerRepository.save(any(Customer.class))).thenAnswer(returnParameterAsAnswer);
 		lenient().when(artistRepository.save(any(Artist.class))).thenAnswer(returnParameterAsAnswer);
 		lenient().when(transactionRepository.save(any(Transaction.class))).thenAnswer(returnParameterAsAnswer);
 
 	}
-	
+
 	@Test
 	public void testProfileLoginAndLogout() {
 		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
 		Artist artist = artistRepository.findArtistByUsername(ARTIST_USERNAME);
 		String correctPassword = customer.getPassword();
 		String wrongPassword = "wrongPassword";
-		
+
 		assertFalse(customer.isLoggedIn());
 		registrationService.login(customer, correctPassword);
 		assertTrue(customer.isLoggedIn());
-		
+
 		registrationService.logout(customer);
 		assertFalse(customer.isLoggedIn());
-		
+
 		registrationService.login(customer, wrongPassword);
 		assertFalse(customer.isLoggedIn());
-		
+
 		correctPassword = artist.getPassword();
-		
+
 		assertFalse(artist.isLoggedIn());
 		registrationService.login(artist, correctPassword);
 		assertTrue(artist.isLoggedIn());
-		
+
 		registrationService.logout(artist);
 		assertFalse(artist.isLoggedIn());
-		
+
 		registrationService.login(artist, wrongPassword);
 		assertFalse(artist.isLoggedIn());
 	}
-	
+
 	@Test
 	public void testPasswordChange() {
 		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
@@ -235,22 +273,22 @@ public class RegistrationServiceTests {
 		String oldPassword = customer.getPassword();
 		String newPassword = "newpassword";
 		String wrongOldPassword = "wrongpassword";
-		
+
 		assertNotEquals(customer.getPassword(), newPassword);
 		registrationService.updatePassword(customer, wrongOldPassword, newPassword);
 		assertNotEquals(customer.getPassword(), newPassword);
 		registrationService.updatePassword(customer, oldPassword, newPassword);
 		assertEquals(customer.getPassword(), newPassword);
-		
+
 		oldPassword = artist.getPassword();
-		
+
 		assertNotEquals(artist.getPassword(), newPassword);
 		registrationService.updatePassword(artist, wrongOldPassword, newPassword);
 		assertNotEquals(artist.getPassword(), newPassword);
 		registrationService.updatePassword(artist, oldPassword, newPassword);
 		assertEquals(artist.getPassword(), newPassword);
 	}
-	
+
 	@Test
 	public void testEmailChange() {
 		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
@@ -258,22 +296,21 @@ public class RegistrationServiceTests {
 		String email = "newEmail@email.com";
 		String password = customer.getPassword();
 		String wrongPassword = "wrongpassword";
-		
+
 		assertNotEquals(customer.getEmail(), email);
 		registrationService.updateEmail(customer, email, wrongPassword);
 		assertNotEquals(customer.getEmail(), email);
 		registrationService.updateEmail(customer, email, password);
 		assertEquals(customer.getEmail(), email);
-		
+
 		password = artist.getPassword();
-		
+
 		assertNotEquals(artist.getEmail(), email);
 		registrationService.updateEmail(artist, email, wrongPassword);
 		assertNotEquals(artist.getEmail(), email);
 		registrationService.updateEmail(artist, email, password);
 		assertEquals(artist.getEmail(), email);
 	}
-
 
 	/*
 	 * =========================== Customer ===========================
@@ -339,7 +376,7 @@ public class RegistrationServiceTests {
 		try {
 			registrationService.createCustomer(UNIQUE_USER, CUSTOMER_PASSWORD, null, DEFAULTPAY, sGallery);
 		} catch (IllegalArgumentException e) {
-			assertEquals("Non empty email must be provided", e.getMessage());
+			assertEquals("Invalid email format", e.getMessage());
 		}
 	}
 
@@ -349,7 +386,7 @@ public class RegistrationServiceTests {
 		try {
 			registrationService.createCustomer(UNIQUE_USER, CUSTOMER_PASSWORD, "", DEFAULTPAY, sGallery);
 		} catch (IllegalArgumentException e) {
-			assertEquals("Non empty email must be provided", e.getMessage());
+			assertEquals("Invalid email format", e.getMessage());
 		}
 	}
 
@@ -439,7 +476,7 @@ public class RegistrationServiceTests {
 		}
 
 	}
-	
+
 	@Test
 	public void testGetCustomerByNonRegisteredEmail() {
 		try {
@@ -449,7 +486,7 @@ public class RegistrationServiceTests {
 		}
 
 	}
-	
+
 	@Test
 	public void testGetAllCustomers() {
 		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
@@ -462,30 +499,29 @@ public class RegistrationServiceTests {
 		}
 		List<Customer> customers = new ArrayList<>();
 		customers = registrationService.getAllCustomers();
-		assertEquals(customer.getUsername(),customers.get(0).getUsername());
-		
+		assertEquals(customer.getUsername(), customers.get(0).getUsername());
+
 	}
-	
-	//TODO to test artists
-	
+
+	// TODO to test artists
+
 	/*
 	 * =========================== Artist ===========================
 	 */
-	
+
 	@Test
 	public void testCreateArtist() {
 		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
 		Artist artist = null;
 		try {
-			artist = registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY,
-					sGallery);
+			artist = registrationService.createArtist(UNIQUE_USER, UNIQUE_EMAIL, UNIQUE_EMAIL, DEFAULTPAY, sGallery);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 		assertNotNull(artist);
 		assertEquals(artist.getUsername(), UNIQUE_USER);
 	}
-	
+
 	@Test
 	public void testCreateArtistNoUsername() {
 		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
@@ -532,7 +568,7 @@ public class RegistrationServiceTests {
 		try {
 			registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, null, DEFAULTPAY, sGallery);
 		} catch (IllegalArgumentException e) {
-			assertEquals("Non empty email must be provided", e.getMessage());
+			assertEquals("Invalid email format", e.getMessage());
 		}
 	}
 
@@ -542,7 +578,7 @@ public class RegistrationServiceTests {
 		try {
 			registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, "", DEFAULTPAY, sGallery);
 		} catch (IllegalArgumentException e) {
-			assertEquals("Non empty email must be provided", e.getMessage());
+			assertEquals("Invalid email format", e.getMessage());
 		}
 	}
 
@@ -632,7 +668,7 @@ public class RegistrationServiceTests {
 		}
 
 	}
-	
+
 	@Test
 	public void testGetArtistByNonRegisteredEmail() {
 		try {
@@ -642,72 +678,71 @@ public class RegistrationServiceTests {
 		}
 
 	}
-	
+
 	@Test
 	public void testGetAllArtists() {
 		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
 		Artist artist = null;
 		try {
-			artist = registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY,
-					sGallery);
+			artist = registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY, sGallery);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 		List<Artist> artists = new ArrayList<>();
 		artists = registrationService.getAllArtists();
-		assertEquals(artist.getUsername(),artists.get(0).getUsername());
-		
+		assertEquals(artist.getUsername(), artists.get(0).getUsername());
+
 	}
-	
+
 	@Test
 	public void testVerifyAndUnverifyArtist() {
-		
+
 		Artist artist = registrationService.getArtist(ARTIST_USERNAME);
-			
+
 		assertTrue(artist.isVerified());
 		registrationService.verifyArtist(artist);
 		assertTrue(artist.isVerified());
-		
+
 		registrationService.unverifyArtist(artist);
 		assertFalse(artist.isVerified());
-		
+
 		registrationService.unverifyArtist(artist);
 		assertFalse(artist.isVerified());
-		
+
 		registrationService.verifyArtist(artist);
 		assertTrue(artist.isVerified());
 	}
-	
+
 	@Test
 	public void testGetAllVerifiedArtists() {
 		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
 		Artist artist = null;
 		try {
-			artist = registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY,
-					sGallery);
+			artist = registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY, sGallery);
 			registrationService.verifyArtist(artist);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 		List<Artist> artists = new ArrayList<>();
 		artists = registrationService.getAllVerifiedArtists();
-		assertEquals(artist.getUsername(),artists.get(0).getUsername());
+		assertEquals(artist.getUsername(), artists.get(0).getUsername());
+		assertTrue(artists.get(0).isVerified());
 	}
-	
+
 	@Test
 	public void testGetAllNonVerifiedArtists() {
 		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
 		Artist artist = null;
 		try {
-			artist = registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY,
-					sGallery);
+			artist = registrationService.createArtist(UNIQUE_USER, ARTIST_PASSWORD, UNIQUE_EMAIL, DEFAULTPAY, sGallery);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 		List<Artist> artists = new ArrayList<>();
-		artists = registrationService.getAllVerifiedArtists();
-		assertEquals(artist.getUsername(),artists.get(0).getUsername());
+		artists = registrationService.getAllNonVerifiedArtists();
+		assertEquals(artist.getUsername(), artists.get(0).getUsername());
+		assertFalse(artists.get(0).isVerified());
 	}
-	
+
 	// TODO Delete artist tests
 }

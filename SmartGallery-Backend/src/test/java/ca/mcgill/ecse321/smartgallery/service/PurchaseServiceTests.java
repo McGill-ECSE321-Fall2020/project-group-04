@@ -29,12 +29,8 @@ import ca.mcgill.ecse321.smartgallery.dao.GalleryRepository;
 import ca.mcgill.ecse321.smartgallery.dao.ListingRepository;
 import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
 import ca.mcgill.ecse321.smartgallery.dao.TransactionRepository;
-import ca.mcgill.ecse321.smartgallery.model.ArtStyle;
-import ca.mcgill.ecse321.smartgallery.model.Artist;
-import ca.mcgill.ecse321.smartgallery.model.Artwork;
 import ca.mcgill.ecse321.smartgallery.model.Customer;
 import ca.mcgill.ecse321.smartgallery.model.DeliveryMethod;
-import ca.mcgill.ecse321.smartgallery.model.Gallery;
 import ca.mcgill.ecse321.smartgallery.model.Listing;
 import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
 import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
@@ -73,17 +69,11 @@ public class PurchaseServiceTests {
 	private static final String CUSTOMER_PASSWORD = "testcpass";
 	private static final Date CUSTOMER_CREATION_DATE = Date.valueOf("2020-09-01");
 	private static final PaymentMethod DEFAULTPAY = PaymentMethod.CREDIT;
-	
+
 	private static final String CUSTOMER_USERNAME2 = "testcustomer2";
 	private static final String CUSTOMER_EMAIL2 = "testcustomer2@email.com";
 	private static final String CUSTOMER_PASSWORD2 = "testcpass2";
 	private static final Date CUSTOMER_CREATION_DATE2 = Date.valueOf("2020-07-09");
-	// Artist Variables
-	private static final String ARTIST_USERNAME = "testartist";
-	private static final String ARTIST_EMAIL = "testartist@email.com";
-	private static final String ARTIST_PASSWORD = "testapass";
-	private static final boolean VERIFIED = true;
-	private static final Date ARTIST_CREATION_DATE = Date.valueOf("2020-09-10");
 
 	// Listing variables
 	private static final boolean SOLD = true;
@@ -91,19 +81,6 @@ public class PurchaseServiceTests {
 	private static final Date DATE_LISTED = Date.valueOf("2020-11-25");
 	private static final int L_ID = 321;
 	private static final int L_ID2 = 9393;
-
-	// Artwork variables
-	private static String ARTWORK_NAME = "artwork";
-	private static final int YEAR = 2019;
-	private static final double PRICE = 200;
-	private static final boolean PROMOTED = true;
-	private static final ArtStyle STYLE = ArtStyle.IMPRESSIONIST;
-	private static final int HEIGHT = 300;
-	private static final int WEIGHT = 25;
-	private static final int A_ID = 393939;
-
-	// Gallery
-	private static final String G_ID = "gallery";
 
 	// SmartGallery variables
 	private static final int SG_ID = 1234;
@@ -115,7 +92,7 @@ public class PurchaseServiceTests {
 	private static Customer CUSTOMER1;
 
 	private static final Date WRONG_DATE = Date.valueOf("2018-05-06");
-	
+
 	@BeforeEach
 	public void setMockOutput() {
 		MockitoAnnotations.initMocks(this);
@@ -125,18 +102,6 @@ public class PurchaseServiceTests {
 						SmartGallery smartGallery = new SmartGallery();
 						smartGallery.setSmartGalleryID(SG_ID);
 						return smartGallery;
-					} else {
-						return null;
-					}
-				});
-
-		// TODO PORT
-		lenient().when(galleryRepository.findGalleryByGalleryName(anyString()))
-				.thenAnswer((InvocationOnMock invocation) -> {
-					if (invocation.getArgument(0).equals(G_ID)) {
-						Gallery gallery = new Gallery();
-						gallery.setGalleryName(G_ID);
-						return gallery;
 					} else {
 						return null;
 					}
@@ -152,7 +117,7 @@ public class PurchaseServiceTests {
 						customer.setCreationDate(CUSTOMER_CREATION_DATE);
 						customer.setDefaultPaymentMethod(DEFAULTPAY);
 						return customer;
-					}else if(invocation.getArgument(0).equals(CUSTOMER_USERNAME2)) {
+					} else if (invocation.getArgument(0).equals(CUSTOMER_USERNAME2)) {
 						Customer customer = new Customer();
 						customer.setUsername(CUSTOMER_USERNAME2);
 						customer.setPassword(CUSTOMER_PASSWORD2);
@@ -164,22 +129,6 @@ public class PurchaseServiceTests {
 						return null;
 					}
 				});
-
-		// TODO PORT
-		lenient().when(artistRepository.findArtistByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).equals(ARTIST_USERNAME)) {
-				Artist artist = new Artist();
-				artist.setUsername(ARTIST_USERNAME);
-				artist.setPassword(ARTIST_PASSWORD);
-				artist.setEmail(ARTIST_EMAIL);
-				artist.setCreationDate(ARTIST_CREATION_DATE);
-				artist.setDefaultPaymentMethod(DEFAULTPAY);
-				artist.setIsVerified(VERIFIED);
-				return artist;
-			} else {
-				return null;
-			}
-		});
 
 		// Listing creation
 		lenient().when(listingRepository.findListingByListingID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
@@ -195,24 +144,6 @@ public class PurchaseServiceTests {
 				listing.setListedDate(DATE_LISTED);
 				listing.setListingID(L_ID);
 				return listing;
-			} else {
-				return null;
-			}
-		});
-
-		// TODO PORT
-		lenient().when(artworkRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).equals(A_ID)) {
-				Artwork artwork = new Artwork();
-				artwork.setArtworkID(A_ID);
-				artwork.setHeight(HEIGHT);
-				artwork.setWeight(WEIGHT);
-				artwork.setPrice(PRICE);
-				artwork.setYear(YEAR);
-				artwork.setIsBeingPromoted(PROMOTED);
-				artwork.setStyle(STYLE);
-				artwork.setName(ARTWORK_NAME);
-				return artwork;
 			} else {
 				return null;
 			}
@@ -271,7 +202,9 @@ public class PurchaseServiceTests {
 
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
 		lenient().when(transactionRepository.save(any(Transaction.class))).thenAnswer(returnParameterAsAnswer);
-
+		lenient().when(customerRepository.save(any(Customer.class))).thenAnswer(returnParameterAsAnswer);
+		lenient().when(listingRepository.save(any(Listing.class))).thenAnswer(returnParameterAsAnswer);
+		lenient().when(smartGalleryRepository.save(any(SmartGallery.class))).thenAnswer(returnParameterAsAnswer);
 	}
 
 	@Test
@@ -302,6 +235,19 @@ public class PurchaseServiceTests {
 			assertEquals("Customers must be specified\n", e.getMessage());
 		}
 	}
+	
+	@Test
+	public void testCreateTransactionInvalidCustomer() {
+		Customer customer = new Customer();
+		customer.setUsername("invalid customer");
+		Listing listing = listingRepository.findListingByListingID(L_ID);
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		try {
+			purchaseService.createTransaction(DEFAULTPAY, DELIVERY_METHOD, sGallery, customer, PAYMENT_DATE, listing);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Customer with that username does not exist\n", e.getMessage());
+		}
+	}
 
 	@Test
 	public void testCreateTransactionNoSmartGallery() {
@@ -313,6 +259,19 @@ public class PurchaseServiceTests {
 			assertEquals("System must be specified\n", e.getMessage());
 		}
 	}
+	
+	@Test
+	public void testCreateTransactionInvalidSmartGallery() {
+		SmartGallery smartGallery = new SmartGallery();
+		smartGallery.setSmartGalleryID(8383);
+		Listing listing = listingRepository.findListingByListingID(L_ID);
+		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
+		try {
+			purchaseService.createTransaction(DEFAULTPAY, DELIVERY_METHOD, smartGallery, customer, PAYMENT_DATE, listing);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Smart gallery with that id does not exist\n", e.getMessage());
+		}
+	}
 
 	@Test
 	public void testCreateTransactionNoListing() {
@@ -322,6 +281,19 @@ public class PurchaseServiceTests {
 			purchaseService.createTransaction(DEFAULTPAY, DELIVERY_METHOD, sGallery, customer, PAYMENT_DATE, null);
 		} catch (IllegalArgumentException e) {
 			assertEquals("Listing must exist\n", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testCreateTransactionInvalidListing() {
+		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
+		SmartGallery sGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(SG_ID);
+		Listing listing = new Listing();
+		listing.setListingID(3949);
+		try {
+			purchaseService.createTransaction(DEFAULTPAY, DELIVERY_METHOD, sGallery, customer, PAYMENT_DATE, listing);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Listing with this id does not exist\n", e.getMessage());
 		}
 	}
 
@@ -443,7 +415,7 @@ public class PurchaseServiceTests {
 		}
 
 	}
-	
+
 	@Test
 	public void testGetTransactionWrongCustomer() {
 		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
@@ -499,7 +471,7 @@ public class PurchaseServiceTests {
 			assertEquals("No transactions exist on this date", e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testGetTransactionWrongDate() {
 		Listing listing = listingRepository.findListingByListingID(L_ID);
@@ -511,13 +483,11 @@ public class PurchaseServiceTests {
 			e.printStackTrace();
 		}
 
-		
 		try {
 			purchaseService.getTransactionByPaymentDate(null);
 		} catch (IllegalArgumentException e) {
 			assertEquals("No date has been provided", e.getMessage());
 		}
 	}
-
 
 }

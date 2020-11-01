@@ -64,10 +64,14 @@ public class PurchaseService {
 
 		if (smartGallery == null) {
 			error += "System must be specified\n";
+		}else if(!doesSmartGalleryExist(smartGallery.getSmartGalleryID())) {
+			error += "Smart gallery with that id does not exist\n";
 		}
 
 		if (customer == null) {
 			error += "Customers must be specified\n";
+		}else if(!doesCustomerExist(customer.getUsername())) {
+			error += "Customer with that username does not exist\n";
 		}
 
 		if (paymentDate == null) {
@@ -76,6 +80,8 @@ public class PurchaseService {
 
 		if (listing == null) {
 			error += "Listing must exist\n";
+		}else if(!doesListingExist(listing.getListingID())) {
+			error += "Listing with this id does not exist\n";
 		} else if (listing.isIsSold()) {
 			error += "Listing has already been sold\n";
 		}
@@ -122,11 +128,11 @@ public class PurchaseService {
 	public Transaction getTransactionByID(int transactionID) {
 
 		Transaction transaction = transactionRepository.findTransactionByTransactionID(transactionID);
-		
-		if(transaction == null) {
+
+		if (transaction == null) {
 			throw new IllegalArgumentException("No transaction is associated to this id");
 		}
-		
+
 		return transaction;
 	}
 
@@ -140,13 +146,13 @@ public class PurchaseService {
 		if (customer == null) {
 			throw new IllegalArgumentException("Must provide a valid customer");
 		}
-		
+
 		List<Transaction> transactions = transactionRepository.findTransactionByCustomer(customer);
-		
-		if(transactions == null) {
+
+		if (transactions == null) {
 			throw new IllegalArgumentException("This customer does not have any associated transactions");
 		}
-		
+
 		return transactions;
 	}
 
@@ -160,10 +166,10 @@ public class PurchaseService {
 		if (date == null) {
 			throw new IllegalArgumentException("No date has been provided");
 		}
-		
+
 		List<Transaction> transactions = transactionRepository.findTransactionByPaymentDate(date);
-		
-		if(transactions == null) {
+
+		if (transactions == null) {
 			throw new IllegalArgumentException("No transactions exist on this date");
 		}
 		// TODO Check for date format
@@ -177,6 +183,21 @@ public class PurchaseService {
 	@Transactional
 	public List<Transaction> getAllTransactions() {
 		return toList(transactionRepository.findAll());
+	}
+
+	private boolean doesCustomerExist(String name) {
+		Customer customer = customerRepository.findCustomerByUsername(name);
+		return customer != null;
+	}
+	
+	private boolean doesListingExist(int listingID) {
+		Listing listing = listingRepository.findListingByListingID(listingID);
+		return listing != null;
+	}
+	
+	private boolean doesSmartGalleryExist(int smartGalleryID) {
+		SmartGallery sg = smartGalleryRepository.findSmartGalleryBySmartGalleryID(smartGalleryID);
+		return sg != null;
 	}
 
 	private <T> List<T> toList(Iterable<T> iterable) {
