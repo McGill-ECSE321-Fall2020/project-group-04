@@ -481,7 +481,6 @@ public class BrowsingServiceTests {
 
 	@Test
 	public void testGetAllPromotedArtworks() {
-;
 		try {
 			service.promoteArtwork(artwork1);
 			service.promoteArtwork(artwork2);
