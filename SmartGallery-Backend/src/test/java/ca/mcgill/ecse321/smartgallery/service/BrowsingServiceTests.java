@@ -14,29 +14,20 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.smartgallery.dao.*;
 import ca.mcgill.ecse321.smartgallery.model.*;
-import ca.mcgill.ecse321.smartgallery.service.BrowsingService;
 
 @ExtendWith(MockitoExtension.class)
 public class BrowsingServiceTests {
@@ -69,28 +60,18 @@ public class BrowsingServiceTests {
 
 	// Artwork variables
 	private static String ARTWORK_NAME = "artwork";
-	private static final int YEAR = 2019;
-	private static final double PRICE = 200;
 	private static final boolean PROMOTED = true;
 	private static final ArtStyle STYLE = ArtStyle.IMPRESSIONIST;
-	private static final int HEIGHT = 300;
-	private static final int WEIGHT = 25;
-	private static final int A_ID = 393939;
+	static final int A_ID = 393939;
 
 	// Listing variables
 	private static final boolean SOLD = true;
 	private static final boolean NOT_SOLD = false;
-	private static final Date DATE_LISTED = Date.valueOf("2020-11-25");
 	private static final int L_ID = 321;
 	private static final int L_ID2 = 9393;
 
 	// Artist variables
-	private static final String ARTIST_USERNAME = "testartist";
-	private static final String ARTIST_EMAIL = "testartist@email.com";
-	private static final String ARTIST_PASSWORD = "testapass";
-	private static final boolean VERIFIED = true;
-	private static final Date ARTIST_CREATION_DATE = Date.valueOf("2020-09-10");
-	
+	private static final String ARTIST_USERNAME = "testartist";	
 	
 	// Artworks for getAllPromoted
 	Artwork artwork1 = new Artwork();
