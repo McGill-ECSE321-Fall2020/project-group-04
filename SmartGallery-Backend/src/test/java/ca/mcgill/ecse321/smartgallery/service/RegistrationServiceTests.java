@@ -252,9 +252,22 @@ public class RegistrationServiceTests {
 		lenient().doNothing().when(artistRepository).delete(any(Artist.class));
 	}
 
+	//--------Login, Logout, Updating Profile tests----------------//
 	@Test
 	public void testProfileLoginAndLogout() {
-		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
+		Customer customer = null;
+		try {
+			registrationService.login(customer, "password");
+		} catch (Exception e) {
+			assertEquals(e.getMessage(), "Profile doesn't exist");
+		}
+		try {
+			registrationService.logout(customer);
+		} catch (Exception e) {
+			assertEquals(e.getMessage(), "Profile doesn't exist");
+		}
+		
+		customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
 		Artist artist = artistRepository.findArtistByUsername(ARTIST_USERNAME);
 		String correctPassword = customer.getPassword();
 		String wrongPassword = "wrongPassword";
@@ -284,7 +297,13 @@ public class RegistrationServiceTests {
 
 	@Test
 	public void testPasswordChange() {
-		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
+		Customer customer = null;
+		try {
+			registrationService.updatePassword(customer, "old", "new");
+		} catch (Exception e) {
+			assertEquals(e.getMessage(), "Profile doesn't exist");
+		}
+		customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
 		Artist artist = artistRepository.findArtistByUsername(ARTIST_USERNAME);
 		String oldPassword = customer.getPassword();
 		String newPassword = "newpassword";
@@ -307,7 +326,14 @@ public class RegistrationServiceTests {
 
 	@Test
 	public void testEmailChange() {
-		Customer customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
+		Customer customer = null;
+		try {
+			registrationService.updateEmail(customer, "email", "password");
+		} catch (Exception e) {
+			assertEquals(e.getMessage(), "Profile doesn't exist");
+		}
+		
+		customer = customerRepository.findCustomerByUsername(CUSTOMER_USERNAME);
 		Artist artist = artistRepository.findArtistByUsername(ARTIST_USERNAME);
 		String email = "newEmail@email.com";
 		String password = customer.getPassword();
@@ -756,18 +782,18 @@ public class RegistrationServiceTests {
 
 		Artist artist = registrationService.getArtist(ARTIST_USERNAME);
 
-		assertTrue(artist.isVerified());
+		assertTrue(artist.isIsVerified());
 		registrationService.verifyArtist(artist);
-		assertTrue(artist.isVerified());
+		assertTrue(artist.isIsVerified());
 
 		registrationService.unverifyArtist(artist);
-		assertFalse(artist.isVerified());
+		assertFalse(artist.isIsVerified());
 
 		registrationService.unverifyArtist(artist);
-		assertFalse(artist.isVerified());
+		assertFalse(artist.isIsVerified());
 
 		registrationService.verifyArtist(artist);
-		assertTrue(artist.isVerified());
+		assertTrue(artist.isIsVerified());
 	}
 
 	@Test
@@ -783,7 +809,7 @@ public class RegistrationServiceTests {
 		List<Artist> artists = new ArrayList<>();
 		artists = registrationService.getAllVerifiedArtists();
 		assertEquals(artist.getUsername(), artists.get(0).getUsername());
-		assertTrue(artists.get(0).isVerified());
+		assertTrue(artists.get(0).isIsVerified());
 	}
 
 	@Test
@@ -798,7 +824,7 @@ public class RegistrationServiceTests {
 		List<Artist> artists = new ArrayList<>();
 		artists = registrationService.getAllNonVerifiedArtists();
 		assertEquals(artist.getUsername(), artists.get(0).getUsername());
-		assertFalse(artists.get(0).isVerified());
+		assertFalse(artists.get(0).isIsVerified());
 	}
 
 	@Test

@@ -50,7 +50,7 @@ public class RegistrationController {
 			@RequestParam(name = "password") String password) {
 		Customer customer = customerRepository.findCustomerByUsername(username);
 		if (customer != null) {
-			registrationService.login(customer, password);
+			return registrationService.login(customer, password);
 		} else {
 			Artist artist = artistRepository.findArtistByUsername(username);
 			if (artist != null) {
@@ -210,13 +210,6 @@ public class RegistrationController {
 	public ArtistDTO verifyArtist(@PathVariable("username") String username) throws IllegalArgumentException {
 		Artist artist = registrationService.getArtist(username);
 		registrationService.verifyArtist(artist);
-		return Converters.convertToDto(artist);
-	}
-	
-	@PostMapping(value = { "/artist/verify/{username}", "/artist/verify/{username}/"})
-	public ArtistDTO unverifyArtist(@PathVariable("username") String username) throws IllegalArgumentException {
-		Artist artist = registrationService.getArtist(username);
-		registrationService.unverifyArtist(artist);
 		return Converters.convertToDto(artist);
 	}
 	

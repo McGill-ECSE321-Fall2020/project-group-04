@@ -58,6 +58,11 @@ public class RegistrationService {
 		if (username == null || username.equals("")) {
 			error += "Non empty username must be provided";
 		}
+		
+		// If an error is found, throw an exception
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 
 		// Remove spaces
 		username = username.trim();
@@ -218,6 +223,11 @@ public class RegistrationService {
 
 		if (username == null || username.equals("")) {
 			error += "Non empty username must be provided";
+		}
+		
+		// If an error is found, throw an exception
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
 		}
 
 		// Remove spaces
