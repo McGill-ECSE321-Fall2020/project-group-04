@@ -332,38 +332,23 @@ public class RegistrationService {
 	 * Log into a profile
 	 * @param profile
 	 */
-	public void login(Profile profile) {
+	@Transactional
+	public boolean login(Profile profile, String password) {
 		if (profile == null) {
 			String error = "Profile doesn't exist";
 			throw new IllegalArgumentException(error);
 		}
-		profile.login();
-	}
-	
-	/**
-	 * Log into a profile
-	 * @param username
-	 */
-	public void login(String username) {
-		Customer customer = customerRepository.findCustomerByUsername(username);
-		Artist artist = artistRepository.findArtistByUsername(username);
-		Profile profile = null;
-		if(customer != null) {
-			profile = customer;
-		} else if (artist != null) {
-			profile = artist;
-		}
-		if (profile == null) {
-			String error = "Profile doesn't exist";
-			throw new IllegalArgumentException(error);
-		}
-		profile.login();
+		if(profile.getPassword().equals(password)) {
+			profile.login();
+			return true;
+		} else return false;
 	}
 	
 	/**
 	 * Log out of a profile
 	 * @param profile
 	 */
+	@Transactional
 	public void logout(Profile profile) {
 		if (profile == null) {
 			String error = "Profile doesn't exist";
@@ -372,55 +357,35 @@ public class RegistrationService {
 		profile.logout();
 	}
 	
+	@Transactional
+	public boolean updateEmail(Profile profile, String newEmail, String password) {
+		if (profile == null) {
+			String error = "Profile doesn't exist";
+			throw new IllegalArgumentException(error);
+		}
+		if (profile.getPassword().equals(password)) {
+			profile.setEmail(newEmail);
+			return true;
+		} else return false;
+	}
+	
 	/**
-	 * Log out of a profile
-	 * @param username
+	 * Update the password of a profile
+	 * @param profile
+	 * @param oldPassword
+	 * @param newPassword
+	 * @return
 	 */
-	public void logout(String username) {
-		Customer customer = customerRepository.findCustomerByUsername(username);
-		Artist artist = artistRepository.findArtistByUsername(username);
-		Profile profile = null;
-		if(customer != null) {
-			profile = customer;
-		} else if (artist != null) {
-			profile = artist;
-		}
+	@Transactional
+	public boolean updatePassword(Profile profile, String oldPassword, String newPassword) {
 		if (profile == null) {
 			String error = "Profile doesn't exist";
 			throw new IllegalArgumentException(error);
 		}
-		profile.logout();
-	}
-	
-	public void updateEmail(String oldEmail, String newEmail) {
-		Profile profile = null;
-		profile = customerRepository.findCustomerByEmail(oldEmail);
-		if (profile == null) {
-			profile = artistRepository.findArtistByEmail(oldEmail);
-		}
-		if (profile == null) {
-			String error = "Profile doesn't exist";
-			throw new IllegalArgumentException(error);
-		}
-		profile.setEmail(newEmail);
-		if (profile instanceof Customer) {
-			customerRepository.save((Customer) profile);
-		} else {
-			artistRepository.save((Artist) profile);
-		}
-	}
-	
-	public void updatePassword(Profile profile, String password) {
-		if (profile == null) {
-			String error = "Profile doesn't exist";
-			throw new IllegalArgumentException(error);
-		}
-		profile.setPassword(password);
-		if (profile instanceof Customer) {
-			customerRepository.save((Customer) profile);
-		} else {
-			artistRepository.save((Artist) profile);
-		}
+		if (profile.getPassword().equals(oldPassword)) {
+			profile.setPassword(newPassword);
+			return true;
+		} else return false;
 	}
 
 	// Helper method to retrieve lists of objects
