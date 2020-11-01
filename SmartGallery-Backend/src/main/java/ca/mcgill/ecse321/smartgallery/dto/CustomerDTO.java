@@ -11,7 +11,7 @@ public class CustomerDTO extends ProfileDTO {
 	}
 
 	public CustomerDTO(SmartGalleryDTO smartGallery,String username, String password, String email, PaymentMethod defaultPaymentMethod,
-			Date creationDate) {
-		super(smartGallery,username, password, email, defaultPaymentMethod, creationDate);
+			Date creationDate, boolean loggedIn) {
+		super(smartGallery,username, password, email, defaultPaymentMethod, creationDate, loggedIn);
 	}
 }

@@ -23,9 +23,6 @@ import ca.mcgill.ecse321.smartgallery.dao.*;
 @RestController
 public class ListingController {
 
-	@Autowired
-	private ListingService listingService;
-
 
 	@Autowired
 	private ArtworkRepository artworkRepository;
@@ -35,6 +32,9 @@ public class ListingController {
 	private ArtistRepository artistRepository;
 	@Autowired
 	private ListingRepository listingRepository;
+	
+	@Autowired
+	private ListingService listingService;
 	
 
 	@GetMapping(value = { "/listing", "/listing/" })
