@@ -132,10 +132,10 @@ public class PurchaseController {
 	 * @param date
 	 * @return list of transactions on a given date
 	 */
-	@GetMapping(value = { "/transaction/search/date/{date}", "/transaction/search/date/{date}" })
-	public List<TransactionDTO> getTransactionsByDate(@PathVariable("date") Date date) {
-		return purchaseService.getTransactionByPaymentDate(date).stream().map(p -> Converters.convertToDto(p))
-				.collect(Collectors.toList());
-	}
+	@GetMapping(value = { "/transaction/searchdate/{date}", "/transaction/searchdate/{date}" })
+    public List<TransactionDTO> getTransactionsByDate(@PathVariable("date") String date) {
+        return purchaseService.getTransactionByPaymentDate(Date.valueOf(date)).stream().map(p -> Converters.convertToDto(p))
+                .collect(Collectors.toList());
+    }
 
 }

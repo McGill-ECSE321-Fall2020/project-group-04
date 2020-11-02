@@ -116,7 +116,7 @@ public class ListingService {
 		artwork.setWidth(width);
 		
 		Set<Artwork> artworks = artist.getArtworks();
-		if(artworks == null)
+		if(artworks == null || artworks.size() == 0)
 		{
 			HashSet<Artist> artists = new HashSet<>();
 			HashSet<Artwork> artworkss = new HashSet<Artwork>();

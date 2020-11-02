@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,8 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
+import ca.mcgill.ecse321.smartgallery.dao.TransactionRepository;
 import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
+import ca.mcgill.ecse321.smartgallery.dao.ArtworkRepository;
 import ca.mcgill.ecse321.smartgallery.dao.CustomerRepository;
+import ca.mcgill.ecse321.smartgallery.dao.GalleryRepository;
+import ca.mcgill.ecse321.smartgallery.dao.ListingRepository;
 import ca.mcgill.ecse321.smartgallery.dto.*;
 import ca.mcgill.ecse321.smartgallery.model.*;
 import ca.mcgill.ecse321.smartgallery.service.RegistrationService;
@@ -28,9 +33,18 @@ public class RegistrationController {
 	private CustomerRepository customerRepository;
 	@Autowired
 	private SmartGalleryRepository smartGalleryRepository;
-
+	@Autowired
+	private GalleryRepository galleryRepository;
+	@Autowired
+	private TransactionRepository transactionRepository;
+	@Autowired
+	private ArtworkRepository artworkRepository;
+	@Autowired
+	private ListingRepository listingRepository;
+	
 	@Autowired
 	private RegistrationService registrationService;
+
 
 	/**
 	 * Login method for any profile
@@ -38,6 +52,18 @@ public class RegistrationController {
 	 * @param password
 	 * @return
 	 */
+	
+	@DeleteMapping(value = {"/delete/entire/database", "/delete/entire/database/"})
+	public void clearDatabase() {
+		smartGalleryRepository.deleteAll();
+		galleryRepository.deleteAll();
+		artistRepository.deleteAll();
+		listingRepository.deleteAll();
+		transactionRepository.deleteAll();
+		artworkRepository.deleteAll();
+		customerRepository.deleteAll();
+	}
+	
 	@PostMapping(value = { "/login", "/login/" })
 	public boolean login(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password) {

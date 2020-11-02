@@ -25,13 +25,15 @@ public interface ArtworkRepository extends CrudRepository<Artwork, Integer> {
 	
 	List<Artwork> findArtworkByHeightBetween(int minHeight, int maxHeight);
 	
+	List<Artwork> findArtworkByNameContainingAndPriceBetween(String nameFragment, double minPrice, double maxPrice);
+	
 	List<Artwork> findArtworkByNameContainingAndStyle(String nameFragment, ArtStyle artStyle);
 	
 	List<Artwork> findArtworkByIsBeingPromoted(boolean isBeingPromoted);
 	
 	//the longest method name ever written
 	List<Artwork> findArtworkByNameContainingAndYearBetweenAndPriceBetweenAndHeightBetweenAndWidthBetweenAndWeightBetweenAndStyle(
-			String nameFragment, int minYear, int maxYear, int minPrice, int maxPrice, int minHeight, int maxHeight,
+			String nameFragment, int minYear, int maxYear, double minPrice, double maxPrice, int minHeight, int maxHeight,
 			int minWidth, int maxWidth, int minWeight, int maxWeight, ArtStyle artStyle);
 	
 }

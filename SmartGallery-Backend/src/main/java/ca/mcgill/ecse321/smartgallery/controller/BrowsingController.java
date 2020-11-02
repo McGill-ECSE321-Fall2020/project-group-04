@@ -150,7 +150,7 @@ public class BrowsingController {
 	@GetMapping(value = { "/listing/artworkSearch/{searchInput}/{minPrice}/{maxPrice}/{style}",
 			"/listing/artworkSearch/{searchInput}/{minPrice}/{maxPrice}/{style}/" })
 	public List<ListingDTO> searchArtwork(@PathVariable("searchInput") String searchInput, 
-			@PathVariable("minPrice") double minPrice, @PathVariable("minPrice") double maxPrice, 
+			@PathVariable("minPrice") double minPrice, @PathVariable("maxPrice") double maxPrice, 
 			@PathVariable("style") String artStyle) {
 		List<Listing> allListings = listingService.getAllListings();
 		return browsingService.searchArtwork(allListings, searchInput, minPrice, maxPrice, 
@@ -177,7 +177,7 @@ public class BrowsingController {
 	@GetMapping(value = { "/listing/artworkSearch/{searchInput}/{minPrice}/{maxPrice}",
 			"/listing/artworkSearch/{searchInput}/{minPrice}/{maxPrice}/" })
 	public List<ListingDTO> searchArtwork(@PathVariable("searchInput") String searchInput,
-			@PathVariable("minPrice") double minPrice, @PathVariable("minPrice") double maxPrice) {
+			@PathVariable("minPrice") double minPrice, @PathVariable("maxPrice") double maxPrice) {
 		List<Listing> allListings = listingService.getAllListings();
 		return browsingService.searchArtwork(allListings, searchInput, minPrice, maxPrice).stream()
 				.map(p -> Converters.convertToDto(p)).collect(Collectors.toList());
@@ -252,7 +252,7 @@ public class BrowsingController {
 	 * 
 	 * Method that returns a list of Artworks corresponding to a given customer's browseHistory
 	 * 
-	 * @author OliverStappas 
+	 * @author OliverStappas
 	 * 
 	 * @param username The username of the customer whose browse history is being changed
 	 * 
