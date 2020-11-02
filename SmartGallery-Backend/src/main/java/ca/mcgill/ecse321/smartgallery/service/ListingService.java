@@ -115,16 +115,33 @@ public class ListingService {
 		artwork.setWeight(weight);
 		artwork.setWidth(width);
 		HashSet<Artist> artists = new HashSet<>();
-		HashSet<Artwork> artworkss = new HashSet<>();
-		artworkss.add(artwork);
-		artist.setArtworks(artworkss);
-		artists.add(artist);
-		artwork.setArtists(artists);
-		artwork.setGallery(gallery);
-		artwork.setArtworkID(artists.iterator().next().getUsername().hashCode() * artwork.getName().hashCode());
-		artworkRepository.save(artwork);
-		artistRepository.save(artist);
-		return artwork;
+		Set<Artwork> artworks = artist.getArtworks();
+		if(artworks == null)
+		{
+			HashSet<Artwork> artworkss = new HashSet<Artwork>();
+			artworkss.add(artwork);
+			artist.setArtworks(artworkss);
+			artists.add(artist);
+			artwork.setArtists(artists);
+			artwork.setGallery(gallery);
+			artwork.setArtworkID(artists.iterator().next().getUsername().hashCode() * artwork.getName().hashCode());
+			artworkRepository.save(artwork);
+			artistRepository.save(artist);
+			return artwork;
+		}
+		else
+		{
+			artworks.add(artwork);
+			artist.setArtworks(artworks);
+			artists.add(artist);
+			artwork.setArtists(artists);
+			artwork.setGallery(gallery);
+			artwork.setArtworkID(artists.iterator().next().getUsername().hashCode() * artwork.getName().hashCode());
+			artworkRepository.save(artwork);
+			artistRepository.save(artist);
+			return artwork;
+		}
+		
 	}
 	/**
 	 * @author Stavros Mitsoglou
