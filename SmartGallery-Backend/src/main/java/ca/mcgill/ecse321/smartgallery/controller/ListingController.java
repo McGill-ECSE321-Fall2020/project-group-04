@@ -43,6 +43,13 @@ public class ListingController {
 				.collect(Collectors.toList());
 	}
 	
+
+	@GetMapping(value = { "/artwork", "/artwork/" })
+	public List<ArtworkDTO> getAllArtworks() {
+		return listingService.getAllArtworks().stream().map(p -> Converters.convertToDto(p))
+				.collect(Collectors.toList());
+	}
+	
 	@GetMapping(value = { "/listing/{listingID}", "/listing/{listingID}/" })
 	public ListingDTO getListingByID(@PathVariable("listingID") int listingID) {
 		return Converters.convertToDto(listingService.getListingByID(listingID));
