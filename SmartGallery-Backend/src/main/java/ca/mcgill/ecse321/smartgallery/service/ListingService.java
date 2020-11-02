@@ -381,6 +381,17 @@ public class ListingService {
 		return toList(listingRepository.findAll());
 	}
 	
+
+	/**
+	 * @author Stavros Mitsoglou
+	 * @return all artworks
+	 * Return all artworks in Repository 
+	 */
+	public List<Artwork> getAllArtworks()
+	{
+		return toList(artworkRepository.findAll());
+	}
+	
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
