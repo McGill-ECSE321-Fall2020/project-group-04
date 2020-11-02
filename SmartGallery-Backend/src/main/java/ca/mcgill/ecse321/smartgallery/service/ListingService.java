@@ -114,10 +114,11 @@ public class ListingService {
 		artwork.setHeight(height);
 		artwork.setWeight(weight);
 		artwork.setWidth(width);
-		HashSet<Artist> artists = new HashSet<>();
+		
 		Set<Artwork> artworks = artist.getArtworks();
 		if(artworks == null)
 		{
+			HashSet<Artist> artists = new HashSet<>();
 			HashSet<Artwork> artworkss = new HashSet<Artwork>();
 			artworkss.add(artwork);
 			artist.setArtworks(artworkss);
@@ -131,6 +132,8 @@ public class ListingService {
 		}
 		else
 		{
+			
+			Set<Artist> artists = artist.getArtworks().iterator().next().getArtists();
 			artworks.add(artwork);
 			artist.setArtworks(artworks);
 			artists.add(artist);
