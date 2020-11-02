@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.smartgallery.dto;
 
 import java.sql.Date;
-import java.util.Set;
 
 import ca.mcgill.ecse321.smartgallery.model.DeliveryMethod;
 import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;

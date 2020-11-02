@@ -3,8 +3,6 @@ package ca.mcgill.ecse321.smartgallery.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import java.util.Set;
-import javax.persistence.ManyToMany;
 import java.sql.Date;
 
 @Entity

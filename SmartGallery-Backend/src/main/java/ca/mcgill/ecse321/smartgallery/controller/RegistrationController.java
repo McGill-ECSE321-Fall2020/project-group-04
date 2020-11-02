@@ -44,15 +44,10 @@ public class RegistrationController {
 	
 	@Autowired
 	private RegistrationService registrationService;
-
-
-	/**
-	 * Login method for any profile
-	 * @param username
-	 * @param password
-	 * @return
-	 */
 	
+	/**
+	 * Helper method used for testing. Deletes all database entries
+	 */
 	@DeleteMapping(value = {"/delete/entire/database", "/delete/entire/database/"})
 	public void clearDatabase() {
 		smartGalleryRepository.deleteAll();
@@ -64,6 +59,14 @@ public class RegistrationController {
 		customerRepository.deleteAll();
 	}
 	
+	/**
+	 * @author zachsiciliani
+	 * Login method for any profile
+	 * 
+	 * @param username					Profile username
+	 * @param password					Profile password
+	 * @return Boolean value with successful equals true
+	 */
 	@PostMapping(value = { "/login", "/login/" })
 	public boolean login(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password) {
@@ -80,31 +83,13 @@ public class RegistrationController {
 	}
 
 	/**
-	 * Login method specifically for a customer. Not currently used.
-	 * @param username
-	 * @param password
-	 * @return
+	 * @author zachsiciliani
+	 * Logout method for any profile
+	 * 
+	 * @param username					Profile username
+	 * @param password					Profile password
+	 * @return Boolean value with successful equals true
 	 */
-	@PostMapping(value = { "/customer/login", "/customer/login/" })
-	public boolean customerLogin(@RequestParam(name = "username") String username,
-			@RequestParam(name = "password") String password) {
-		Customer customer = customerRepository.findCustomerByUsername(username);
-		if (customer != null) {
-			return registrationService.login(customer, password);
-		}
-		return false;
-	}
-  
-	@PostMapping(value = {"/artist/login", "/artist/login/"})
-	public boolean artistLogin(@RequestParam(name = "username") String username, 
-			@RequestParam(name = "password") String password) {
-		Artist artist = artistRepository.findArtistByUsername(username);
-		if (artist != null) {
-			registrationService.login(artist, password);
-		}
-		return false;
-	}
-
 	@PostMapping(value = { "/logout", "/logout/" })
 	public boolean logout(@RequestParam(name = "username") String username) {
 		Customer customer = customerRepository.findCustomerByUsername(username);
@@ -120,27 +105,16 @@ public class RegistrationController {
 		}
 		return false;
 	}
-
-	@PostMapping(value = { "/customer/logout", "/customer/logout/" })
-	public boolean customerLogout(@RequestParam(name = "username") String username) {
-		Customer customer = customerRepository.findCustomerByUsername(username);
-		if (customer != null) {
-			registrationService.logout(customer);
-			return true;
-		}
-		return false;
-	}
-
-	@PostMapping(value = { "/artist/logout", "/artist/logout/" })
-	public boolean artistLogout(@RequestParam(name = "username") String username) {
-		Artist artist = artistRepository.findArtistByUsername(username);
-		if (artist != null) {
-			registrationService.logout(artist);
-			return true;
-		}
-		return false;
-	}
-
+	
+	/**
+	 * @author zachsiciliani
+	 * Method to change an email for any profile
+	 * 
+	 * @param username					Profile username
+	 * @param password					Profile password
+	 * @param email						Profile email
+	 * @return Boolean value with successful equals true
+	 */
 	@PostMapping(value = { "/email/change", "/email/change/" })
 	public boolean changeEmail(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password, @RequestParam(name = "newEmail") String email) {
@@ -154,6 +128,15 @@ public class RegistrationController {
 		return registrationService.updateEmail(profile, email, password);
 	}
 
+	/**
+	 * @author zachsiciliani
+	 * Method to change a password for any profile
+	 * 
+	 * @param username					Profile username
+	 * @param oldPassword				Profile's old password
+	 * @param newPassword				Profile's new email
+	 * @return Boolean value with successful equals true
+	 */
 	@PostMapping(value = { "/password/change", "/password/change/" })
 	public boolean changePassword(@RequestParam(name = "username") String username,
 			@RequestParam(name = "oldPassword") String oldPassword,
@@ -168,12 +151,30 @@ public class RegistrationController {
 		return registrationService.updatePassword(profile, oldPassword, newPassword);
 	}
 
+	/**
+	 * @author roeywine
+	 * Method returns a list of all the customers
+	 * 
+	 * @return Customer data transfer object list
+	 */
 	@GetMapping(value = { "/customer", "/customer/" })
 	public List<CustomerDTO> getAllCustomers() {
 		return registrationService.getAllCustomers().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * @author roeywine
+	 * Method creates a customer
+	 * 
+	 * @param username					Customer username
+	 * @param password					Customer password
+	 * @param email						Customer email
+	 * @param defaultPaymentMethod		Customer's default payment method
+	 * @param smartGalleryID			The associated smart gallery's ID
+	 * @return A customer data transfer object
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/customer/{username}/{password}/{email}/{defaultPaymentMethod}" })
 	public CustomerDTO createCustomer(@PathVariable("username") String username,
 			@PathVariable("password") String password, @PathVariable("email") String email,
@@ -185,42 +186,95 @@ public class RegistrationController {
 		return Converters.convertToDto(customer);
 	}
 
+	/**
+	 * @author roeywine
+	 * Method to delete a customer
+	 * 
+	 * @param username					Customer username
+	 * @return A customer data transfer object
+	 */
 	@PostMapping(value = { "/customer/delete/{username}", "/customer/delete/{username}" })
 	public CustomerDTO deleteCustomer(@PathVariable("username") String username) {
 		Customer customer = registrationService.deleteCustomer(username);
 		return Converters.convertToDto(customer);
 	}
 
+	/**
+	 * @author roeywine
+	 * Method to get a customer using a username
+	 * 
+	 * @param username					Customer username
+	 * @return A customer data transfer object
+	 */
 	@GetMapping(value = { "/customer/name/{username}", "/customer/name/{username}/" })
 	public CustomerDTO getCustomerByUsername(@PathVariable("username") String username) {
 		Customer customer = registrationService.getCustomer(username);
 		return Converters.convertToDto(customer);
 	}
 
+	/**
+	 * @author roeywine
+	 * Method to get a customer using an email
+	 * 
+	 * @param email					Customer email
+	 * @return A customer data transfer object
+	 */
 	@GetMapping(value = { "/customer/email/{email}", "/customer/email/{email}/" })
 	public CustomerDTO getCustomerByEmail(@PathVariable("email") String email) {
 		Customer customer = registrationService.getCustomerByEmail(email);
 		return Converters.convertToDto(customer);
 	}
 
+	/**
+	 * @author roeywine
+	 * Method returns a list of all the artists
+	 * 
+	 * @return Artist data transfer object list
+	 */
 	@GetMapping(value = { "/artist", "/artist/" })
 	public List<ArtistDTO> getAllArtists() {
 		return registrationService.getAllArtists().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 
-	@GetMapping(value = { "artist/name/{username}", "artist/email/{username}/" })
+	/**
+	 * @author roeywine
+	 * Method to get an artist using a username
+	 * 
+	 * @param username					Artist username
+	 * @return An artist data transfer object
+	 */
+	@GetMapping(value = { "artist/name/{username}", "artist/name/{username}/" })
 	public ArtistDTO getArtistByUsername(@PathVariable("username") String username) {
 		Artist artist = registrationService.getArtist(username);
 		return Converters.convertToDto(artist);
 	}
 
+	/**
+	 * @author roeywine
+	 * Method to get an artist using an email
+	 * 
+	 * @param email					Artist email
+	 * @return An artist data transfer object
+	 */
 	@GetMapping(value = { "/artist/email/{email}", "/artist/email/{email}/" })
 	public ArtistDTO getArtistByEmail(@PathVariable("email") String email) {
 		Artist artist = registrationService.getArtistByEmail(email);
 		return Converters.convertToDto(artist);
 	}
 
+	/**
+	 * @author roeywine
+	 * Method to create an artist
+	 * 
+	 * @param username					Artist username
+	 * @param password					Artist password
+	 * @param email						Artist email
+	 * @param defaultPaymentMethod		Artist's default payment method
+	 * @param smartGalleryID			The associated smart gallery's ID
+	 * @return An artist data transfer object
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/artist/{username}", "/artist/{username}/" })
 	public ArtistDTO createArtist(@PathVariable("username") String username, @RequestParam("password") String password,
 			@RequestParam("email") String email, @RequestParam("defaultPaymentMethod") String defaultPaymentMethod,
@@ -231,6 +285,14 @@ public class RegistrationController {
 		return Converters.convertToDto(artist);
 	}
 	
+	/**
+	 * @author roeywine
+	 * Method to verify an artist
+	 * 
+	 * @param username					Artist username
+	 * @return An artist data transfer object
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/artist/verify/{username}", "/artist/verify/{username}/"})
 	public ArtistDTO verifyArtist(@PathVariable("username") String username) throws IllegalArgumentException {
 		Artist artist = registrationService.getArtist(username);
@@ -238,6 +300,14 @@ public class RegistrationController {
 		return Converters.convertToDto(artist);
 	}
 	
+	/**
+	 * @author roeywine
+	 * Method to unverify an artist
+	 * 
+	 * @param username					Artist username
+	 * @return An artist data transfer object
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/artist/unverify/{username}", "/artist/unverify/{username}/"})
 	public ArtistDTO unverifyArtist(@PathVariable("username") String username) throws IllegalArgumentException {
 		Artist artist = registrationService.getArtist(username);
@@ -245,18 +315,37 @@ public class RegistrationController {
 		return Converters.convertToDto(artist);
 	}
 	
+	/**
+	 * @author roeywine
+	 * Method to get all the verified artists
+	 * 
+	 * @return Artist data transfer object list
+	 */
 	@GetMapping(value = { "/artist/verified", "/artist/verified/" })
 	public List<ArtistDTO> getAllVerifiedArtists() {
 		return registrationService.getAllVerifiedArtists().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 	
+	/**
+	 * @author roeywine
+	 * Method to get all the not verified artists
+	 * 
+	 * @return Artist data transfer object list
+	 */
 	@GetMapping(value = { "/artist/nonverified", "/artist/nonverified/" })
 	public List<ArtistDTO> getAllNonverifiedArtists() {
 		return registrationService.getAllNonVerifiedArtists().stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * @author roeywine
+	 * Method to delete an artist
+	 * 
+	 * @param username					Artist username
+	 * @return An artist data transfer object
+	 */
 	@PostMapping(value = { "/artist/delete/{username}", "/artist/delete/{username}" })
 	public ArtistDTO deleteArtist(@PathVariable("username") String username) {
 		Artist artist = registrationService.deleteArtist(username);
