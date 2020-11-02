@@ -44,13 +44,14 @@ public class PurchaseController {
 	private RegistrationService registrationService;
 
 	/**
+	 * responds to transaction request
 	 * 
 	 * @param paymentMethod
 	 * @param deliveryMethod
 	 * @param username
 	 * @param paymentDate
 	 * @param listingID
-	 * @return
+	 * @return TransactionDTO
 	 * @throws IllegalArgumentException
 	 */
 	@PostMapping(value = { "/transaction", "/transaction/" })
