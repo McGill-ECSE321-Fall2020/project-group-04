@@ -79,14 +79,15 @@ public class PurchaseController {
 	@PostMapping(value = { "/transaction", "/transaction/" })
 	public TransactionDTO createTransaction(@RequestParam("paymentMethod") String paymentMethod,
 			@RequestParam("deliveryMethod") String deliveryMethod, @RequestParam("username") String username,
-			@DateTimeFormat(pattern = "MM/dd/yyyy") Date paymentDate, @RequestParam("listingID") int listingID)
+			@RequestParam("listingID") int listingID)
 			throws IllegalArgumentException {
 
 		// Find objects
 		Listing listing = listingService.getListingByID(listingID);
 		SmartGallery sGallery = browsingService.getAllSmartGalleries().get(0);
 		Customer customer = registrationService.getCustomer(username);
-
+		long millis = System.currentTimeMillis();
+		Date paymentDate = new java.sql.Date(millis);
 		Transaction transaction = purchaseService.createTransaction(
 				Converters.convertStringToPaymentMethod(paymentMethod),
 				Converters.convertStringToDeliveryMethod(deliveryMethod), sGallery, customer, paymentDate, listing);
