@@ -20,7 +20,7 @@ The following tables provide details on the contributors to this project. It dis
 | Member  |Main Responsibilities|Hours|
 |---------------------|-----------------------|-------|
 | Roey |Service methods [Registration], Controller methods, Service tests | 26 |
-| Stavros | Service methods [Listing], Controller methods, Service tests | 30 |
+| Stavros | Service methods [Listing], Controller methods, Service tests, Project Report | 30 |
 | Zachary | Service methods [Browsing], Controller methods, Service tests [Registration] | 32 |
 | Viet | Service methods [Purchase], Controller methods, Converters, DTOs, Service tests | 28 |
 | Oliver |Service methods [Browsing], Controller methods, Service tests [Browsing], Project Report  | 32 |
