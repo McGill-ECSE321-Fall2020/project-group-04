@@ -214,6 +214,15 @@ public class ListingServiceTests {
 			listings.add(listing);
 			return listings;
 		});
+		
+		// TODO set links?
+				lenient().when(artworkRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+					List<Artwork> artworks = new ArrayList<>();
+					Artwork artwork = new Artwork();
+					artwork.setArtworkID(A_ID);
+					artworks.add(artwork);
+					return artworks;
+				});
 
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
 		lenient().when(listingRepository.save(any(Listing.class))).thenAnswer(returnParameterAsAnswer);
@@ -769,6 +778,19 @@ public class ListingServiceTests {
 		}
 		List<Listing> listingList = listingService.getAllListings();
 		assertEquals(listing.getListingID(), listingList.get(0).getListingID());
+	}
+	
+	@Test
+	public void testGetAllArtworks() {
+		Artwork artwork = null;
+
+		try {
+			artwork = artworkRepository.findArtworkByArtworkID(A_ID);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		List<Artwork> artworkList = listingService.getAllArtworks();
+		assertEquals(artwork.getArtworkID(), artworkList.get(0).getArtworkID());
 	}
 
 }
