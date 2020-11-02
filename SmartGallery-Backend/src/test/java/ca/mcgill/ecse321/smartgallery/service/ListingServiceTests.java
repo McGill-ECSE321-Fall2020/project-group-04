@@ -31,11 +31,9 @@ import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
 import ca.mcgill.ecse321.smartgallery.model.ArtStyle;
 import ca.mcgill.ecse321.smartgallery.model.Artist;
 import ca.mcgill.ecse321.smartgallery.model.Artwork;
-import ca.mcgill.ecse321.smartgallery.model.Customer;
 import ca.mcgill.ecse321.smartgallery.model.Gallery;
 import ca.mcgill.ecse321.smartgallery.model.Listing;
-import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
-import ca.mcgill.ecse321.smartgallery.model.Transaction;
+
 
 @ExtendWith(MockitoExtension.class)
 public class ListingServiceTests {

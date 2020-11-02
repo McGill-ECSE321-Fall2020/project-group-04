@@ -98,9 +98,6 @@ public class RegistrationServiceTests {
 	// SmartGallery variables
 	private static final int SG_ID = 1234;
 
-	private static Artist ARTIST1;
-	private static Customer CUSTOMER1;
-
 	@BeforeEach
 	public void setMockOutput() {
 		MockitoAnnotations.initMocks(this);
