@@ -129,10 +129,10 @@ public class ListingServiceTests {
 				artwork.setIsBeingPromoted(PROMOTED);
 				artwork.setStyle(STYLE);
 				artwork.setName(ARTWORK_NAME);
-				HashSet<Artist> artists = new HashSet();
+				HashSet<Artist> artists = new HashSet<>();
 				artists.add(artist);
 				artwork.setArtists(artists);
-				HashSet<Artwork> artworks = new HashSet();
+				HashSet<Artwork> artworks = new HashSet<>();
 				artworks.add(artwork);
 				artist.setArtworks(artworks);
 				return artist;
@@ -159,7 +159,7 @@ public class ListingServiceTests {
 				artwork.setIsBeingPromoted(PROMOTED);
 				artwork.setStyle(STYLE);
 				artwork.setName(ARTWORK_NAME);
-				HashSet<Artist> artists = new HashSet();
+				HashSet<Artist> artists = new HashSet<>();
 				artists.add(artist);
 				artwork.setArtists(artists);
 				Listing listing = new Listing();
@@ -194,7 +194,7 @@ public class ListingServiceTests {
 				artwork.setIsBeingPromoted(PROMOTED);
 				artwork.setStyle(STYLE);
 				artwork.setName(ARTWORK_NAME);
-				HashSet<Artist> artists = new HashSet();
+				HashSet<Artist> artists = new HashSet<>();
 				artists.add(artist);
 				artwork.setArtists(artists);
 				
