@@ -2,14 +2,24 @@
 </script>
 
 <template>
-  <div id="artworksearch">
-    <h2>Listings</h2>
-      <table>
-        <tr v-for="listing in Listings" :key="listing.name" >
-            <td>{{ listing.name }}</td>
-            <td>{{ listing.price}}</td>
-        </tr>
-    <!-- ... -->
-    </table>
-  </div>
+    <div>
+    <div class="header">
+      <h1>SmartGallery - Artwork Search</h1>
+      <button type="button" name="home"> Purchase </button>
+      <button type="button" name="artistSearch"> Purchase </button>
+      <button type="button" name="viewProfile"> Purchase </button>
+    </div>
+    <input v-model="artworkNameInput" placeholder="Artwork name">
+    <button type="button" name="search"> Purchase </button>
+
+  <br>
+  <input v-model="minPriceInput" placeholder="Min price">
+  <input v-model="maxPriceInput" placeholder="Max price">
+  <input v-model="artStyleInput" placeholder="Art Style">
+
+</div>
 </template>
+
+
+
+
