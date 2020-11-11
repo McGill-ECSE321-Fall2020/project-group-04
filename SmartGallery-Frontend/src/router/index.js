@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
-import Listing from '@/components/Listing'
+import Listing from '@/components/ListingView'
 Vue.use(Router)
 
 export default new Router({
@@ -15,6 +15,6 @@ export default new Router({
       path: '/ViewListing',
       name: 'Listing',
       component: Listing
-    }
+    },
   ]
 })
