@@ -41,34 +41,46 @@ export default {
 		}
 	},
 	created: function () {
-		AXIOS.get('/listing/artworkSearch/{searchInput}/{minPrice}/{maxPrice}/{style}')
-			.then(response => {
-				this.listings = response.data
-				console.log(response)
-			})
-			.catch(e => {
-				this.errorListing = e
-			})
+		// Show all listings when you first open page
 	},
 	methods: {
-		getListing: function (listingID) {
-			AXIOS.get('/listing/'.concat(listingID))
+
+		searchArtworkAllFilters: function (searchInput, minPrice, maxPrice, style) {
+			AXIOS.get('/listing/artworkSearch/' + searchInput + minPrice + maxPrice + style)
 				.then(response => {
 					this.listings = [response.data]
-					this.artwork = this.listings.artwork
+				})
+				.catch(e => {
+					this.errorListing = e
+				})
+		},
+		searchArtworkPriceFilter: function (searchInput, minPrice, maxPrice) {
+			AXIOS.get('/listing/artworkSearch/' + searchInput + minPrice + maxPrice)
+				.then(response => {
+					this.listings = [response.data]
+				})
+				.catch(e => {
+					this.errorListing = e
+				})
+		},
+		searchArtworkArtStyleFilter: function (searchInput, style) {
+			AXIOS.get('/listing/artworkSearch/' + searchInput + style)
+				.then(response => {
+					this.listings = [response.data]
+				})
+				.catch(e => {
+					this.errorListing = e
+				})
+		},
+		searchArtworkNoFilter: function (searchInput) {
+			AXIOS.get('/listing/artworkSearch/' + searchInput)
+				.then(response => {
+					this.listings = [response.data]
 				})
 				.catch(e => {
 					this.errorListing = e
 				})
 		}
-
 	}
 }
-"/listing/artworkSearch/{searchInput}/{minPrice}/{maxPrice}/{style}", "/listing/artworkSearch/{searchInput}/{minPrice}/{maxPrice}/{style}/" 
-
-"/listing/artworkSearch/{searchInput}/{minPrice}/{maxPrice}", "/listing/artworkSearch/{searchInput}/{minPrice}/{maxPrice}/" 
-
-"/listing/artworkSearch/{searchInput}/{style}", "/listing/artworkSearch/{searchInput}/{style}/"
-
-"/listing/artworkSearch/{searchInput}", "/listing/artworkSearch/{searchInput}/" 
 
