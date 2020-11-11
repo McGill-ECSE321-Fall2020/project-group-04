@@ -17,7 +17,8 @@ export default new Router({
       path: '/artworkSearch',
       name: 'ArtworkSearch',
       component: ArtworkSearch
-    }.
+    },
+    {
       path: '/ViewListing',
       name: 'Listing',
       component: Listing
