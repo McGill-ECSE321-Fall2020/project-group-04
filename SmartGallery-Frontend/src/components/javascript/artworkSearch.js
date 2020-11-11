@@ -1,5 +1,5 @@
 import axios from 'axios'
-var config = require('../../config')
+var config = require('../../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
@@ -37,6 +37,10 @@ export default {
 		return {
 			listings: [],
 			errorListing: '',
+			artworkNameInput: '',
+			minPriceInput: '',
+			maxPriceInput: '',
+			artStyleInput: '',
 			response: []
 		}
 	},
@@ -44,29 +48,52 @@ export default {
 		// Show all listings when you first open page
 	},
 	methods: {
-
+		searchArtwork: function(searchInput, minPrice, maxPrice, style) {
+			if (searchInput.length != 0) {
+				if (minPrice.length == 0 || maxPrice.length == 0) {
+					if (style.length == 0) {
+						this.searchArtworkNoFilter(searchInput);
+					}
+					else {
+						this.searchArtworkArtStyleFilter(searchInput, style);
+					}
+				}
+				else {
+					if (style.length == 0) {
+						this.searchArtworkPriceFilter(searchInput, minPrice, maxPrice);
+					}
+					else {
+						this.searchArtworkAllFilters(searchInput, minPrice, maxPrice, style);
+					}
+				}
+			}
+			else {
+				alert("Please enter something into the search box.");
+			}
+			
+		},
 		searchArtworkAllFilters: function (searchInput, minPrice, maxPrice, style) {
-			AXIOS.get('/listing/artworkSearch/' + searchInput + minPrice + maxPrice + style)
+			AXIOS.get('/listing/artworkSearch/' + searchInput + '/' + minPrice + '/' + maxPrice + '/' + style)
 				.then(response => {
-					this.listings = [response.data]
+					this.listings = response.data
 				})
 				.catch(e => {
 					this.errorListing = e
 				})
 		},
 		searchArtworkPriceFilter: function (searchInput, minPrice, maxPrice) {
-			AXIOS.get('/listing/artworkSearch/' + searchInput + minPrice + maxPrice)
+			AXIOS.get('/listing/artworkSearch/' + searchInput + '/' + minPrice + '/' + maxPrice)
 				.then(response => {
-					this.listings = [response.data]
+					this.listings = response.data
 				})
 				.catch(e => {
 					this.errorListing = e
 				})
 		},
 		searchArtworkArtStyleFilter: function (searchInput, style) {
-			AXIOS.get('/listing/artworkSearch/' + searchInput + style)
+			AXIOS.get('/listing/artworkSearch/' + searchInput + '/' + style)
 				.then(response => {
-					this.listings = [response.data]
+					this.listings = response.data
 				})
 				.catch(e => {
 					this.errorListing = e
@@ -75,7 +102,7 @@ export default {
 		searchArtworkNoFilter: function (searchInput) {
 			AXIOS.get('/listing/artworkSearch/' + searchInput)
 				.then(response => {
-					this.listings = [response.data]
+					this.listings = response.data
 				})
 				.catch(e => {
 					this.errorListing = e
