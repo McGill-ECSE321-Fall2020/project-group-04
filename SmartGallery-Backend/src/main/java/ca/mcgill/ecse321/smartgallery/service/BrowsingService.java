@@ -387,6 +387,44 @@ public class BrowsingService {
 		return results;
 	}
 
+	   /**
+     * 
+     * Method that searches a list of listings given a price range, 
+     * and returns a HashSet of matching results. Matches the listing's artwork name with 
+     * the search input. The artwork must be in the price range.
+     * 
+     * @author OliverStappas 
+     * 
+     * @param listings A list of listings to search in
+     * @param minPrice The minimum price the listings should have
+     * @param maxPrice The maximum price the listings should have
+     * 
+     * @return HashSet<Listings> Listings with artwork names matching search criteria,
+     *  with prices within the provided range.
+     * 
+     */ 
+    @Transactional
+    public HashSet<Listing> searchArtwork(List<Listing> listings, double minPrice,
+            double maxPrice) {
+        if (listings == null) { // if the provided listings list is null
+            throw new IllegalArgumentException("Listings must be provided");
+        }
+        if (minPrice > maxPrice) { // if the minimum price is larger than the maximum price
+            throw new IllegalArgumentException("Min price cannot be larger than max price");
+        }
+        HashSet<Listing> results = new HashSet<>(); // where our results will be saved
+        // Iterate through given list of listings and their corresponding artworks and check if the criteria match
+        for (Listing listing : listings) {
+            if (!listing.isIsSold()) { // only show artworks for sale
+                Artwork artwork = listing.getArtwork();
+                if (artwork.getPrice() >= minPrice && artwork.getPrice() <= maxPrice) {
+                    results.add(listing);
+                }
+            }
+        }
+        return results;
+    }
+    
 	/**
 	 * 
 	 * Method that searches a list of listings given a search input and
@@ -428,6 +466,43 @@ public class BrowsingService {
 		}
 		return results;
 	}
+	
+	   /**
+     * 
+     * Method that searches a list of listings given
+     * a given ArStyle and returns a HashSet of matching results.
+     * Matches the listing's artwork name with the search input. The artwork must 
+     * have the same ArtStyle as the provided ArtStyle.
+     * 
+     * @author OliverStappas 
+     * 
+     * @param listings A list of listings to search in
+     * @param artStyle The ArtStyle the listings should have
+     * 
+     * @return HashSet<Listings> Listings with artwork names matching search criteria 
+     * and matching the provided ArtStyle.
+     * 
+     */ 
+    @Transactional
+    public HashSet<Listing> searchArtwork(List<Listing> listings, ArtStyle artStyle) {
+        if (listings == null) { // if the provided listings list is null 
+            throw new IllegalArgumentException("Listings must be provided");
+        }
+        if (artStyle == null) { // if the provided ArtStyle is null
+            throw new IllegalArgumentException("ArtStyle cannot be null");
+        }
+        HashSet<Listing> results = new HashSet<>(); // where our results will be saved
+        // Iterate through given list of listings and their corresponding artworks and check if the criteria match
+        for (Listing listing : listings) {
+            if (!listing.isIsSold()) { // only show artworks for sale
+                Artwork artwork = listing.getArtwork();
+                if (artwork.getStyle().equals(artStyle)) {
+                    results.add(listing);
+                }
+            }
+        }
+        return results;
+    }
 
 	/**
 	 * 

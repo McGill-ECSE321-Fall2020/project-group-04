@@ -176,6 +176,30 @@ public class BrowsingController {
 		return browsingService.searchArtwork(allListings, searchInput, minPrice, maxPrice).stream()
 				.map(p -> Converters.convertToDto(p)).collect(Collectors.toList());
 	}
+	
+	   /**
+     * 
+     * Method that searches all listings given a search input, and a price range, 
+     * and returns a HashSet of matching results. Matches the listing's artwork name with 
+     * the search input. The artwork must be in the price range.
+     * 
+     * @author OliverStappas 
+     * 
+     * @param searchInput Text that a user searches for
+     * @param minPrice The minimum price the listings should have
+     * @param maxPrice The maximum price the listings should have
+     * 
+     * @return HashSet<ListingDTO> ListingDTOS with artwork names matching search criteria,
+     *  with prices within the provided range.
+     * 
+     */ 
+    @GetMapping(value = { "/listing/artworkSearch/{minPrice}/{maxPrice}",
+            "/listing/artworkSearch/{minPrice}/{maxPrice}/" })
+    public List<ListingDTO> searchArtwork(@PathVariable("minPrice") double minPrice, @PathVariable("maxPrice") double maxPrice) {
+        List<Listing> allListings = listingService.getAllListings();
+        return browsingService.searchArtwork(allListings, minPrice, maxPrice).stream()
+                .map(p -> Converters.convertToDto(p)).collect(Collectors.toList());
+    }
 
 	/**
 	 * 
@@ -202,6 +226,31 @@ public class BrowsingController {
 				Converters.convertStringToArtStyle(artStyle)).stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
+	
+	   /**
+     * 
+     * Method that searches all listings given a search input and
+     * a given ArStyle and returns a HashSet of matching results.
+     * Matches the listing's artwork name with the search input. The artwork must 
+     * have the same ArtStyle as the provided ArtStyle.
+     * 
+     * @author OliverStappas 
+     * 
+     * @param searchInput Text that a user searches for
+     * @param artStyle The ArtStyle the listings should have
+     * 
+     * @return HashSet<ListingDTO> ListingDTOS with artwork names matching search criteria 
+     * and matching the provided ArtStyle.
+     * 
+     */ 
+    @GetMapping(value = { "/listing/artworkSearch/style/{style}",
+            "/listing/artworkSearch/{searchInput}/style/{style}/" })
+    public List<ListingDTO> searchArtworkByStyle(@PathVariable("style") String artStyle) {
+        List<Listing> allListings = listingService.getAllListings();
+        return browsingService.searchArtwork(allListings, 
+                Converters.convertStringToArtStyle(artStyle)).stream().map(p -> Converters.convertToDto(p))
+                .collect(Collectors.toList());
+    }
 
 	/**
 	 * 
