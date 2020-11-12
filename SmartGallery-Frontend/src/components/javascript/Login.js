@@ -62,9 +62,19 @@ import axios from 'axios'
       .then(response => {
         this.reponse = response.data
         this.loginError =''
+        alert("stuff")
+        if (this.response != '') {
+          alert("right")
+          window.location.href = "/"
+        }
+        else {
+          alert("wrong")
+          this.errorLogin = 'Wrong email or password!'
+          console.log(this.errorlogin)
+        }
       })
       .catch(e => {
-        alert ("Fail")
+        alert ("fail")
         var errorMessage = e.response
         console.log(e)
         this.loginError = errorMessage
@@ -76,6 +86,10 @@ import axios from 'axios'
       // } else {
       //   alert("Error")
       // }
+    },
+
+    register: function() {
+      window.location.href = "/#/registration"
     }
   }
 }

@@ -26,12 +26,20 @@
         name="register"> 
         Register 
       </button> 
-    </h3>    
+    </h3> 
+    <br> 
+    <h3> 
+      <button 
+        v-on:click="backToLogin"
+        type="button"
+        name="backToLogin"> 
+        Back To Login 
+      </button> 
+    </h3>   
   </div>
 </template>
 
-<script>
-
+<script src="./javascript/Registration.js">
 </script>
 
 <style>

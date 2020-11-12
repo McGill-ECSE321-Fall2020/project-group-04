@@ -33,14 +33,14 @@ import axios from 'axios'
   },
   methods: {
     createCustomerProfile: function (username, password, email, paymentType) {
-      AXIOS.get('/customer/'.concat(username, '/', password, '/', email, '/', paymentType, "?smartGalleryID=", 123))
+      AXIOS.post('/customer/'.concat(username, '/', password, '/', email, '/', paymentType, "?smartGalleryID=", 123))
       .then()
       .catch(e => {
         this.loginError = e.message;
       })
     },
     createArtistProfile: function (username, password, email, paymentType) {
-      AXIOS.get('/artist/'.concat(username, '&password=', password, "&email=", email, "&defaultPaymentMethod=", paymentType, "&smartGalleryID=", 123))
+      AXIOS.post('/artist/'.concat(username, '&password=', password, "&email=", email, "&defaultPaymentMethod=", paymentType, "&smartGalleryID=", 123))
       .then()
       .catch(e => {
         this.loginError = e.message;
@@ -53,6 +53,10 @@ import axios from 'axios'
         } else {
           this.createArtistProfile(username, password, email, paymentType)
         }
+    },
+
+    backToLogin: function() {
+      window.location.href = "/#/login"
     }
   }
 }

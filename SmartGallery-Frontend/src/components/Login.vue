@@ -30,6 +30,7 @@
     </h3>
     <h3> 
       <button 
+        v-on:click="register"
         type="button" 
         name="register">
         Register 
