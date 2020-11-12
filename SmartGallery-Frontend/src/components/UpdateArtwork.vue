@@ -1,17 +1,17 @@
-<script src="./javascript/Artwork.js">
+<script src="./javascript/UpdateArtwork.js">
 </script>
 <template>
 <body>
 <div>
   <div class="header">
-    <h1> Upload Your Artwork!
+    <h1> Update Your Artwork!
     </h1>
   </div>
   <br>
   <div>
-    <p>
+	  <p>
     Please fill in all the fields below.
-    </p>
+	  </p>
   </div>
   <br>
   <input v-model="artworkNameInput" placeholder="Artwork name">
@@ -45,22 +45,16 @@
   <input v-model="widthInput" placeholder="Width">
   <br>
   <br>
-  <input v-model="artistInput" placeholder="Enter your username">
-  <br>
-  <br>
-  <input v-model="galleryInput" placeholder="Gallery">
-  <br>
-  <br>
-  <br>
-  <button v-on: click = "createArtwork(artworkNameInput, yearInput, priceInput, artStyle, heightInput, weightInput, widthInput, artistInput, galleryInput)" name="uploadArtwork"> UPLOAD </button>
+
+  <button  v-on: click = "updateArtwork(123, yearInput, priceInput, artStyle, heightInput, widthInput, weightInput)" name="updateArtwork"> UPDATE </button>
 </div>
 </body>
 </template>
 
 <style>
 
-p{
-  color:red;
+p {
+	color:red;
 	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	font-style: italic;
 	font-weight: bold;
