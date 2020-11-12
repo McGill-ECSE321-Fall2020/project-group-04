@@ -31,6 +31,17 @@ function ArtworkDto(artists, gallery, name, year, price, isBeingPromoted, style,
 	this.artworkID = artworkID;
 }
 
+function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod, creationDate, loggedIn, isVerified) {
+	this.smartGallery = smartGallery;
+	this.username = username;
+	this.password = password;
+	this.email = email;
+	this.defaultPaymentMethod = defaultPaymentMethod;
+	this.creationDate = creationDate;
+	this.loggedIn = loggedIn;
+	this.isVerified = isVerified;
+}
+
 export default {
 	name: 'artworksearch',
 	data() {
@@ -45,10 +56,17 @@ export default {
 		}
 	},
 	created: function () {
-		// Show all listings when you first open page
+		AXIOS.get('/listing')
+			.then(response => {
+				this.listings = response.data
+				console.log(listings)
+			})
+			.catch(e => {
+				this.errorArtist = e
+			})
 	},
 	methods: {
-		searchArtwork: function(searchInput, minPrice, maxPrice, style) {
+		searchArtwork: function (searchInput, minPrice, maxPrice, style) {
 			if (searchInput.length != 0) {
 				if (minPrice.length == 0 || maxPrice.length == 0) {
 					if (style.length == 0) {
@@ -70,7 +88,7 @@ export default {
 			else {
 				alert("Please enter something into the search box.");
 			}
-			
+
 		},
 		searchArtworkAllFilters: function (searchInput, minPrice, maxPrice, style) {
 			AXIOS.get('/listing/artworkSearch/' + searchInput + '/' + minPrice + '/' + maxPrice + '/' + style)
@@ -110,4 +128,3 @@ export default {
 		}
 	}
 }
-

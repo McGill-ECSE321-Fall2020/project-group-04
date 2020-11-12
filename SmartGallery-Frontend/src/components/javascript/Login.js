@@ -42,35 +42,40 @@ import axios from 'axios'
       loginError: ''
       }
   },
-  created: function (){
-    // AXIOS.get('/login')
-    //   .then(response => {
-    //     this.listings = response.data
-    //     console.log(response)
-    //   })
-    //   .catch(e => {
-    //     this.errorListing = e
-    //   })
-  },
   methods: {
     login: function (username, password) {
-      this.loginError = "Hi"
+      if (username == '') {
+        var errorMessage = "Username cannot be empty"
+        console.log(errorMessage)
+        this.loginError = errorMessage
+        alert("username")
+        return
+      }
+      if (password == '') {
+        var errorMessage = "Password cannot be empty"
+        console.log(errorMessage)
+        this.loginError = errorMessage
+        alert("password")
+        return
+      }
       AXIOS.post('/login/?username='.concat(username, '&password=', password))
       .then(response => {
-        this.loggedIn = response.data
+        this.reponse = response.data
+        this.loginError =''
       })
       .catch(e => {
-        //this.loggedIn = false;
-        this.loginError = e.message;
+        alert ("Fail")
+        var errorMessage = e.response
+        console.log(e)
+        this.loginError = errorMessage
       })
-      // if(this.loginError == "Profile doesn't exist") {
+      // if(loginError == "Profile doesn't exist") {
       //   alert("This username does not exist")
-      // } else if (this.loginError == "Incorrect password") {
-      //   alert(this.loginError)
+      // } else if (loginError == "Incorrect password") {
+      //   alert(loginError)
       // } else {
-      //   alert(this.loggedIn)
+      //   alert("Error")
       // }
-      alert(this.loggedIn)
     }
   }
 }
