@@ -24,8 +24,6 @@ var AXIOS = axios.create({
 	}
 
  export default {
-  name: 'listinginfo',
-  props: ['listingId'],
   data () {
     return {
       artworks: [],
