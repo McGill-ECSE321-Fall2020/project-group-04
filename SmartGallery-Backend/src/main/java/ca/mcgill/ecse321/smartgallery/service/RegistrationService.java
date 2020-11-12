@@ -413,14 +413,16 @@ public class RegistrationService {
 	public boolean login(Profile profile, String password) {
 		if (profile == null) {
 			String error = "Profile doesn't exist";
-			throw new IllegalArgumentException(error);
+			return false;
+//			throw new IllegalArgumentException(error);
 		}
 		if (profile.getPassword().equals(password)) {
 			profile.login();
 			return true;
 		} else {
-          String error = "Incorrect password";
-          throw new IllegalArgumentException(error);
+		  return false;
+//          String error = "Incorrect password";
+//          throw new IllegalArgumentException(error);
 		}
 	}
 
@@ -466,7 +468,6 @@ public class RegistrationService {
 			throw new IllegalArgumentException(error);
 		}
 		if (profile.getPassword().equals(oldPassword)) {
-			System.out.println("We have indeed gotten here");
 			profile.setPassword(newPassword);
 			return true;
 		} else

@@ -38,6 +38,7 @@ import axios from 'axios'
       profile: '',
       username: '',
       password: '',
+      loggedIn: '',
       loginError: ''
       }
   },

@@ -45,6 +45,14 @@ import axios from 'axios'
       .catch(e => {
         this.loginError = e.message;
       })
+    },
+
+    createProfile: function(accountType, username, password, email, paymentType) {
+        if(accountType == Customer) {
+          this.createCustomerProfile(username, password, email, paymentType)
+        } else {
+          this.createArtistProfile(username, password, email, paymentType)
+        }
     }
   }
 }

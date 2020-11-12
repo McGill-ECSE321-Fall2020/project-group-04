@@ -9,17 +9,24 @@
     <h3>Password:
     <input type="text" placeholder="Password"> </h3>
     <h3>Account type:
-    <select v-model="selected">
+    <select v-model="accountType">
     <option>Customer</option>
     <option>Artist</option>
     </select>
-    <select v-model="selected">
+    <select v-model="paymentType">
     <option >Credit Card</option>
     <option>Paypal</option>
     </select>
     </h3>
     <br>
-    <h3> <button type="button" name="register"> Register </button> </h3>    
+    <h3> 
+      <button 
+        v-on:click="createProfile(accountType, username, password, email, paymentType)"
+        type="button"
+        name="register"> 
+        Register 
+      </button> 
+    </h3>    
   </div>
 </template>
 

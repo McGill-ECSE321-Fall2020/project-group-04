@@ -38,7 +38,7 @@
   </div>
 </template>
 
-<script src="./javascript/Login">
+<script src="./javascript/Login.js">
 </script>
 
 <style>
