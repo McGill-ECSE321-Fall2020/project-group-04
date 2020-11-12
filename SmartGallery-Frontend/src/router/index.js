@@ -4,10 +4,11 @@ import Hello from '@/components/Hello'
 import ArtworkSearch from '@/components/ArtworkSearch'
 import ArtistSearch from '@/components/ArtistSearch'
 import Listing from '@/components/ListingView'
+import ArtworkSearch from '@/components/ArtworkSearch'
+import ArtistProfile from '@/components/ArtistProfile'
 import Login from '@/components/Login'
 import Registration from '@/components/Registration'
 import Artwork from '@/components/Artwork'
-
 Vue.use(Router)
 
 export default new Router({
@@ -32,6 +33,18 @@ export default new Router({
       name: 'Listing',
       component: Listing
     },
+
+    {
+      path: '/artworkSearch',
+      name: 'ArtworkSearch',
+      component: ArtworkSearch
+    },
+    {
+      path: '/ArtistProfile',
+      name: 'ArtistProfile',
+      component: ArtistProfile
+    },
+
         {
       path: '/Login',
       name: 'Login',
