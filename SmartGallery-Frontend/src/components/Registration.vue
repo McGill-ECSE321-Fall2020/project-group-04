@@ -13,6 +13,10 @@
     <option>Customer</option>
     <option>Artist</option>
     </select>
+    <select v-model="selected">
+    <option >Credit Card</option>
+    <option>Paypal</option>
+    </select>
     </h3>
     <br>
     <h3> <button type="button" name="register"> Register </button> </h3>    

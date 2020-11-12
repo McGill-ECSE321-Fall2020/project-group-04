@@ -418,8 +418,10 @@ public class RegistrationService {
 		if (profile.getPassword().equals(password)) {
 			profile.login();
 			return true;
-		} else
-			return false;
+		} else {
+          String error = "Incorrect password";
+          throw new IllegalArgumentException(error);
+		}
 	}
 
 	/**
