@@ -19,13 +19,17 @@
     <br>
 	<hr style="height:2px;border-width:0;color:gray;background-color:gray">
     <h2>{{ artists.length }} result(s):</h2>
-
     <br>
-    <li v-for="artist in artists" :key="artist.username" >
-            {{ artist.username }}
+	<hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:gray">	
+    <ul v-for="artist in artists" :key="artist.username" >
+			<br>
+            <!-- {{ artist.username }} -->
+			<a href="/#/artworkSearch">{{ artist.username }}</a>
             <br>
 			<br>
-    </li>
+			<hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:gray">	
+
+    </ul>
 	<br>
 	<hr style="height:2px;border-width:0;color:gray;background-color:gray">
   </div>
