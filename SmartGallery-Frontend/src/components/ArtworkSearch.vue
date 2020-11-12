@@ -33,11 +33,11 @@
     <br>
     <li v-for="listing in listings" :key="listing.name" >
             {{ listing.artwork.name }}
-            <!-- <br> -->
-            <!-- Artists: -->
-            <!-- <li v-for="artist in listing.artwork.artists" :key="artist.username" > -->
-              <!-- {{ artist.username }},  -->
-              <!-- </li> -->
+            <br>
+            Artists:
+            <li v-for="artist in listing.artwork.artists" >
+              {{ artist.username }}, 
+              </li>
             <br>
             Year: {{ listing.artwork.year }}
             <br>

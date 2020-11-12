@@ -62,7 +62,7 @@ export default {
 				console.log(listings)
 			})
 			.catch(e => {
-				this.errorArtist = e
+				this.errorListing = e
 			})
 	},
 	methods: {
