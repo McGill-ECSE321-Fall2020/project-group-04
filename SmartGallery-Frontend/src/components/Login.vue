@@ -26,7 +26,7 @@
       </button> 
     </h3>
     <h3>
-      Or, if you don't have an account yet : 
+      Or, if you don't have an account yet: 
     </h3>
     <h3> 
       <button 
@@ -38,8 +38,7 @@
   </div>
 </template>
 
-<script>
-
+<script src="./javascript/Login">
 </script>
 
 <style>
