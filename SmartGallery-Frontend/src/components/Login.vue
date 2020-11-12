@@ -38,11 +38,7 @@
   </div>
 </template>
 
-<<<<<<< HEAD
 <script src="./javascript/Login.js">
-=======
-<script src="./javascript/Login">
->>>>>>> 5c949da9f0cb0207d951da2273fb5cdd80e65516
 </script>
 
 <style>
