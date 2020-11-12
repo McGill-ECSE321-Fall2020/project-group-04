@@ -6,23 +6,22 @@
 
     <hr style="height:2px;border-width:0;color:gray;background-color:gray">	
     <div class="header">
-      <h1>SmartGallery - Artwork Search
-      <button type="button" name="home"> HOME </button>
-      <button onclick="location.href='/#/artistSearch'" type="button" name="artistSearch"> SEARCH ARTIST </button>
-      <button type="button" name="viewProfile"> VIEW PROFILE </button>
+      <h1><span style="font-size:25px">SmartGallery - Artwork Search</span>
+      <button type="button" name="home"> Home </button>
+      <button onclick="location.href='/#/artistSearch'" type="button" name="artistSearch"> Search Artist </button>
+      <button type="button" name="viewProfile"> View Profile </button>
       </h1>
     </div>
     <hr style="height:2px;border-width:0;color:gray;background-color:gray">	
     <br>
-    <input v-model="artworkNameInput" placeholder="Artwork name">
+    <input v-model="artworkNameInput" size="35" placeholder="Artwork name">
   <br>
   <br>
-  Filters: 
+  <span style="font-size:16x">Filters:</span>  
   <br>
-    Price: <input v-model="minPriceInput" placeholder="Min price">
-  <input v-model="maxPriceInput" placeholder="Max price">
-  <br><br>
-    Art Style: <input v-model="artStyleInput" placeholder="Art style">
+    Price <input v-model="minPriceInput" size="13" placeholder="Min price">
+  <input v-model="maxPriceInput" size="13" placeholder="Max price">
+    Art Style <input v-model="artStyleInput" size="20" placeholder="Art style">
   <br>
   <br>
   <button v-on:click="searchArtwork(artworkNameInput, minPriceInput, maxPriceInput, artStyleInput)" name="search"> SEARCH </button>
@@ -30,7 +29,7 @@
 
    <div id="artworksearch">
     <br>
-    <h2>{{listings.length}} result(s):</h2>
+    <span style="font-size:16x">{{ listings.length}} result(s):</span>  
     <br>
     <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:gray">	
     <ul v-for="listing in listings" :key="listing.name" >
@@ -58,3 +57,24 @@
 
   </div>
 </template>
+
+<style>
+.header {
+  font-size: 16px;
+}
+button {
+  background-color: #008CBA;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 2px solid black;
+  padding: 8px 40px
+}
+body {
+  background-color: #e8f4ff;
+}
+</style>
