@@ -31,13 +31,15 @@
     <br>
     <h2>{{listings.length}} result(s):</h2>
     <br>
-    <li v-for="listing in listings" :key="listing.name" >
+    <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:gray">	
+    <ul v-for="listing in listings" :key="listing.name" >
+            <br>
             {{ listing.artwork.name }}
-            <!-- <br> -->
-            <!-- Artists: -->
-            <!-- <li v-for="artist in listing.artwork.artists" :key="artist.username" > -->
-              <!-- {{ artist.username }},  -->
-              <!-- </li> -->
+            <br>
+            Artist(s):
+            <span v-for="artist in listing.artwork.artists" :key="artist.username" > 
+              {{ artist.username }},
+            </span>
             <br>
             Year: {{ listing.artwork.year }}
             <br>
@@ -46,7 +48,9 @@
             Price: {{ listing.artwork.price }} $
             <br>
             <br>
-    </li>
+            <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:gray">	
+
+    </ul>
     <br>
 	<hr style="height:2px;border-width:0;color:gray;background-color:gray">	
   </div>
