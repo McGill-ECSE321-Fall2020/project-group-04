@@ -77,7 +77,7 @@ export default {
     }
   },
   created: function() {
-    AXIOS.get('/listing/'.concat(69687044))
+    AXIOS.get('/listing/'.concat(listingID))
       .then(response => {
         this.newListing = response.data
         this.artwork = this.newListing.artwork

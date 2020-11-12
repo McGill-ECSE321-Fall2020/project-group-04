@@ -31,8 +31,17 @@ export default {
       artworks: [],
       artwork: '',
       errorArtwork: '',
-
-      response: [],
+      artworkNameInput: '',
+      yearInput: '',
+      priceInput: '',
+      artStyle: '',
+      heightInput: '',
+      weightInput: '',
+      widthInput: '',
+      artistInput: '',
+      galleryInput: '',
+      selected: '',
+      response: []
     }
   },
   created: function() {
@@ -49,8 +58,7 @@ export default {
     getArtwork: function(artworkID) {
       AXIOS.get('/artwork/'.concat(artworkID))
         .then(response => {
-          this.artworks = [response.data]
-          this.artwork = this.artworks.artwork
+          this.artwork = response.data
         })
         .catch(e => {
           this.errorArtwork = e

@@ -1,7 +1,7 @@
 <template>
 <div>
   <h1> Artwork Name : {{ artwork.name }}</h1>
-  <h1> Artist(s) Name (s) : <li v-for="artist in artists"> {{artist.email}} </li> </h1>
+  <h1> Artist(s) Name (s) : <ul v-for="artist in artists"> {{artist.username}} </ul> </h1>
   <img src="../assets/PLACEHOLDER.jpg"><br>
   <h3>Description </h3>
   <div class="description">

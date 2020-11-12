@@ -32,12 +32,6 @@ export default new Router({
       name: 'Listing',
       component: Listing
     },
-
-    {
-      path: '/artworkSearch',
-      name: 'ArtworkSearch',
-      component: ArtworkSearch
-    },
     {
       path: '/ArtistProfile',
       name: 'ArtistProfile',
