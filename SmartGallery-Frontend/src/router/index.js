@@ -5,6 +5,7 @@ import ArtworkSearch from '@/components/ArtworkSearch'
 import Listing from '@/components/ListingView'
 import Login from '@/components/Login'
 import Registration from '@/components/Registration'
+import Artwork from '@/components/Artwork'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/Registration',
       name: 'Registration',
       component: Registration
+    },
+        {
+      path: '/CreateArtwork',
+      name: 'Artwork',
+      component: Artwork
     }
   ]
 })
