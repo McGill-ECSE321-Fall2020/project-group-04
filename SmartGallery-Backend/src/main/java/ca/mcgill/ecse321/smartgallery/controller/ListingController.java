@@ -75,7 +75,6 @@ public class ListingController {
 	@PostMapping(value = { "/artwork/{artworkName}", "artwork/{artworkName}/"})
 	public ArtworkDTO createArtwork( @PathVariable("artworkName") String artworkName, @RequestParam("year")int year, 
 			@RequestParam("price") double price, 
-			@RequestParam("isPromoted")boolean isBeingPromoted, 
 			@RequestParam("style")String style, 
 			@RequestParam("height")int height,
 			@RequestParam("weight")int weight, 
@@ -86,7 +85,7 @@ public class ListingController {
 		Artist artist = artistRepository.findArtistByUsername(artistName);
 		ArtStyle artStyle = Converters.convertStringToArtStyle(style);
 		Gallery gallery = galleryRepository.findGalleryByGalleryName(galleryName);
-		Artwork artwork = listingService.createArtwork(artworkName, year, price, isBeingPromoted, artStyle, height, weight, width, artist, gallery);
+		Artwork artwork = listingService.createArtwork(artworkName, year, price, false, artStyle, height, weight, width, artist, gallery);
 		return Converters.convertToDto(artwork);
 		
 	}
