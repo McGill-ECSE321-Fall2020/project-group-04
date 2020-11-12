@@ -38,6 +38,7 @@ import axios from 'axios'
       profile: '',
       username: '',
       password: '',
+      loggedIn: '',
       loginError: ''
       }
   },
@@ -53,19 +54,23 @@ import axios from 'axios'
   },
   methods: {
     login: function (username, password) {
-      alert("Hello");
-      AXIOS.get('/login/?username='.concat(username, '&password=', password))
-      .then()
+      this.loginError = "Hi"
+      AXIOS.post('/login/?username='.concat(username, '&password=', password))
+      .then(response => {
+        this.loggedIn = response.data
+      })
       .catch(e => {
+        //this.loggedIn = false;
         this.loginError = e.message;
       })
-      if(loginError == "Profile doesn't exist") {
-        alert("This username does not exist")
-      } else if (loginError == "Incorrect password") {
-        alert(loginError)
-      } else {
-        alert("Error")
-      }
+      // if(this.loginError == "Profile doesn't exist") {
+      //   alert("This username does not exist")
+      // } else if (this.loginError == "Incorrect password") {
+      //   alert(this.loginError)
+      // } else {
+      //   alert(this.loggedIn)
+      // }
+      alert(this.loggedIn)
     }
   }
 }

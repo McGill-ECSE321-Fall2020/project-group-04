@@ -75,11 +75,8 @@ public class RegistrationController {
 			return registrationService.login(customer, password);
 		} else {
 			Artist artist = artistRepository.findArtistByUsername(username);
-			if (artist != null) {
-				return registrationService.login(artist, password);
-			}
+			return registrationService.login(artist, password);
 		}
-		return false;
 	}
 
 	/**

@@ -38,8 +38,7 @@
   </div>
 </template>
 
-<script>
-
+<script src="./javascript/Login.js">
 </script>
 
 <style>
