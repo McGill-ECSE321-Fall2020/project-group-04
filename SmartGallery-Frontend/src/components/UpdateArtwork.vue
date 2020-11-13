@@ -2,16 +2,22 @@
 </script>
 <template>
 <body>
-<div>
+
   <div class="header">
     <h1> Update Your Artwork!
     </h1>
+	  <p>
+    Please fill in all the fields below.
+	  <button class="button1">Exit</button>
+	  </p>
+	<br>
+	<br>
+	<br>
+	<br>
   </div>
   <br>
   <div>
-	  <p>
-    Please fill in all the fields below.
-	  </p>
+
   </div>
   <br>
   <input v-model="artworkNameInput" placeholder="Artwork name">
@@ -19,6 +25,9 @@
   <br>
   <input v-model="yearInput" placeholder="Year (YYYY)">
   <br>
+  	<div>
+  <img src="../assets/sglogo.png" alt="logo">
+  </div>
   <br>
   <input v-model="priceInput" placeholder="Valued Price ($)">
   <br>
@@ -46,26 +55,56 @@
   <br>
   <br>
 
-  <button  v-on: click = "updateArtwork(123, yearInput, priceInput, artStyle, heightInput, widthInput, weightInput)" name="updateArtwork"> UPDATE </button>
-</div>
+  <button  v-on: click = "updateArtwork(123, yearInput, priceInput, artStyle, heightInput, widthInput, weightInput)" class="updateArtwork"> UPDATE </button>
+
 </body>
 </template>
 
 <style>
 
 p {
-	color:red;
+	color:black;
 	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	font-style: italic;
 	font-weight: bold;
 }
+
+img{
+   width: 250px;
+    height: 200px;
+    position: absolute;
+    left:0;
+    top:0;
+}
+
+.button1
+{
+  border-radius: 20px;
+  position: absolute;
+  top: 20%;
+  right: 30%;
+  background-color: black;
+  color: white;
+  
+}
+
+.updateArtwork{
+
+    border-radius: 50px;
+  background-color: black;
+  color: white;
+}
+
+
 body {
-  background-image: url('../assets/collage.jpg');
-  color:gold;
+
+  color:black;
   text-align: center;
-  background-color: rgba(255,255,255,0.4);
-  background-blend-mode: lighten;
- 
+  background-image: url('../assets/circle paint.jpg');
+  background-position: center;
+  background-position-y: 80px;
+  background-repeat: no-repeat;
+
   font-family: fantasy;
 }
 </style>

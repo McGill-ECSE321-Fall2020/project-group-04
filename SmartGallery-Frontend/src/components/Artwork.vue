@@ -2,17 +2,22 @@
 </script>
 <template>
 <body>
+
 <div>
+  <img src="../assets/sglogo.png" alt="logo">
+  </div>
   <div class="header">
     <h1> Upload Your Artwork!
     </h1>
   </div>
-  <br>
+ 
   <div>
     <p>
     Please fill in all the fields below.
+    <button class="button1">Exit</button>
     </p>
   </div>
+  <br>
   <br>
   <input v-model="artworkNameInput" placeholder="Artwork name">
   <br>
@@ -51,27 +56,50 @@
   <input v-model="galleryInput" placeholder="Gallery">
   <br>
   <br>
-  <br>
-  <button v-on: click = "createArtwork(artworkNameInput, yearInput, priceInput, artStyle, heightInput, weightInput, widthInput, artistInput, galleryInput)" name="uploadArtwork"> UPLOAD </button>
-</div>
+  <button v-on: click = "createArtwork(artworkNameInput, yearInput, priceInput, artStyle, heightInput, weightInput, widthInput, artistInput, galleryInput)" class="uploadArtwork"> UPLOAD </button>
+
 </body>
 </template>
 
 <style>
 
 p{
-  color:red;
+  color:black;
 	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	font-style: italic;
 	font-weight: bold;
 }
+
+.button1
+{
+  border-radius: 20px;
+  position: absolute;
+  right: 30%;
+  background-color: black;
+  color: white;
+  
+}
+
+.uploadArtwork{
+
+    border-radius: 50px;
+  background-color: black;
+  color: white;
+}
+img{
+   width: 250px;
+    height: 200px;
+    position: absolute;
+    left:0;
+    top:0;
+}
 body {
-  background-image: url('../assets/collage.jpg');
-  color:gold;
+
+  color:black;
   text-align: center;
-  background-color: rgba(255,255,255,0.4);
-  background-blend-mode: lighten;
- 
+  background-image: url('../assets/circle paint.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
   font-family: fantasy;
 }
 </style>
