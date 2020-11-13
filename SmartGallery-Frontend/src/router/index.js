@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
 import ArtworkSearch from '@/components/ArtworkSearch'
 import ArtistSearch from '@/components/ArtistSearch'
 import Listing from '@/components/ListingView'
@@ -9,14 +8,15 @@ import Login from '@/components/Login'
 import Registration from '@/components/Registration'
 import Artwork from '@/components/Artwork'
 import UpdateArtwork from '@/components/UpdateArtwork'
+import Home from '@/components/Home'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'Home',
+      component: Home
     },
     {
       path: '/artworkSearch',
@@ -38,23 +38,22 @@ export default new Router({
       name: 'ArtistProfile',
       component: ArtistProfile
     },
-
-        {
+    {
       path: '/Login',
       name: 'Login',
       component: Login
     },
-        {
+    {
       path: '/Registration',
       name: 'Registration',
       component: Registration
     },
-        {
+    {
       path: '/CreateArtwork',
       name: 'Artwork',
       component: Artwork
     },
-        {
+    {
       path: '/UpdateArtwork',
       name: 'UpdateArtwork',
       component: UpdateArtwork

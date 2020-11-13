@@ -5,7 +5,7 @@
 <body class="artistSearch">
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   <img src="../assets/sglogo.png"  alt="logo">
-  <button class="button2" type="button" name="home"> Home </button>
+  <button class="button2" onclick="location.href='/#/'" type="button" name="home"> Home </button>
   <button class="button2" onclick="location.href='/#/artworkSearch'" type="button" name="artworkSearch"> Search Artwork </button>
   <button class="button2" onclick="location.href='/#/artistSearch'" type="button" name="artistSearch"> Search Artist </button>
   <button class="button2" onclick="location.href='/#/profile'" type="button" name="viewProfile"> View Profile </button>

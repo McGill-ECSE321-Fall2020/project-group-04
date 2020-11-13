@@ -1,39 +1,24 @@
-<script src="./javascript/artworkSearch.js">
+<script src="./javascript/home.js">
 </script>
 
 <template>
-<body class="artworkSearch">
+<body class="home">
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   <img src="../assets/sglogo.png"  alt="logo">
-  <button class="button2" onclick="location.href='/#/'" type="button" name="home"> Home </button>
+  <button class="button2" type="button" name="home"> Home </button>
   <button class="button2" onclick="location.href='/#/artworkSearch'" type="button" name="artworkSearch"> Search Artwork </button>
   <button class="button2" onclick="location.href='/#/artistSearch'" type="button" name="artistSearch"> Search Artist </button>
   <button class="button2" onclick="location.href='/#/profile'" type="button" name="viewProfile"> View Profile </button>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
-  <span style="font-size:60px; font-family: fantasy"> Search Artwork </span>
-  <br>
-  <br>
-  <input v-model="artworkNameInput" size="35" placeholder="Artwork name">
-  <button class="button2" v-on:click="searchArtwork(artworkNameInput, minPriceInput, maxPriceInput, artStyleInput)" name="search"> SEARCH </button>
-  <br>
-  <br>
-  <span style="font-size:25px; font-family: fantasy"> Filters:  </span>
-  <br>
-  <br>
-  <span style="font-size:18px; font-family: fantasy"> Price  </span>
-  <input class="search1" v-model="minPriceInput" size="13" placeholder="Min price">
-  <input class="search2" v-model="maxPriceInput" size="13" placeholder="Max price">
-  <br>
-  <br>
-  <span class="search3" style="font-size:18px; font-family: fantasy"> Art Style  </span>
-  <input v-model="artStyleInput" size="20" placeholder="Art style">
+  <span style="font-size:50px; font-family: fantasy"> Welcome to the SmartGallery application! </span>
+
   <br>
   <br>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   <div id="artworksearch">
     <br>
-    <span style="font-size:30px; font-family: fantasy">{{ listings.length}} result(s):</span>  
-    <br>
+	<span style="font-size:35px; font-family: fantasy"> Here are the current promoted arworks:</span>  
+	<br>
     <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
     <div v-for="listing in listings" :key="listing.name" >
             <a style="font-weight: bold; text-decoration: underline;" v-bind:href="'/#/ViewListing/' + listing.artwork.artworkID">{{ listing.artwork.name }}</a>
@@ -80,7 +65,7 @@
 button:hover {
   box-shadow: 0 0 3px 3px rgba(238, 238, 0, 1);
 }
-.artworkSearch {
+.home {
   background-color: #e8f4ff;
     text-align: center;
 }
