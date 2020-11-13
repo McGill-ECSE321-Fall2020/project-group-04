@@ -21,13 +21,13 @@ function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod
     this.isVerified = isVerified;
   }
 
-
 export default {
 	name: 'artistsearch',
 	data() {
 		return {
 			artists: [],
 			errorArtist: '',
+			searchInput: '',
 			response: []
 		}
 	},
@@ -58,7 +58,8 @@ export default {
 					this.artists = response.data
 				})
 				.catch(e => {
-					this.errorListing = e
+					this.errorArtist = e.message
+					alert(this.errorArtist);
 				})
 		}
 	}

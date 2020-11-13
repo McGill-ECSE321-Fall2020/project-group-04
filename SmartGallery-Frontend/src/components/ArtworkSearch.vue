@@ -2,79 +2,92 @@
 </script>
 
 <template>
-    <div>
-
-    <hr style="height:2px;border-width:0;color:gray;background-color:gray">	
-    <div class="header">
-      <h1><span style="font-size:25px">SmartGallery - Artwork Search</span>
-      <button type="button" name="home"> Home </button>
-      <button onclick="location.href='/#/artistSearch'" type="button" name="artistSearch"> Search Artist </button>
-      <button type="button" name="viewProfile"> View Profile </button>
-      </h1>
-    </div>
-    <hr style="height:2px;border-width:0;color:gray;background-color:gray">	
-    <br>
-    <input v-model="artworkNameInput" size="35" placeholder="Artwork name">
+<div>
+  <hr style="height:4px;border-width:0;color:gray;background-color:gray">	
+  <img src="../assets/sglogo.png"  alt="logo">
+  <button class="button1" type="button" name="home"> Home </button>
+  <button class="button1" onclick="location.href='/#/artworkSearch'" type="button" name="artworkSearch"> Search Artwork </button>
+  <button class="button1" onclick="location.href='/#/artistSearch'" type="button" name="artistSearch"> Search Artist </button>
+  <button class="button1" onclick="location.href='/#/profile'" type="button" name="viewProfile"> View Profile </button>
+  <hr style="height:4px;border-width:0;color:gray;background-color:gray">	
+  <span style="font-size:60px; font-family: fantasy"> Search Artwork </span>
   <br>
   <br>
-  <span style="font-size:16x">Filters:</span>  
+  <input v-model="artworkNameInput" size="35" placeholder="Artwork name">
+  <button class="button1" v-on:click="searchArtwork(artworkNameInput, minPriceInput, maxPriceInput, artStyleInput)" name="search"> SEARCH </button>
   <br>
-    Price <input v-model="minPriceInput" size="13" placeholder="Min price">
+  <br>
+  <span style="font-size:25px; font-family: fantasy"> Filters:  </span>
+  <br>
+  <span style="font-size:18px; font-family: fantasy"> Price  </span>
+  <input v-model="minPriceInput" size="13" placeholder="Min price">
   <input v-model="maxPriceInput" size="13" placeholder="Max price">
-    Art Style <input v-model="artStyleInput" size="20" placeholder="Art style">
   <br>
   <br>
-  <button v-on:click="searchArtwork(artworkNameInput, minPriceInput, maxPriceInput, artStyleInput)" name="search"> SEARCH </button>
-  <hr style="height:2px;border-width:0;color:gray;background-color:gray">	
-
-   <div id="artworksearch">
+  <span style="font-size:18px; font-family: fantasy"> Art Style  </span>
+  <input v-model="artStyleInput" size="20" placeholder="Art style">
+  <br>
+  <br>
+  <hr style="height:4px;border-width:0;color:gray;background-color:gray">	
+  <div id="artworksearch">
     <br>
-    <span style="font-size:16x">{{ listings.length}} result(s):</span>  
+    <span style="font-size:30px; font-family: fantasy">{{ listings.length}} result(s):</span>  
     <br>
     <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:gray">	
-    <ul v-for="listing in listings" :key="listing.name" >
-            <br>
-            {{ listing.artwork.name }}
+    <div v-for="listing in listings" :key="listing.name" >
+            <a style="font-weight: bold; text-decoration: underline;" v-bind:href="'/#/ViewListing/' + listing.artwork.name">{{ listing.artwork.name }}</a>
             <br>
             Artist(s):
-            <span v-for="artist in listing.artwork.artists" :key="artist.username" > 
-              {{ artist.username }},
+            <span v-for="artist in listing.artwork.artists"  :key="artist.username" > 
+            <span style="font-style: italic;"> {{ artist.username }}, </span>
             </span>
             <br>
-            Year: {{ listing.artwork.year }}
+            Year Created:
+            <span style="font-style: italic;"> {{ listing.artwork.year }} </span>
             <br>
-            Style: {{ listing.artwork.artStyle }}
+            Style:
+            <span style="font-style: italic;">  {{ listing.artwork.artStyle }} </span>
             <br>
-            Price: {{ listing.artwork.price }} $
-            <br>
+            Price: 
+            <span style="font-style: italic;"> {{ listing.artwork.price }} $ </span>
             <br>
             <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:gray">	
 
-    </ul>
+    </div>
     <br>
-	<hr style="height:2px;border-width:0;color:gray;background-color:gray">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:gray">	
   </div>
-
-  </div>
+</div>
 </template>
 
 <style>
 .header {
   font-size: 16px;
 }
-button {
+.button1 {
+  font-family: fantasy;
   background-color: #008CBA;
-  border: none;
   color: white;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 20px;
   border-radius: 6px;
   border: 2px solid black;
   padding: 8px 40px
 }
+button:hover {
+  box-shadow: 0 0 3px 3px rgba(238, 238, 0, 1);
+}
 body {
   background-color: #e8f4ff;
+    font-family: fantasy;
 }
+img{
+    width: 150px;
+    height: 120px;
+    left:10px;
+    top:15px;
+}
+
 </style>
