@@ -8,7 +8,7 @@
   <button class="button1" onclick="location.href='/#/artworkSearch'" type="button" name="artworkSearch"> Search Artwork </button>
   <button class="button1" onclick="location.href='/#/artistSearch'" type="button" name="artistSearch"> Search Artist </button>
   <button class="button1" onclick="location.href='/#/profile'" type="button" name="viewProfile"> View Profile </button>
-  <hr style="height:4px;border-width:0;color:gray;background-color:gray">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   <span style="font-size:60px; font-family: fantasy"> Search Artwork </span>
   <br>
   <br>
@@ -28,14 +28,14 @@
   <input v-model="artStyleInput" size="20" placeholder="Art style">
   <br>
   <br>
-  <hr style="height:4px;border-width:0;color:gray;background-color:gray">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   <div id="artworksearch">
     <br>
     <span style="font-size:30px; font-family: fantasy">{{ listings.length}} result(s):</span>  
     <br>
-    <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:gray">	
+    <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
     <div v-for="listing in listings" :key="listing.name" >
-            <a style="font-weight: bold; text-decoration: underline;" v-bind:href="'/#/ViewListing/' + listing.artwork.name">{{ listing.artwork.name }}</a>
+            <a style="font-weight: bold; text-decoration: underline;" v-bind:href="'/#/ViewListing/' + listing.artwork.artworkID">{{ listing.artwork.name }}</a>
             <br>
             Artist(s):
             <span v-for="artist in listing.artwork.artists"  :key="artist.username" > 
@@ -51,11 +51,11 @@
             Price: 
             <span style="font-style: italic;"> {{ listing.artwork.price }} $ </span>
             <br>
-            <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:gray">	
+            <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
 
     </div>
     <br>
-  <hr style="height:4px;border-width:0;color:gray;background-color:gray">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   </div>
 </div>
 </template>
@@ -87,7 +87,7 @@ img{
     width: 150px;
     height: 120px;
     left:10px;
-    top:15px;
+    top:5px;
 }
 .search1 {
   margin-right: 2px;
