@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.smartgallery.controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -94,6 +95,9 @@ public class Converters {
 		}
 		ArtistDTO artistDTO = new ArtistDTO(convertToDto(a.getSmartGallery()), a.getUsername(), a.getPassword(),
 				a.getEmail(), a.getDefaultPaymentMethod(), a.getCreationDate(), a.isLoggedIn(), a.isIsVerified());
+		for(Artwork art : a.getArtworks()) {
+			artistDTO.addArtworks(withoutArtist(art));
+		}
 		return artistDTO;
 	}
 
@@ -132,6 +136,14 @@ public class Converters {
 				a.getArtworkID());
 		return artworkDTO;
 	}
+	
+	public static ArtworkDTO withoutArtist(Artwork a) {
+		ArtworkDTO artworkDTO = new ArtworkDTO( convertToDto(a.getGallery()), a.getName(), a.getYear(),
+				a.getPrice(), a.isIsBeingPromoted(), a.getStyle(), a.getHeight(), a.getWeight(), a.getWidth(),
+				a.getArtworkID());
+		return artworkDTO;
+	}
+	
 
 	/**
 	 * Converts listing to its DTO equivalent
@@ -148,25 +160,24 @@ public class Converters {
 		return listingDto;
 	}
 
-	
 	/**
 	 * Converts a set of profiles to its DTO equivalent
 	 * 
 	 * @param profile The set of profiles to convert
-	 * @return	Converted ProfileDTO set
+	 * @return Converted ProfileDTO set
 	 */
 	public static Set<ProfileDTO> convertToDto(Set<Profile> profile) {
-		
+
 		HashSet<ProfileDTO> profiles = new HashSet<ProfileDTO>();
-		
-		for(Profile p: profile) {
-			if(p instanceof Artist) {
-				profiles.add(convertToDto((Artist)p));
-			}else if (p instanceof Customer) {
-				profiles.add(convertToDto((Customer)p));
+
+		for (Profile p : profile) {
+			if (p instanceof Artist) {
+				profiles.add(convertToDto((Artist) p));
+			} else if (p instanceof Customer) {
+				profiles.add(convertToDto((Customer) p));
 			}
 		}
-		
+
 		return profiles;
 	}
 
@@ -174,7 +185,7 @@ public class Converters {
 	 * Converts transaction object to its DTO equivalent
 	 * 
 	 * @param transaction The transaction to convert
-	 * @return	The TransactionDTO
+	 * @return The TransactionDTO
 	 */
 	public static TransactionDTO convertToDto(Transaction transaction) {
 		if (transaction == null) {
@@ -185,10 +196,10 @@ public class Converters {
 				convertToDto(transaction.getCustomer()), transaction.getTransactionID(), transaction.getPaymentMethod(),
 				transaction.getDeliveryMethod(), transaction.getPaymentDate());
 	}
-	
-	
+
 	/**
 	 * Converts SmartGalleryDTO to its Object equivalent
+	 * 
 	 * @param smartGalleryDTO The SmartGalleryDTO to convert
 	 * @return smartGallery
 	 */
@@ -196,13 +207,15 @@ public class Converters {
 		if (smartGalleryDTO == null) {
 			throw new IllegalArgumentException("There is no such SmartGalleryDTO.");
 		}
-		
-		SmartGallery smartGallery = smartGalleryRepository.findSmartGalleryBySmartGalleryID(smartGalleryDTO.getSmartGalleryID());
+
+		SmartGallery smartGallery = smartGalleryRepository
+				.findSmartGalleryBySmartGalleryID(smartGalleryDTO.getSmartGalleryID());
 		return smartGallery;
 	}
-	
+
 	/**
 	 * Converts GalleryDTO to its Object equivalent
+	 * 
 	 * @param galleryDTO The GalleryDTO to convert
 	 * @return gallery
 	 */
@@ -210,13 +223,14 @@ public class Converters {
 		if (galleryDTO == null) {
 			throw new IllegalArgumentException("There is no such GalleryDTO.");
 		}
-		
+
 		Gallery gallery = galleryRepository.findGalleryByGalleryName(galleryDTO.getGalleryName());
 		return gallery;
 	}
-	
+
 	/**
 	 * Converts ArtistDTO to its Object equivalent
+	 * 
 	 * @param artistDTO The ArtistDTO to convert
 	 * @return artist
 	 */
@@ -224,13 +238,14 @@ public class Converters {
 		if (artistDTO == null) {
 			throw new IllegalArgumentException("There is no such GalleryDTO.");
 		}
-		
+
 		Artist artist = artistRepository.findArtistByUsername(artistDTO.getUsername());
 		return artist;
 	}
-	
+
 	/**
 	 * Converts ArtworkDTO to its Object equivalent
+	 * 
 	 * @param artworkDTO The ArtworkDTO to convert
 	 * @return artwork
 	 */
@@ -238,13 +253,14 @@ public class Converters {
 		if (artworkDTO == null) {
 			throw new IllegalArgumentException("There is no such GalleryDTO.");
 		}
-		
+
 		Artwork artwork = artworkRepository.findArtworkByArtworkID(artworkDTO.getArtworkID());
 		return artwork;
 	}
-	
+
 	/**
 	 * Converts CustomerDTO to its Object equivalent
+	 * 
 	 * @param customerDTO The CustomerDTO to convert
 	 * @return customer
 	 */
@@ -252,13 +268,14 @@ public class Converters {
 		if (customerDTO == null) {
 			throw new IllegalArgumentException("There is no such GalleryDTO.");
 		}
-		
+
 		Customer customer = customerRepository.findCustomerByUsername(customerDTO.getUsername());
 		return customer;
 	}
-	
+
 	/**
 	 * Converts ListingDTO to its Object equivalent
+	 * 
 	 * @param listingDTO The ListingDTO to convert
 	 * @return listing
 	 */
@@ -266,13 +283,14 @@ public class Converters {
 		if (listingDTO == null) {
 			throw new IllegalArgumentException("There is no such GalleryDTO.");
 		}
-		
+
 		Listing listing = listingRepository.findListingByListingID(listingDTO.getListingID());
 		return listing;
 	}
-	
+
 	/**
 	 * Converts TransactionDTO to its Object equivalent
+	 * 
 	 * @param transactionDTO The ListingDTO to convert
 	 * @return transaction
 	 */
@@ -280,11 +298,12 @@ public class Converters {
 		if (transactionDTO == null) {
 			throw new IllegalArgumentException("There is no such GalleryDTO.");
 		}
-		
-		Transaction transaction = transactionRepository.findTransactionByTransactionID(transactionDTO.getTransactionID());
+
+		Transaction transaction = transactionRepository
+				.findTransactionByTransactionID(transactionDTO.getTransactionID());
 		return transaction;
 	}
-	
+
 	/**
 	 * Converts a string to its ArtStyle enum equivalent
 	 * 
@@ -307,7 +326,7 @@ public class Converters {
 			throw new IllegalArgumentException("No corresponding art style to input");
 		}
 	}
-	
+
 	/**
 	 * Converts a string to its DeliveryMethod enum equivalent
 	 * 
@@ -326,7 +345,7 @@ public class Converters {
 			throw new IllegalArgumentException("No corresponding delivery method to input");
 		}
 	}
-	
+
 	/**
 	 * Converts a string to its PaymentMethod enum equivalent
 	 * 

@@ -12,8 +12,7 @@ import UpdateArtwork from '@/components/UpdateArtwork'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'Hello',
       component: Hello
@@ -39,22 +38,22 @@ export default new Router({
       component: ArtistProfile
     },
 
-        {
+    {
       path: '/Login',
       name: 'Login',
       component: Login
     },
-        {
+    {
       path: '/Registration',
       name: 'Registration',
       component: Registration
     },
-        {
+    {
       path: '/CreateArtwork',
       name: 'Artwork',
       component: Artwork
     },
-        {
+    {
       path: '/UpdateArtwork',
       name: 'UpdateArtwork',
       component: UpdateArtwork

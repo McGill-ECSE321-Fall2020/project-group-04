@@ -43,4 +43,53 @@ function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod
   this.creationDate = creationDate;
   this.loggedIn = loggedIn;
   this.isVerified = isVerified;
+  this.artwork = "";
+}
+
+export default {
+  props: ["artistName"],
+  data() {
+    return {
+      artist: '',
+      artwork: '',
+      updated: '',
+      newListing: '',
+      newArtwork: '',
+      errorArtwork: '',
+      errorArtist: '',
+      errorUpdated: '',
+      response: [],
+    }
+  },
+  created: function() {
+    AXIOS.get('/artist/name/' + 'testartist')
+      .then(response => {
+        this.artist = response.data
+        alert(this.artist.artwork)
+      })
+      .catch(e => {
+        this.errorArtist = e
+      })
+  },
+  methods: {
+    updatePassword: function(oldPassword,newPassword){
+      AXIOS.post('/password/change/?username='+ artistName + '&oldPassword='+oldPassword+'&newPassword='+newPassword)
+      .then(response => {
+        this.updated = response.data
+      })
+      .catch(e => {
+        this.errorUpdated = e
+      })
+    },
+    updateEmail: function(email, password){
+      AXIOS.post('/email/change/?username='+ artistName +'&password='+password+'&newEmail=' + email)
+      .then(response => {
+        this.updated = response.data
+      })
+      .catch(e => {
+        this.errorUpdated = e
+      })
+    }
+  }
+
 }

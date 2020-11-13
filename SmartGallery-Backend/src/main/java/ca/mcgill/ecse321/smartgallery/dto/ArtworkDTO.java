@@ -37,6 +37,19 @@ public class ArtworkDTO {
 		this.artworkID = artworkID;
 	}
 
+	public ArtworkDTO(GalleryDTO gallery, String name, int year, double price, boolean isBeingPromoted, ArtStyle style, int height,
+			int weight, int width, int artworkID) {
+		this.gallery = gallery;
+		this.name = name;
+		this.year = year;
+		this.price = price;
+		this.isBeingPromoted = isBeingPromoted;
+		this.artStyle = style;
+		this.height = height;
+		this.weight = weight;
+		this.width = width;
+		this.artworkID = artworkID;
+	}
 
 	/**
 	 * @return the artists

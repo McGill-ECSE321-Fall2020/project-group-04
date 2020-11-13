@@ -86,6 +86,8 @@ public class ListingController {
 		ArtStyle artStyle = Converters.convertStringToArtStyle(style);
 		Gallery gallery = galleryRepository.findGalleryByGalleryName(galleryName);
 		Artwork artwork = listingService.createArtwork(artworkName, year, price, false, artStyle, height, weight, width, artist, gallery);
+		
+		
 		return Converters.convertToDto(artwork);
 		
 	}

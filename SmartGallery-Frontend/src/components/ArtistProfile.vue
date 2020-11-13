@@ -5,21 +5,31 @@
     <button type="button" name="uploadArtwork"> Upload Artwork </button>
   </h1>
   <div class="userInfo">
-    <p id="user">Username: </p>
-    <p id="email">Email: </p>
-    <p id="dpm">Default payment method: </p>
-    <p id="date">Creation Date: </p>
+    <p id="user">Username: {{ artist.username }} </p>
+    <p id="email">Email: {{ artist.email}} </p>
+    <p id="dpm">Default payment method: {{ artist.defaultPaymentMethod }}  </p>
+    <p id="date">Creation Date: {{ artist.creationDate }} </p>
   </div>
 
   <div class="artwork">
     <h2>Artwork</h2>
+    <span v-for="artwork in artist.artworks">
+      <br>
+      Year: {{ artwork.year }}
+      <br>
+      Style: {{ artwork.artStyle }}
+      <br>
+      Price: {{ artwork.price }}
+    </span>
+    <br>
+    <br>
   </div>
 
 </div>
 </template>
 
-<script>
-export default {}
+<script src="./javascript/ArtistProfile.js">
+
 </script>
 
 <style lang="css" scoped>

@@ -12,7 +12,6 @@ public abstract class ProfileDTO {
 	private PaymentMethod defaultPaymentMethod;
 	private Date creationDate;
 	private boolean loggedIn;
-	
 	public ProfileDTO() {
 		
 	}
