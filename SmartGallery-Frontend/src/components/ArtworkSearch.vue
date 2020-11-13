@@ -3,7 +3,6 @@
 
 <template>
 <div>
-  <hr style="height:4px;border-width:0;color:gray;background-color:gray">	
   <img src="../assets/sglogo.png"  alt="logo">
   <button class="button1" type="button" name="home"> Home </button>
   <button class="button1" onclick="location.href='/#/artworkSearch'" type="button" name="artworkSearch"> Search Artwork </button>
@@ -19,12 +18,13 @@
   <br>
   <span style="font-size:25px; font-family: fantasy"> Filters:  </span>
   <br>
+  <br>
   <span style="font-size:18px; font-family: fantasy"> Price  </span>
-  <input v-model="minPriceInput" size="13" placeholder="Min price">
-  <input v-model="maxPriceInput" size="13" placeholder="Max price">
+  <input class="search1" v-model="minPriceInput" size="13" placeholder="Min price">
+  <input class="search2" v-model="maxPriceInput" size="13" placeholder="Max price">
   <br>
   <br>
-  <span style="font-size:18px; font-family: fantasy"> Art Style  </span>
+  <span class="search3" style="font-size:18px; font-family: fantasy"> Art Style  </span>
   <input v-model="artStyleInput" size="20" placeholder="Art style">
   <br>
   <br>
@@ -89,5 +89,15 @@ img{
     left:10px;
     top:15px;
 }
-
+.search1 {
+  margin-right: 2px;
+  margin-left: 7px;
+}
+.search2 {
+  margin-right: 2px;
+  margin-left: 5px;
+}
+.search3 {
+  margin-right: 7px;
+}
 </style>

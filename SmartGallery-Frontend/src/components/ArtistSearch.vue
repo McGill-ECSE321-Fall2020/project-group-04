@@ -3,7 +3,6 @@
 
 <template>
 <div>
-  <hr style="height:4px;border-width:0;color:gray;background-color:gray">	
   <img src="../assets/sglogo.png"  alt="logo">
   <button class="button1" type="button" name="home"> Home </button>
   <button class="button1" onclick="location.href='/#/artworkSearch'" type="button" name="artworkSearch"> Search Artwork </button>
