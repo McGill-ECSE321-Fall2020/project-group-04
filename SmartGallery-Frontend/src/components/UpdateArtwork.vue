@@ -1,7 +1,7 @@
 <script src="./javascript/UpdateArtwork.js">
 </script>
 <template>
-<body>
+<body class="updateArt">
 
   <div class="header">
     <h1> Update Your Artwork!
@@ -96,7 +96,7 @@ img{
 }
 
 
-body {
+.updateArt{
 
   color:black;
   text-align: center;

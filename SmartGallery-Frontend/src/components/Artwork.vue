@@ -1,7 +1,8 @@
 <script src="./javascript/Artwork.js">
+
 </script>
 <template>
-<body>
+<body class="createArtwork">
 
 <div>
   <img src="../assets/sglogo.png" alt="logo">
@@ -93,7 +94,7 @@ img{
     left:0;
     top:0;
 }
-body {
+.createArtwork {
 
   color:black;
   text-align: center;
