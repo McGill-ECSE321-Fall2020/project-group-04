@@ -39,7 +39,7 @@ export default new Router({
       component: Listing,
     },
     {
-      path: '/ArtistProfile/:username',
+      path: '/ArtistProfile/',
       name: 'ArtistProfile',
       component: ArtistProfile
     },
@@ -64,7 +64,7 @@ export default new Router({
       component: UpdateArtwork
     },
     {
-      path: '/artistView/',
+      path: '/artistView/:username',
       name: 'ArtistView',
       component: ArtistView
     }

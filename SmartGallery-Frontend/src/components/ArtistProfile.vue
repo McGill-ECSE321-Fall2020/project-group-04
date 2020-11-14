@@ -10,10 +10,35 @@
     <p id="dpm">Default payment method: {{ artist.defaultPaymentMethod }}  </p>
     <p id="date">Creation Date: {{ artist.creationDate }} </p>
   </div>
-
+    <button type="button" name="updateProfile" v-show = "!showPassword" v-on:click= "showPassword = !showPassword"> Update password </button>
+  <div class = "updatePassword" v-show = "showPassword">
+    <input v-model="oldPasswordInput" placeholder="old password">
+    <br><br>
+    <input v-model="newPasswordInput" placeholder="new password">
+    <br><br>
+    <button type="button" onclick="updatePassword(oldPasswordInput, newPasswordInput)"> Change </button>
+    <br><br>
+    <button type="button" v-on:click= "showPassword= !showPassword"> Cancel </button>
+  </div>
+  <br>
+  <br>
+  <button type="button" name="updateEmail" v-show = "!showEmail" v-on:click= "showEmail = !showEmail"> Update email </button>
+  <div class = "updateEmail"  v-show = "showEmail">
+    <input v-model="newEmail" placeholder="new email">
+    <br><br>
+    <input v-model="passwordInput" placeholder="password">
+    <br><br>
+    <button type="button" onclick="updateEmail(newEmail,passwordInput)"> Change </button>
+    <br><br>
+    <button type="button" v-on:click= "showEmail= !showEmail" > Cancel </button>
+  </div>
+  <br>
   <div class="artwork">
     <h2>Artwork</h2>
     <span v-for="artwork in artist.artworks">
+      Name: {{ artwork.name}}
+      <button type="button" name="createListing"> Create Listing </button>
+      <button type="button" name="updateListing"> Update Listing </button>
       <br>
       Year: {{ artwork.year }}
       <br>
