@@ -62,8 +62,7 @@
   </body>
 </template>
 
-<script src="./javascript/Registration.js">
-</script>
+<script src="./javascript/Registration.js"></script>
 
 <style>
 .header {

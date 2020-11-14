@@ -1,7 +1,16 @@
 <script src="./javascript/UpdateArtwork.js">
 </script>
+
 <template>
 <body class="updateArt">
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <img src="../assets/sglogo.png"  alt="logo">
+  <button class="button2" v-on:click="goToHome()" type="button" name="home"> Home </button>
+  <button class="button2" v-on:click="goToArtworkSearch()" type="button" name="artworkSearch"> Search Artwork </button>
+  <button class="button2" v-on:click="goToArtistkSearch()" type="button" name="artistSearch"> Search Artist </button>
+  <button class="button2" v-on:click="goToProfile()" type="button" name="viewProfile"> View Profile </button>
+  <button class="button2" v-on:click="logout()" type="button" name="logout"> Logout </button>
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
 
   <div class="header">
     <h1> Update Your Artwork!
