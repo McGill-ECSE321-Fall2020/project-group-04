@@ -30,6 +30,7 @@ function ArtworkDto(artists, gallery, name, year, price, isBeingPromoted, style,
 	this.weight = weight;
 	this.width = width;
 	this.artworkID = artworkID;
+	this.listing = "";
 }
 
 function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod, creationDate, loggedIn, isVerified) {
