@@ -53,7 +53,6 @@
             <span style="font-style: italic;"> {{ listing.artwork.price }} $ </span>
             <br>
             <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">
-
     </div>
     <br>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">
