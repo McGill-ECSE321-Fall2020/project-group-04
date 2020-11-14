@@ -146,13 +146,11 @@ export default {
 			window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
 		},
 		goToProfile : function () {
-			AXIOS.get('/customer/'.concat(this.$route.params.username))
+			AXIOS.get('/customer/name/'.concat(this.$route.params.username))
 			.then(response => {
-				if(response.data != null) { //so if it's an artist
-					window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
-				} else {
-					window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
-				}
+				window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
+			}).catch(e => {
+				window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
 			})
 		},
 		goToHome : function () {
