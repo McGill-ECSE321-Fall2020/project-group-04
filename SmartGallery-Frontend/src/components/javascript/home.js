@@ -63,6 +63,21 @@ export default {
 			})
 	},
 	methods: {
-
+		logout : function (username) {
+      	AXIOS.post('/logout'.concat("?username=", username))
+      	.then(response => {
+			if(response.data) {
+				alert ("You have been logged out.")
+        		window.location.href = "/#/login"
+			}
+	    })
+	},
+	logout : function (username) {
+      AXIOS.post('/logout'.concat("?username=", username))
+      .then(response => {
+        alert ("You have been logged out.")
+        window.location.href = "/#/login"
+      })
+    }
 	}
 }

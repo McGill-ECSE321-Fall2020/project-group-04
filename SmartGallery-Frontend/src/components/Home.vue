@@ -9,6 +9,7 @@
   <button class="button2" onclick="location.href='/#/artworkSearch'" type="button" name="artworkSearch"> Search Artwork </button>
   <button class="button2" onclick="location.href='/#/artistSearch'" type="button" name="artistSearch"> Search Artist </button>
   <button class="button2" onclick="location.href='/#/profile'" type="button" name="viewProfile"> View Profile </button>
+  <button class="button2" v-on:click="logout(username)" type="button" name="logout"> Logout </button>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   <span style="font-size:50px; font-family: fantasy"> Welcome to the SmartGallery application! </span>
 
