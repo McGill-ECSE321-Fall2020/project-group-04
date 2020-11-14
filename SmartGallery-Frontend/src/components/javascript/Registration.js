@@ -37,7 +37,7 @@ import axios from 'axios'
     })
   },
   methods: {
-    createProfile: function(accountType, username, password, email, paymentType) {
+    createProfile: function(accountType, username, password, passwordcheck, email, paymentType) {
       if (username == '') {
         var errorMessage = "Username cannot be empty"
         console.log(errorMessage)
@@ -61,6 +61,13 @@ import axios from 'axios'
       }
       if (password.length < 7) {
         var errorMessage = "Password must be more than 6 characters long"
+        console.log(errorMessage)
+        this.loginError = errorMessage
+        alert(errorMessage)
+        return
+      }
+      if (password != passwordcheck) {
+        var errorMessage = "Passwords must match"
         console.log(errorMessage)
         this.loginError = errorMessage
         alert(errorMessage)
