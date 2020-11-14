@@ -20,22 +20,22 @@
 	<span style="font-size:35px; font-family: fantasy"> Here are the current promoted arworks:</span>  
 	<br>
     <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
-    <div v-for="listing in listings" :key="listing.name" >
-            <a style="font-weight: bold; text-decoration: underline;" v-bind:href="'/#/ViewListing/' + listing.artwork.artworkID">{{ listing.artwork.name }}</a>
+    <div v-for="artwork in artworks" :key="artwork.artworkID" >
+            <a style="font-weight: bold; text-decoration: underline;" v-bind:href="'/#/ViewListing/' + artwork.artworkID">{{ artwork.name }}</a>
             <br>
             Artist(s):
-            <span v-for="artist in listing.artwork.artists"  :key="artist.username" > 
+            <span v-for="artist in artwork.artists"  :key="artist.username" > 
             <span style="font-style: italic;"> {{ artist.username }}, </span>
             </span>
             <br>
             Year Created:
-            <span style="font-style: italic;"> {{ listing.artwork.year }} </span>
+            <span style="font-style: italic;"> {{ artwork.year }} </span>
             <br>
             Style:
-            <span style="font-style: italic;">  {{ listing.artwork.artStyle }} </span>
+            <span style="font-style: italic;">  {{ artwork.artStyle }} </span>
             <br>
             Price: 
-            <span style="font-style: italic;"> {{ listing.artwork.price }} $ </span>
+            <span style="font-style: italic;"> {{ artwork.price }} $ </span>
             <br>
             <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
 
