@@ -155,6 +155,9 @@ export default {
 		},
 		goToHome : function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
+		},
+		getListingPageURL : function (listingID) {
+			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
 		}
 	}
 }

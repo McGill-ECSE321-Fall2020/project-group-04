@@ -38,7 +38,7 @@
     <br>
     <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">
     <div v-for="listing in listings" :key="listing.name" >
-            <a style="font-weight: bold; text-decoration: underline;" v-bind:href="'/#/ViewListing/' + listing.listingID">{{ listing.artwork.name }}</a>
+            <a style="font-weight: bold; text-decoration: underline;" v-bind:href="getListingPageURL(listing.listingID)">{{ listing.artwork.name }}</a>
             <br>
             Artist(s):
             <span v-for="artist in listing.artwork.artists"  :key="artist.username" >

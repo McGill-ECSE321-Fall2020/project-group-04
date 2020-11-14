@@ -88,6 +88,9 @@ export default {
 		},
 		goToHome : function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
+		},
+		getArtistPageURL : function (artistUsername) {
+			return '/#/artistView/'.concat(this.$route.params.username, '/', artistUsername)
 		}
 	}
 }
