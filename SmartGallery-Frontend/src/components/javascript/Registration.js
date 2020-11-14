@@ -59,6 +59,13 @@ import axios from 'axios'
         alert(errorMessage)
         return
       }
+      if (password.length < 7) {
+        var errorMessage = "Password must be more than 6 characters long"
+        console.log(errorMessage)
+        this.loginError = errorMessage
+        alert(errorMessage)
+        return
+      }
       if (accountType != "Customer" && accountType != "Artist") {
         var errorMessage = "Please choose an account type"
         console.log(errorMessage)
@@ -91,7 +98,7 @@ import axios from 'axios'
       	})
       .catch(e => {
         var errorMessage = e.message
-        alert(errorMessage)
+        alert("Make sure your email is valid, otherwise the username or email has already been used")
         console.log(errorMessage)
         this.errorCustomer = errorMessage
       })
