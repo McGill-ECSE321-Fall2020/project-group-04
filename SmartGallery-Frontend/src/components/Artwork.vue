@@ -1,7 +1,7 @@
 <script src="./javascript/Artwork.js">
-
 </script>
 <template>
+
 <body class="createArtwork">
 
 <div>
@@ -39,8 +39,6 @@
       <option>impressionist</option>
     </select>
   </div>
-
-
   <br>
   <input v-model="heightInput" placeholder="Height">
   <br>
@@ -58,19 +56,15 @@
   <br>
   <br>
   <button v-on: click = "createArtwork(artworkNameInput, yearInput, priceInput, artStyle, heightInput, weightInput, widthInput, artistInput, galleryInput)" class="uploadArtwork"> UPLOAD </button>
-
 </body>
 </template>
-
 <style>
-
 p{
   color:black;
 	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	font-style: italic;
 	font-weight: bold;
 }
-
 .button1
 {
   border-radius: 20px;
@@ -80,9 +74,7 @@ p{
   color: white;
   
 }
-
 .uploadArtwork{
-
     border-radius: 50px;
   background-color: black;
   color: white;
@@ -94,8 +86,8 @@ img{
     left:0;
     top:0;
 }
-.createArtwork {
 
+.createArtwork {
   color:black;
   text-align: center;
   background-image: url('../assets/circle paint.jpg');
