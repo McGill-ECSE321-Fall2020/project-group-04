@@ -63,7 +63,8 @@ import axios from 'axios'
         // this.loginError =''
         if (response.data) {
           this.username = username
-          window.location.href = "/#/".concat(username)
+          window.location.href = "/#/home/".concat(username)
+          // window.location.href = "/#/"
         } else {
           alert("This username and password do not match.")
         }

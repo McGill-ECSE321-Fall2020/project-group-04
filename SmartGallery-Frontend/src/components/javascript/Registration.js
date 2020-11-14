@@ -87,7 +87,7 @@ import axios from 'axios'
           this.customers.push(response.data)
           this.errorCustomer = ''
           this.newCustomer = ''
-          window.location.href = "/#/".concat(username)
+          window.location.href = "/#/home".concat(username)
       	})
       .catch(e => {
         var errorMessage = e.message
@@ -103,6 +103,7 @@ import axios from 'axios'
         this.artists.push(response.data)
         this.errorArtist = ''
         this.newArtist = ''
+        window.location.href = "/#/home".concat(username)
       })
       .catch(e => {
         alert ("incorrect")
