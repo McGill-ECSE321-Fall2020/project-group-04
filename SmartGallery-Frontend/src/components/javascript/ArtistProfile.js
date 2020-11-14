@@ -47,9 +47,14 @@ function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod
 }
 
 export default {
-  props: ["artwork"],
   data() {
     return {
+      showEmail: false,
+      showPassword:false,
+      oldPasswordInput: '',
+      newPasswordInput: '',
+      newEmail: '',
+      passwordInput: '',
       artist: '',
       artwork: '',
       updated: '',
@@ -65,7 +70,6 @@ export default {
     AXIOS.get('/artist/name/' + 'testartist')
       .then(response => {
         this.artist = response.data
-        alert(this.artist.artwork)
       })
       .catch(e => {
         this.errorArtist = e
