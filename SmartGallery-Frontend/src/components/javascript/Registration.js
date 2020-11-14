@@ -15,28 +15,48 @@ import axios from 'axios'
   data () {
     return {
       profile: '',
+      customers: [],
+      newCustomer: '',
       username: '',
       password: '',
       email: '',
-      createError: ''
+      errorCustomer: '',
+      response: []
       }
   },
   created: function (){
-    // AXIOS.get('/login')
-    //   .then(response => {
-    //     this.listings = response.data
-    //     console.log(response)
-    //   })
-    //   .catch(e => {
-    //     this.errorListing = e
-    //   })
+    AXIOS.get('/customer')
+    .then(response => {
+      this.customers = response.data
+    })
+    .catch(e => {
+      this.errorCustomer = e
+    })
   },
   methods: {
+    createProfile: function(accountType, username, password, email, paymentType) {
+      if(accountType == "Customer") {
+        alert("hi")
+        this.createCustomerProfile(username, password, email, paymentType)
+      } else {
+        alert("hello")
+        this.createArtistProfile(username, password, email, paymentType)
+      }
+    },
+
     createCustomerProfile: function (username, password, email, paymentType) {
       AXIOS.post('/customer/'.concat(username, '/', password, '/', email, '/', paymentType, "?smartGalleryID=", 123))
-      .then()
+      .then(response => {
+          this.customers.push(response.data)
+          this.errorCustomer = ''
+          this.newCustomer = ''
+          alert ("success")
+      	})
       .catch(e => {
-        this.loginError = e.message;
+        alert ("incorrect")
+        var errorMessage = e.response.data.message
+        console.log(errorMessage)
+        this.errorCustomer = errorMessage
       })
     },
     createArtistProfile: function (username, password, email, paymentType) {
@@ -45,14 +65,6 @@ import axios from 'axios'
       .catch(e => {
         this.loginError = e.message;
       })
-    },
-
-    createProfile: function(accountType, username, password, email, paymentType) {
-        if(accountType == Customer) {
-          this.createCustomerProfile(username, password, email, paymentType)
-        } else {
-          this.createArtistProfile(username, password, email, paymentType)
-        }
     },
 
     backToLogin: function() {
