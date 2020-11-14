@@ -122,7 +122,7 @@ import axios from 'axios'
     },
 
     backToLogin: function() {
-      window.location.href = "/#/login"
+      window.location.href = "/#/"
     },
 
     loginWarning: function() {

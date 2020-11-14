@@ -1,8 +1,17 @@
 <script src="./javascript/Artwork.js">
 </script>
+
 <template>
 
 <body class="createArtwork">
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <img src="../assets/sglogo.png"  alt="logo">
+  <button class="button2" v-on:click="goToHome()" type="button" name="home"> Home </button>
+  <button class="button2" v-on:click="goToArtworkSearch()" type="button" name="artworkSearch"> Search Artwork </button>
+  <button class="button2" v-on:click="goToArtistSearch()" type="button" name="artistSearch"> Search Artist </button>
+  <button class="button2" v-on:click="goToProfile()" type="button" name="viewProfile"> View Profile </button>
+  <button class="button2" v-on:click="logout()" type="button" name="logout"> Logout </button>
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
 
 <div>
   <img src="../assets/sglogo.png" alt="logo">

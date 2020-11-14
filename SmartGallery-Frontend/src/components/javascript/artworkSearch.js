@@ -129,5 +129,34 @@ export default {
 					this.errorListing = e
 				})
 		},
+		logout : function () {
+			var username = this.$route.params.username
+      		AXIOS.post('/logout'.concat("?username=", username))
+      		.then(response => {
+			if(response.data) {
+				alert ("You have been logged out.")
+        		window.location.href = "/#/"
+			}
+	    })
+	},
+		goToArtworkSearch : function () {
+			window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
+		},
+		goToArtistSearch : function () {
+			window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
+		},
+		goToProfile : function () {
+			AXIOS.get('/customer/'.concat(this.$route.params.username))
+			.then(response => {
+				if(response.data != null) { //so if it's an artist
+					window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
+				} else {
+					window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
+				}
+			})
+		},
+		goToHome : function () {
+			window.location.href = "/#/home/".concat(this.$route.params.username)
+		}
 	}
 }
