@@ -403,6 +403,30 @@ public class RegistrationService {
 		return artist;
 
 	}
+	
+	/**
+	 * 
+	 * @param username
+	 * @return
+	 */
+	@Transactional
+	public Profile getProfile(String username) {
+		if (username == null || username.equals("")) {
+			throw new IllegalArgumentException("Username is empty");
+		}
+
+		// Uses existing method in artist repository to find an artist by username
+		Profile p = artistRepository.findArtistByUsername(username);
+		
+		if(p == null) {
+			p = customerRepository.findCustomerByUsername(username);
+		}
+		
+		if(p == null) {
+			throw new IllegalArgumentException("Profile doesn't exist");
+		}
+		return p;
+	}
 
 	/**
 	 * Log into a profile

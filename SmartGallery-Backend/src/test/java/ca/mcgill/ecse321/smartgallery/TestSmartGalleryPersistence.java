@@ -104,13 +104,13 @@ public class TestSmartGalleryPersistence {
 	}
 	
 	public Transaction createTransaction(int transactionID, PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, SmartGallery smartGallery, 
-			Customer customer, Date paymentDate, Listing listing)
+			Profile profile, Date paymentDate, Listing listing)
 	{
 		Transaction transaction = new Transaction();
 		transaction.setTransactionID(transactionID);
 		transaction.setPaymentMethod(paymentMethod);
 		transaction.setDeliveryMethod(deliveryMethod);
-		transaction.setCustomer(customer);
+		transaction.setProfile(profile);
 		transaction.setPaymentDate(paymentDate);
 		transaction.setListing(listing);
 		transaction.setSmartGallery(smartGallery);

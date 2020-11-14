@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import ca.mcgill.ecse321.smartgallery.model.DeliveryMethod;
 import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
+import ca.mcgill.ecse321.smartgallery.model.Profile;
 
 public class TransactionDTO {
 	SmartGalleryDTO smartGallery;
@@ -12,16 +13,15 @@ public class TransactionDTO {
 	private PaymentMethod paymentMethod;
 	private DeliveryMethod deliveryMethod;
 	private Date paymentDate;
-	private CustomerDTO customer;
-	
+	private ProfileDTO profile;
+
 	public TransactionDTO() {
-		
+
 	}
-	
-	
-	public TransactionDTO(SmartGalleryDTO smartGallery, ListingDTO listing, CustomerDTO customer, int transactionID,
+
+	public TransactionDTO(SmartGalleryDTO smartGallery, ListingDTO listing, ProfileDTO profile, int transactionID,
 			PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, Date paymentDate) {
-		this.customer = customer;
+		this.profile = profile;
 		this.smartGallery = smartGallery;
 		this.listing = listing;
 		this.transactionID = transactionID;
@@ -30,6 +30,15 @@ public class TransactionDTO {
 		this.paymentDate = paymentDate;
 	}
 
+	public TransactionDTO(SmartGalleryDTO smartGallery, ListingDTO listing,int transactionID,
+			PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, Date paymentDate) {
+		this.smartGallery = smartGallery;
+		this.listing = listing;
+		this.transactionID = transactionID;
+		this.paymentMethod = paymentMethod;
+		this.deliveryMethod = deliveryMethod;
+		this.paymentDate = paymentDate;
+	}
 
 	/**
 	 * @return the smartGallery
@@ -38,14 +47,12 @@ public class TransactionDTO {
 		return smartGallery;
 	}
 
-
 	/**
 	 * @return the listing
 	 */
 	public ListingDTO getListing() {
 		return listing;
 	}
-
 
 	/**
 	 * @return the transactionID
@@ -54,14 +61,12 @@ public class TransactionDTO {
 		return transactionID;
 	}
 
-
 	/**
 	 * @return the paymentMethod
 	 */
 	public PaymentMethod getPaymentMethod() {
 		return paymentMethod;
 	}
-
 
 	/**
 	 * @return the deliveryMethod
@@ -70,7 +75,6 @@ public class TransactionDTO {
 		return deliveryMethod;
 	}
 
-
 	/**
 	 * @return the paymentDate
 	 */
@@ -78,13 +82,11 @@ public class TransactionDTO {
 		return paymentDate;
 	}
 
-
 	/**
 	 * @return the customer
 	 */
-	public CustomerDTO getCustomer() {
-		return customer;
+	public ProfileDTO getProfile() {
+		return profile;
 	}
 
-	
 }

@@ -24,6 +24,14 @@ public class ListingDTO {
 		this.isSold = isSold;
 		this.listingID = listingID;
 	}
+	
+	public ListingDTO(GalleryDTO gallery, Date listedDate, boolean isSold, int listingID) {
+		this.gallery = gallery;
+		this.listedDate = listedDate;
+		this.isSold = isSold;
+		this.listingID = listingID;
+	}
+
 
 
 	/**

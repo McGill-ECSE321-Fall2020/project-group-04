@@ -9,14 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
 import ca.mcgill.ecse321.smartgallery.dao.CustomerRepository;
 import ca.mcgill.ecse321.smartgallery.dao.ListingRepository;
 import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
 import ca.mcgill.ecse321.smartgallery.dao.TransactionRepository;
+import ca.mcgill.ecse321.smartgallery.model.Artist;
 import ca.mcgill.ecse321.smartgallery.model.Customer;
 import ca.mcgill.ecse321.smartgallery.model.DeliveryMethod;
 import ca.mcgill.ecse321.smartgallery.model.Listing;
 import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
+import ca.mcgill.ecse321.smartgallery.model.Profile;
 import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
 import ca.mcgill.ecse321.smartgallery.model.Transaction;
 
@@ -35,6 +38,9 @@ public class PurchaseService {
 	@Autowired
 	private SmartGalleryRepository smartGalleryRepository;
 
+	@Autowired
+	private ArtistRepository artistRepository;
+
 	/**
 	 * Method that creates a transaction and sets the id based on the
 	 * listing/customer username
@@ -50,7 +56,7 @@ public class PurchaseService {
 	@Transactional
 	public Transaction createTransaction(PaymentMethod paymentMethod, DeliveryMethod deliveryMethod,
 
-			SmartGallery smartGallery, Customer customer, Date paymentDate, Listing listing) {
+			SmartGallery smartGallery, Profile profile, Date paymentDate, Listing listing) {
 
 		String error = "";
 
@@ -64,14 +70,14 @@ public class PurchaseService {
 
 		if (smartGallery == null) {
 			error += "System must be specified\n";
-		}else if(!doesSmartGalleryExist(smartGallery.getSmartGalleryID())) {
+		} else if (!doesSmartGalleryExist(smartGallery.getSmartGalleryID())) {
 			error += "Smart gallery with that id does not exist\n";
 		}
 
-		if (customer == null) {
-			error += "Customers must be specified\n";
-		}else if(!doesCustomerExist(customer.getUsername())) {
-			error += "Customer with that username does not exist\n";
+		if (profile == null) {
+			error += "Profile must be specified\n";
+		} else if (!doesProfileExist(profile.getUsername())) {
+			error += "Profile with that username does not exist\n";
 		}
 
 		if (paymentDate == null) {
@@ -80,10 +86,13 @@ public class PurchaseService {
 
 		if (listing == null) {
 			error += "Listing must exist\n";
-		}else if(!doesListingExist(listing.getListingID())) {
+		} else if (!doesListingExist(listing.getListingID())) {
 			error += "Listing with this id does not exist\n";
 		} else if (listing.isIsSold()) {
 			error += "Listing has already been sold\n";
+		}else if (listing.getArtwork() != null && listing.getArtwork().getArtists() != null
+				&& listing.getArtwork().getArtists().contains(profile)) {
+			error += "Artist cannot purchase their own artwork\n";
 		}
 
 		if (error.length() > 0) {
@@ -91,16 +100,16 @@ public class PurchaseService {
 		}
 
 		Transaction transaction = new Transaction();
-		transaction.setTransactionID(customer.getUsername().hashCode() * listing.getListingID());
+		transaction.setTransactionID(profile.getUsername().hashCode() * listing.getListingID());
 		transaction.setPaymentMethod(paymentMethod);
 		transaction.setDeliveryMethod(deliveryMethod);
-		transaction.setCustomer(customer);
+		transaction.setProfile(profile);
 		HashSet<Transaction> tSet = new HashSet<>();
-		if (customer.getTransaction() != null) {
-			tSet = new HashSet<>(customer.getTransaction());
+		if (profile.getTransaction() != null) {
+			tSet = new HashSet<>(profile.getTransaction());
 		}
 		tSet.add(transaction);
-		customer.setTransaction(tSet);
+		profile.setTransaction(tSet);
 		transaction.setPaymentDate(paymentDate);
 		transaction.setListing(listing);
 		listing.setIsSold(true);
@@ -113,7 +122,13 @@ public class PurchaseService {
 		tSet.add(transaction);
 		smartGallery.setTransaction(tSet);
 		transactionRepository.save(transaction);
-		customerRepository.save(customer);
+		if (profile instanceof Customer) {
+			Customer c = (Customer) profile;
+			customerRepository.save(c);
+		} else {
+			Artist a = (Artist) profile;
+			artistRepository.save(a);
+		}
 		listingRepository.save(listing);
 		smartGalleryRepository.save(smartGallery);
 		return transaction;
@@ -142,12 +157,12 @@ public class PurchaseService {
 	 * @return a list of the customer's transactions
 	 */
 	@Transactional
-	public List<Transaction> getTransactionByCustomer(Customer customer) {
-		if (customer == null) {
+	public List<Transaction> getTransactionByProfile(Profile profile) {
+		if (profile == null) {
 			throw new IllegalArgumentException("Must provide a valid customer");
 		}
 
-		List<Transaction> transactions = transactionRepository.findTransactionByCustomer(customer);
+		List<Transaction> transactions = transactionRepository.findTransactionByProfile(profile);
 
 		if (transactions == null) {
 			throw new IllegalArgumentException("This customer does not have any associated transactions");
@@ -185,16 +200,22 @@ public class PurchaseService {
 		return toList(transactionRepository.findAll());
 	}
 
-	private boolean doesCustomerExist(String name) {
-		Customer customer = customerRepository.findCustomerByUsername(name);
-		return customer != null;
+	private boolean doesProfileExist(String name) {
+		// Uses existing method in artist repository to find an artist by username
+		Profile p = artistRepository.findArtistByUsername(name);
+
+		if (p == null) {
+			p = customerRepository.findCustomerByUsername(name);
+		}
+
+		return p != null;
 	}
-	
+
 	private boolean doesListingExist(int listingID) {
 		Listing listing = listingRepository.findListingByListingID(listingID);
 		return listing != null;
 	}
-	
+
 	private boolean doesSmartGalleryExist(int smartGalleryID) {
 		SmartGallery sg = smartGalleryRepository.findSmartGalleryBySmartGalleryID(smartGalleryID);
 		return sg != null;

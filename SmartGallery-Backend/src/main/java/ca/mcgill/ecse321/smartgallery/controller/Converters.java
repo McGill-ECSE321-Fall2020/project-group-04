@@ -95,9 +95,20 @@ public class Converters {
 		}
 		ArtistDTO artistDTO = new ArtistDTO(convertToDto(a.getSmartGallery()), a.getUsername(), a.getPassword(),
 				a.getEmail(), a.getDefaultPaymentMethod(), a.getCreationDate(), a.isLoggedIn(), a.isIsVerified());
-		for(Artwork art : a.getArtworks()) {
-			artistDTO.addArtworks(withoutArtist(art));
+		if (a.getArtworks() != null) {
+			for (Artwork art : a.getArtworks()) {
+				artistDTO.addArtworks(withoutArtist(art));
+			}
 		}
+		
+		Set<TransactionDTO> tSet = new HashSet<>();
+		if (a.getTransaction() != null) {
+			for (Transaction t : a.getTransaction()) {
+				tSet.add(convertWithoutProfile(t));
+			}
+		}
+		artistDTO.setTransaction(tSet);
+		
 		return artistDTO;
 	}
 
@@ -113,6 +124,21 @@ public class Converters {
 		}
 		CustomerDTO customerDto = new CustomerDTO(convertToDto(c.getSmartGallery()), c.getUsername(), c.getPassword(),
 				c.getEmail(), c.getDefaultPaymentMethod(), c.getCreationDate(), c.isLoggedIn());
+		Set<ArtworkDTO> artSet = new HashSet<>();
+		if (c.getArtworksViewed() != null) {
+			for (Artwork art : c.getArtworksViewed()) {
+				artSet.add(convertToDto(art));
+			}
+			customerDto.setArtworkViewed(artSet);
+		}
+
+		Set<TransactionDTO> tSet = new HashSet<>();
+		if (c.getTransaction() != null) {
+			for (Transaction t : c.getTransaction()) {
+				tSet.add(convertWithoutProfile(t));
+			}
+		}
+		customerDto.setTransaction(tSet);
 		return customerDto;
 	}
 
@@ -134,16 +160,20 @@ public class Converters {
 		ArtworkDTO artworkDTO = new ArtworkDTO(artistsDTO, convertToDto(a.getGallery()), a.getName(), a.getYear(),
 				a.getPrice(), a.isIsBeingPromoted(), a.getStyle(), a.getHeight(), a.getWeight(), a.getWidth(),
 				a.getArtworkID());
+
+		if (a.getListing() != null) {
+			ListingDTO l = listingNoArtwork(a.getListing());
+			artworkDTO.setListing(l);
+		}
+
 		return artworkDTO;
 	}
-	
+
 	public static ArtworkDTO withoutArtist(Artwork a) {
-		ArtworkDTO artworkDTO = new ArtworkDTO( convertToDto(a.getGallery()), a.getName(), a.getYear(),
-				a.getPrice(), a.isIsBeingPromoted(), a.getStyle(), a.getHeight(), a.getWeight(), a.getWidth(),
-				a.getArtworkID());
+		ArtworkDTO artworkDTO = new ArtworkDTO(convertToDto(a.getGallery()), a.getName(), a.getYear(), a.getPrice(),
+				a.isIsBeingPromoted(), a.getStyle(), a.getHeight(), a.getWeight(), a.getWidth(), a.getArtworkID());
 		return artworkDTO;
 	}
-	
 
 	/**
 	 * Converts listing to its DTO equivalent
@@ -157,6 +187,15 @@ public class Converters {
 		}
 		ListingDTO listingDto = new ListingDTO(convertToDto(l.getGallery()), convertToDto(l.getArtwork()),
 				l.getListedDate(), l.isIsSold(), l.getListingID());
+		return listingDto;
+	}
+
+	public static ListingDTO listingNoArtwork(Listing l) {
+		if (l == null) {
+			throw new IllegalArgumentException("There is no such Listing.");
+		}
+		ListingDTO listingDto = new ListingDTO(convertToDto(l.getGallery()), l.getListedDate(), l.isIsSold(),
+				l.getListingID());
 		return listingDto;
 	}
 
@@ -192,9 +231,37 @@ public class Converters {
 			throw new IllegalArgumentException("There is no such transaction.");
 		}
 
+		Profile p = transaction.getProfile();
+		TransactionDTO t;
+		if (p instanceof Customer) {
+			Customer c = (Customer) p;
+			t = new TransactionDTO(convertToDto(transaction.getSmartGallery()), convertToDto(transaction.getListing()),
+					convertToDto(c), transaction.getTransactionID(), transaction.getPaymentMethod(),
+					transaction.getDeliveryMethod(), transaction.getPaymentDate());
+		} else {
+			Artist a = (Artist) p;
+			t = new TransactionDTO(convertToDto(transaction.getSmartGallery()), convertToDto(transaction.getListing()),
+					convertToDto(a), transaction.getTransactionID(), transaction.getPaymentMethod(),
+					transaction.getDeliveryMethod(), transaction.getPaymentDate());
+		}
+
+		return t;
+	}
+
+	/**
+	 * Method adds a link from the profile to the transaction
+	 * 
+	 * @param transaction
+	 * @return
+	 */
+	public static TransactionDTO convertWithoutProfile(Transaction transaction) {
+		if (transaction == null) {
+			throw new IllegalArgumentException("There is no such transaction.");
+		}
+
 		return new TransactionDTO(convertToDto(transaction.getSmartGallery()), convertToDto(transaction.getListing()),
-				convertToDto(transaction.getCustomer()), transaction.getTransactionID(), transaction.getPaymentMethod(),
-				transaction.getDeliveryMethod(), transaction.getPaymentDate());
+				transaction.getTransactionID(), transaction.getPaymentMethod(), transaction.getDeliveryMethod(),
+				transaction.getPaymentDate());
 	}
 
 	/**
