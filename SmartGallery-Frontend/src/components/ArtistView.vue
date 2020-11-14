@@ -10,14 +10,14 @@
   <button class="button2" onclick="location.href='/#/artistSearch'" type="button" name="artistSearch"> Search Artist </button>
   <button class="button2" onclick="location.href='/#/profile'" type="button" name="viewProfile"> View Profile </button>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
-  <span style="font-size:50px; font-family: fantasy"> {{ artist }} </span>
+  <span style="font-size:50px; font-family: fantasy"> {{ artist.username }} </span>
 
   <br>
   <br>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   <div id="artistview">
     <br>
-	<span style="font-size:35px; font-family: fantasy"> {{ artist }}'s listed artworks:</span>  
+	<span style="font-size:35px; font-family: fantasy"> {{ artist.username }}'s listed artworks:</span>  
 	<br>
     <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
     <div v-for="artwork in artist.artworks" :key="artwork.artworkID" >

@@ -52,7 +52,7 @@ export default {
 		}
 	},
 	created: function () {
-    AXIOS.get('artist/name/{username}')
+    AXIOS.get('artist/name/{username}') // artist/name/testartist to test
       .then(response => {
 		this.artist = response.data
         console.log(artist)
