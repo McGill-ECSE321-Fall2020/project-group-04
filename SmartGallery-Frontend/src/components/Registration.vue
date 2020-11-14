@@ -9,13 +9,13 @@
       <br>
       <h3>
         <span style="font-size:28px; font-family: fantasy"> Username&nbsp;&nbsp;  </span>
-        <input type="text" placeholder="Username"> </h3>
+        <input type="text" v-model="username" placeholder="Username"> </h3>
       <h3>
         <span style="font-size:28px; font-family: fantasy"> Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </span>
-        <input type="text" placeholder="Email"> </h3>
+        <input type="text" v-model="email" placeholder="Email"> </h3>
       <h3>
         <span style="font-size:28px; font-family: fantasy"> Password&nbsp;&nbsp;&nbsp;  </span>
-        <input type="text" placeholder="Password"> </h3>
+        <input type="text" v-model="password" placeholder="Password"> </h3>
       <h3>
         <span style="font-size:28px; font-family: fantasy"> Account type  </span>
         <select v-model="accountType">

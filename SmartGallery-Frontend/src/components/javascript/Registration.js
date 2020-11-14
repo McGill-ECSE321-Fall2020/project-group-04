@@ -45,15 +45,16 @@ import axios from 'axios'
     },
 
     createCustomerProfile: function (username, password, email, paymentType) {
-      AXIOS.post('/customer/'.concat(username, '/', password, '/', email, '/', paymentType, "?smartGalleryID=", 123))
+      AXIOS.post('/customer/'.concat(username, '/', password, '/', email, '/', paymentType, '?smartGalleryId=123' ))
       .then(response => {
+          alert ("success")
           this.customers.push(response.data)
           this.errorCustomer = ''
           this.newCustomer = ''
-          alert ("success")
       	})
       .catch(e => {
         alert ("incorrect")
+        alert(errorMessage)
         var errorMessage = e.response.data.message
         console.log(errorMessage)
         this.errorCustomer = errorMessage
