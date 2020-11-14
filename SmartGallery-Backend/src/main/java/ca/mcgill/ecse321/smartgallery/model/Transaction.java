@@ -44,15 +44,15 @@ public SmartGallery getSmartGallery() {
 public void setSmartGallery(SmartGallery smartGallery) {
    this.smartGallery = smartGallery;
 }
-private Customer customer;
+private Profile profile;
 
 @ManyToOne
-public Customer getCustomer() {
-   return this.customer;
+public Profile getProfile() {
+   return this.profile;
 }
 
-public void setCustomer(Customer customer) {
-   this.customer = customer;
+public void setProfile(Profile profile) {
+   this.profile = profile;
 }
 
 private Date paymentDate;

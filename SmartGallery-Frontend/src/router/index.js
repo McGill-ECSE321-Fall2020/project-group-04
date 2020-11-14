@@ -9,6 +9,7 @@ import Registration from '@/components/Registration'
 import Artwork from '@/components/Artwork'
 import UpdateArtwork from '@/components/UpdateArtwork'
 import Home from '@/components/Home'
+import ArtistView from '@/components/ArtistView'
 Vue.use(Router)
 
 export default new Router({
@@ -61,6 +62,11 @@ export default new Router({
       path: '/UpdateArtwork/:username',
       name: 'UpdateArtwork',
       component: UpdateArtwork
+    },
+    {
+      path: '/artistView/:username',
+      name: 'ArtistView',
+      component: ArtistView
     }
   ]
 })

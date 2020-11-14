@@ -171,13 +171,13 @@ public class PurchaseServiceTests {
 			return transactions;
 		});
 
-		lenient().when(transactionRepository.findTransactionByCustomer(any(Customer.class)))
+		lenient().when(transactionRepository.findTransactionByProfile(any(Customer.class)))
 				.thenAnswer((InvocationOnMock invocation) -> {
 					if (invocation.getArgument(0).equals(CUSTOMER1)) {
 						List<Transaction> transactions = new ArrayList<>();
 						Transaction transaction = new Transaction();
 						transaction.setTransactionID(T_ID);
-						transaction.setCustomer(CUSTOMER1);
+						transaction.setProfile(CUSTOMER1);
 						transactions.add(transaction);
 						CUSTOMER1.setTransaction(new HashSet<>(transactions));
 						return transactions;
@@ -232,7 +232,7 @@ public class PurchaseServiceTests {
 		try {
 			purchaseService.createTransaction(DEFAULTPAY, DELIVERY_METHOD, sGallery, null, PAYMENT_DATE, listing);
 		} catch (IllegalArgumentException e) {
-			assertEquals("Customers must be specified\n", e.getMessage());
+			assertEquals("Profile must be specified\n", e.getMessage());
 		}
 	}
 	
@@ -245,7 +245,7 @@ public class PurchaseServiceTests {
 		try {
 			purchaseService.createTransaction(DEFAULTPAY, DELIVERY_METHOD, sGallery, customer, PAYMENT_DATE, listing);
 		} catch (IllegalArgumentException e) {
-			assertEquals("Customer with that username does not exist\n", e.getMessage());
+			assertEquals("Profile with that username does not exist\n", e.getMessage());
 		}
 	}
 
@@ -392,7 +392,7 @@ public class PurchaseServiceTests {
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
-		List<Transaction> transactionList = purchaseService.getTransactionByCustomer(CUSTOMER1);
+		List<Transaction> transactionList = purchaseService.getTransactionByProfile(CUSTOMER1);
 		assertEquals(transaction.getTransactionID(), transactionList.get(0).getTransactionID());
 	}
 
@@ -409,7 +409,7 @@ public class PurchaseServiceTests {
 		}
 
 		try {
-			purchaseService.getTransactionByCustomer(null);
+			purchaseService.getTransactionByProfile(null);
 		} catch (IllegalArgumentException e) {
 			assertEquals("Must provide a valid customer", e.getMessage());
 		}
@@ -429,7 +429,7 @@ public class PurchaseServiceTests {
 		}
 
 		try {
-			purchaseService.getTransactionByCustomer(customer2);
+			purchaseService.getTransactionByProfile(customer2);
 		} catch (IllegalArgumentException e) {
 			assertEquals("This customer does not have any associated transactions", e.getMessage());
 		}

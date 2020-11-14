@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.smartgallery.dto;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
 
@@ -12,6 +14,9 @@ public abstract class ProfileDTO {
 	private PaymentMethod defaultPaymentMethod;
 	private Date creationDate;
 	private boolean loggedIn;
+	private Set<TransactionDTO> transactions;
+	
+	
 	public ProfileDTO() {
 		
 	}
@@ -72,6 +77,23 @@ public abstract class ProfileDTO {
 
 	public boolean isLoggedIn() {
 		return loggedIn;
+	}
+	
+	/**
+	 * @return the transaction
+	 */
+	public Set<TransactionDTO> getTransaction() {
+		if(transactions == null) {
+			transactions = new HashSet<>();
+		}
+		return transactions;
+	}
+
+	/**
+	 * @param transaction the transaction to set
+	 */
+	public void setTransaction(Set<TransactionDTO> transaction) {
+		this.transactions = transaction;
 	}
 
 }

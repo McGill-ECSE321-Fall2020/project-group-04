@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.smartgallery.dto.TransactionDTO;
 import ca.mcgill.ecse321.smartgallery.model.Customer;
 import ca.mcgill.ecse321.smartgallery.model.Listing;
+import ca.mcgill.ecse321.smartgallery.model.Profile;
 import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
 import ca.mcgill.ecse321.smartgallery.model.Transaction;
 import ca.mcgill.ecse321.smartgallery.service.BrowsingService;
@@ -63,12 +64,12 @@ public class PurchaseController {
 		// Find objects
 		Listing listing = listingService.getListingByID(listingID);
 		SmartGallery sGallery = browsingService.getAllSmartGalleries().get(0);
-		Customer customer = registrationService.getCustomer(username);
+		Profile p = registrationService.getProfile(username);
 		long millis = System.currentTimeMillis();
 		Date paymentDate = new java.sql.Date(millis);
 		Transaction transaction = purchaseService.createTransaction(
 				Converters.convertStringToPaymentMethod(paymentMethod),
-				Converters.convertStringToDeliveryMethod(deliveryMethod), sGallery, customer, paymentDate, listing);
+				Converters.convertStringToDeliveryMethod(deliveryMethod), sGallery, p, paymentDate, listing);
 		return (Converters.convertToDto(transaction));
 	}
 
@@ -101,7 +102,7 @@ public class PurchaseController {
 			"transaction/search/username/{username}/" })
 	public List<TransactionDTO> getTransactionsByCustomer(@PathVariable("username") String username) {
 		Customer customer = registrationService.getCustomer(username);
-		return purchaseService.getTransactionByCustomer(customer).stream().map(p -> Converters.convertToDto(p))
+		return purchaseService.getTransactionByProfile(customer).stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 

@@ -17,17 +17,4 @@ public Set<Artwork> getArtworksViewed() {
 public void setArtworksViewed(Set<Artwork> artworksVieweds) {
    this.artworksViewed = artworksVieweds;
 }
-
-private Set<Transaction> transaction;
-
-@OneToMany(mappedBy="customer")
-public Set<Transaction> getTransaction() {
-   return this.transaction;
-}
-
-public void setTransaction(Set<Transaction> transactions) {
-   this.transaction = transactions;
-}
-
-
 }

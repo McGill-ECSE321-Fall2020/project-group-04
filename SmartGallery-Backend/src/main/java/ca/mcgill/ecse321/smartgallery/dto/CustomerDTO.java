@@ -1,14 +1,14 @@
 package ca.mcgill.ecse321.smartgallery.dto;
 
 import java.sql.Date;
-import java.util.List;
+import java.util.Set;
 
 import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
 
 public class CustomerDTO extends ProfileDTO {
 	
-	private List<ArtworkDTO> artworkViewed;
-	private List<TransactionDTO> transaction;
+	private Set<ArtworkDTO> artworkViewed;
+	private Set<TransactionDTO> transaction;
 	
 	public CustomerDTO() {
 		
@@ -22,16 +22,16 @@ public class CustomerDTO extends ProfileDTO {
 	/**
 	 * @param artworkViewed the artworkViewed to set
 	 */
-	public void setArtworkViewed(List<ArtworkDTO> artworkViewed) {
+	public void setArtworkViewed(Set<ArtworkDTO> artworkViewed) {
 		this.artworkViewed = artworkViewed;
 	}
 
 	/**
-	 * @param transaction the transaction to set
+	 * @return the artworkViewed
 	 */
-	public void setTransaction(List<TransactionDTO> transaction) {
-		this.transaction = transaction;
+	public Set<ArtworkDTO> getArtworkViewed() {
+		return artworkViewed;
 	}
 	
-	
+
 }

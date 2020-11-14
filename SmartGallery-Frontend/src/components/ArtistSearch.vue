@@ -23,7 +23,7 @@
     <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
     <div v-for="artist in artists" :key="artist.username" >
       <br>
-      <a style="font-weight: bold;  text-decoration: underline" v-bind:href="'/#/Artist/' + artist.username">{{ artist.username }}</a>
+      <a style="font-weight: bold;  text-decoration: underline" v-bind:href="'/#/artistView/' + artist.username">{{ artist.username }}</a>
       <br>
       <br>
       <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
