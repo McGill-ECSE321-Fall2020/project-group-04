@@ -9,6 +9,7 @@
   <button class="button2" onclick="location.href='/#/artworkSearch'" type="button" name="artworkSearch"> Search Artwork </button>
   <button class="button2" onclick="location.href='/#/artistSearch'" type="button" name="artistSearch"> Search Artist </button>
   <button class="button2" onclick="location.href='/#/profile'" type="button" name="viewProfile"> View Profile </button>
+  <button class="button2" v-on:click="logout(username)" type="button" name="logout"> Logout </button>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   <span style="font-size:50px; font-family: fantasy"> Welcome to the SmartGallery application! </span>
 
@@ -17,11 +18,11 @@
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   <div id="home">
     <br>
-	<span style="font-size:35px; font-family: fantasy"> Here are the current promoted arworks:</span>  
+	<span style="font-size:35px; font-family: fantasy"> Here are the current promoted artworks:</span>  
 	<br>
     <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
     <div v-for="artwork in artworks" :key="artwork.artworkID" >
-            <a style="font-weight: bold; text-decoration: underline;" v-bind:href="'/#/ViewListing/' + artwork.artworkID">{{ artwork.name }}</a>
+            <a style="font-weight: bold; text-decoration: underline;" v-bind:href="'/#/ViewListing/' + artwork.listing.listingID">{{ artwork.name }}</a>
             <br>
             Artist(s):
             <span v-for="artist in artwork.artists"  :key="artist.username" > 

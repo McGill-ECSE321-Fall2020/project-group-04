@@ -16,6 +16,7 @@ public class ArtworkDTO {
 	private int weight;
 	private int width;
 	private int artworkID;
+	private ListingDTO listing;
 
 	public ArtworkDTO(){
 		
@@ -138,5 +139,22 @@ public class ArtworkDTO {
 		return artworkID;
 	}
 
+
+	/**
+	 * @return the listing
+	 */
+	public ListingDTO getListing() {
+		return listing;
+	}
+
+
+	/**
+	 * @param listing the listing to set
+	 */
+	public void setListing(ListingDTO listing) {
+		this.listing = listing;
+	}
+	
+	
 	
 }

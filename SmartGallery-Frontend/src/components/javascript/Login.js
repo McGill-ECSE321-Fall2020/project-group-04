@@ -31,8 +31,7 @@ import axios from 'axios'
   }
 
   export default {
-  name: 'profileinfo',
-  // props: ['listingId'],
+  name: 'login',
   data () {
     return {
       profile: '',
@@ -63,7 +62,9 @@ import axios from 'axios'
         // this.response = response.data
         // this.loginError =''
         if (response.data) {
-          window.location.href = "/#/"
+          this.username = username
+          window.location.href = "/#/home/".concat(username)
+          // window.location.href = "/#/"
         } else {
           alert("This username and password do not match.")
         }

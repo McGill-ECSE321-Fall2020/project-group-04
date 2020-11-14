@@ -3,7 +3,10 @@ package ca.mcgill.ecse321.smartgallery.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 public abstract class Profile{
@@ -77,5 +80,14 @@ public void logout() {
 public boolean isLoggedIn() {
 	return loggedIn;
 }
+private Set<Transaction> transaction;
 
-   }
+@OneToMany(mappedBy="profile")
+public Set<Transaction> getTransaction() {
+   return this.transaction;
+}
+
+public void setTransaction(Set<Transaction> transactions) {
+   this.transaction = transactions;
+}
+}

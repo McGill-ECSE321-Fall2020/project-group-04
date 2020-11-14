@@ -53,6 +53,7 @@
 </template>
 
 <script src="./javascript/Login.js">
+}
 </script>
 
 <style>

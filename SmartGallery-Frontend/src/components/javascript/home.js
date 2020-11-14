@@ -30,6 +30,7 @@ function ArtworkDto(artists, gallery, name, year, price, isBeingPromoted, style,
 	this.weight = weight;
 	this.width = width;
 	this.artworkID = artworkID;
+	this.listing = "";
 }
 
 function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod, creationDate, loggedIn, isVerified) {
@@ -63,6 +64,21 @@ export default {
 			})
 	},
 	methods: {
-
+		logout : function (username) {
+      	AXIOS.post('/logout'.concat("?username=", username))
+      	.then(response => {
+			if(response.data) {
+				alert ("You have been logged out.")
+        		window.location.href = "/#/login"
+			}
+	    })
+	},
+	logout : function (username) {
+      AXIOS.post('/logout'.concat("?username=", username))
+      .then(response => {
+        alert ("You have been logged out.")
+        window.location.href = "/#/login"
+      })
+    }
 	}
 }

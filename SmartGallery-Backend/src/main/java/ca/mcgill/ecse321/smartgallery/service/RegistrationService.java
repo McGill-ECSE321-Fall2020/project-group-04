@@ -15,12 +15,14 @@ import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
 import ca.mcgill.ecse321.smartgallery.dao.ArtworkRepository;
 import ca.mcgill.ecse321.smartgallery.dao.CustomerRepository;
 import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
+import ca.mcgill.ecse321.smartgallery.dao.TransactionRepository;
 import ca.mcgill.ecse321.smartgallery.model.Artist;
 import ca.mcgill.ecse321.smartgallery.model.Artwork;
 import ca.mcgill.ecse321.smartgallery.model.Customer;
 import ca.mcgill.ecse321.smartgallery.model.PaymentMethod;
 import ca.mcgill.ecse321.smartgallery.model.Profile;
 import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
+import ca.mcgill.ecse321.smartgallery.model.Transaction;
 
 @Service
 public class RegistrationService {
@@ -36,6 +38,9 @@ public class RegistrationService {
 
 	@Autowired
 	private ArtworkRepository artworkRepository;
+	
+	@Autowired
+	private TransactionRepository transactionRepository;
 
 	/* **** CUSTOMER METHODS **** */
 
@@ -193,6 +198,12 @@ public class RegistrationService {
 			throw new IllegalArgumentException("Customer must be logged in");
 		}
 		// ** Will need to delete transactions
+		Set<Transaction> transactionDeleting = customer.getTransaction();
+		if (transactionDeleting != null) {
+			for (Transaction t :transactionDeleting ) {
+				transactionRepository.delete(t);
+			}
+		}
 		// Delete customer from repository
 		customerRepository.delete(customer);
 		return customer;
@@ -397,11 +408,45 @@ public class RegistrationService {
 				}
 			}
 		}
+		
+		
+		Set<Transaction> transactionDeleting = artist.getTransaction();
+		if (transactionDeleting != null) {
+			for (Transaction t :transactionDeleting ) {
+				transactionRepository.delete(t);
+			}
+		}
+		
+		
 		// Delete artist from repository
 		artistRepository.delete(artist);
 
 		return artist;
 
+	}
+	
+	/**
+	 * 
+	 * @param username
+	 * @return
+	 */
+	@Transactional
+	public Profile getProfile(String username) {
+		if (username == null || username.equals("")) {
+			throw new IllegalArgumentException("Username is empty");
+		}
+
+		// Uses existing method in artist repository to find an artist by username
+		Profile p = artistRepository.findArtistByUsername(username);
+		
+		if(p == null) {
+			p = customerRepository.findCustomerByUsername(username);
+		}
+		
+		if(p == null) {
+			throw new IllegalArgumentException("Profile doesn't exist");
+		}
+		return p;
 	}
 
 	/**

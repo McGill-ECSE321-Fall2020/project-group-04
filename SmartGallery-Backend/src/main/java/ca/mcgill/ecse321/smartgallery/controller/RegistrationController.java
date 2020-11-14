@@ -52,10 +52,10 @@ public class RegistrationController {
 	public void clearDatabase() {
 		smartGalleryRepository.deleteAll();
 		galleryRepository.deleteAll();
-		artistRepository.deleteAll();
 		listingRepository.deleteAll();
 		transactionRepository.deleteAll();
 		artworkRepository.deleteAll();
+		artistRepository.deleteAll();
 		customerRepository.deleteAll();
 	}
 	
