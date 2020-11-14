@@ -1,5 +1,12 @@
 <template>
   <body class="login">
+    <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+    <img src="../assets/sglogo.png"  alt="logo">
+    <button class="button2" v-on:click="loginWarning()" type="button" name="home"> Home </button>
+    <button class="button2" v-on:click="loginWarning()" type="button" name="artworkSearch"> Search Artwork </button>
+    <button class="button2" v-on:click="loginWarning()" type="button" name="artistSearch"> Search Artist </button>
+    <button class="button2" v-on:click="loginWarning()" type="button" name="viewProfile"> View Profile </button>
+    <hr style="height:4px;border-width:0;color:gray;background-color:black">	
     <div id="login">
       <hr style="height:4px;border-width:0;color:gray;background-color:black">	
       <span style="font-size:60px; font-family: fantasy"> Login </span>

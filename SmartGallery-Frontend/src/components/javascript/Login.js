@@ -60,9 +60,13 @@ import axios from 'axios'
       }
       AXIOS.post('/login/?username='.concat(username, '&password=', password))
       .then(response => {
-        this.reponse = response.data
-        this.loginError =''
-        alert("success")
+        // this.response = response.data
+        // this.loginError =''
+        if (response.data) {
+          window.location.href = "/#/"
+        } else {
+          alert("This username and password do not match.")
+        }
         // if (this.response != '') {
         //   alert("right")
         //   window.location.href = "/"
@@ -74,7 +78,7 @@ import axios from 'axios'
         // }
       })
       .catch(e => {
-        var errorMessage = e.response
+        var errorMessage = e
         alert(errorMessage)
         console.log(e)
         this.loginError = errorMessage
@@ -90,6 +94,10 @@ import axios from 'axios'
 
     register: function() {
       window.location.href = "/#/registration"
+    },
+
+    loginWarning: function() {
+      alert("You must register or login before using our services")
     }
   }
 }
