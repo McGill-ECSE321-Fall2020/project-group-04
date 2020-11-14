@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id='listingInfo'>
   <h1> Artwork Name : {{ artwork.name }}</h1>
   <h1> Artist(s) Name (s) :  <span v-for="artist in artwork.artists"> {{artist.username}} </span> </h1>
   <img src="../assets/PLACEHOLDER.jpg"><br>

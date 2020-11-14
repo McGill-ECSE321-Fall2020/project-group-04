@@ -47,7 +47,7 @@ function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod
 }
 
 export default {
-  props: ["artistName"],
+  props: ["artwork"],
   data() {
     return {
       artist: '',

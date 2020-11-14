@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Router from "../../router"
 var config = require('../../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -47,6 +48,7 @@ export default {
 	name: 'artworksearch',
 	data() {
 		return {
+			listingComponent: '',
 			listings: [],
 			errorListing: '',
 			artworkNameInput: '',
@@ -126,6 +128,6 @@ export default {
 				.catch(e => {
 					this.errorListing = e
 				})
-		}
+		},
 	}
 }

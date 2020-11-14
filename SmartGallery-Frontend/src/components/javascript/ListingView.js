@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Router from '../../router'
 var config = require('../../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -60,7 +61,6 @@ function TransactionDTO(smartGallery, listing, customer, transactionID,
 
 export default {
   name: 'listinginfo',
-  props: ['listingId'],
   data() {
     return {
       artists: [],
@@ -77,11 +77,10 @@ export default {
     }
   },
   created: function() {
-    AXIOS.get('/listing/'.concat(listingID))
+    AXIOS.get('/listing/'.concat(this.$route.params.listingNumber))
       .then(response => {
         this.newListing = response.data
         this.artwork = this.newListing.artwork
-        this.artists = artwork.artists
       })
       .catch(e => {
         this.errorListing = e
@@ -97,6 +96,6 @@ export default {
         .catch(e => {
           this.errorTransaction = e
         })
-    }
+    },
   }
 }

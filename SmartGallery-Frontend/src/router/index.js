@@ -28,9 +28,9 @@ export default new Router({
       component: ArtistSearch
     },
     {
-      path: '/ViewListing',
+      path: '/ViewListing/:listingNumber',
       name: 'Listing',
-      component: Listing
+      component: Listing,
     },
     {
       path: '/ArtistProfile',
