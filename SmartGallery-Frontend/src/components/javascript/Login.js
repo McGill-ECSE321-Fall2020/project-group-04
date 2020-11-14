@@ -48,14 +48,14 @@ import axios from 'axios'
         var errorMessage = "Username cannot be empty"
         console.log(errorMessage)
         this.loginError = errorMessage
-        alert("username")
+        alert("Please enter your username")
         return
       }
       if (password == '') {
         var errorMessage = "Password cannot be empty"
         console.log(errorMessage)
         this.loginError = errorMessage
-        alert("password")
+        alert("Please enter your password")
         return
       }
       AXIOS.post('/login/?username='.concat(username, '&password=', password))

@@ -38,11 +38,44 @@ import axios from 'axios'
   },
   methods: {
     createProfile: function(accountType, username, password, email, paymentType) {
+      if (username == '') {
+        var errorMessage = "Username cannot be empty"
+        console.log(errorMessage)
+        this.loginError = errorMessage
+        alert(errorMessage)
+        return
+      }
+      if (email == '') {
+        var errorMessage = "Email cannot be empty"
+        console.log(errorMessage)
+        this.loginError = errorMessage
+        alert(errorMessage)
+        return
+      }
+      if (password == '') {
+        var errorMessage = "Password cannot be empty"
+        console.log(errorMessage)
+        this.loginError = errorMessage
+        alert(errorMessage)
+        return
+      }
+      if (accountType != "Customer" && accountType != "Artist") {
+        var errorMessage = "Please choose an account type"
+        console.log(errorMessage)
+        this.loginError = errorMessage
+        alert(errorMessage)
+        return
+      }
+      if (paymentType != "Credit" && paymentType != "Paypal") {
+        var errorMessage = "Please choose a payment method"
+        console.log(errorMessage)
+        this.loginError = errorMessage
+        alert(errorMessage)
+        return
+      }
       if(accountType == "Customer") {
-        alert("hi")
         this.createCustomerProfile(username, password, email, paymentType)
       } else {
-        alert("hello")
         this.createArtistProfile(username, password, email, paymentType)
       }
     },
@@ -50,13 +83,13 @@ import axios from 'axios'
     createCustomerProfile: function (username, password, email, paymentType) {
       AXIOS.post('/customer/'.concat(username, '/', password, '/', email, '/', paymentType, '?smartGalleryID=123' ))
       .then(response => {
-          alert ("success")
+          alert("success")
           this.customers.push(response.data)
           this.errorCustomer = ''
           this.newCustomer = ''
+          window.location.href = "/#/"
       	})
       .catch(e => {
-        alert ("incorrect")
         var errorMessage = e.message
         alert(errorMessage)
         console.log(errorMessage)
@@ -82,6 +115,10 @@ import axios from 'axios'
 
     backToLogin: function() {
       window.location.href = "/#/login"
+    },
+
+    loginWarning: function() {
+      alert("You must register or login before using our services")
     }
   }
 }
