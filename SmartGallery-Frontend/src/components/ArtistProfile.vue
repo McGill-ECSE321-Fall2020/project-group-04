@@ -3,7 +3,7 @@
   <h1>Artist Profile <br> 
   <button class="button2" v-on:click="goToHome()" type="button" name="home"> Home </button>
   <button class="button2" v-on:click="goToArtworkSearch()" type="button" name="artworkSearch"> Search Artwork </button>
-  <button class="button2" v-on:click="goToArtistkSearch()" type="button" name="artistSearch"> Search Artist </button>
+  <button class="button2" v-on:click="goToArtistSearch()" type="button" name="artistSearch"> Search Artist </button>
   <button class="button2" v-on:click="goToProfile()" type="button" name="viewProfile"> View Profile </button>
   <button class="button2" v-on:click="logout()" type="button" name="logout"> Logout </button>
   </h1>
