@@ -16,11 +16,14 @@ import axios from 'axios'
     return {
       profile: '',
       customers: [],
+      artists: [],
+      newArtist: '',
       newCustomer: '',
       username: '',
       password: '',
       email: '',
       errorCustomer: '',
+      errorArtist: '',
       response: []
       }
   },
@@ -45,7 +48,7 @@ import axios from 'axios'
     },
 
     createCustomerProfile: function (username, password, email, paymentType) {
-      AXIOS.post('/customer/'.concat(username, '/', password, '/', email, '/', paymentType, '?smartGalleryId=123' ))
+      AXIOS.post('/customer/'.concat(username, '/', password, '/', email, '/', paymentType, '?smartGalleryID=123' ))
       .then(response => {
           alert ("success")
           this.customers.push(response.data)
@@ -54,17 +57,26 @@ import axios from 'axios'
       	})
       .catch(e => {
         alert ("incorrect")
+        var errorMessage = e.message
         alert(errorMessage)
-        var errorMessage = e.response.data.message
         console.log(errorMessage)
         this.errorCustomer = errorMessage
       })
     },
     createArtistProfile: function (username, password, email, paymentType) {
-      AXIOS.post('/artist/'.concat(username, '&password=', password, "&email=", email, "&defaultPaymentMethod=", paymentType, "&smartGalleryID=", 123))
-      .then()
+      AXIOS.post('/artist/'.concat(username, '?password=', password, "&email=", email, "&defaultPaymentMethod=", paymentType, "&smartGalleryID=123"))
+      .then(response => {
+        alert ("success")
+        this.artists.push(response.data)
+        this.errorArtist = ''
+        this.newArtist = ''
+      })
       .catch(e => {
-        this.loginError = e.message;
+        alert ("incorrect")
+        var errorMessage = e.message
+        alert(errorMessage)
+        console.log(errorMessage)
+        this.errorArtist = errorMessage
       })
     },
 
