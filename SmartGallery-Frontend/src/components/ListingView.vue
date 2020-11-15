@@ -25,14 +25,14 @@
     Select payment method
     <br><br>
     <select v-model="selected">
-      <option>Credit Card</option>
+      <option>Credit</option>
       <option>Paypal</option>
     </select>
     <br><br>
     Select Delivery method
     <br><br>
     <select v-model="delivery">
-      <option>Ship</option>
+      <option>Shipping</option>
       <option>Pickup</option>
     </select>
     <br><br>

@@ -20,7 +20,7 @@
   <br>
   <br>
   <div class="artList">
-    Select on of your creations:
+    Select one of your creations:
     <br>
     <select v-model="selectedArtwork">
       <option v-for="artwork in artist.artworks" v-bind:value="{ id: artwork.artworkID, gallery: artwork.gallery.galleryName }" :key="artwork.name"> {{artwork.name}}</option>
@@ -35,7 +35,7 @@
   
   <br>
   <br>
-  <button v-on:click = "createListing(selectedArtwork.id, listPrice, selectedArtwork.gallery)" class="uploadListing"> LIST </button>
+  <button v-on:click ="createListing(selectedArtwork.id, listPrice, selectedArtwork.gallery)" class="uploadListing"> LIST </button>
 </body>
 </template>
 

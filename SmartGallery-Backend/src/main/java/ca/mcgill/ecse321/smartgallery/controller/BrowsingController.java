@@ -305,8 +305,8 @@ public class BrowsingController {
 	 */
 	@GetMapping(value = { "/customer/viewBrowsingHistory/{username}", "/customer/viewBrowsingHistory/{username}/" })
 	public List<ArtworkDTO> viewBrowsingHistory(@PathVariable("username") String username) {
-		Customer customer = registrationService.getCustomer(username);
-		return browsingService.viewBrowsingHistory(customer).stream().map(p -> Converters.convertToDto(p))
+		Profile profile = registrationService.getProfile(username);
+		return browsingService.viewBrowsingHistory(profile).stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 

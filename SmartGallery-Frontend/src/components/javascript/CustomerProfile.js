@@ -25,24 +25,59 @@ function CustomerDTO(smartGallery, username, password, email, defaultPaymentMeth
 export default {
   data() {
     return {
+      showEmail: false,
+      showPassword: false,
+      oldPasswordInput: '',
+      newPasswordInput: '',
+      newEmail: '',
+      passwordInput: '',
       customer: '',
       updated: '',
       errorCustomer: '',
       errorUpdated: '',
+      errorBrowseHistory: '',
+      browseHistory: [],
       response: [],
     }
   },
-  
+
   created: function() {
-    AXIOS.get('/customer/name/' + 'testCustomer' )
+    AXIOS.get('/customer/name/' + this.$route.params.username)
       .then(response => {
        this.customer = response.data
       })
       .catch(e => {
        this.errorCustomer = e
       })
+    AXIOS.get('/customer/viewBrowsingHistory/'.concat(this.$route.params.username))
+      .then(response => {
+        this.browseHistory = response.data
+      })
+      .catch(e => {
+        this.errorBrowseHistory = e
+      })
   },
   methods: {
+    logout: function() {
+      var username = this.$route.params.username
+      AXIOS.post('/logout'.concat("?username=", username))
+        .then(response => {
+          if (response.data) {
+            alert("You have been logged out.")
+            window.location.href = "/#/"
+          }
+        })
+    },
+    deleteCustomer: function() {
+    var username = this.$route.params.username
+    AXIOS.post('/customer/delete/'.concat(username))
+      .then(response => {
+        if (response.data) {
+          alert("Your account has been deleted.")
+          window.location.href = "/#/"
+        }
+      })
+    },
     updatePassword: function(oldPassword,newPassword){
       AXIOS.post('/password/change/?username='+ customerName + '&oldPassword='+oldPassword+'&newPassword='+newPassword)
       .then(response => {
@@ -88,6 +123,9 @@ export default {
 			}
 	    })
 		},
+    getListingPageURL : function (listingID) {
+			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
+		}
   }
 
 }

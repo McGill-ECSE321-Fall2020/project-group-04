@@ -64,6 +64,8 @@ export default {
       errorArtwork: '',
       errorArtist: '',
       errorUpdated: '',
+      errorBrowseHistory: '',
+      browseHistory: [],
       response: [],
     }
   },
@@ -75,6 +77,14 @@ export default {
       .catch(e => {
         this.errorArtist = e
       })
+    AXIOS.get('/customer/viewBrowsingHistory/'.concat(this.$route.params.username))
+      .then(response => {
+        this.browseHistory = response.data
+      })
+      .catch(e => {
+        this.errorBrowseHistory = e
+      })
+  
   },
   methods: {
     updatePassword: function(oldPassword, newPassword) {
@@ -105,6 +115,16 @@ export default {
           }
         })
     },
+    deleteArtist: function() {
+      var username = this.$route.params.username
+      AXIOS.post('/artist/delete/'.concat(username))
+        .then(response => {
+          if (response.data) {
+            alert("Your account has been deleted.")
+            window.location.href = "/#/"
+          }
+        })
+      },
     goToArtworkSearch: function() {
       window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
     },
@@ -132,8 +152,11 @@ export default {
       alert(artworkID)
       window.location.href = "/#/AddImage/".concat(this.$route.params.username, "/", artworkID)
     },
-    setImage: function(artworkID) {
-      alert(artworkID)
+    getListingPageURL : function (listingID) {
+			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
+    },
+    goToUpdateArtwork: function() {
+        window.location.href = "/#/UpdateArtwork/".concat(this.$route.params.username)
     }
   }
 

@@ -17,7 +17,7 @@
     </h1>
 	  <p>
     Please fill in all the fields below.
-	  <button class="button1">Exit</button>
+	  <button class="button1" v-on:click="goToProfile()">Exit</button>
 	  </p>
 	<br>
 	<br>
@@ -29,6 +29,11 @@
 
   </div>
   <br>
+  Select a listing to update
+  <select v-model="selectedListing">
+      <option v-for="artwork in artist.artworks" v-bind:value="{ id: artwork.listing.listingID}" :key="artwork.name"> {{artwork.name}}</option>
+    </select>
+
   <input v-model="artworkNameInput" placeholder="Artwork name">
   <br>
   <br>
@@ -64,7 +69,7 @@
   <br>
   <br>
 
-  <button  v-on: click = "updateArtwork(123, yearInput, priceInput, artStyle, heightInput, widthInput, weightInput)" class="updateArtwork"> UPDATE </button>
+  <button  v-on:click="updateArtwork(selectedListing.id, yearInput, priceInput, artStyle, heightInput, widthInput, weightInput); goToProfile()" class="updateArtwork"> UPDATE </button>
 
 </body>
 </template>

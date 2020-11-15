@@ -37,12 +37,22 @@
     <button class="button2" type="button" v-on:click= "showEmail= !showEmail" > Cancel </button>
   </div>
   <br>
+  <br>
+  <button
+    class="button2"
+    v-on:click="deleteArtist()"
+    type="button"
+    name="deleteArtist">
+    Delete Account
+  </button>
+  <br>
+  <br>
   <div class="artwork">
     <h2>Artwork</h2>
     <span v-for="artwork in artist.artworks" v-bind:key="artwork.artworkID">
       Name: {{ artwork.name}}
-      <button class="button2" type="button" name="createListing" v-on:click= "goToCreateListing()"> Create Listing </button>
-      <button class="button2" type="button" name="updateListing"> Update Listing </button>
+      <button class="button2" type="button" name="createListing" v-on:click="goToCreateListing()"> Create Listing </button>
+      <button class="button2" type="button" name="updateListing" v-on:click="goToUpdateArtwork()"> Update Listing </button>
       <br>
       Year: {{ artwork.year }}
       <br>
@@ -53,6 +63,25 @@
     </span>
     <br>
     <br>
+  </div>
+  <span style="font-size:60px; font-family: fantasy"> BROWSE HISTORY: </span>
+  <div v-for="artwork in browseHistory" v-bind:key="artwork.artworkID">
+      <a style="font-weight: bold; text-decoration: underline;" v-bind:href="getListingPageURL(artwork.listing.listingID)">{{ artwork.name }}</a>
+      <br>
+      Artist(s):
+      <span v-for="artist in artwork.artists"  :key="artist.username" >
+      <span style="font-style: italic;"> {{ artist.username }}, </span>
+      </span>
+      <br>
+      Year Created:
+      <span style="font-style: italic;"> {{ artwork.year }} </span>
+      <br>
+      Style:
+      <span style="font-style: italic;">  {{ artwork.artStyle }} </span>
+      <br>
+      Price:
+      <span style="font-style: italic;"> {{ artwork.price }} $ </span>
+      <br>
   </div>
 
 </div>

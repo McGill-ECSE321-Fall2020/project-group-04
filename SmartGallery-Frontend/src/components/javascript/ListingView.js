@@ -73,8 +73,8 @@ export default {
       errorTransaction: '',
       response: [],
       sold: '',
-      selected: "Credit Card",
-      delivery: "Ship"
+      selected: "Credit",
+      delivery: "Shipping"
     }
   },
   created: function() {
@@ -98,6 +98,7 @@ export default {
       AXIOS.post('/transaction/?paymentMethod=' + paymentMethod + '&deliveryMethod=' +
           deliveryMethod + '&username=' + this.$route.params.username + '&listingID=' + this.$route.params.listingNumber)
         .then(response => {
+          alert("Successful transaction")
           this.transaction = response.data
           this.sold ="Sold"
           this.setImage()
