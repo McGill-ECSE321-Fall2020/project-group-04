@@ -23,6 +23,7 @@ function ArtworkDTO(artists, gallery, name, year, price, isBeingPromoted, style,
   this.weight = weight;
   this.width = width;
   this.artworkID = artworkID;
+  this.imageUrl = "";
 }
 
 export default {
@@ -112,10 +113,13 @@ export default {
     },
     confirmImage : function(imageUrl) {
       document.getElementById("inputUrl").style.display = "none"
-      //var encodedUrl = encodeURIComponent(imageUrl)
+      var encodedUrl = encodeURIComponent(imageUrl)
       document.getElementById("picture").src = imageUrl
       document.getElementById("image").style.display = "block"
-      //AXIOS.put('/artwork/setImageUrl?artworkID='.concat(artworkID, "&imageUrl=", encodedUrl))
+      var artworkID = this.$route.params.artworkID
+      AXIOS.put('/artwork/setImageUrl?artworkID='.concat(artworkID, "&imageUrl=", encodedUrl))
+      alert("Congratulations on uploading a new artwork!")
+      this.goToProfile()
     }
   }
 }

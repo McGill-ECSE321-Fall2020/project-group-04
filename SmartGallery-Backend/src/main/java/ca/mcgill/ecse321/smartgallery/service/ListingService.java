@@ -114,7 +114,7 @@ public class ListingService {
 		artwork.setHeight(height);
 		artwork.setWeight(weight);
 		artwork.setWidth(width);
-        //artwork.setImageUrl(null);
+        artwork.setImageUrl(null);
 		
 		Set<Artwork> artworks = artist.getArtworks();
 		if(artworks == null || artworks.size() == 0)
@@ -153,9 +153,12 @@ public class ListingService {
 	 * @param artwork The artwork object
 	 * @param imageUrl The url of the image
 	 */
+	@Transactional
 	public void setArtworkImageUrl(Artwork artwork, String imageUrl) {
 	  artwork.setImageUrl(imageUrl);
 	  artworkRepository.save(artwork);
+	  System.out.println("Image url: " + artwork.getImageUrl());
+	  System.out.println("Saved image url: " + artworkRepository.findArtworkByArtworkID(artwork.getArtworkID()).getImageUrl());
 	}
 	
 	/**

@@ -78,10 +78,11 @@ export default {
       AXIOS.post('/artwork/'.concat(artworkName) + '?year=' + year + '&price=' + price + '&style=' + style + '&height=' + height + '&weight=' + weight + '&width=' + width + '&artist=' + this.$route.params.username + '&gallery=testGallery')
         .then(response => {
           this.artwork = response.data
-          this.goToProfile()
+          this.goToAddImage(response.data.artworkID)
         })
         .catch(e => {
           this.errorArtwork = e
+          this.goToAddImage(artwork.artworkID)
         })
     },
     logout : function () {
@@ -110,6 +111,10 @@ export default {
 		},
 		goToHome : function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
+    },
+    goToAddImage: function(artworkID) {
+      alert(artworkID)
+      window.location.href = "/#/AddImage/".concat(this.$route.params.username, "/", artworkID)
     },
   }
 }

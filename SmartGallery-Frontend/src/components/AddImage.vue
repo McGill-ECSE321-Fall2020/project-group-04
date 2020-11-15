@@ -20,7 +20,7 @@
   </div>
 
   <div id="image" style="display:none">
-    <img src="" alt="Your artwork" id="picture"> 
+    <img src="" alt="Your artwork" id="picture" textalign:center> 
   </div> 
 
 </div>
