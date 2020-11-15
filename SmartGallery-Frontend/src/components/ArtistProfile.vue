@@ -1,10 +1,11 @@
 <template>
 <div>
-  <h1>Artist Profile <br> 
+  <h1>Artist Profile <br>
   <button class="button2" v-on:click="goToHome()" type="button" name="home"> Home </button>
   <button class="button2" v-on:click="goToArtworkSearch()" type="button" name="artworkSearch"> Search Artwork </button>
   <button class="button2" v-on:click="goToArtistSearch()" type="button" name="artistSearch"> Search Artist </button>
   <button class="button2" v-on:click="goToProfile()" type="button" name="viewProfile"> View Profile </button>
+  <button class="button2" v-on:click="goToCreateArtwork()" type="button" name="uploadArtwork"> Upload Artwork </button>
   <button class="button2" v-on:click="logout()" type="button" name="logout"> Logout </button>
   </h1>
   <div class="userInfo">
@@ -40,7 +41,7 @@
     <h2>Artwork</h2>
     <span v-for="artwork in artist.artworks" v-bind:key="artwork.artworkID">
       Name: {{ artwork.name}}
-      <button type="button" name="createListing"> Create Listing </button>
+      <button type="button" name="createListing" v-on:click= "goToCreateListing()"> Create Listing </button>
       <button type="button" name="updateListing"> Update Listing </button>
       <br>
       Year: {{ artwork.year }}

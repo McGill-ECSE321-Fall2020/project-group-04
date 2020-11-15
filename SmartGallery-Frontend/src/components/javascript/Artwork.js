@@ -30,6 +30,8 @@ export default {
   data() {
     return {
       artworks: [],
+      artist: '',
+      errorArtist: '',
       artwork: '',
       errorArtwork: '',
       artworkNameInput: '',
@@ -46,6 +48,13 @@ export default {
     }
   },
   created: function() {
+    AXIOS.get('/artist/name/' + this.$route.params.username)
+      .then(response => {
+        this.artist = response.data
+      })
+      .catch(e => {
+        this.errorArtist = e
+      })
     AXIOS.get('/artwork')
       .then(response => {
         this.artworks = response.data
@@ -65,9 +74,8 @@ export default {
           this.errorArtwork = e
         })
     },
-    createArtwork: function(artworkName, year, price, style, height, weight, width, artist, gallery) {
-      AXIOS.post('/artist/'.concat(artworkName) + '?year=' + year + '&price=' + price +
-          '&style=' + style + '&height=' + height + '&weight=' + weight + '&width=' + width + +'&artist=' + artist + '&gallery=' + gallery)
+    createArtwork: function(artworkName, year, price, style, height, weight, width) {
+      AXIOS.post('/artwork/'.concat(artworkName) + '?year=' + year + '&price=' + price + '&style=' + style + '&height=' + height + '&weight=' + weight + '&width=' + width + '&artist=' + this.$route.params.username + '&gallery=testGallery')
         .then(response => {
           this.artwork = response.data
         })

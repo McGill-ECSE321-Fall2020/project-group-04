@@ -12,11 +12,11 @@ var AXIOS = axios.create({
   }
 })
 
-function ListingDTO(gallery, artwork, listedDate, isSold, listingID) {
+function ListingDTO(gallery, artwork, listedDate, sold, listingID) {
   this.gallery = gallery;
   this.artwork = artwork;
   this.listedDate = listedDate;
-  this.isSold = isSold;
+  this.sold = sold;
   this.listingID = listingID;
 }
 
@@ -72,6 +72,7 @@ export default {
       transaction: '',
       errorTransaction: '',
       response: [],
+      sold: '',
       selected: "Credit Card",
       delivery: "Ship"
     }
@@ -81,17 +82,23 @@ export default {
       .then(response => {
         this.newListing = response.data
         this.artwork = this.newListing.artwork
+        if(this.newListing.sold){
+          this.sold = "Sold"
+        }else{
+          this.sold = "Available"
+        }
       })
       .catch(e => {
         this.errorListing = e
       })
   },
   methods: {
-    createTransaction: function(paymentMethod, deliveryMethod, username, listingID) {
+    createTransaction: function(paymentMethod, deliveryMethod) {
       AXIOS.post('/transaction/?paymentMethod=' + paymentMethod + '&deliveryMethod=' +
-          deliveryMethod + '&username=' + username + '&listingID=' + listingID)
+          deliveryMethod + '&username=' + this.$route.params.username + '&listingID=' + this.$route.params.listingNumber)
         .then(response => {
           this.transaction = response.data
+          this.sold ="Sold"
         })
         .catch(e => {
           this.errorTransaction = e

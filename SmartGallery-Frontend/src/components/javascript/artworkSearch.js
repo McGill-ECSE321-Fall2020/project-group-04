@@ -11,11 +11,11 @@ var AXIOS = axios.create({
 	headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function ListingDto(gallery, artwork, listedDate, isSold, listingID) {
+function ListingDto(gallery, artwork, listedDate, sold, listingID) {
 	this.gallery = gallery;
 	this.artwork = artwork;
 	this.listedDate = listedDate;
-	this.isSold = isSold;
+	this.sold = sold;
 	this.listingID = listingID;
 }
 
@@ -62,6 +62,11 @@ export default {
 		AXIOS.get('/listing')
 			.then(response => {
 				this.listings = response.data
+				for(var i = 0; i < this.listings.length; i++){
+					if(this.listings[i].sold){
+						this.listings.splice(i,1);
+					}
+				}
 				console.log(listings)
 			})
 			.catch(e => {
@@ -155,6 +160,9 @@ export default {
 		},
 		goToHome : function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
+		},
+		getListingPageURL : function (listingID) {
+			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
 		}
 	}
 }

@@ -1,14 +1,14 @@
 <template>
   <body class="login">
-    <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+    <hr style="height:4px;border-width:0;color:gray;background-color:black">
     <img src="../assets/sglogo.png"  alt="logo">
     <button class="button2" v-on:click="loginWarning()" type="button" name="home"> Home </button>
     <button class="button2" v-on:click="loginWarning()" type="button" name="artworkSearch"> Search Artwork </button>
     <button class="button2" v-on:click="loginWarning()" type="button" name="artistSearch"> Search Artist </button>
     <button class="button2" v-on:click="loginWarning()" type="button" name="viewProfile"> View Profile </button>
-    <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+    <hr style="height:4px;border-width:0;color:gray;background-color:black">
     <div id="login">
-      <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+      <hr style="height:4px;border-width:0;color:gray;background-color:black">
       <span style="font-size:60px; font-family: fantasy"> Login </span>
       <h3>
         <span style="font-size:28px; font-family: fantasy"> Username&nbsp;&nbsp;&nbsp;  </span>
@@ -20,34 +20,34 @@
       <h3>
         <span style="font-size:28px; font-family: fantasy"> Password&nbsp;&nbsp;&nbsp;&nbsp;  </span>
         <input
-          type="password" 
-          v-model="password" 
+          type="password"
+          v-model="password"
           placeholder="Password">
       </h3>
-      <h3> 
-        <button 
+      <h3>
+        <button
           class="button2"
           v-on:click="login(username, password)"
           type="button"
-          name="login"> 
+          name="login">
           Login
-        </button> 
+        </button>
       </h3>
       <br>
       <br>
       <h3>
         <span style="font-size:28px; font-family: fantasy"> Or if you don't have an account yet:  </span>
       </h3>
-      <h3> 
-        <button 
+      <h3>
+        <button
           class="button2"
           v-on:click="register"
-          type="button" 
+          type="button"
           name="register">
-          Register 
-        </button> 
+          Register
+        </button>
       </h3>
-      <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+      <hr style="height:4px;border-width:0;color:gray;background-color:black">
     </div>
   </body>
 </template>
