@@ -33,7 +33,7 @@ function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod
 }
 
 
-function ArtworkDTO(artists, gallery, name, year, price, isBeingPromoted, style, height, weight, width, artworkID) {
+function ArtworkDTO(artists, gallery, name, year, price, isBeingPromoted, style, height, weight, width, imageUrl, artworkID) {
   this.artists = artists;
   this.gallery = gallery;
   this.name = name;
@@ -44,6 +44,7 @@ function ArtworkDTO(artists, gallery, name, year, price, isBeingPromoted, style,
   this.height = height;
   this.weight = weight;
   this.width = width;
+  this.imageUrl = imageUrl
   this.artworkID = artworkID;
 }
 
@@ -73,6 +74,7 @@ export default {
       errorTransaction: '',
       response: [],
       sold: '',
+      imageUrl: "",
       selected: "Credit",
       delivery: "Shipping"
     }
@@ -88,6 +90,7 @@ export default {
           this.sold = "Available"
         }
         AXIOS.put('/customer/addToBrowseHistory/'.concat(this.$route.params.username, '/', this.artwork.artworkID))
+        this.imageUrl = response.data.artwork.imageUrl
       })
       .catch(e => {
         this.errorListing = e
