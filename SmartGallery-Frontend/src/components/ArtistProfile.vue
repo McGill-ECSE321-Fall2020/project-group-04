@@ -54,6 +54,25 @@
     <br>
     <br>
   </div>
+  <span style="font-size:60px; font-family: fantasy"> BROWSE HISTORY: </span>
+  <div v-for="artwork in browseHistory" v-bind:key="artwork.artworkID">
+      <a style="font-weight: bold; text-decoration: underline;" v-bind:href="getListingPageURL(artwork.listing.listingID)">{{ artwork.name }}</a>
+      <br>
+      Artist(s):
+      <span v-for="artist in artwork.artists"  :key="artist.username" >
+      <span style="font-style: italic;"> {{ artist.username }}, </span>
+      </span>
+      <br>
+      Year Created:
+      <span style="font-style: italic;"> {{ artwork.year }} </span>
+      <br>
+      Style:
+      <span style="font-style: italic;">  {{ artwork.artStyle }} </span>
+      <br>
+      Price:
+      <span style="font-style: italic;"> {{ artwork.price }} $ </span>
+      <br>
+  </div>
 
 </div>
 </template>
