@@ -16,15 +16,10 @@ Vue.use(Router)
 
 export default new Router({
   routes: [{
-      path: '/home/:username',
+      path: '/home/:username/',
       name: 'Home',
       component: Home
     },
-    // {
-    //   path: "/:username",
-    //   name: 'LoggedIn',
-    //   component: "ListingView"
-    // },
     {
       path: '/artworkSearch/:username',
       name: 'ArtworkSearch',
@@ -36,17 +31,17 @@ export default new Router({
       component: ArtistSearch
     },
     {
-      path: '/ViewListing/:username?:listingNumber',
+      path: '/ViewListing/:username/:listingNumber',
       name: 'Listing',
       component: Listing,
     },
     {
-      path: '/ArtistProfile/',
+      path: '/ArtistProfile/:username',
       name: 'ArtistProfile',
       component: ArtistProfile
     },
     {
-      path: '/Login',
+      path: '/',
       name: 'Login',
       component: Login
     },
@@ -66,12 +61,12 @@ export default new Router({
       component: UpdateArtwork
     },
     {
-      path: '/artistView/:username',
+      path: '/artistView/:username/:artistUsername',
       name: 'ArtistView',
       component: ArtistView
     },
      {
-      path: '/CustomerProfile',
+      path: '/CustomerProfile:username',
       name: 'CustomerProfile',
       component: Customer
     },

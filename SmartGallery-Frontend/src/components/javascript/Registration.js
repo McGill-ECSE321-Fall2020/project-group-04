@@ -37,7 +37,7 @@ import axios from 'axios'
     })
   },
   methods: {
-    createProfile: function(accountType, username, password, email, paymentType) {
+    createProfile: function(accountType, username, password, passwordcheck, email, paymentType) {
       if (username == '') {
         var errorMessage = "Username cannot be empty"
         console.log(errorMessage)
@@ -54,6 +54,20 @@ import axios from 'axios'
       }
       if (password == '') {
         var errorMessage = "Password cannot be empty"
+        console.log(errorMessage)
+        this.loginError = errorMessage
+        alert(errorMessage)
+        return
+      }
+      if (password.length < 7) {
+        var errorMessage = "Password must be more than 6 characters long"
+        console.log(errorMessage)
+        this.loginError = errorMessage
+        alert(errorMessage)
+        return
+      }
+      if (password != passwordcheck) {
+        var errorMessage = "Passwords must match"
         console.log(errorMessage)
         this.loginError = errorMessage
         alert(errorMessage)
@@ -87,11 +101,11 @@ import axios from 'axios'
           this.customers.push(response.data)
           this.errorCustomer = ''
           this.newCustomer = ''
-          window.location.href = "/#/home".concat(username)
+          window.location.href = "/#/"
       	})
       .catch(e => {
         var errorMessage = e.message
-        alert(errorMessage)
+        alert("Make sure your email is valid, otherwise the username or email has already been used")
         console.log(errorMessage)
         this.errorCustomer = errorMessage
       })
@@ -103,19 +117,18 @@ import axios from 'axios'
         this.artists.push(response.data)
         this.errorArtist = ''
         this.newArtist = ''
-        window.location.href = "/#/home".concat(username)
+        window.location.href = "/#/"
       })
       .catch(e => {
-        alert ("incorrect")
         var errorMessage = e.message
-        alert(errorMessage)
+        alert("Make sure your email is valid, otherwise the username or email has already been used")
         console.log(errorMessage)
         this.errorArtist = errorMessage
       })
     },
 
     backToLogin: function() {
-      window.location.href = "/#/login"
+      window.location.href = "/#/"
     },
 
     loginWarning: function() {

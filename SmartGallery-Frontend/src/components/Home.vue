@@ -1,15 +1,14 @@
-<script src="./javascript/home.js">
-</script>
+<script src="./javascript/home.js"> </script>
 
 <template>
 <body class="home">
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   <img src="../assets/sglogo.png"  alt="logo">
-  <button class="button2" type="button" name="home"> Home </button>
-  <button class="button2" onclick="location.href='/#/artworkSearch'" type="button" name="artworkSearch"> Search Artwork </button>
-  <button class="button2" onclick="location.href='/#/artistSearch'" type="button" name="artistSearch"> Search Artist </button>
-  <button class="button2" onclick="location.href='/#/profile'" type="button" name="viewProfile"> View Profile </button>
-  <button class="button2" v-on:click="logout(username)" type="button" name="logout"> Logout </button>
+  <button class="button2" v-on:click="goToHome()" type="button" name="home"> Home </button>
+  <button class="button2" v-on:click="goToArtworkSearch()" type="button" name="artworkSearch"> Search Artwork </button>
+  <button class="button2" v-on:click="goToArtistSearch()" type="button" name="artistSearch"> Search Artist </button>
+  <button class="button2" v-on:click="goToProfile()" type="button" name="viewProfile"> View Profile </button>
+  <button class="button2" v-on:click="logout()" type="button" name="logout"> Logout </button>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   <span style="font-size:50px; font-family: fantasy"> Welcome to the SmartGallery application! </span>
 
@@ -22,7 +21,7 @@
 	<br>
     <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
     <div v-for="artwork in artworks" :key="artwork.artworkID" >
-            <a style="font-weight: bold; text-decoration: underline;" v-bind:href="'/#/ViewListing/' + artwork.listing.listingID">{{ artwork.name }}</a>
+            <a style="font-weight: bold; text-decoration: underline;" v-bind:href="getListingPageURL(artwork.listing.listingID)">{{ artwork.name }}</a>
             <br>
             Artist(s):
             <span v-for="artist in artwork.artists"  :key="artist.username" > 

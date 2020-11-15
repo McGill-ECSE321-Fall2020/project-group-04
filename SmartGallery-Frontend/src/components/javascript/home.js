@@ -64,21 +64,35 @@ export default {
 			})
 	},
 	methods: {
-		logout : function (username) {
-      	AXIOS.post('/logout'.concat("?username=", username))
-      	.then(response => {
+		logout : function () {
+			var username = this.$route.params.username
+      		AXIOS.post('/logout'.concat("?username=", username))
+      		.then(response => {
 			if(response.data) {
 				alert ("You have been logged out.")
-        		window.location.href = "/#/login"
+        		window.location.href = "/#/"
 			}
 	    })
 	},
-	logout : function (username) {
-      AXIOS.post('/logout'.concat("?username=", username))
-      .then(response => {
-        alert ("You have been logged out.")
-        window.location.href = "/#/login"
-      })
-    }
+		goToArtworkSearch : function () {
+			window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
+		},
+		goToArtistSearch : function () {
+			window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
+		},
+		goToProfile : function () {
+			AXIOS.get('/customer/name/'.concat(this.$route.params.username))
+			.then(response => {
+				window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
+			}).catch(e => {
+				window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
+			})
+		},
+		goToHome : function () {
+			window.location.href = "/#/home/".concat(this.$route.params.username)
+		},
+		getListingPageURL : function (listingID) {
+			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
+		}
 	}
 }

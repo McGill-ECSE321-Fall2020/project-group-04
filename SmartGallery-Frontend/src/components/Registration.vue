@@ -22,7 +22,10 @@
         <input type="text" v-model="email" placeholder="Email"> </h3>
       <h3 align="left">
         <span style="font-size:28px; font-family: fantasy; margin-left:500px"> Password&emsp;  </span>
-        <input type="text" v-model="password" placeholder="Password"> </h3>
+        <input type="password" v-model="password" placeholder="Password"> </h3>
+      <h3 align="left">
+        <span style="font-size:28px; font-family: fantasy; margin-left:500px"> Re-enter password&emsp;  </span>
+        <input type="password" v-model="passwordcheck" placeholder="Password"> </h3>
       <h3 align="left">
         <span style="font-size:28px; font-family: fantasy; margin-left:500px"> Account type&emsp; </span>
         <select v-model="accountType">
@@ -41,7 +44,7 @@
       <h3> 
         <button 
           class="button2"
-          v-on:click="createProfile(accountType, username, password, email, paymentType)"
+          v-on:click="createProfile(accountType, username, password, passwordcheck, email, paymentType)"
           type="button"
           name="register"> 
           Register 
@@ -62,8 +65,7 @@
   </body>
 </template>
 
-<script src="./javascript/Registration.js">
-</script>
+<script src="./javascript/Registration.js"></script>
 
 <style>
 .header {

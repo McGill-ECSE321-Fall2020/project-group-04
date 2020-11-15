@@ -20,9 +20,9 @@
       <h3>
         <span style="font-size:28px; font-family: fantasy"> Password&nbsp;&nbsp;&nbsp;&nbsp;  </span>
         <input
-          type="text" 
+          type="password" 
           v-model="password" 
-          placeholder="Password"> 
+          placeholder="Password">
       </h3>
       <h3> 
         <button 
@@ -53,7 +53,6 @@
 </template>
 
 <script src="./javascript/Login.js">
-}
 </script>
 
 <style>
