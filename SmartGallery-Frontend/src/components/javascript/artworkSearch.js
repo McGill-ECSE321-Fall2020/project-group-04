@@ -62,9 +62,11 @@ export default {
 		AXIOS.get('/listing')
 			.then(response => {
 				this.listings = response.data
-				for(var i = 0; i < this.listings.length; i++){
-					if(this.listings[i].sold){
-						this.listings.splice(i,1);
+				for (var j = 0; j < this.listings.length; j++) {
+					for(var i = 0; i < this.listings.length; i++){
+						if(this.listings[i].sold){
+							this.listings.splice(i, 1);
+						}
 					}
 				}
 				console.log(listings)

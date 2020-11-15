@@ -40,6 +40,8 @@ function ArtworkDto(artists, gallery, name, year, price, isBeingPromoted, style,
 	this.weight = weight;
 	this.width = width;
 	this.artworkID = artworkID;
+	this.listing = "";
+
 }
 
 export default {
@@ -47,6 +49,7 @@ export default {
 	data() {
 		return {
 			artist: '',
+			availableListings: [],
 			errorArtist: '',
 			response: []
 		}
@@ -55,6 +58,20 @@ export default {
     AXIOS.get('artist/name/'.concat(this.$route.params.artistUsername)) // artist/name/testartist to test
       .then(response => {
 		this.artist = response.data
+
+		var listings = new Array(this.artist.artworks.length)
+		var b = 0;
+		for(var i = 0; i < this.artist.artworks.length; i++){
+			alert(i)
+			alert(this.artist.artworks[i].listing)
+			if(this.artist.artworks[i].listing != null && !(this.artist.artworks[i].listing.sold)){
+				alert ("fawfawf")
+				listings[b] = this.artist.artworks[i].listing
+				b++
+			}
+		}
+		availableListings = listings
+
         console.log(artist)
       })
       .catch(e => {
@@ -88,6 +105,9 @@ export default {
 		},
 		goToHome : function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
+		},
+		getListingPageURL : function (listingID) {
+			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
 		}
 	}
 }

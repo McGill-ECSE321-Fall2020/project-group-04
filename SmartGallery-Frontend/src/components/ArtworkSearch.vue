@@ -37,7 +37,7 @@
     <span style="font-size:30px; font-family: fantasy">{{ listings.length}} result(s):</span>
     <br>
     <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">
-    <div v-for="listing in listings" :key="listing.name" >
+    <div v-for="listing in listings" :key="listing.listingID" >
             <a style="font-weight: bold; text-decoration: underline;" v-bind:href="getListingPageURL(listing.listingID)">{{ listing.artwork.name }}</a>
             <br>
             Artist(s):
