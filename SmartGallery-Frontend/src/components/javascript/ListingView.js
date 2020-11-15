@@ -72,6 +72,7 @@ export default {
       transaction: '',
       errorTransaction: '',
       response: [],
+      sold: '',
       selected: "Credit Card",
       delivery: "Ship"
     }
@@ -81,17 +82,24 @@ export default {
       .then(response => {
         this.newListing = response.data
         this.artwork = this.newListing.artwork
+
+        if(this.newListing.isSold){
+          this.sold = "Sold"
+        }else{
+          this.sold = "Available"
+        }
       })
       .catch(e => {
         this.errorListing = e
       })
   },
   methods: {
-    createTransaction: function(paymentMethod, deliveryMethod, username, listingID) {
+    createTransaction: function(paymentMethod, deliveryMethod, listingID) {
       AXIOS.post('/transaction/?paymentMethod=' + paymentMethod + '&deliveryMethod=' +
-          deliveryMethod + '&username=' + username + '&listingID=' + listingID)
+          deliveryMethod + '&username=' + this.$route.params.username + '&listingID=' + listingID)
         .then(response => {
           this.transaction = response.data
+          this.sold ="Sold"
         })
         .catch(e => {
           this.errorTransaction = e
