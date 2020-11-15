@@ -41,7 +41,8 @@
     <h2>Artwork</h2>
     <span v-for="artwork in artist.artworks" v-bind:key="artwork.artworkID">
       Name: {{ artwork.name}}
-      <button type="button" id="addImage" v-on:click= "goToAddImage(artwork.artworkID)"> Add Image </button>
+      <button class="imageButton" type="button" v-on:click= "goToAddImage(artwork.artworkID)"> Add Image </button>
+      <img class="image" src="" alt="">
       <button type="button" name="createListing" v-on:click= "goToCreateListing()"> Create Listing </button>
       <button type="button" name="updateListing"> Update Listing </button>
       <br>

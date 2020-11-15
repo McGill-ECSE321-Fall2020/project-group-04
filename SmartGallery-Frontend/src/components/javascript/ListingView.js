@@ -99,6 +99,7 @@ export default {
         .then(response => {
           this.transaction = response.data
           this.sold ="Sold"
+          this.setImage()
         })
         .catch(e => {
           this.errorTransaction = e
@@ -130,6 +131,10 @@ export default {
 		},
 		goToHome : function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
-		},
+    },
+    setImage : function() {
+      alert("Setting image")
+      //var url = AXIOS.get('/artwork/'.concat(artworkID))
+    }
   }
 }

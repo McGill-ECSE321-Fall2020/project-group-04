@@ -10,7 +10,7 @@
   <hr style="height:4px;border-width:0;color:gray;background-color:black">
   <h1 style="font-size:30px; font-family: fantasy"> Artwork Name : {{ artwork.name }} </h1>
   <h1 style="font-size:30px; font-family: fantasy"> Artist(s) Name (s) : <span v-for="artist in artwork.artists" v-bind:key="artist.username"> {{artist.username}} </span> </h1>
-  <img src="../assets/PLACEHOLDER.jpg"><br>
+  <img id="image" src="../assets/PLACEHOLDER.jpg"><br>
   <h3 style="font-size:25px; font-family: fantasy">Description </h3>
   <div class="description" style="font-size:25px; font-family: fantasy">
     Year Created : {{artwork.year}}<br>

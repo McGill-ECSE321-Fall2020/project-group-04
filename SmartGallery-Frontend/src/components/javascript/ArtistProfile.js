@@ -131,6 +131,9 @@ export default {
     goToAddImage: function(artworkID) {
       alert(artworkID)
       window.location.href = "/#/AddImage/".concat(this.$route.params.username, "/", artworkID)
+    },
+    setImage: function(artworkID) {
+      alert(artworkID)
     }
   }
 
