@@ -38,13 +38,14 @@
   </div>
   <br>
   <br>
-  <button
-    class="button2"
-    v-on:click="deleteArtist()"
-    type="button"
-    name="deleteArtist">
-    Delete Account
-  </button>
+  <button class="button2" type="button" name="deleteArtist" v-show="!showDelete" v-on:click="showDelete = !showDelete"> Delete Account </button>
+  <div class="deleteArtist" v-show="showDelete">
+    <p>Are you sure you want to delete your account?</p>
+    <br>
+    <button class="button2" type="button" onclick="deleteArtist()"> Yes </button>
+    <br><br>
+    <button class="button2" type="button" v-on:click="showDelete= !showDelete"> No </button>
+  </div>
   <br>
   <br>
   <div class="artwork">

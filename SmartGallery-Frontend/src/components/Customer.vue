@@ -56,13 +56,14 @@
   </div>
   <br>
   <br>
-  <button
-    class="button2"
-    v-on:click="deleteCustomer()"
-    type="button"
-    name="deleteCustomer">
-    Delete Account
-  </button>
+  <button class="button2" type="button" name="deleteCustomer" v-show="!showDelete" v-on:click="showDelete = !showDelete"> Delete Account </button>
+  <div class="deleteCustomer" v-show="showDelete">
+    <p>Are you sure you want to delete your account?</p>
+    <br>
+    <button class="button2" type="button" onclick="deleteCustomer()"> Yes </button>
+    <br><br>
+    <button class="button2" type="button" v-on:click="showDelete= !showDelete"> No </button>
+  </div>
   <br>
   <br>
   <img src="../assets/sglogo.png" alt="logo">
