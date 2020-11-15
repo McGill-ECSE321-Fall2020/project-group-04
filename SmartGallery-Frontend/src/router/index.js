@@ -71,7 +71,7 @@ export default new Router({
       component: Customer
     },
      {
-      path: '/CreateListing',
+      path: '/CreateListing/:username',
       name: 'CreateListing',
       component: CreateListing
     }
