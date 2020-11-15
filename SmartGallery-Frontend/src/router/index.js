@@ -11,6 +11,7 @@ import UpdateArtwork from '@/components/UpdateArtwork'
 import Home from '@/components/Home'
 import ArtistView from '@/components/ArtistView'
 import Customer from '@/components/Customer'
+import CreateListing from '@/components/CreateListing'
 Vue.use(Router)
 
 export default new Router({
@@ -68,6 +69,11 @@ export default new Router({
       path: '/CustomerProfile:username',
       name: 'CustomerProfile',
       component: Customer
+    },
+     {
+      path: '/CreateListing',
+      name: 'CreateListing',
+      component: CreateListing
     }
   ]
 })

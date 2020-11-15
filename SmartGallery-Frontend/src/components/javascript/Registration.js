@@ -101,7 +101,7 @@ import axios from 'axios'
           this.customers.push(response.data)
           this.errorCustomer = ''
           this.newCustomer = ''
-          window.location.href = "/#/home".concat(username)
+          window.location.href = "/#/"
       	})
       .catch(e => {
         var errorMessage = e.message
@@ -117,12 +117,11 @@ import axios from 'axios'
         this.artists.push(response.data)
         this.errorArtist = ''
         this.newArtist = ''
-        window.location.href = "/#/home".concat(username)
+        window.location.href = "/#/"
       })
       .catch(e => {
-        alert ("incorrect")
         var errorMessage = e.message
-        alert(errorMessage)
+        alert("Make sure your email is valid, otherwise the username or email has already been used")
         console.log(errorMessage)
         this.errorArtist = errorMessage
       })
