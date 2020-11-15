@@ -37,6 +37,16 @@
     <button class="button2" type="button" v-on:click= "showEmail= !showEmail" > Cancel </button>
   </div>
   <br>
+  <br>
+  <button
+    class="button2"
+    v-on:click="deleteArtist()"
+    type="button"
+    name="deleteArtist">
+    Delete Account
+  </button>
+  <br>
+  <br>
   <div class="artwork">
     <h2>Artwork</h2>
     <span v-for="artwork in artist.artworks" v-bind:key="artwork.artworkID">
