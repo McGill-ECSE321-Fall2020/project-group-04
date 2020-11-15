@@ -60,7 +60,7 @@ export default new Router({
       component: UpdateArtwork
     },
     {
-      path: '/artistView/:username',
+      path: '/artistView/:username/:artistUsername',
       name: 'ArtistView',
       component: ArtistView
     },
