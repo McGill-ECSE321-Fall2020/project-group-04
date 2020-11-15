@@ -84,22 +84,28 @@ export default {
       .catch(e => {
         this.errorBrowseHistory = e
       })
-  
+
   },
   methods: {
     updatePassword: function(oldPassword, newPassword) {
-      AXIOS.post('/password/change/?username=' + artistName + '&oldPassword=' + oldPassword + '&newPassword=' + newPassword)
+      AXIOS.post('/password/change/?username=' + this.$route.params.username + '&oldPassword=' + oldPassword + '&newPassword=' + newPassword)
         .then(response => {
           this.updated = response.data
+          alert("Password has been successfully updated")
+          this.oldPasswordInput = ''
+          this.newPasswordInput = ''
         })
         .catch(e => {
           this.errorUpdated = e
         })
     },
     updateEmail: function(email, password) {
-      AXIOS.post('/email/change/?username=' + artistName + '&password=' + password + '&newEmail=' + email)
+      AXIOS.post('/email/change/?username=' + this.$route.params.username + '&password=' + password + '&newEmail=' + email)
         .then(response => {
+          alert("Email has been successfully updated")
           this.updated = response.data
+          this.newEmail = ''
+          this.passwordInput = ''
         })
         .catch(e => {
           this.errorUpdated = e

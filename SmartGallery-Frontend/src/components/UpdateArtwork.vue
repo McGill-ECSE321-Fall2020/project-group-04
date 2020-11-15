@@ -1,19 +1,16 @@
 <script src="./javascript/UpdateArtwork.js">
 </script>
 
-<script src= "./javascript/AddArtist.js">
-</script>
-
 <template>
 <body class="updateArt">
-  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">
   <img src="../assets/sglogo.png"  alt="logo">
   <button class="button2" v-on:click="goToHome()" type="button" name="home"> Home </button>
   <button class="button2" v-on:click="goToArtworkSearch()" type="button" name="artworkSearch"> Search Artwork </button>
   <button class="button2" v-on:click="goToArtistSearch()" type="button" name="artistSearch"> Search Artist </button>
   <button class="button2" v-on:click="goToProfile()" type="button" name="viewProfile"> View Profile </button>
   <button class="button2" v-on:click="logout()" type="button" name="logout"> Logout </button>
-  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">
 
   <div class="header">
     <h1> Update Your Artwork!
@@ -64,15 +61,16 @@
   </div>
 
   <br>
-  <br>
   <button class="button2" type="button" v-show = "!addArtist" v-on:click= "addArtist = !addArtist"> Add Artist?</button>
+  <br>
     <div class = "uaddArtist" v-show = "addArtist">
     <input v-model="addedArtistInput" placeholder="Enter username">
     <br><br>
-    <button class="button2" type="button" v-on:click="addArtist(selectedListing.artworkid, addedArtistInput)"> Add</button>
+    <button class="button2" type="button" v-on:click="addArtists(selectedListing.artworkid, addedArtistInput)"> Add</button>
     <br><br>
     <button class="button2" type="button" v-on:click= "addArtist= !addArtist"> Cancel </button>
   </div>
+  <br>
   <input v-model="heightInput" placeholder="Height">
   <br>
   <br>
@@ -115,7 +113,7 @@ img{
   right: 30%;
   background-color: black;
   color: white;
-  
+
 }
 
 .updateArtwork{

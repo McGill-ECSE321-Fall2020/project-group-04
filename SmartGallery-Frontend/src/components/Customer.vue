@@ -38,7 +38,7 @@
     <br><br>
     <input v-model="newPasswordInput" placeholder="new password">
     <br><br>
-    <button class="button2" type="button" onclick="updatePassword(oldPasswordInput, newPasswordInput)"> Change </button>
+    <button class="button2" type="button" v-on:click="updatePassword(oldPasswordInput, newPasswordInput)"> Change </button>
     <br><br>
     <button class="button2" type="button" v-on:click="showPassword= !showPassword"> Cancel </button>
   </div>
@@ -50,7 +50,7 @@
     <br><br>
     <input v-model="passwordInput" placeholder="password">
     <br><br>
-    <button class="button2" type="button" onclick="updateEmail(newEmail,passwordInput)"> Change </button>
+    <button class="button2" type="button" v-on:click="updateEmail(newEmail,passwordInput)"> Change </button>
     <br><br>
     <button class="button2" type="button" v-on:click="showEmail= !showEmail"> Cancel </button>
   </div>
@@ -86,7 +86,7 @@
       <span style="font-style: italic;"> {{ artwork.price }} $ </span>
       <br>
   </div>
-  
+
 </body>
 </template>
 
