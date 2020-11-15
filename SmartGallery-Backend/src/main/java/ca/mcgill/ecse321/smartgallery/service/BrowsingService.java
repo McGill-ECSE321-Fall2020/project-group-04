@@ -51,7 +51,7 @@ public class BrowsingService {
 	 * @return SmartGallery The SmartGallery created with the ID
 	 */
 	@Transactional
-	public SmartGallery createSmartGallery(int smartGalleryID) {
+	public SmartGallery createSmartGallery(int smartGalleryID) throws IllegalArgumentException {
 		// If the provided ID has an illegal value of 0
 		if (smartGalleryID == 0) {
 			throw new IllegalArgumentException("SmartGallery ID must not be zero");
@@ -137,7 +137,7 @@ public class BrowsingService {
 	 * 
 	 */
 	@Transactional
-	public Gallery createGallery(String galleryName, SmartGallery smartGallery, double commission) {
+	public Gallery createGallery(String galleryName, SmartGallery smartGallery, double commission) throws IllegalArgumentException {
 		// Checking if ID exists already
 		if (validateGalleryName(galleryName)) {
 			throw new IllegalArgumentException("A gallery with that name already exists");
