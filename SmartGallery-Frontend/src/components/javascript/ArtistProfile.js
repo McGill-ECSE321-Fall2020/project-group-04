@@ -63,6 +63,8 @@ export default {
       errorArtwork: '',
       errorArtist: '',
       errorUpdated: '',
+      errorBrowseHistory: '',
+      browseHistory: [],
       response: [],
     }
   },
@@ -74,6 +76,14 @@ export default {
       .catch(e => {
         this.errorArtist = e
       })
+    AXIOS.get('/customer/viewBrowsingHistory/'.concat(this.$route.params.username))
+      .then(response => {
+        this.browseHistory = response.data
+      })
+      .catch(e => {
+        this.errorBrowseHistory = e
+      })
+  
   },
   methods: {
     updatePassword: function(oldPassword, newPassword) {
@@ -126,7 +136,10 @@ export default {
     },
     goToCreateArtwork: function(){
       window.location.href = "/#/createartwork/".concat(this.$route.params.username)
-    }
+    },
+    getListingPageURL : function (listingID) {
+			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
+		}
   }
 
 }

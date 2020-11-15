@@ -73,11 +73,11 @@ export default {
       errorTransaction: '',
       response: [],
       sold: '',
-      selected: "Credit Card",
-      delivery: "Ship"
+      selected: "Credit",
+      delivery: "Shipping"
     }
   },
-  created: function () {
+  created: function() {
     AXIOS.get('/listing/'.concat(this.$route.params.listingNumber))
       .then(response => {
         this.newListing = response.data
@@ -87,17 +87,18 @@ export default {
         } else {
           this.sold = "Available"
         }
-        addToBrowseHistory(this.artwork.artworkID)
+        AXIOS.put('/customer/addToBrowseHistory/'.concat(this.$route.params.username, '/', this.artwork.artworkID))
       })
       .catch(e => {
         this.errorListing = e
       })
   },
   methods: {
-    createTransaction: function (paymentMethod, deliveryMethod) {
+    createTransaction: function(paymentMethod, deliveryMethod) {
       AXIOS.post('/transaction/?paymentMethod=' + paymentMethod + '&deliveryMethod=' +
-        deliveryMethod + '&username=' + this.$route.params.username + '&listingID=' + this.$route.params.listingNumber)
+          deliveryMethod + '&username=' + this.$route.params.username + '&listingID=' + this.$route.params.listingNumber)
         .then(response => {
+          alert("Successful transaction")
           this.transaction = response.data
           this.sold = "Sold"
         })
@@ -105,7 +106,7 @@ export default {
           this.errorTransaction = e
         })
     },
-    logout: function () {
+    logout: function() {
       var username = this.$route.params.username
       AXIOS.post('/logout'.concat("?username=", username))
         .then(response => {
@@ -115,13 +116,13 @@ export default {
           }
         })
     },
-    goToArtworkSearch: function () {
+    goToArtworkSearch: function() {
       window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
     },
-    goToArtistSearch: function () {
+    goToArtistSearch: function() {
       window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
     },
-    goToProfile: function () {
+    goToProfile: function() {
       AXIOS.get('/customer/name/'.concat(this.$route.params.username))
         .then(response => {
           window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
@@ -129,16 +130,8 @@ export default {
           window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
         })
     },
-    goToHome: function () {
+    goToHome: function() {
       window.location.href = "/#/home/".concat(this.$route.params.username)
     },
-    addToBrowseHistory: function (artID) {
-      AXIOS.get('/customer/name/testcustomer/'.concat(this.$route.params.username))
-        .then(response => {
-          if (response != null) {
-            AXIOS.put('/customer/addToBrowseHistory/'.concat(this.$route.params.username, '/', artID))
-          }
-        })
-    }
   }
 }
