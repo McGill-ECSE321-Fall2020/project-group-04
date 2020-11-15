@@ -68,6 +68,10 @@
   border: 2px solid black;
   padding: 8px 40px
 }
+button:hover {
+  background-color: #000000;
+  color: white
+}
 .listingInfo {
   background-color: #e8f4ff;
   text-align: center;
