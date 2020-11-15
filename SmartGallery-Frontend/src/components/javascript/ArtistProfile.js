@@ -139,7 +139,10 @@ export default {
     },
     getListingPageURL : function (listingID) {
 			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
-		}
+    },
+    goToUpdateArtwork: function() {
+        window.location.href = "/#/UpdateArtwork/".concat(this.$route.params.username)
+    }
   }
 
 }
