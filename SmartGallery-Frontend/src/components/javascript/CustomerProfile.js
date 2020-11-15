@@ -58,6 +58,16 @@ export default {
       })
   },
   methods: {
+    logout: function() {
+      var username = this.$route.params.username
+      AXIOS.post('/logout'.concat("?username=", username))
+        .then(response => {
+          if (response.data) {
+            alert("You have been logged out.")
+            window.location.href = "/#/"
+          }
+        })
+    },
     updatePassword: function(oldPassword,newPassword){
       AXIOS.post('/password/change/?username='+ customerName + '&oldPassword='+oldPassword+'&newPassword='+newPassword)
       .then(response => {
