@@ -25,6 +25,12 @@ function CustomerDTO(smartGallery, username, password, email, defaultPaymentMeth
 export default {
   data() {
     return {
+      showEmail: false,
+      showPassword: false,
+      oldPasswordInput: '',
+      newPasswordInput: '',
+      newEmail: '',
+      passwordInput: '',
       customer: '',
       updated: '',
       errorCustomer: '',
@@ -32,9 +38,9 @@ export default {
       response: [],
     }
   },
-  
+
   created: function() {
-    AXIOS.get('/customer/name/' + 'testCustomer' )
+    AXIOS.get('/customer/name/' + this.$route.params.username)
       .then(response => {
        this.customer = response.data
       })

@@ -66,7 +66,7 @@ export default new Router({
       component: ArtistView
     },
      {
-      path: '/CustomerProfile:username',
+      path: '/CustomerProfile/:username',
       name: 'CustomerProfile',
       component: Customer
     },

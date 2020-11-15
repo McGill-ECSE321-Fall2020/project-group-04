@@ -612,17 +612,24 @@ public class BrowsingService {
 	 * 
 	 */
 	@Transactional
-	public Set<Artwork> viewBrowsingHistory(Customer customer) {
-		if (customer == null) { // if no customer was provided
+	public Set<Artwork> viewBrowsingHistory(Profile profile) {
+		if (profile== null) { // if no customer was provided
 			throw new IllegalArgumentException("Customer doesn't exist");
 		}
-		if (customer.getArtworksViewed() == null) {  // If the customer hasn't viewed anything yet
+		if (profile.getArtworksViewed() == null) {  // If the customer hasn't viewed anything yet
 			// Create the HashSet for the customer's browsing history
 			HashSet<Artwork> viewedArtworks = new HashSet<Artwork>();
-			customer.setArtworksViewed(viewedArtworks);
-			return customer.getArtworksViewed();
+			profile.setArtworksViewed(viewedArtworks);
+			return profile.getArtworksViewed();
 		}
-		return customer.getArtworksViewed();
+		
+		if(profile instanceof Customer) {
+			customerRepository.save((Customer)profile);
+		}else {
+			artistRepository.save((Artist) profile);
+		}
+		
+		return profile.getArtworksViewed();
 	}
 
 	/**
