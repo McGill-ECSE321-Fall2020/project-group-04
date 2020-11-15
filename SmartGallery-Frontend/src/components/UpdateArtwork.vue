@@ -1,6 +1,9 @@
 <script src="./javascript/UpdateArtwork.js">
 </script>
 
+<script src= "./javascript/AddArtist.js">
+</script>
+
 <template>
 <body class="updateArt">
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
@@ -30,10 +33,13 @@
   </div>
   <br>
   Select a listing to update
-  <select v-model="selectedListing">
-      <option v-for="artwork in artist.artworks" v-bind:value="{ id: artwork.listing.listingID}" :key="artwork.name"> {{artwork.name}}</option>
-    </select>
+  <br>
 
+  <select v-model="selectedListing">
+      <option v-for="artwork in artist.artworks" v-bind:value="{ listingid: artwork.listing.listingID, artworkid: artwork.artworkID}" :key="artwork.name"> {{artwork.name}}</option>
+    </select>
+	<br>
+	<br>
   <input v-model="artworkNameInput" placeholder="Artwork name">
   <br>
   <br>
@@ -49,7 +55,7 @@
   <div class="artStyle">
     Select Art Style
     <br>
-    <select v-model="selected">
+    <select v-model="selectedArtStyle">
       <option>realist</option>
       <option>renaissance</option>
       <option>surrealist</option>
@@ -57,8 +63,16 @@
     </select>
   </div>
 
-
   <br>
+  <br>
+  <button class="button2" type="button" v-show = "!addArtist" v-on:click= "addArtist = !addArtist"> Add Artist?</button>
+    <div class = "uaddArtist" v-show = "addArtist">
+    <input v-model="addedArtistInput" placeholder="Enter username">
+    <br><br>
+    <button class="button2" type="button" v-on:click="addArtist(selectedListing.artworkid, addedArtistInput)"> Add</button>
+    <br><br>
+    <button class="button2" type="button" v-on:click= "addArtist= !addArtist"> Cancel </button>
+  </div>
   <input v-model="heightInput" placeholder="Height">
   <br>
   <br>
@@ -69,7 +83,9 @@
   <br>
   <br>
 
-  <button  v-on:click="updateArtwork(selectedListing.id, yearInput, priceInput, artStyle, heightInput, widthInput, weightInput); goToProfile()" class="updateArtwork"> UPDATE </button>
+
+
+  <button  v-on:click="updateArtwork(selectedListing.listingid, artworkNameInput, yearInput, priceInput, selectedArtStyle, heightInput, widthInput, weightInput); goToProfile()" class="updateArtwork"> UPDATE </button>
 
 </body>
 </template>
@@ -119,7 +135,7 @@ button:hover {
   text-align: center;
   background-image: url('../assets/circle paint.jpg');
   background-position: center;
-  background-position-y: 80px;
+  background-position-y: 180px;
   background-repeat: no-repeat;
 
   font-family: fantasy;
