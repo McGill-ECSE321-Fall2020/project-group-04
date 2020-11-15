@@ -158,6 +158,20 @@ public class ArtworkDTO {
 		this.listing = listing;
 	}
 	
+	/**
+	 * @return the imageUrl
+	 */
+	public String getImageUrl() {
+	  return imageUrl;
+	}
+	
+	/**
+	 * @param imageUrl
+	 */
+	public void setImageUrl(String imageUrl) {
+	  this.imageUrl = imageUrl;
+	}
+	
 	
 	
 }

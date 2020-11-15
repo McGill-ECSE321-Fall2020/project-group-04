@@ -1,16 +1,27 @@
 package ca.mcgill.ecse321.smartgallery.service;
 
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ca.mcgill.ecse321.smartgallery.dao.*;
-import ca.mcgill.ecse321.smartgallery.model.*;
+import ca.mcgill.ecse321.smartgallery.dao.ArtistRepository;
+import ca.mcgill.ecse321.smartgallery.dao.ArtworkRepository;
+import ca.mcgill.ecse321.smartgallery.dao.CustomerRepository;
+import ca.mcgill.ecse321.smartgallery.dao.GalleryRepository;
+import ca.mcgill.ecse321.smartgallery.dao.SmartGalleryRepository;
+import ca.mcgill.ecse321.smartgallery.model.ArtStyle;
+import ca.mcgill.ecse321.smartgallery.model.Artist;
+import ca.mcgill.ecse321.smartgallery.model.Artwork;
+import ca.mcgill.ecse321.smartgallery.model.Customer;
+import ca.mcgill.ecse321.smartgallery.model.Gallery;
+import ca.mcgill.ecse321.smartgallery.model.Listing;
+import ca.mcgill.ecse321.smartgallery.model.Profile;
+import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
 
 @Service
 public class BrowsingService {
@@ -572,13 +583,11 @@ public class BrowsingService {
 			HashSet<Artwork> viewedArtworks = new HashSet<Artwork>();
 			viewedArtworks.add(artwork);
 			profile.setArtworksViewed(viewedArtworks);
-			return profile.getArtworksViewed();
 		}
 		Set<Artwork> viewedArtworks = profile.getArtworksViewed();
 		if (viewedArtworks.contains(artwork)) { // if that artwork was already in browsing history
 			viewedArtworks.remove(artwork); // put it back in front
 		}
-		viewedArtworks.add(artwork);
 		
 		
 		if(profile instanceof Customer) {

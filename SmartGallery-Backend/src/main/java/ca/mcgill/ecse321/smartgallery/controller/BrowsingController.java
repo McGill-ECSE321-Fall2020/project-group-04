@@ -23,6 +23,7 @@ import ca.mcgill.ecse321.smartgallery.model.Artwork;
 import ca.mcgill.ecse321.smartgallery.model.Customer;
 import ca.mcgill.ecse321.smartgallery.model.Gallery;
 import ca.mcgill.ecse321.smartgallery.model.Listing;
+import ca.mcgill.ecse321.smartgallery.model.Profile;
 import ca.mcgill.ecse321.smartgallery.model.SmartGallery;
 import ca.mcgill.ecse321.smartgallery.service.BrowsingService;
 import ca.mcgill.ecse321.smartgallery.service.ListingService;
@@ -325,9 +326,9 @@ public class BrowsingController {
 			"/customer/addToBrowseHistory/{username}/{artworkID}/" })
 	public List<ArtworkDTO> addToBrowseHistory(@PathVariable("username") String username,
 			@PathVariable("artworkID") int artworkID) {
-		Customer customer = registrationService.getCustomer(username);
+		Profile profile = registrationService.getProfile(username);
 		Artwork artwork = listingService.getArtworkByID(artworkID);
-		return browsingService.addToBrowseHistory(customer, artwork).stream().map(p -> Converters.convertToDto(p))
+		return browsingService.addToBrowseHistory(profile, artwork).stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 

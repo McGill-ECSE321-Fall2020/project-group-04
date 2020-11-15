@@ -28,6 +28,7 @@
   <br>
   <br>
   <span class="search3" style="font-size:18px; font-family: fantasy"> Art Style  </span>
+  <!-- <select v-model="artStyleInput" -->
   <input v-model="artStyleInput" size="20" placeholder="Art style">
   <br>
   <br>
