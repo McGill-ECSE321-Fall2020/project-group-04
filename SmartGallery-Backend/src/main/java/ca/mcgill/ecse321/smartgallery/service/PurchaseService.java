@@ -130,6 +130,7 @@ public class PurchaseService {
 			artistRepository.save(a);
 		}
 		listingRepository.save(listing);
+		listing.getArtwork().setIsBeingPromoted(false);
 		smartGalleryRepository.save(smartGallery);
 		return transaction;
 
