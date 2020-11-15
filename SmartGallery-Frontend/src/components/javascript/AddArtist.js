@@ -48,6 +48,7 @@ export default {
 		}
 	},
 	created: function () {
+    this.checkIfLoggedIn()
     AXIOS.get('/artist')
       .then(response => {
 		this.artists = response.data
@@ -66,6 +67,16 @@ export default {
         .catch(e => {
 		  alert("Please choose an exisitng artwork and artist.");
           this.errorArtwork = e
-        })}
+        })},
+    checkIfLoggedIn: function() {
+      var username = this.$route.params.username
+      AXIOS.get('/customer/name/'.concat(username))
+      .then(response => {
+        var isLoggedIn = response.data.isLoggedIn
+        if (!isLoggedIn) {
+          window.location.href = "/#/"
+        }
+      })
+    }
 	}
 }

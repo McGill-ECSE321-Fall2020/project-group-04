@@ -59,6 +59,7 @@ export default {
 		}
 	},
 	created: function () {
+		this.checkIfLoggedIn()
 		AXIOS.get('/listing')
 			.then(response => {
 				this.listings = response.data
@@ -164,6 +165,16 @@ export default {
 		},
 		getListingPageURL : function (listingID) {
 			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
-		}
+		},
+	checkIfLoggedIn: function() {
+      var username = this.$route.params.username
+      AXIOS.get('/customer/name/'.concat(username))
+      .then(response => {
+        var isLoggedIn = response.data.isLoggedIn
+        if (!isLoggedIn) {
+          window.location.href = "/#/"
+        }
+      })
+    }
 	}
 }

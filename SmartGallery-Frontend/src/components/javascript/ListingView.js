@@ -80,6 +80,7 @@ export default {
     }
   },
   created: function() {
+    this.checkIfLoggedIn()
     AXIOS.get('/listing/'.concat(this.$route.params.listingNumber))
       .then(response => {
         this.newListing = response.data
@@ -149,6 +150,17 @@ export default {
     setImage : function() {
       alert("Setting image")
       //var url = AXIOS.get('/artwork/'.concat(artworkID))
-    }
+    },
+    checkIfLoggedIn: function() {
+      	var username = this.$route.params.username
+      	AXIOS.get('/customer/name/'.concat(username))
+      	.then(response => {
+        	var isLoggedIn = response.data.isLoggedIn
+        	if (!isLoggedIn) {
+				 window.location.href = "/#/"
+				 alert("Please log in before continuing")
+        	}
+      	})
+    	},
   }
 }
