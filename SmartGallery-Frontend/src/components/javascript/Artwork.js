@@ -101,6 +101,13 @@ export default {
 		},
 		goToHome : function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
-		}
+    },
+    confirmImage : function(artworkID, imageUrl) {
+      document.getElementById("inputUrl").style.display = "none"
+      var encodedUrl = encodeURIComponent(imageUrl)
+      document.getElementById("picture").src = "imageUrl"
+      document.getElementById("image").style.display = "block"
+      AXIOS.put('/artwork/setImageUrl?artworkID='.concat(artworkID, "&imageUrl=", encodedUrl))
+    }
   }
 }

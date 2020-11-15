@@ -77,7 +77,17 @@ export default {
 		},
 		goToHome : function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
-		}
+    },
+    logout : function () {
+			var username = this.$route.params.username
+      		AXIOS.post('/logout'.concat("?username=", username))
+      		.then(response => {
+			if(response.data) {
+				alert ("You have been logged out.")
+        		window.location.href = "/#/"
+			}
+	    })
+		},
   }
 
 }
