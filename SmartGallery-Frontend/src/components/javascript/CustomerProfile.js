@@ -35,6 +35,8 @@ export default {
       updated: '',
       errorCustomer: '',
       errorUpdated: '',
+      errorBrowseHistory: '',
+      browseHistory: [],
       response: [],
     }
   },
@@ -46,6 +48,13 @@ export default {
       })
       .catch(e => {
        this.errorCustomer = e
+      })
+    AXIOS.get('/customer/viewBrowsingHistory/'.concat(this.$route.params.username))
+      .then(response => {
+        this.browseHistory = response.data
+      })
+      .catch(e => {
+        this.errorBrowseHistory = e
       })
   },
   methods: {
@@ -83,6 +92,9 @@ export default {
 		},
 		goToHome : function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
+    },
+    getListingPageURL : function (listingID) {
+			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
 		}
   }
 
