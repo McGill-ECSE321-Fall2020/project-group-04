@@ -38,7 +38,7 @@ public class RegistrationService {
 
 	@Autowired
 	private ArtworkRepository artworkRepository;
-	
+
 	@Autowired
 	private TransactionRepository transactionRepository;
 
@@ -63,7 +63,7 @@ public class RegistrationService {
 		if (username == null || username.equals("")) {
 			error += "Non empty username must be provided";
 		}
-		
+
 		// If an error is found, throw an exception
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
@@ -200,10 +200,11 @@ public class RegistrationService {
 		// ** Will need to delete transactions
 		Set<Transaction> transactionDeleting = customer.getTransaction();
 		if (transactionDeleting != null) {
-			for (Transaction t :transactionDeleting ) {
+			for (Transaction t : transactionDeleting) {
 				transactionRepository.delete(t);
 			}
 		}
+		customer.setArtworksViewed(null);
 		// Delete customer from repository
 		customerRepository.delete(customer);
 		return customer;
@@ -233,7 +234,7 @@ public class RegistrationService {
 		if (username == null || username.equals("")) {
 			error += "Non empty username must be provided";
 		}
-		
+
 		// If an error is found, throw an exception
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
@@ -408,23 +409,23 @@ public class RegistrationService {
 				}
 			}
 		}
-		
-		
+
+		// Delete all the artist's artworks
+		artist.setArtworksViewed(null);
 		Set<Transaction> transactionDeleting = artist.getTransaction();
 		if (transactionDeleting != null) {
-			for (Transaction t :transactionDeleting ) {
+			for (Transaction t : transactionDeleting) {
 				transactionRepository.delete(t);
 			}
 		}
-		
-		
+
 		// Delete artist from repository
 		artistRepository.delete(artist);
 
 		return artist;
 
 	}
-	
+
 	/**
 	 * 
 	 * @param username
@@ -438,12 +439,12 @@ public class RegistrationService {
 
 		// Uses existing method in artist repository to find an artist by username
 		Profile p = artistRepository.findArtistByUsername(username);
-		
-		if(p == null) {
+
+		if (p == null) {
 			p = customerRepository.findCustomerByUsername(username);
 		}
-		
-		if(p == null) {
+
+		if (p == null) {
 			throw new IllegalArgumentException("Profile doesn't exist");
 		}
 		return p;
@@ -465,7 +466,7 @@ public class RegistrationService {
 			profile.login();
 			return true;
 		} else {
-		  return false;
+			return false;
 //          String error = "Incorrect password";
 //          throw new IllegalArgumentException(error);
 		}

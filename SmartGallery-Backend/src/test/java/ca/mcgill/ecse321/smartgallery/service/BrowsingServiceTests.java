@@ -15,6 +15,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.lenient;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -47,6 +48,9 @@ public class BrowsingServiceTests {
 	@Mock
 	private ArtistRepository artistDao;
 
+	@Mock
+	private CustomerRepository customerRepository;
+
 	@InjectMocks
 	private BrowsingService service;
 
@@ -71,13 +75,19 @@ public class BrowsingServiceTests {
 	private static final int L_ID2 = 9393;
 
 	// Artist variables
-	private static final String ARTIST_USERNAME = "testartist";	
-	
+	private static final String ARTIST_USERNAME = "testartist";
+
 	// Artworks for getAllPromoted
 	Artwork artwork1 = new Artwork();
 	Artwork artwork2 = new Artwork();
 	Artwork artwork3 = new Artwork();
 
+	// Customer Variables
+	private static final String CUSTOMER_USERNAME = "testcustomer";
+	private static final String CUSTOMER_EMAIL = "testcustomer@email.com";
+	private static final String CUSTOMER_PASSWORD = "testcpass";
+	private static final Date CUSTOMER_CREATION_DATE = Date.valueOf("2020-09-01");
+	private static final PaymentMethod DEFAULTPAY = PaymentMethod.CREDIT;
 
 	@BeforeEach
 	public void setMockOutput() {
@@ -91,7 +101,7 @@ public class BrowsingServiceTests {
 						return null;
 					}
 				});
-		
+
 		lenient().when(smartGalleryDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
 			List<SmartGallery> smartGalleries = new ArrayList<>();
 			SmartGallery smartGallery = new SmartGallery();
@@ -99,7 +109,7 @@ public class BrowsingServiceTests {
 			smartGalleries.add(smartGallery);
 			return smartGalleries;
 		});
-		
+
 		lenient().when(galleryDao.findGalleryByGalleryName(anyString())).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(GALLERY_KEY)) {
 				Gallery gallery = new Gallery();
@@ -109,7 +119,7 @@ public class BrowsingServiceTests {
 				return null;
 			}
 		});
-		
+
 		lenient().when(galleryDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
 			List<Gallery> galleries = new ArrayList<>();
 			Gallery gallery = new Gallery();
@@ -143,18 +153,19 @@ public class BrowsingServiceTests {
 				return null;
 			}
 		});
-		
-		lenient().when(artworkDao.findArtworkByIsBeingPromoted(anyBoolean())).thenAnswer((InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).equals(true)) {
-				ArrayList<Artwork> artworks = new ArrayList<Artwork>();
-				artworks.add(artwork1);
-				artworks.add(artwork2);
-				return artworks;
-			} else {
-				return null;
-			}
-		});
-		
+
+		lenient().when(artworkDao.findArtworkByIsBeingPromoted(anyBoolean()))
+				.thenAnswer((InvocationOnMock invocation) -> {
+					if (invocation.getArgument(0).equals(true)) {
+						ArrayList<Artwork> artworks = new ArrayList<Artwork>();
+						artworks.add(artwork1);
+						artworks.add(artwork2);
+						return artworks;
+					} else {
+						return null;
+					}
+				});
+
 		lenient().when(artworkDao.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(A_ID)) {
 				Artwork artwork = new Artwork();
@@ -168,6 +179,22 @@ public class BrowsingServiceTests {
 			}
 		});
 
+		// Customer creation
+		lenient().when(customerRepository.findCustomerByUsername(anyString()))
+				.thenAnswer((InvocationOnMock invocation) -> {
+					if (invocation.getArgument(0).equals(CUSTOMER_USERNAME)) {
+						Customer customer = new Customer();
+						customer.setUsername(CUSTOMER_USERNAME);
+						customer.setPassword(CUSTOMER_PASSWORD);
+						customer.setEmail(CUSTOMER_EMAIL);
+						customer.setCreationDate(CUSTOMER_CREATION_DATE);
+						customer.setDefaultPaymentMethod(DEFAULTPAY);
+						return customer;
+					} else {
+						return null;
+					}
+				});
+
 		// Whenever anything is saved, just return the parameter object
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
@@ -177,8 +204,7 @@ public class BrowsingServiceTests {
 	}
 
 	/*
-	 * ======================================================== 
-	 * 					SMARTGALLERY TESTS
+	 * ======================================================== SMARTGALLERY TESTS
 	 * ========================================================
 	 */
 
@@ -245,10 +271,10 @@ public class BrowsingServiceTests {
 		}
 		assertEquals("SmartGallery doesn't exist", error);
 	}
-	
+
 	@Test
 	public void testGetAllSmartGalleries() {
-		SmartGallery smartGallery =  new SmartGallery();
+		SmartGallery smartGallery = new SmartGallery();
 		smartGallery.setSmartGalleryID(SMARTGALLERY_KEY);
 		List<SmartGallery> smartGalleries = new ArrayList<>();
 		try {
@@ -258,10 +284,9 @@ public class BrowsingServiceTests {
 		}
 		assertEquals(smartGallery.getSmartGalleryID(), smartGalleries.get(0).getSmartGalleryID());
 	}
-		
+
 	/*
-	 * ======================================================= 
-	 * 						GALLERY TESTS
+	 * ======================================================= GALLERY TESTS
 	 * =======================================================
 	 */
 
@@ -401,7 +426,7 @@ public class BrowsingServiceTests {
 		assertEquals("Gallery doesn't exist", error);
 
 	}
-	
+
 	@Test
 	public void testGetGalleryByNameNameNull() {
 		String error = null;
@@ -412,10 +437,10 @@ public class BrowsingServiceTests {
 		}
 		assertEquals("Gallery Name cannot be empty", error);
 	}
-	
+
 	@Test
 	public void testGetAllGalleries() {
-		Gallery gallery =  new Gallery();
+		Gallery gallery = new Gallery();
 		gallery.setGalleryName(GALLERY_KEY);
 		List<Gallery> galleries = new ArrayList<>();
 		try {
@@ -427,10 +452,8 @@ public class BrowsingServiceTests {
 	}
 
 	/*
-	 * ========================================================= 
-	 * 					PROMOTED ARTWORK
-	 * 						TESTS
-	 *  =========================================================
+	 * ========================================================= PROMOTED ARTWORK
+	 * TESTS =========================================================
 	 */
 
 	@Test
@@ -494,8 +517,7 @@ public class BrowsingServiceTests {
 	}
 
 	/*
-	 * ========================================================= 
-	 * 					SEARCHARTISTS TESTS
+	 * ========================================================= SEARCHARTISTS TESTS
 	 * =========================================================
 	 */
 
@@ -528,7 +550,7 @@ public class BrowsingServiceTests {
 	public void testSearchArtistsArtistsNull() {
 		ArrayList<Artist> artists = null;
 		String searchInput = "jon";
-		HashSet<Artist> searchResults = new HashSet<Artist>();		
+		HashSet<Artist> searchResults = new HashSet<Artist>();
 		String error = null;
 		try {
 			searchResults = service.searchArtist(artists, searchInput);
@@ -551,9 +573,9 @@ public class BrowsingServiceTests {
 		artists.add(artist1);
 		artists.add(artist2);
 		artists.add(artist3);
-		String searchInput = null;	
+		String searchInput = null;
 		String error = null;
-		HashSet<Artist> searchResults = new HashSet<Artist>();		
+		HashSet<Artist> searchResults = new HashSet<Artist>();
 		try {
 			searchResults = service.searchArtist(artists, searchInput);
 		} catch (IllegalArgumentException e) {
@@ -575,9 +597,9 @@ public class BrowsingServiceTests {
 		artists.add(artist1);
 		artists.add(artist2);
 		artists.add(artist3);
-		String searchInput = "";	
+		String searchInput = "";
 		String error = null;
-		HashSet<Artist> searchResults = new HashSet<Artist>();		
+		HashSet<Artist> searchResults = new HashSet<Artist>();
 		try {
 			searchResults = service.searchArtist(artists, searchInput);
 		} catch (IllegalArgumentException e) {
@@ -599,9 +621,9 @@ public class BrowsingServiceTests {
 		artists.add(artist1);
 		artists.add(artist2);
 		artists.add(artist3);
-		String searchInput = " ";	
+		String searchInput = " ";
 		String error = null;
-		HashSet<Artist> searchResults = new HashSet<Artist>();		
+		HashSet<Artist> searchResults = new HashSet<Artist>();
 		try {
 			searchResults = service.searchArtist(artists, searchInput);
 		} catch (IllegalArgumentException e) {
@@ -612,8 +634,7 @@ public class BrowsingServiceTests {
 	}
 
 	/*
-	 * ========================================================= 
-	 * 					SEARCHARTWORK TESTS
+	 * ========================================================= SEARCHARTWORK TESTS
 	 * =========================================================
 	 */
 
@@ -623,7 +644,7 @@ public class BrowsingServiceTests {
 		artwork1.setName("Father");
 		artwork1.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork1.setPrice(40.51);
-		
+
 		Artwork artwork2 = new Artwork();
 		artwork2.setName("Mother");
 		artwork2.setStyle(ArtStyle.IMPRESSIONIST);
@@ -638,21 +659,21 @@ public class BrowsingServiceTests {
 		artwork4.setName("There");
 		artwork4.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork4.setPrice(10000.424);
-		
+
 		Artwork artwork5 = new Artwork();
 		artwork5.setName("Therefore");
 		artwork5.setStyle(ArtStyle.SURREALIST);
 		artwork5.setPrice(25.66);
-		
+
 		Artwork artwork6 = new Artwork();
 		artwork6.setName("Bothr");
 		artwork6.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork6.setPrice(27.23);
-		
+
 		Listing listing1 = new Listing();
 		listing1.setArtwork(artwork1);
 		listing1.setIsSold(false);
-		
+
 		Listing listing2 = new Listing();
 		listing2.setArtwork(artwork2);
 		listing2.setIsSold(false);
@@ -664,7 +685,7 @@ public class BrowsingServiceTests {
 		Listing listing4 = new Listing();
 		listing4.setArtwork(artwork4);
 		listing4.setIsSold(false);
-		
+
 		Listing listing5 = new Listing();
 		listing5.setArtwork(artwork5);
 		listing5.setIsSold(false);
@@ -679,15 +700,14 @@ public class BrowsingServiceTests {
 		listings.add(listing3);
 		listings.add(listing4);
 		listings.add(listing5);
-		
+
 		HashSet<Listing> results = new HashSet<Listing>();
 		try {
-			results = service.searchArtwork(listings, "ther", 20.4, 40.6,
-					ArtStyle.IMPRESSIONIST);
+			results = service.searchArtwork(listings, "ther", 20.4, 40.6, ArtStyle.IMPRESSIONIST);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		
+
 		assertTrue(results.contains(listing1));
 		assertTrue(results.contains(listing2));
 		assertFalse(results.contains(listing3));
@@ -700,16 +720,15 @@ public class BrowsingServiceTests {
 	@Test
 	public void testSearchArtworkAllFiltersListingsNull() {
 		ArrayList<Listing> listings = null;
-		
+
 		HashSet<Listing> results = new HashSet<Listing>();
 		String error = null;
 		try {
-			results = service.searchArtwork(listings, "ther", 20.4, 40.6,
-					ArtStyle.IMPRESSIONIST);
+			results = service.searchArtwork(listings, "ther", 20.4, 40.6, ArtStyle.IMPRESSIONIST);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("Listings must be provided", error);
 		assertEquals(results.size(), 0);
 	}
@@ -720,7 +739,7 @@ public class BrowsingServiceTests {
 		artwork1.setName("Father");
 		artwork1.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork1.setPrice(40.51);
-		
+
 		Artwork artwork2 = new Artwork();
 		artwork2.setName("Mother");
 		artwork2.setStyle(ArtStyle.IMPRESSIONIST);
@@ -735,21 +754,21 @@ public class BrowsingServiceTests {
 		artwork4.setName("There");
 		artwork4.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork4.setPrice(10000.424);
-		
+
 		Artwork artwork5 = new Artwork();
 		artwork5.setName("Therefore");
 		artwork5.setStyle(ArtStyle.SURREALIST);
 		artwork5.setPrice(25.66);
-		
+
 		Artwork artwork6 = new Artwork();
 		artwork6.setName("Bothr");
 		artwork6.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork6.setPrice(27.23);
-		
+
 		Listing listing1 = new Listing();
 		listing1.setArtwork(artwork1);
 		listing1.setIsSold(false);
-		
+
 		Listing listing2 = new Listing();
 		listing2.setArtwork(artwork2);
 		listing2.setIsSold(false);
@@ -761,7 +780,7 @@ public class BrowsingServiceTests {
 		Listing listing4 = new Listing();
 		listing4.setArtwork(artwork4);
 		listing4.setIsSold(false);
-		
+
 		Listing listing5 = new Listing();
 		listing5.setArtwork(artwork5);
 		listing5.setIsSold(false);
@@ -776,16 +795,15 @@ public class BrowsingServiceTests {
 		listings.add(listing3);
 		listings.add(listing4);
 		listings.add(listing5);
-		
+
 		HashSet<Listing> results = new HashSet<Listing>();
 		String error = null;
 		try {
-			results = service.searchArtwork(listings, null, 20.4, 40.6,
-					ArtStyle.IMPRESSIONIST);
+			results = service.searchArtwork(listings, null, 20.4, 40.6, ArtStyle.IMPRESSIONIST);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("Search cannot be empty", error);
 		assertEquals(results.size(), 0);
 	}
@@ -796,7 +814,7 @@ public class BrowsingServiceTests {
 		artwork1.setName("Father");
 		artwork1.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork1.setPrice(40.51);
-		
+
 		Artwork artwork2 = new Artwork();
 		artwork2.setName("Mother");
 		artwork2.setStyle(ArtStyle.IMPRESSIONIST);
@@ -811,21 +829,21 @@ public class BrowsingServiceTests {
 		artwork4.setName("There");
 		artwork4.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork4.setPrice(10000.424);
-		
+
 		Artwork artwork5 = new Artwork();
 		artwork5.setName("Therefore");
 		artwork5.setStyle(ArtStyle.SURREALIST);
 		artwork5.setPrice(25.66);
-		
+
 		Artwork artwork6 = new Artwork();
 		artwork6.setName("Bothr");
 		artwork6.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork6.setPrice(27.23);
-		
+
 		Listing listing1 = new Listing();
 		listing1.setArtwork(artwork1);
 		listing1.setIsSold(false);
-		
+
 		Listing listing2 = new Listing();
 		listing2.setArtwork(artwork2);
 		listing2.setIsSold(false);
@@ -837,7 +855,7 @@ public class BrowsingServiceTests {
 		Listing listing4 = new Listing();
 		listing4.setArtwork(artwork4);
 		listing4.setIsSold(false);
-		
+
 		Listing listing5 = new Listing();
 		listing5.setArtwork(artwork5);
 		listing5.setIsSold(false);
@@ -852,16 +870,15 @@ public class BrowsingServiceTests {
 		listings.add(listing3);
 		listings.add(listing4);
 		listings.add(listing5);
-		
+
 		HashSet<Listing> results = new HashSet<Listing>();
 		String error = null;
 		try {
-			results = service.searchArtwork(listings, "", 20.4, 40.6,
-					ArtStyle.IMPRESSIONIST);
+			results = service.searchArtwork(listings, "", 20.4, 40.6, ArtStyle.IMPRESSIONIST);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("Search cannot be empty", error);
 		assertEquals(results.size(), 0);
 	}
@@ -872,7 +889,7 @@ public class BrowsingServiceTests {
 		artwork1.setName("Father");
 		artwork1.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork1.setPrice(40.51);
-		
+
 		Artwork artwork2 = new Artwork();
 		artwork2.setName("Mother");
 		artwork2.setStyle(ArtStyle.IMPRESSIONIST);
@@ -887,21 +904,21 @@ public class BrowsingServiceTests {
 		artwork4.setName("There");
 		artwork4.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork4.setPrice(10000.424);
-		
+
 		Artwork artwork5 = new Artwork();
 		artwork5.setName("Therefore");
 		artwork5.setStyle(ArtStyle.SURREALIST);
 		artwork5.setPrice(25.66);
-		
+
 		Artwork artwork6 = new Artwork();
 		artwork6.setName("Bothr");
 		artwork6.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork6.setPrice(27.23);
-		
+
 		Listing listing1 = new Listing();
 		listing1.setArtwork(artwork1);
 		listing1.setIsSold(false);
-		
+
 		Listing listing2 = new Listing();
 		listing2.setArtwork(artwork2);
 		listing2.setIsSold(false);
@@ -913,7 +930,7 @@ public class BrowsingServiceTests {
 		Listing listing4 = new Listing();
 		listing4.setArtwork(artwork4);
 		listing4.setIsSold(false);
-		
+
 		Listing listing5 = new Listing();
 		listing5.setArtwork(artwork5);
 		listing5.setIsSold(false);
@@ -928,16 +945,15 @@ public class BrowsingServiceTests {
 		listings.add(listing3);
 		listings.add(listing4);
 		listings.add(listing5);
-		
+
 		HashSet<Listing> results = new HashSet<Listing>();
 		String error = null;
 		try {
-			results = service.searchArtwork(listings, "  ", 20.4, 40.6,
-					ArtStyle.IMPRESSIONIST);
+			results = service.searchArtwork(listings, "  ", 20.4, 40.6, ArtStyle.IMPRESSIONIST);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("Search cannot be empty", error);
 		assertEquals(results.size(), 0);
 	}
@@ -948,7 +964,7 @@ public class BrowsingServiceTests {
 		artwork1.setName("Father");
 		artwork1.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork1.setPrice(40.51);
-		
+
 		Artwork artwork2 = new Artwork();
 		artwork2.setName("Mother");
 		artwork2.setStyle(ArtStyle.IMPRESSIONIST);
@@ -963,21 +979,21 @@ public class BrowsingServiceTests {
 		artwork4.setName("There");
 		artwork4.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork4.setPrice(10000.424);
-		
+
 		Artwork artwork5 = new Artwork();
 		artwork5.setName("Therefore");
 		artwork5.setStyle(ArtStyle.SURREALIST);
 		artwork5.setPrice(25.66);
-		
+
 		Artwork artwork6 = new Artwork();
 		artwork6.setName("Bothr");
 		artwork6.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork6.setPrice(27.23);
-		
+
 		Listing listing1 = new Listing();
 		listing1.setArtwork(artwork1);
 		listing1.setIsSold(false);
-		
+
 		Listing listing2 = new Listing();
 		listing2.setArtwork(artwork2);
 		listing2.setIsSold(false);
@@ -989,7 +1005,7 @@ public class BrowsingServiceTests {
 		Listing listing4 = new Listing();
 		listing4.setArtwork(artwork4);
 		listing4.setIsSold(false);
-		
+
 		Listing listing5 = new Listing();
 		listing5.setArtwork(artwork5);
 		listing5.setIsSold(false);
@@ -1004,16 +1020,15 @@ public class BrowsingServiceTests {
 		listings.add(listing3);
 		listings.add(listing4);
 		listings.add(listing5);
-		
+
 		HashSet<Listing> results = new HashSet<Listing>();
 		String error = null;
 		try {
-			results = service.searchArtwork(listings, "ther", 40.4, 20.6,
-					ArtStyle.IMPRESSIONIST);
+			results = service.searchArtwork(listings, "ther", 40.4, 20.6, ArtStyle.IMPRESSIONIST);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("Min price cannot be larger than max price", error);
 		assertEquals(results.size(), 0);
 	}
@@ -1024,7 +1039,7 @@ public class BrowsingServiceTests {
 		artwork1.setName("Father");
 		artwork1.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork1.setPrice(40.51);
-		
+
 		Artwork artwork2 = new Artwork();
 		artwork2.setName("Mother");
 		artwork2.setStyle(ArtStyle.IMPRESSIONIST);
@@ -1039,21 +1054,21 @@ public class BrowsingServiceTests {
 		artwork4.setName("There");
 		artwork4.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork4.setPrice(10000.424);
-		
+
 		Artwork artwork5 = new Artwork();
 		artwork5.setName("Therefore");
 		artwork5.setStyle(ArtStyle.SURREALIST);
 		artwork5.setPrice(25.66);
-		
+
 		Artwork artwork6 = new Artwork();
 		artwork6.setName("Bothr");
 		artwork6.setStyle(ArtStyle.IMPRESSIONIST);
 		artwork6.setPrice(27.23);
-		
+
 		Listing listing1 = new Listing();
 		listing1.setArtwork(artwork1);
 		listing1.setIsSold(false);
-		
+
 		Listing listing2 = new Listing();
 		listing2.setArtwork(artwork2);
 		listing2.setIsSold(false);
@@ -1065,7 +1080,7 @@ public class BrowsingServiceTests {
 		Listing listing4 = new Listing();
 		listing4.setArtwork(artwork4);
 		listing4.setIsSold(false);
-		
+
 		Listing listing5 = new Listing();
 		listing5.setArtwork(artwork5);
 		listing5.setIsSold(false);
@@ -1080,7 +1095,7 @@ public class BrowsingServiceTests {
 		listings.add(listing3);
 		listings.add(listing4);
 		listings.add(listing5);
-		
+
 		HashSet<Listing> results = new HashSet<Listing>();
 		String error = null;
 		try {
@@ -1088,7 +1103,7 @@ public class BrowsingServiceTests {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("ArtStyle cannot be null", error);
 		assertEquals(results.size(), 0);
 	}
@@ -1098,7 +1113,7 @@ public class BrowsingServiceTests {
 		Artwork artwork1 = new Artwork();
 		artwork1.setName("Father");
 		artwork1.setPrice(40.51);
-		
+
 		Artwork artwork2 = new Artwork();
 		artwork2.setName("Mother");
 		artwork2.setPrice(30.42);
@@ -1110,19 +1125,19 @@ public class BrowsingServiceTests {
 		Artwork artwork4 = new Artwork();
 		artwork4.setName("There");
 		artwork4.setPrice(10000.424);
-		
+
 		Artwork artwork5 = new Artwork();
 		artwork5.setName("Therefore");
 		artwork5.setPrice(25.66);
-		
+
 		Artwork artwork6 = new Artwork();
 		artwork6.setName("Bothr");
 		artwork6.setPrice(27.23);
-		
+
 		Listing listing1 = new Listing();
 		listing1.setArtwork(artwork1);
 		listing1.setIsSold(false);
-		
+
 		Listing listing2 = new Listing();
 		listing2.setArtwork(artwork2);
 		listing2.setIsSold(false);
@@ -1134,7 +1149,7 @@ public class BrowsingServiceTests {
 		Listing listing4 = new Listing();
 		listing4.setArtwork(artwork4);
 		listing4.setIsSold(false);
-		
+
 		Listing listing5 = new Listing();
 		listing5.setArtwork(artwork5);
 		listing5.setIsSold(false);
@@ -1149,14 +1164,14 @@ public class BrowsingServiceTests {
 		listings.add(listing3);
 		listings.add(listing4);
 		listings.add(listing5);
-		
+
 		HashSet<Listing> results = new HashSet<Listing>();
 		try {
 			results = service.searchArtwork(listings, "ther", 20.4, 40.6);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		
+
 		assertTrue(results.contains(listing1));
 		assertTrue(results.contains(listing2));
 		assertFalse(results.contains(listing3));
@@ -1171,7 +1186,7 @@ public class BrowsingServiceTests {
 		Artwork artwork1 = new Artwork();
 		artwork1.setName("Father");
 		artwork1.setStyle(ArtStyle.IMPRESSIONIST);
-		
+
 		Artwork artwork2 = new Artwork();
 		artwork2.setName("Mother");
 		artwork2.setStyle(ArtStyle.IMPRESSIONIST);
@@ -1183,19 +1198,19 @@ public class BrowsingServiceTests {
 		Artwork artwork4 = new Artwork();
 		artwork4.setName("There");
 		artwork4.setStyle(ArtStyle.IMPRESSIONIST);
-		
+
 		Artwork artwork5 = new Artwork();
 		artwork5.setName("Therefore");
 		artwork5.setStyle(ArtStyle.SURREALIST);
-		
+
 		Artwork artwork6 = new Artwork();
 		artwork6.setName("Bothr");
 		artwork6.setStyle(ArtStyle.IMPRESSIONIST);
-		
+
 		Listing listing1 = new Listing();
 		listing1.setArtwork(artwork1);
 		listing1.setIsSold(false);
-		
+
 		Listing listing2 = new Listing();
 		listing2.setArtwork(artwork2);
 		listing2.setIsSold(false);
@@ -1207,7 +1222,7 @@ public class BrowsingServiceTests {
 		Listing listing4 = new Listing();
 		listing4.setArtwork(artwork4);
 		listing4.setIsSold(false);
-		
+
 		Listing listing5 = new Listing();
 		listing5.setArtwork(artwork5);
 		listing5.setIsSold(false);
@@ -1222,14 +1237,14 @@ public class BrowsingServiceTests {
 		listings.add(listing3);
 		listings.add(listing4);
 		listings.add(listing5);
-		
+
 		HashSet<Listing> results = new HashSet<Listing>();
 		try {
 			results = service.searchArtwork(listings, "ther", ArtStyle.IMPRESSIONIST);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		
+
 		assertTrue(results.contains(listing1));
 		assertTrue(results.contains(listing2));
 		assertFalse(results.contains(listing3));
@@ -1243,7 +1258,7 @@ public class BrowsingServiceTests {
 	public void testSearchArtworkNoFilter() {
 		Artwork artwork1 = new Artwork();
 		artwork1.setName("Father");
-		
+
 		Artwork artwork2 = new Artwork();
 		artwork2.setName("Mother");
 
@@ -1252,17 +1267,17 @@ public class BrowsingServiceTests {
 
 		Artwork artwork4 = new Artwork();
 		artwork4.setName("There");
-		
+
 		Artwork artwork5 = new Artwork();
 		artwork5.setName("Therefore");
-		
+
 		Artwork artwork6 = new Artwork();
 		artwork6.setName("Bothr");
-		
+
 		Listing listing1 = new Listing();
 		listing1.setArtwork(artwork1);
 		listing1.setIsSold(false);
-		
+
 		Listing listing2 = new Listing();
 		listing2.setArtwork(artwork2);
 		listing2.setIsSold(false);
@@ -1274,7 +1289,7 @@ public class BrowsingServiceTests {
 		Listing listing4 = new Listing();
 		listing4.setArtwork(artwork4);
 		listing4.setIsSold(false);
-		
+
 		Listing listing5 = new Listing();
 		listing5.setArtwork(artwork5);
 		listing5.setIsSold(false);
@@ -1289,14 +1304,14 @@ public class BrowsingServiceTests {
 		listings.add(listing3);
 		listings.add(listing4);
 		listings.add(listing5);
-		
+
 		HashSet<Listing> results = new HashSet<Listing>();
 		try {
 			results = service.searchArtwork(listings, "ther");
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		
+
 		assertTrue(results.contains(listing1));
 		assertTrue(results.contains(listing2));
 		assertFalse(results.contains(listing3));
@@ -1307,8 +1322,7 @@ public class BrowsingServiceTests {
 	}
 
 	/*
-	 * ========================================================= 
-	 * 					BROWSEHISTORY TESTS
+	 * ========================================================= BROWSEHISTORY TESTS
 	 * =========================================================
 	 */
 
@@ -1323,7 +1337,7 @@ public class BrowsingServiceTests {
 		}
 		assertTrue(service.viewBrowsingHistory(customer).contains(artwork));
 	}
-	
+
 	@Test
 	public void testAddToBrowseHistoryAlreadyViewed() {
 		Customer customer = new Customer();
@@ -1337,7 +1351,7 @@ public class BrowsingServiceTests {
 		assertTrue(service.viewBrowsingHistory(customer).contains(artwork));
 		assertEquals(service.viewBrowsingHistory(customer).size(), 1);
 	}
-	
+
 	@Test
 	public void testAddToBrowseHistoryCustomerNull() {
 		Customer customer = null;
@@ -1381,7 +1395,7 @@ public class BrowsingServiceTests {
 		assertTrue(browsingHistory.contains(artwork1));
 		assertTrue(browsingHistory.contains(artwork2));
 	}
-	
+
 	@Test
 	public void testViewBrowsingHistoryEmpty() {
 		Customer customer = new Customer();

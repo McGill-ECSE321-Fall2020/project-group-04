@@ -90,7 +90,7 @@ public class PurchaseService {
 			error += "Listing with this id does not exist\n";
 		} else if (listing.isIsSold()) {
 			error += "Listing has already been sold\n";
-		}else if (listing.getArtwork() != null && listing.getArtwork().getArtists() != null
+		} else if (listing.getArtwork() != null && listing.getArtwork().getArtists() != null
 				&& listing.getArtwork().getArtists().contains(profile)) {
 			error += "Artist cannot purchase their own artwork\n";
 		}
@@ -130,7 +130,9 @@ public class PurchaseService {
 			artistRepository.save(a);
 		}
 		listingRepository.save(listing);
-		listing.getArtwork().setIsBeingPromoted(false);
+		if (listing.getArtwork() != null) {
+			listing.getArtwork().setIsBeingPromoted(false);
+		}
 		smartGalleryRepository.save(smartGallery);
 		return transaction;
 
