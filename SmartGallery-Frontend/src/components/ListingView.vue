@@ -10,15 +10,18 @@
   <hr style="height:4px;border-width:0;color:gray;background-color:black">
   <h1 style="font-size:30px; font-family: fantasy"> Artwork Name : {{ artwork.name }} </h1>
   <h1 style="font-size:30px; font-family: fantasy"> Artist(s) Name (s) : <span v-for="artist in artwork.artists" v-bind:key="artist.username"> {{artist.username}} </span> </h1>
-  <img src="../assets/PLACEHOLDER.jpg"><br>
+  <div class="container">
+    <img class="artworkImage" id="image" v-bind:src="imageUrl"><br>
+  </div>
+  <br>
   <h3 style="font-size:25px; font-family: fantasy">Description </h3>
   <div class="description" style="font-size:25px; font-family: fantasy">
     Year Created : {{artwork.year}}<br>
-    Price : {{artwork.price}} <br>
+    Price : {{artwork.price}}$<br>
     Style : {{artwork.artStyle}} <br>
-    Height: {{artwork.height}} <br>
-    Width : {{artwork.width}} <br>
-    Weight : {{artwork.weight}}<br>
+    Height: {{artwork.height}} cm<br>
+    Width : {{artwork.width}} cm<br>
+    Weight : {{artwork.weight}} kg<br>
     Sold : {{sold}}<br>
   </div>
   <div class="purchase" style="font-size:25px; font-family: fantasy" v-show = "!newListing.sold">
@@ -37,6 +40,7 @@
     </select>
     <br><br>
     <button class="button2" type="button" name="button" v-on:click ="createTransaction(selected,delivery)" v-show = "!newListing.sold"> Purchase </button>
+    <br><span style="font-style : italic;">Note: Gallery will receive {{ newListing.gallery.commissionPercentage }} % of total amount</span><br>
   </div>
 </div>
 </template>
@@ -79,5 +83,12 @@ button:hover {
 .purchase {
   width: 200;
   height: 200;
+}
+.artworkImage {
+  position:relative
+}
+.container {
+  width: 100%;
+  height: 100%;
 }
 </style>

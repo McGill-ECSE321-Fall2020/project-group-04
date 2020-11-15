@@ -92,6 +92,14 @@ public class ListingController {
 		
 	}
 	
+	@PutMapping(value = {"/artwork/setImageUrl", "/artwork/setImageUrl/"})
+	public String setArtworkImageUrl(@RequestParam("artworkID") int artworkID,
+	        @RequestParam("imageUrl") String imageUrl) {
+	    Artwork artwork = artworkRepository.findArtworkByArtworkID(artworkID);
+	    listingService.setArtworkImageUrl(artwork, imageUrl);
+	    return imageUrl;
+	}
+	
 	@PutMapping(value = {"/artwork/addArtist/{artworkID}/{artist}", "/artwork/addArtist/{artworkID}/{artist}/"})
 	public ArtworkDTO addArtistToArtwork(@PathVariable("artworkID") int artworkID, 
 			@PathVariable("artist") String artistName) throws IllegalArgumentException{

@@ -14,7 +14,7 @@
   <div>
     <p>
     Please fill in all the fields below.
-    <button class="exitButton">Exit</button>
+    <button class="exitButton" v-on:click="goToProfile()">Exit</button>
     </p>
   </div>
   <br>
@@ -35,7 +35,7 @@
   
   <br>
   <br>
-  <button v-on:click ="createListing(selectedArtwork.id, listPrice, selectedArtwork.gallery)" class="uploadListing"> LIST </button>
+  <button v-on:click ="createListing(selectedArtwork.id, listPrice, selectedArtwork.gallery); goToProfile()" class="uploadListing"> LIST </button>
 </body>
 </template>
 

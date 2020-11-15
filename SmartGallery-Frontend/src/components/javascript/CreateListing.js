@@ -82,16 +82,14 @@ export default {
           this.listing = response.data
 
            var i =  Math.random()
-           if (i <= 0.3) {
-              promoteListing(this.listing);
+           alert(i)
+           if (i <= 0.4) {
+             AXIOS.put('/artwork/promote/'.concat(this.listing.artwork.artworkID))
            }
         })
         .catch(e => {
           this.errorListing = e
         })
     },
-    promoteListing: function (listingToPromote) {
-      AXIOS.put('/artwork/promote/'.concat(listingToPromote.artwork.artworkID)) 
-    }
   }
 }

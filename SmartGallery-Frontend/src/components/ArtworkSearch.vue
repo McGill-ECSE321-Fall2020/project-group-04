@@ -28,7 +28,12 @@
   <br>
   <br>
   <span class="search3" style="font-size:18px; font-family: fantasy"> Art Style  </span>
-  <input v-model="artStyleInput" size="20" placeholder="Art style">
+  <select v-model="artStyleInput" placeholder="Art style">
+    <option>Renaissance</option>
+    <option>Realist</option>
+    <option>Surrealist</option>
+    <option>Impressionist</option>
+  </select>
   <br>
   <br>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">

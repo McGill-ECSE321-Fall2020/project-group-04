@@ -5,9 +5,10 @@ var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
-
-	baseURL: backendUrl,
-	headers: { 'Access-Control-Allow-Origin': frontendUrl }
+  baseURL: backendUrl,
+  headers: {
+    'Access-Control-Allow-Origin': frontendUrl
+  }
 })
 
 function ArtworkDTO(artists, gallery, name, year, price, isBeingPromoted, style, height, weight, width, artworkID) {
@@ -22,19 +23,18 @@ function ArtworkDTO(artists, gallery, name, year, price, isBeingPromoted, style,
   this.weight = weight;
   this.width = width;
   this.artworkID = artworkID;
+  this.imageUrl = "";
 }
 
 export default {
   name: 'createArtwork',
   data() {
     return {
-
-
-	  artwork: '',
-	  artist: '', 
-	  errorArtwork: '',
-	  selectedArtStyle: '',
-	  selectedListing: '',
+      artworks: [],
+      artist: '',
+      errorArtist: '',
+      artwork: '',
+      errorArtwork: '',
       artworkNameInput: '',
       yearInput: '',
       priceInput: '',
@@ -42,12 +42,13 @@ export default {
       heightInput: '',
       weightInput: '',
       widthInput: '',
+      artistInput: '',
+      galleryInput: '',
       selected: '',
       response: []
     }
   },
-
-   created: function() {
+  created: function() {
     AXIOS.get('/artist/name/' + this.$route.params.username)
       .then(response => {
         this.artist = response.data
@@ -55,18 +56,31 @@ export default {
       .catch(e => {
         this.errorArtist = e
       })
+    AXIOS.get('/artwork')
+      .then(response => {
+        this.artworks = response.data
+        console.log(response)
+      })
+      .catch(e => {
+        this.errorArtwork = e
+      })
   },
-
-   methods: {
-   
-    updateArtwork: function(listingID, artworkName, year, price, style, height, width, weight) {
-      AXIOS.put('/listing/updateArtwork/'.concat(listingID) + '?artworkName=' + artworkName + '&year=' + year + '&price=' + price +
-          '&style=' + style + '&height=' + height + '&width=' + width + '&weight=' + weight )
+  methods: {
+    getArtwork: function(artworkID) {
+      AXIOS.get('/artwork/'.concat(artworkID))
         .then(response => {
           this.artwork = response.data
         })
         .catch(e => {
-		  alert("Failure. Please list the artwork before updating it or enter valid fields.");
+          this.errorArtwork = e
+        })
+    },
+    createArtwork: function(artworkName, year, price, style, height, weight, width) {
+      AXIOS.post('/artwork/'.concat(artworkName) + '?year=' + year + '&price=' + price + '&style=' + style + '&height=' + height + '&weight=' + weight + '&width=' + width + '&artist=' + this.$route.params.username + '&gallery=testGallery')
+        .then(response => {
+          this.artwork = response.data
+        })
+        .catch(e => {
           this.errorArtwork = e
         })
     },
@@ -96,6 +110,16 @@ export default {
 		},
 		goToHome : function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
-		}
+    },
+    confirmImage : function(imageUrl) {
+      document.getElementById("inputUrl").style.display = "none"
+      var encodedUrl = encodeURIComponent(imageUrl)
+      document.getElementById("picture").src = imageUrl
+      document.getElementById("image").style.display = "block"
+      var artworkID = this.$route.params.artworkID
+      AXIOS.put('/artwork/setImageUrl?artworkID='.concat(artworkID, "&imageUrl=", encodedUrl))
+      alert("Congratulations on uploading a new artwork!")
+      this.goToProfile()
+    }
   }
 }
