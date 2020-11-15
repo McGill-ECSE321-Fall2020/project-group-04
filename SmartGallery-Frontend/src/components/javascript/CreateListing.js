@@ -53,18 +53,19 @@ export default {
   name: 'createListing',
   data() {
     return {
-
-	  artwork: [],
+      artwork: [],
       newListing: '',
-	  errorListing: '',
-	  errorArtwork: '',
+      errorListing: '',
+      errorArtwork: '',
+      selectedArtwork: '',
+      artist: '',
+      listPrice: '',
       response: [],
-
     }
   },
 
-	 created: function() {
-    AXIOS.get('/artist/name/' + 'testartist')
+  created: function() {
+    AXIOS.get('/artist/name/' + this.$route.params.username)
       .then(response => {
         this.artist = response.data
       })
@@ -72,16 +73,16 @@ export default {
         this.errorArtist = e
       })
   },
-  
+
   methods: {
     createListing: function(artworkID, price, gallery) {
-      AXIOS.post('/listing/'.concat(artworkID) +'?price=' + price + '&gallery=' +
+      AXIOS.post('/listing/'.concat(artworkID) + '?price=' + price + '&gallery=' +
           gallery)
         .then(response => {
           this.listing = response.data
         })
         .catch(e => {
-          this.errorListing= e
+          this.errorListing = e
         })
     },
   }

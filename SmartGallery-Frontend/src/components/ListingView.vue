@@ -21,7 +21,7 @@
     Weight : {{artwork.weight}}<br>
     Sold : {{sold}}<br>
   </div>
-  <div class="purchase" style="font-size:25px; font-family: fantasy" v-show = "!newListing.isSold">
+  <div class="purchase" style="font-size:25px; font-family: fantasy" v-show = "!newListing.sold">
     Select payment method
     <br><br>
     <select v-model="selected">
@@ -36,7 +36,7 @@
       <option>Pickup</option>
     </select>
     <br><br>
-    <button class="button2" type="button" name="button" v-on: click="createTransaction(selected,delivery,listingID)" v-show = "!newListing.isSold"> Purchase </button>
+    <button class="button2" type="button" name="button" v-on:click ="createTransaction(selected,delivery)" v-show = "!newListing.sold"> Purchase </button>
   </div>
 </div>
 </template>

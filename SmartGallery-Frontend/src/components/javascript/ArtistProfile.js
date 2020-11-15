@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       showEmail: false,
-      showPassword:false,
+      showPassword: false,
       oldPasswordInput: '',
       newPasswordInput: '',
       newEmail: '',
@@ -67,7 +67,7 @@ export default {
     }
   },
   created: function() {
-    AXIOS.get('/artist/name/' + 'testartist')
+    AXIOS.get('/artist/name/' + this.$route.params.username)
       .then(response => {
         this.artist = response.data
       })
@@ -76,51 +76,57 @@ export default {
       })
   },
   methods: {
-    updatePassword: function(oldPassword,newPassword){
-      AXIOS.post('/password/change/?username='+ artistName + '&oldPassword='+oldPassword+'&newPassword='+newPassword)
-      .then(response => {
-        this.updated = response.data
-      })
-      .catch(e => {
-        this.errorUpdated = e
-      })
+    updatePassword: function(oldPassword, newPassword) {
+      AXIOS.post('/password/change/?username=' + artistName + '&oldPassword=' + oldPassword + '&newPassword=' + newPassword)
+        .then(response => {
+          this.updated = response.data
+        })
+        .catch(e => {
+          this.errorUpdated = e
+        })
     },
-    updateEmail: function(email, password){
-      AXIOS.post('/email/change/?username='+ artistName +'&password='+password+'&newEmail=' + email)
-      .then(response => {
-        this.updated = response.data
-      })
-      .catch(e => {
-        this.errorUpdated = e
-      })
+    updateEmail: function(email, password) {
+      AXIOS.post('/email/change/?username=' + artistName + '&password=' + password + '&newEmail=' + email)
+        .then(response => {
+          this.updated = response.data
+        })
+        .catch(e => {
+          this.errorUpdated = e
+        })
     },
-    logout : function () {
-			var username = this.$route.params.username
-      		AXIOS.post('/logout'.concat("?username=", username))
-      		.then(response => {
-			if(response.data) {
-				alert ("You have been logged out.")
-        		window.location.href = "/#/"
-			}
-	    })
-	},
-		goToArtworkSearch : function () {
-			window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
-		},
-		goToArtistSearch : function () {
-			window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
-		},
-		goToProfile : function () {
-			AXIOS.get('/customer/name/'.concat(this.$route.params.username))
-			.then(response => {
-				window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
-			}).catch(e => {
-				window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
-			})
-		},
-		goToHome : function () {
-			window.location.href = "/#/home/".concat(this.$route.params.username)
-		}
+    logout: function() {
+      var username = this.$route.params.username
+      AXIOS.post('/logout'.concat("?username=", username))
+        .then(response => {
+          if (response.data) {
+            alert("You have been logged out.")
+            window.location.href = "/#/"
+          }
+        })
+    },
+    goToArtworkSearch: function() {
+      window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
+    },
+    goToArtistSearch: function() {
+      window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
+    },
+    goToProfile: function() {
+      AXIOS.get('/customer/name/'.concat(this.$route.params.username))
+        .then(response => {
+          window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
+        }).catch(e => {
+          window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
+        })
+    },
+    goToHome: function() {
+      window.location.href = "/#/home/".concat(this.$route.params.username)
+    },
+    goToCreateListing: function(){
+        window.location.href = "/#/createListing/".concat(this.$route.params.username)
+    },
+    goToCreateArtwork: function(){
+      window.location.href = "/#/createartwork/".concat(this.$route.params.username)
+    }
   }
 
 }

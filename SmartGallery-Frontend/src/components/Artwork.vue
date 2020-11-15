@@ -4,14 +4,14 @@
 <template>
 
 <body class="createArtwork">
-  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">
   <img src="../assets/sglogo.png"  alt="logo">
   <button class="button2" v-on:click="goToHome()" type="button" name="home"> Home </button>
   <button class="button2" v-on:click="goToArtworkSearch()" type="button" name="artworkSearch"> Search Artwork </button>
   <button class="button2" v-on:click="goToArtistSearch()" type="button" name="artistSearch"> Search Artist </button>
   <button class="button2" v-on:click="goToProfile()" type="button" name="viewProfile"> View Profile </button>
   <button class="button2" v-on:click="logout()" type="button" name="logout"> Logout </button>
-  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">
 
 <div>
   <img src="../assets/sglogo.png" alt="logo">
@@ -20,7 +20,7 @@
     <h1> Upload Your Artwork!
     </h1>
   </div>
- 
+
   <div>
     <p>
     Please fill in all the fields below.
@@ -61,7 +61,7 @@
   <input v-model="galleryInput" placeholder="Gallery">
   <br>
   <br>
-  <button v-on: click="createArtwork(artworkNameInput, yearInput, priceInput, selected, heightInput, weightInput, widthInput, artist.username, galleryInput)" class="uploadArtwork"> UPLOAD </button>
+  <button v-on:click="createArtwork(artworkNameInput, yearInput, priceInput, selected, heightInput, weightInput, widthInput)" class="uploadArtwork"> UPLOAD </button>
 </body>
 </template>
 <style>
@@ -78,7 +78,7 @@ p{
   right: 30%;
   background-color: black;
   color: white;
-  
+
 }
 .uploadArtwork{
     border-radius: 50px;
