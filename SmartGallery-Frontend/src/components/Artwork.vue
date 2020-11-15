@@ -49,13 +49,10 @@
   <input v-model="widthInput" placeholder="Width">
   <br>
   <br>
-  <input v-model="artistInput" placeholder="Enter your username">
-  <br>
-  <br>
   <input v-model="galleryInput" placeholder="Gallery">
   <br>
   <br>
-  <button v-on: click = "createArtwork(artworkNameInput, yearInput, priceInput, artStyle, heightInput, weightInput, widthInput, artistInput, galleryInput)" class="uploadArtwork"> UPLOAD </button>
+  <button v-on: click="createArtwork(artworkNameInput, yearInput, priceInput, selected, heightInput, weightInput, widthInput, artist.username, galleryInput)" class="uploadArtwork"> UPLOAD </button>
 </body>
 </template>
 <style>
