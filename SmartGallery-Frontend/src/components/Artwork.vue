@@ -59,9 +59,6 @@
   <br>
   <br>
 
-  <input v-model="galleryInput" placeholder="Gallery">
-  <br>
-  <br>
   <button v-on:click="createArtwork(artworkNameInput, yearInput, priceInput, selected, heightInput, weightInput, widthInput)" class="uploadArtwork"> Confirm and select image </button>
 
 </body>
