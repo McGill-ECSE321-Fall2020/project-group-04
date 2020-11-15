@@ -58,9 +58,7 @@
   <input v-model="widthInput" placeholder="Width">
   <br>
   <br>
-  <input v-model="galleryInput" placeholder="Gallery">
-  <br>
-  <br>
+
   <button v-on:click="createArtwork(artworkNameInput, yearInput, priceInput, selected, heightInput, weightInput, widthInput); goToProfile()" class="uploadArtwork"> UPLOAD </button>
 </body>
 </template>

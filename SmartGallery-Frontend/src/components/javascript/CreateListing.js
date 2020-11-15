@@ -92,6 +92,15 @@ export default {
     },
     promoteListing: function (listingToPromote) {
       AXIOS.put('/artwork/promote/'.concat(listingToPromote.artwork.artworkID)) 
-    }
+	}
+	,
+		goToProfile : function () {
+			AXIOS.get('/customer/name/'.concat(this.$route.params.username))
+			.then(response => {
+				window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
+			}).catch(e => {
+				window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
+			})
+		}
   }
 }
