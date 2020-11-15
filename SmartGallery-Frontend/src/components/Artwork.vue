@@ -24,7 +24,7 @@
   <div>
     <p>
     Please fill in all the fields below.
-    <button class="button1">Exit</button>
+    <button class="button1" v-on:click="goToProfile()">Exit</button>
     </p>
   </div>
   <br>
@@ -61,7 +61,7 @@
   <input v-model="galleryInput" placeholder="Gallery">
   <br>
   <br>
-  <button v-on:click="createArtwork(artworkNameInput, yearInput, priceInput, selected, heightInput, weightInput, widthInput)" class="uploadArtwork"> UPLOAD </button>
+  <button v-on:click="createArtwork(artworkNameInput, yearInput, priceInput, selected, heightInput, weightInput, widthInput); goToProfile()" class="uploadArtwork"> UPLOAD </button>
 </body>
 </template>
 <style>

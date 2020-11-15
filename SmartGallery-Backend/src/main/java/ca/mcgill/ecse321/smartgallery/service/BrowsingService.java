@@ -142,7 +142,7 @@ public class BrowsingService {
 		if (validateGalleryName(galleryName)) {
 			throw new IllegalArgumentException("A gallery with that name already exists");
 		}
-		if (galleryName == null || galleryName == "" || galleryName.isBlank()) {
+		if (galleryName == null || galleryName == "" || galleryName.trim().length() == 0) {
 			throw new IllegalArgumentException("Gallery Name cannot be empty");
 		}
 		if (commission < 0 || commission > 100) {
@@ -206,7 +206,7 @@ public class BrowsingService {
 	 */
 	@Transactional
 	public Gallery getGalleryByName(String galleryName) {
-		if (galleryName == null || galleryName == "" || galleryName.isBlank()) {
+		if (galleryName == null || galleryName == "" || galleryName.trim().length() == 0) {
 			throw new IllegalArgumentException("Gallery Name cannot be empty");
 		}
 		
@@ -297,7 +297,7 @@ public class BrowsingService {
 		if (artists == null) { // if the provided listings list is null
 			throw new IllegalArgumentException("Artists must be provided");
 		}
-		if (searchInput == null || searchInput == "" || searchInput.isBlank()) { // if the searchInput is empty
+		if (searchInput == null || searchInput == "" || searchInput.trim().length() == 0) { // if the searchInput is empty
 			throw new IllegalArgumentException("Search cannot be empty");
 		}
 		HashSet<Artist> results = new HashSet<>(); // where our search results will be saved
@@ -336,7 +336,7 @@ public class BrowsingService {
 		if (listings == null) { // if the provided listings list is null
 			throw new IllegalArgumentException("Listings must be provided");
 		}
-		if (searchInput == null || searchInput == "" || searchInput.isBlank()) { // if the searchInput is empty
+		if (searchInput == null || searchInput == "" || searchInput.trim().length() == 0) { // if the searchInput is empty
 			throw new IllegalArgumentException("Search cannot be empty");
 		}
 		if (minPrice > maxPrice) { // if the minimum price is larger than the maximum price
@@ -383,7 +383,7 @@ public class BrowsingService {
 		if (listings == null) { // if the provided listings list is null
 			throw new IllegalArgumentException("Listings must be provided");
 		}
-		if (searchInput == null || searchInput == "" || searchInput.isBlank()) { // if the searchInput is empty
+		if (searchInput == null || searchInput == "" || searchInput.trim().length() == 0) { // if the searchInput is empty
 			throw new IllegalArgumentException("Search cannot be empty");
 		}
 		if (minPrice > maxPrice) { // if the minimum price is larger than the maximum price
@@ -464,7 +464,7 @@ public class BrowsingService {
 		if (listings == null) { // if the provided listings list is null 
 			throw new IllegalArgumentException("Listings must be provided");
 		}
-		if (searchInput == null || searchInput == "" || searchInput.isBlank()) { // if the searchInput is empty
+		if (searchInput == null || searchInput == "" || searchInput.trim().length() == 0) { // if the searchInput is empty
 			throw new IllegalArgumentException("Search cannot be empty");
 		}
 		if (artStyle == null) { // if the provided ArtStyle is null
@@ -540,7 +540,7 @@ public class BrowsingService {
 		if (listings == null) { // if the provided listings list is null
 			throw new IllegalArgumentException("Listings must be provided");
 		}
-		if (searchInput == null || searchInput == "" || searchInput.isBlank()) { // if the searchInput is empty
+		if (searchInput == null || searchInput == "" || searchInput.trim().length() == 0) { // if the searchInput is empty
 			throw new IllegalArgumentException("Search cannot be empty");
 		}
 		HashSet<Listing> results = new HashSet<>(); // where our results will be saved

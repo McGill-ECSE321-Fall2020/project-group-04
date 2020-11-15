@@ -29,7 +29,8 @@ export default {
   data() {
     return {
 
-      artwork: '',
+	  artwork: '',
+	  artist: '', 
       errorArtwork: '',
       artworkNameInput: '',
       yearInput: '',
@@ -43,6 +44,15 @@ export default {
     }
   },
 
+   created: function() {
+    AXIOS.get('/artist/name/' + this.$route.params.username)
+      .then(response => {
+        this.artist = response.data
+      })
+      .catch(e => {
+        this.errorArtist = e
+      })
+  },
    methods: {
    
     updateArtwork: function(listingID, artworkName, year, price, style, height, weight, width) {
@@ -52,6 +62,7 @@ export default {
           this.artwork = response.data
         })
         .catch(e => {
+		  alert("Failure. Please list the artwork before updating it.");
           this.errorArtwork = e
         })
     },
