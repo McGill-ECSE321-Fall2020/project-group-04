@@ -1,14 +1,10 @@
 <template>
   <body class="registration">
-    <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+    <hr style="height:4px;border-width:0;color:gray;background-color:black">
     <img src="../assets/sglogo.png"  alt="logo">
-    <button class="button2" v-on:click="loginWarning()" type="button" name="home"> Home </button>
-    <button class="button2" v-on:click="loginWarning()" type="button" name="artworkSearch"> Search Artwork </button>
-    <button class="button2" v-on:click="loginWarning()" type="button" name="artistSearch"> Search Artist </button>
-    <button class="button2" v-on:click="loginWarning()" type="button" name="viewProfile"> View Profile </button>
-    <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+    <hr style="height:4px;border-width:0;color:gray;background-color:black">
     <div id="registration">
-      <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+      <hr style="height:4px;border-width:0;color:gray;background-color:black">
       <br>
       <h1>
         <span style="font-size:38px; font-family: fantasy"> Please fill out the following fields to create an account  </span>
@@ -41,26 +37,26 @@
         </select>
       </h3>
       <br>
-      <h3> 
-        <button 
+      <h3>
+        <button
           class="button2"
           v-on:click="createProfile(accountType, username, password, passwordcheck, email, paymentType)"
           type="button"
-          name="register"> 
-          Register 
-        </button> 
-      </h3> 
-      <br> 
-      <h3> 
-        <button 
+          name="register">
+          Register
+        </button>
+      </h3>
+      <br>
+      <h3>
+        <button
           class="button2"
           v-on:click="backToLogin"
           type="button"
-          name="backToLogin"> 
-          Back To Login 
-        </button> 
-      </h3> 
-    <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+          name="backToLogin">
+          Back To Login
+        </button>
+      </h3>
+    <hr style="height:4px;border-width:0;color:gray;background-color:black">
     </div>
   </body>
 </template>
@@ -89,6 +85,6 @@ button:hover {
 }
 .registration {
   background-color: #e8f4ff;
-    text-align: center;
+  text-align: center;
 }
 </style>

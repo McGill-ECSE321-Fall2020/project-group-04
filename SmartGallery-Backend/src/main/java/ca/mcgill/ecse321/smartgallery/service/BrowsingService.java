@@ -589,6 +589,8 @@ public class BrowsingService {
 			viewedArtworks.remove(artwork); // put it back in front
 		}
 		
+		viewedArtworks.add(artwork);
+		profile.setArtworksViewed(viewedArtworks);
 		
 		if(profile instanceof Customer) {
 			customerRepository.save((Customer)profile);
