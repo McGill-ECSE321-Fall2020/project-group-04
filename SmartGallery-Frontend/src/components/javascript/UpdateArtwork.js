@@ -6,8 +6,10 @@ var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPo
 
 var AXIOS = axios.create({
 
-	baseURL: backendUrl,
-	headers: { 'Access-Control-Allow-Origin': frontendUrl }
+  baseURL: backendUrl,
+  headers: {
+    'Access-Control-Allow-Origin': frontendUrl
+  }
 })
 
 function ArtworkDTO(artists, gallery, name, year, price, isBeingPromoted, style, height, weight, width, artworkID) {
@@ -28,14 +30,16 @@ export default {
   name: 'createArtwork',
   data() {
     return {
-
-
-	  artwork: '',
-	  artist: '', 
-	  errorArtwork: '',
-	  selectedArtStyle: '',
-	  selectedListing: '',
+      addArtist: false,
+      artwork: '',
+      artist: '',
+			artists: [],
+      errorArtist: '',
+      errorArtwork: '',
+      selectedArtStyle: '',
+      selectedListing: '',
       artworkNameInput: '',
+      addedArtistInput: '',
       yearInput: '',
       priceInput: '',
       artStyle: '',
@@ -47,7 +51,7 @@ export default {
     }
   },
 
-   created: function() {
+  created: function() {
     AXIOS.get('/artist/name/' + this.$route.params.username)
       .then(response => {
         this.artist = response.data
@@ -55,47 +59,65 @@ export default {
       .catch(e => {
         this.errorArtist = e
       })
+			AXIOS.get('/artist')
+	      .then(response => {
+	        this.artists = response.data
+	        console.log(artists)
+	      })
+	      .catch(e => {
+	        this.errorArtist = e
+	      })
   },
 
-   methods: {
-   
+  methods: {
+
     updateArtwork: function(listingID, artworkName, year, price, style, height, width, weight) {
       AXIOS.put('/listing/updateArtwork/'.concat(listingID) + '?artworkName=' + artworkName + '&year=' + year + '&price=' + price +
-          '&style=' + style + '&height=' + height + '&width=' + width + '&weight=' + weight )
+          '&style=' + style + '&height=' + height + '&width=' + width + '&weight=' + weight)
         .then(response => {
           this.artwork = response.data
         })
         .catch(e => {
-		  alert("Failure. Please list the artwork before updating it or enter valid fields.");
+          alert("Failure. Please list the artwork before updating it or enter valid fields.");
           this.errorArtwork = e
         })
     },
-    logout : function () {
-			var username = this.$route.params.username
-      		AXIOS.post('/logout'.concat("?username=", username))
-      		.then(response => {
-			if(response.data) {
-				alert ("You have been logged out.")
-        		window.location.href = "/#/"
-			}
-	    })
-	},
-		goToArtworkSearch : function () {
-			window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
-		},
-		goToArtistSearch : function () {
-			window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
-		},
-		goToProfile : function () {
-			AXIOS.get('/customer/name/'.concat(this.$route.params.username))
-			.then(response => {
-				window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
-			}).catch(e => {
-				window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
-			})
-		},
-		goToHome : function () {
-			window.location.href = "/#/home/".concat(this.$route.params.username)
-		}
+    logout: function() {
+      var username = this.$route.params.username
+      AXIOS.post('/logout'.concat("?username=", username))
+        .then(response => {
+          if (response.data) {
+            alert("You have been logged out.")
+            window.location.href = "/#/"
+          }
+        })
+    },
+    goToArtworkSearch: function() {
+      window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
+    },
+    goToArtistSearch: function() {
+      window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
+    },
+    goToProfile: function() {
+      AXIOS.get('/customer/name/'.concat(this.$route.params.username))
+        .then(response => {
+          window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
+        }).catch(e => {
+          window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
+        })
+    },
+    goToHome: function() {
+      window.location.href = "/#/home/".concat(this.$route.params.username)
+    },
+		addArtists: function(artworkID, artist) {
+      AXIOS.put('/artwork/addArtist/'.concat(artworkID) + '/'.concat(artist))
+        .then(response => {
+          this.artwork = response.data
+        })
+        .catch(e => {
+          alert("Please choose an exisitng artwork and artist.");
+          this.errorArtwork = e
+        })
+    }
   }
 }
