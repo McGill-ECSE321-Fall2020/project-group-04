@@ -114,6 +114,7 @@ public class ListingService {
 		artwork.setHeight(height);
 		artwork.setWeight(weight);
 		artwork.setWidth(width);
+        //artwork.setImageUrl(null);
 		
 		Set<Artwork> artworks = artist.getArtworks();
 		if(artworks == null || artworks.size() == 0)
@@ -146,6 +147,17 @@ public class ListingService {
 		}
 		
 	}
+	
+	/**
+	 * Set the imageUrl of an Artwork
+	 * @param artwork The artwork object
+	 * @param imageUrl The url of the image
+	 */
+	public void setArtworkImageUrl(Artwork artwork, String imageUrl) {
+	  artwork.setImageUrl(imageUrl);
+	  artworkRepository.save(artwork);
+	}
+	
 	/**
 	 * @author Stavros Mitsoglou
 	 * @param artwork Artwork related to the listing

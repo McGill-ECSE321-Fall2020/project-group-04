@@ -159,7 +159,7 @@ public class Converters {
 		}
 		ArtworkDTO artworkDTO = new ArtworkDTO(artistsDTO, convertToDto(a.getGallery()), a.getName(), a.getYear(),
 				a.getPrice(), a.isIsBeingPromoted(), a.getStyle(), a.getHeight(), a.getWeight(), a.getWidth(),
-				a.getArtworkID());
+				a.getImageUrl(), a.getArtworkID());
 
 		if (a.getListing() != null) {
 			ListingDTO l = listingNoArtwork(a.getListing());
@@ -171,7 +171,8 @@ public class Converters {
 
 	public static ArtworkDTO withoutArtist(Artwork a) {
 		ArtworkDTO artworkDTO = new ArtworkDTO(convertToDto(a.getGallery()), a.getName(), a.getYear(), a.getPrice(),
-				a.isIsBeingPromoted(), a.getStyle(), a.getHeight(), a.getWeight(), a.getWidth(), a.getArtworkID());
+				a.isIsBeingPromoted(), a.getStyle(), a.getHeight(), a.getWeight(), a.getWidth(), a.getImageUrl(),
+				a.getArtworkID());
 		return artworkDTO;
 	}
 

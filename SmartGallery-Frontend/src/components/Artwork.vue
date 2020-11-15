@@ -20,21 +20,6 @@
     <h1> Upload Your Artwork!
     </h1>
   </div>
-
-  <div name="inputUrl" style="display:block">
-    <h3> Enter your image url:
-      <input
-        type="text"
-        v-model="imageUrl"
-        placeholder="Image URL"> 
-      <input>
-      <button class="button2" v-on:click="confirmImage()" type="button" name="confirmImage"> Confirm </button>
-    </h3>
-  </div>
-
-  <div name="image" style="display:none">
-    <img src="" alt="Your artwork" name="picture"> 
-  </div> 
  
   <div>
     <p>

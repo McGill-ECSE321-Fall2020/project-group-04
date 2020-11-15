@@ -19,7 +19,7 @@ function ListingDto(gallery, artwork, listedDate, isSold, listingID) {
   this.listingID = listingID;
 }
 
-function ArtworkDto(artists, gallery, name, year, price, isBeingPromoted, style, height, weight, width, artworkID) {
+function ArtworkDto(artists, gallery, name, year, price, isBeingPromoted, style, height, weight, width, artworkID, imageUrl) {
   this.artists = artists;
   this.gallery = gallery;
   this.name = name;
@@ -31,6 +31,7 @@ function ArtworkDto(artists, gallery, name, year, price, isBeingPromoted, style,
   this.weight = weight;
   this.width = width;
   this.artworkID = artworkID;
+  this.imageUrl = imageUrl;
 }
 
 function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod,
@@ -126,6 +127,10 @@ export default {
     },
     goToCreateArtwork: function(){
       window.location.href = "/#/createartwork/".concat(this.$route.params.username)
+    },
+    goToAddImage: function(artworkID) {
+      alert(artworkID)
+      window.location.href = "/#/AddImage/".concat(this.$route.params.username, "/", artworkID)
     }
   }
 

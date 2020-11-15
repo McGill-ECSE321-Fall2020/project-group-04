@@ -16,6 +16,7 @@ public class ArtworkDTO {
 	private int weight;
 	private int width;
 	private int artworkID;
+	private String imageUrl;
 	private ListingDTO listing;
 
 	public ArtworkDTO(){
@@ -24,7 +25,7 @@ public class ArtworkDTO {
 	
 	
 	public ArtworkDTO(Set<ArtistDTO> artists, GalleryDTO gallery, String name, int year, double price, boolean isBeingPromoted, ArtStyle style, int height,
-			int weight, int width, int artworkID) {
+			int weight, int width, String imageUrl, int artworkID) {
 		this.artists = artists;
 		this.gallery = gallery;
 		this.name = name;
@@ -36,10 +37,11 @@ public class ArtworkDTO {
 		this.weight = weight;
 		this.width = width;
 		this.artworkID = artworkID;
+		this.imageUrl = imageUrl;
 	}
 
 	public ArtworkDTO(GalleryDTO gallery, String name, int year, double price, boolean isBeingPromoted, ArtStyle style, int height,
-			int weight, int width, int artworkID) {
+			int weight, int width, String imageUrl, int artworkID) {
 		this.gallery = gallery;
 		this.name = name;
 		this.year = year;
@@ -50,6 +52,7 @@ public class ArtworkDTO {
 		this.weight = weight;
 		this.width = width;
 		this.artworkID = artworkID;
+		this.imageUrl = imageUrl;
 	}
 
 	/**

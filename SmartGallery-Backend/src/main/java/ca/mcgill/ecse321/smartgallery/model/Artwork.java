@@ -76,6 +76,14 @@ return this.width;
     }
 private Set<Artist> artists;
 
+private String imageUrl;
+public String getImageUrl() {
+  return this.imageUrl;
+}
+public void setImageUrl(String imageUrl) {
+  this.imageUrl = imageUrl;
+}
+
 @ManyToMany(mappedBy="artworks")
 public Set<Artist> getArtists() {
    return this.artists;

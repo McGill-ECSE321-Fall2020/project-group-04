@@ -78,7 +78,6 @@ export default {
       AXIOS.post('/artwork/'.concat(artworkName) + '?year=' + year + '&price=' + price + '&style=' + style + '&height=' + height + '&weight=' + weight + '&width=' + width + '&artist=' + this.$route.params.username + '&gallery=testGallery')
         .then(response => {
           this.artwork = response.data
-          this.goToProfile()
         })
         .catch(e => {
           this.errorArtwork = e
@@ -111,5 +110,12 @@ export default {
 		goToHome : function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
     },
+    confirmImage : function(imageUrl) {
+      document.getElementById("inputUrl").style.display = "none"
+      //var encodedUrl = encodeURIComponent(imageUrl)
+      document.getElementById("picture").src = imageUrl
+      document.getElementById("image").style.display = "block"
+      //AXIOS.put('/artwork/setImageUrl?artworkID='.concat(artworkID, "&imageUrl=", encodedUrl))
+    }
   }
 }
