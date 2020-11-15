@@ -55,6 +55,16 @@
     <button class="button2" type="button" v-on:click="showEmail= !showEmail"> Cancel </button>
   </div>
   <br>
+  <br>
+  <button
+    class="button2"
+    v-on:click="deleteCustomer()"
+    type="button"
+    name="deleteCustomer">
+    Delete Account
+  </button>
+  <br>
+  <br>
   <img src="../assets/sglogo.png" alt="logo">
   <span style="font-size:60px; font-family: fantasy"> BROWSE HISTORY: </span>
   <div v-for="artwork in browseHistory" v-bind:key="artwork.artworkID">

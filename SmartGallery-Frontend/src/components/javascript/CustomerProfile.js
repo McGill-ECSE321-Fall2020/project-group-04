@@ -68,6 +68,16 @@ export default {
           }
         })
     },
+    deleteCustomer: function() {
+    var username = this.$route.params.username
+    AXIOS.post('/customer/delete/'.concat(username))
+      .then(response => {
+        if (response.data) {
+          alert("Your account has been deleted.")
+          window.location.href = "/#/"
+        }
+      })
+    },
     updatePassword: function(oldPassword,newPassword){
       AXIOS.post('/password/change/?username='+ customerName + '&oldPassword='+oldPassword+'&newPassword='+newPassword)
       .then(response => {

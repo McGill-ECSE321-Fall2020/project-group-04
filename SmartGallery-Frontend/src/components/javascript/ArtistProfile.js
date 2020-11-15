@@ -114,6 +114,16 @@ export default {
           }
         })
     },
+    deleteArtist: function() {
+      var username = this.$route.params.username
+      AXIOS.post('/artist/delete/'.concat(username))
+        .then(response => {
+          if (response.data) {
+            alert("Your account has been deleted.")
+            window.location.href = "/#/"
+          }
+        })
+      },
     goToArtworkSearch: function() {
       window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
     },
