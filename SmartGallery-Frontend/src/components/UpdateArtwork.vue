@@ -104,7 +104,10 @@ img{
   color: white;
 }
 
-
+button:hover {
+  background-color: #000000;
+  color: white
+}
 .updateArt{
 
   color:black;

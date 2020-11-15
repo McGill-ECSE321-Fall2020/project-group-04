@@ -80,10 +80,18 @@ export default {
           gallery)
         .then(response => {
           this.listing = response.data
+
+           var i =  Math.random()
+           if (i <= 0.3) {
+              promoteListing(this.listing);
+           }
         })
         .catch(e => {
           this.errorListing = e
         })
     },
+    promoteListing: function (listingToPromote) {
+      AXIOS.put('/artwork/promote/'.concat(listingToPromote.artwork.artworkID)) 
+    }
   }
 }

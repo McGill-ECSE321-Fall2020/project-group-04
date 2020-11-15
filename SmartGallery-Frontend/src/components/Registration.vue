@@ -84,7 +84,8 @@
   padding: 8px 40px
 }
 button:hover {
-  box-shadow: 0 0 3px 3px rgba(238, 238, 0, 1);
+  background-color: #000000;
+  color: white
 }
 .registration {
   background-color: #e8f4ff;

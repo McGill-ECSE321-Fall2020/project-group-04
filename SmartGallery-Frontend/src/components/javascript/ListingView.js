@@ -77,25 +77,26 @@ export default {
       delivery: "Ship"
     }
   },
-  created: function() {
+  created: function () {
     AXIOS.get('/listing/'.concat(this.$route.params.listingNumber))
       .then(response => {
         this.newListing = response.data
         this.artwork = this.newListing.artwork
-        if(this.newListing.sold){
+        if (this.newListing.sold) {
           this.sold = "Sold"
-        }else{
+        } else {
           this.sold = "Available"
         }
+        addToBrowseHistory(this.artwork.artworkID)
       })
       .catch(e => {
         this.errorListing = e
       })
   },
   methods: {
-    createTransaction: function(paymentMethod, deliveryMethod) {
+    createTransaction: function (paymentMethod, deliveryMethod) {
       AXIOS.post('/transaction/?paymentMethod=' + paymentMethod + '&deliveryMethod=' +
-          deliveryMethod + '&username=' + this.$route.params.username + '&listingID=' + this.$route.params.listingNumber)
+        deliveryMethod + '&username=' + this.$route.params.username + '&listingID=' + this.$route.params.listingNumber)
         .then(response => {
           this.transaction = response.data
           this.sold ="Sold"
@@ -105,32 +106,40 @@ export default {
           this.errorTransaction = e
         })
     },
-    logout : function () {
-			var username = this.$route.params.username
-      		AXIOS.post('/logout'.concat("?username=", username))
-      		.then(response => {
-			if(response.data) {
-				alert ("You have been logged out.")
-        		window.location.href = "/#/"
-			}
-	    })
-	},
-		goToArtworkSearch : function () {
-			window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
-		},
-		goToArtistSearch : function () {
-			window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
-		},
-		goToProfile : function () {
-			AXIOS.get('/customer/name/'.concat(this.$route.params.username))
-			.then(response => {
-				window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
-			}).catch(e => {
-				window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
-			})
-		},
-		goToHome : function () {
-			window.location.href = "/#/home/".concat(this.$route.params.username)
+    logout: function () {
+      var username = this.$route.params.username
+      AXIOS.post('/logout'.concat("?username=", username))
+        .then(response => {
+          if (response.data) {
+            alert("You have been logged out.")
+            window.location.href = "/#/"
+          }
+        })
+    },
+    goToArtworkSearch: function () {
+      window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
+    },
+    goToArtistSearch: function () {
+      window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
+    },
+    goToProfile: function () {
+      AXIOS.get('/customer/name/'.concat(this.$route.params.username))
+        .then(response => {
+          window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
+        }).catch(e => {
+          window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
+        })
+    },
+    goToHome: function () {
+      window.location.href = "/#/home/".concat(this.$route.params.username)
+    },
+    addToBrowseHistory: function (artID) {
+      AXIOS.get('/customer/name/testcustomer/'.concat(this.$route.params.username))
+        .then(response => {
+          if (response != null) {
+            AXIOS.put('/customer/addToBrowseHistory/'.concat(this.$route.params.username, '/', artID))
+          }
+        })
     },
     setImage : function() {
       alert("Setting image")

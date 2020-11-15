@@ -23,6 +23,12 @@ public class BrowsingService {
 	
 	@Autowired
 	private SmartGalleryRepository smartGalleryRepository;
+	
+	@Autowired
+	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private ArtistRepository artistRepository;
 
 	/**
 	 * 
@@ -547,32 +553,41 @@ public class BrowsingService {
 	 * 
 	 * @author OliverStappas 
 	 * 
-	 * @param customer The customer whose browse history is being changed
+	 * @param profile The customer whose browse history is being changed
 	 * @param artwork The artwork being added to the browse history
 	 * 
 	 * @return Set<Artwork> The customer's browseHistory
 	 * 
 	 */ 
 	@Transactional
-	public Set<Artwork> addToBrowseHistory(Customer customer, Artwork artwork) {
-		if (customer == null) { // if no customer was provided
+	public Set<Artwork> addToBrowseHistory(Profile profile, Artwork artwork) {
+		if (profile == null) { // if no customer was provided
 			throw new IllegalArgumentException("Customer doesn't exist");
 		}
 		if (artwork == null) { // if no artwork was provided
 			throw new IllegalArgumentException("Artwork doesn't exist");
 		}
-		if (customer.getArtworksViewed() == null) { // If the customer hasn't viewed anything yet
+		if (profile.getArtworksViewed() == null) { // If the customer hasn't viewed anything yet
 			// Create the HashSet for the customer's browsing history
 			HashSet<Artwork> viewedArtworks = new HashSet<Artwork>();
 			viewedArtworks.add(artwork);
-			customer.setArtworksViewed(viewedArtworks);
-			return customer.getArtworksViewed();
+			profile.setArtworksViewed(viewedArtworks);
+			return profile.getArtworksViewed();
 		}
-		Set<Artwork> viewedArtworks = customer.getArtworksViewed();
+		Set<Artwork> viewedArtworks = profile.getArtworksViewed();
 		if (viewedArtworks.contains(artwork)) { // if that artwork was already in browsing history
 			viewedArtworks.remove(artwork); // put it back in front
 		}
 		viewedArtworks.add(artwork);
+		
+		
+		if(profile instanceof Customer) {
+			customerRepository.save((Customer)profile);
+		}else {
+			artistRepository.save((Artist) profile);
+		}
+		
+		
 		return viewedArtworks;
 	}
 

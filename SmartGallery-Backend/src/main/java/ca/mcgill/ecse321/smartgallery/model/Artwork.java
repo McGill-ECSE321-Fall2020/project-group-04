@@ -93,15 +93,15 @@ public void setArtists(Set<Artist> artistss) {
    this.artists = artistss;
 }
 
-private Set<Customer> interestedCustomer;
+private Set<Profile> interestedProfile;
 
 @ManyToMany(mappedBy="artworksViewed")
-public Set<Customer> getInterestedCustomer() {
-   return this.interestedCustomer;
+public Set<Profile> getInterestedProfile() {
+   return this.interestedProfile;
 }
 
-public void setInterestedCustomer(Set<Customer> interestedCustomers) {
-   this.interestedCustomer = interestedCustomers;
+public void setInterestedProfile(Set<Profile> interestedProfile) {
+   this.interestedProfile = interestedProfile;
 }
 
 private Gallery gallery;

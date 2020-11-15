@@ -56,6 +56,10 @@ p{
   color: white;
   
 }
+button:hover {
+  background-color: #000000;
+  color: white
+}
 .uploadListing{
     border-radius: 50px;
   background-color: black;

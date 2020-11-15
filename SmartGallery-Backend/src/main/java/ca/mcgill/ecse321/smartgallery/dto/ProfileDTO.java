@@ -15,8 +15,9 @@ public abstract class ProfileDTO {
 	private Date creationDate;
 	private boolean loggedIn;
 	private Set<TransactionDTO> transactions;
+	private Set<ArtworkDTO> artworksViewed;
 	
-	
+
 	public ProfileDTO() {
 		
 	}
@@ -94,6 +95,23 @@ public abstract class ProfileDTO {
 	 */
 	public void setTransaction(Set<TransactionDTO> transaction) {
 		this.transactions = transaction;
+	}
+	
+	/**
+	 * @return the artworksViewed
+	 */
+	public Set<ArtworkDTO> getArtworksViewed() {
+		if(artworksViewed == null) {
+			artworksViewed = new HashSet<>();
+		}
+		return artworksViewed;
+	}
+
+	/**
+	 * @param artworksViewed the artworksViewed to set
+	 */
+	public void setArtworksViewed(Set<ArtworkDTO> artworksViewed) {
+		this.artworksViewed = artworksViewed;
 	}
 
 }

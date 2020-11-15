@@ -37,7 +37,7 @@
     <span style="font-size:30px; font-family: fantasy">{{ listings.length}} result(s):</span>
     <br>
     <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">
-    <div v-for="listing in listings" :key="listing.name" >
+    <div v-for="listing in listings" :key="listing.listingID" >
             <a style="font-weight: bold; text-decoration: underline;" v-bind:href="getListingPageURL(listing.listingID)">{{ listing.artwork.name }}</a>
             <br>
             Artist(s):
@@ -79,7 +79,8 @@
   padding: 8px 40px
 }
 button:hover {
-  box-shadow: 0 0 3px 3px rgba(238, 238, 0, 1);
+  background-color: #000000;
+  color: white
 }
 .artworkSearch {
   background-color: #e8f4ff;

@@ -100,7 +100,7 @@ public class Converters {
 				artistDTO.addArtworks(withoutArtist(art));
 			}
 		}
-		
+
 		Set<TransactionDTO> tSet = new HashSet<>();
 		if (a.getTransaction() != null) {
 			for (Transaction t : a.getTransaction()) {
@@ -108,7 +108,16 @@ public class Converters {
 			}
 		}
 		artistDTO.setTransaction(tSet);
-		
+
+		Set<ArtworkDTO> artSet = new HashSet<>();
+		if (a.getArtworksViewed() != null) {
+			for (Artwork art : a.getArtworksViewed()) {
+				if (!art.getArtists().contains(a)) {
+					artSet.add(convertToDto(art));
+				}
+			}
+		}
+		artistDTO.setArtworksViewed(artSet);
 		return artistDTO;
 	}
 
@@ -129,7 +138,7 @@ public class Converters {
 			for (Artwork art : c.getArtworksViewed()) {
 				artSet.add(convertToDto(art));
 			}
-			customerDto.setArtworkViewed(artSet);
+			customerDto.setArtworksViewed(artSet);
 		}
 
 		Set<TransactionDTO> tSet = new HashSet<>();
@@ -138,6 +147,7 @@ public class Converters {
 				tSet.add(convertWithoutProfile(t));
 			}
 		}
+
 		customerDto.setTransaction(tSet);
 		return customerDto;
 	}
@@ -173,6 +183,10 @@ public class Converters {
 		ArtworkDTO artworkDTO = new ArtworkDTO(convertToDto(a.getGallery()), a.getName(), a.getYear(), a.getPrice(),
 				a.isIsBeingPromoted(), a.getStyle(), a.getHeight(), a.getWeight(), a.getWidth(), a.getImageUrl(),
 				a.getArtworkID());
+		if (a.getListing() != null) {
+			ListingDTO l = listingNoArtwork(a.getListing());
+			artworkDTO.setListing(l);
+		}
 		return artworkDTO;
 	}
 

@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.smartgallery.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -89,5 +90,15 @@ public Set<Transaction> getTransaction() {
 
 public void setTransaction(Set<Transaction> transactions) {
    this.transaction = transactions;
+}
+private Set<Artwork> artworksViewed;
+
+@ManyToMany
+public Set<Artwork> getArtworksViewed() {
+   return this.artworksViewed;
+}
+
+public void setArtworksViewed(Set<Artwork> artworksVieweds) {
+   this.artworksViewed = artworksVieweds;
 }
 }

@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="font-size:25px; font-family: fantasy background-color: #e8f4ff; text-align: center;">
   <h1>Artist Profile <br>
   <button class="button2" v-on:click="goToHome()" type="button" name="home"> Home </button>
   <button class="button2" v-on:click="goToArtworkSearch()" type="button" name="artworkSearch"> Search Artwork </button>
@@ -14,27 +14,27 @@
     <p id="dpm">Default payment method: {{ artist.defaultPaymentMethod }}  </p>
     <p id="date">Creation Date: {{ artist.creationDate }} </p>
   </div>
-    <button type="button" name="updateProfile" v-show = "!showPassword" v-on:click= "showPassword = !showPassword"> Update password </button>
+    <button class="button2" type="button" name="updateProfile" v-show = "!showPassword" v-on:click= "showPassword = !showPassword"> Update password </button>
   <div class = "updatePassword" v-show = "showPassword">
     <input v-model="oldPasswordInput" placeholder="old password">
     <br><br>
     <input v-model="newPasswordInput" placeholder="new password">
     <br><br>
-    <button type="button" onclick="updatePassword(oldPasswordInput, newPasswordInput)"> Change </button>
+    <button class="button2" type="button" onclick="updatePassword(oldPasswordInput, newPasswordInput)"> Change </button>
     <br><br>
-    <button type="button" v-on:click= "showPassword= !showPassword"> Cancel </button>
+    <button class="button2" type="button" v-on:click= "showPassword= !showPassword"> Cancel </button>
   </div>
   <br>
   <br>
-  <button type="button" name="updateEmail" v-show = "!showEmail" v-on:click= "showEmail = !showEmail"> Update email </button>
+  <button class="button2" type="button" name="updateEmail" v-show = "!showEmail" v-on:click= "showEmail = !showEmail"> Update email </button>
   <div class = "updateEmail"  v-show = "showEmail">
     <input v-model="newEmail" placeholder="new email">
     <br><br>
     <input v-model="passwordInput" placeholder="password">
     <br><br>
-    <button type="button" onclick="updateEmail(newEmail,passwordInput)"> Change </button>
+    <button class="button2" type="button" onclick="updateEmail(newEmail,passwordInput)"> Change </button>
     <br><br>
-    <button type="button" v-on:click= "showEmail= !showEmail" > Cancel </button>
+    <button class="button2" type="button" v-on:click= "showEmail= !showEmail" > Cancel </button>
   </div>
   <br>
   <div class="artwork">
@@ -43,14 +43,15 @@
       Name: {{ artwork.name}}
       <button class="imageButton" type="button" v-on:click= "goToAddImage(artwork.artworkID)"> Add Image </button>
       <img class="image" src="" alt="">
-      <button type="button" name="createListing" v-on:click= "goToCreateListing()"> Create Listing </button>
-      <button type="button" name="updateListing"> Update Listing </button>
+      <button class="button2" type="button" name="createListing" v-on:click= "goToCreateListing()"> Create Listing </button>
+      <button class="button2" type="button" name="updateListing"> Update Listing </button>
       <br>
       Year: {{ artwork.year }}
       <br>
       Style: {{ artwork.artStyle }}
       <br>
       Price: {{ artwork.price }}
+      <br>
     </span>
     <br>
     <br>
@@ -70,13 +71,32 @@
 #email{
   padding: 10px;
 }
+button:hover {
+  background-color: #000000;
+  color: white
+}
 #dpm{
   padding: 10px;
 }
 #date{
   padding: 10px;
 }
-
+.button2 {
+  font-family: fantasy;
+  background-color: #008CBA;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 6px;
+  border: 2px solid black;
+  padding: 8px 40px
+}
+button:hover {
+  background-color: #000000;
+  color: white
+}
 .artwork{
   padding: 30px;
 }

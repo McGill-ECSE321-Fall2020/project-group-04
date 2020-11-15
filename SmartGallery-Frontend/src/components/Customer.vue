@@ -45,7 +45,10 @@ img{
     top:0;
 }
 
-
+button:hover {
+  background-color: #000000;
+  color: white
+}
 .customer{
 	
 

@@ -64,7 +64,8 @@ export default {
 				this.listings = response.data
 				for(var i = 0; i < this.listings.length; i++){
 					if(this.listings[i].sold){
-						this.listings.splice(i,1);
+						this.listings.splice(i, 1);
+						i = i - 1;
 					}
 				}
 				console.log(listings)

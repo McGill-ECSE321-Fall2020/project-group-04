@@ -80,6 +80,10 @@ p{
   color: white;
 
 }
+button:hover {
+  background-color: #000000;
+  color: white
+}
 .uploadArtwork{
     border-radius: 50px;
   background-color: black;
