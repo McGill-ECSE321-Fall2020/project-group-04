@@ -73,6 +73,7 @@ export default {
       errorTransaction: '',
       response: [],
       sold: '',
+      comission:'',
       selected: "Credit",
       delivery: "Shipping"
     }
@@ -98,9 +99,10 @@ export default {
       AXIOS.post('/transaction/?paymentMethod=' + paymentMethod + '&deliveryMethod=' +
           deliveryMethod + '&username=' + this.$route.params.username + '&listingID=' + this.$route.params.listingNumber)
         .then(response => {
-          alert("Successful transaction")
+          alert("You have been billed " + this.newListing.artwork.price + "$ The gallery received " + this.newListing.gallery.commissionPercentage/100*this.newListing.artwork.price + "$")
           this.transaction = response.data
           this.sold ="Sold"
+
           this.setImage()
         })
         .catch(e => {
