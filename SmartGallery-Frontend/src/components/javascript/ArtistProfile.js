@@ -52,6 +52,7 @@ export default {
     return {
       showEmail: false,
       showPassword: false,
+      showDelete: false,
       oldPasswordInput: '',
       newPasswordInput: '',
       newEmail: '',

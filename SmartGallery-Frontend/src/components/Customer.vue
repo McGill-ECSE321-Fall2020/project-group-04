@@ -14,20 +14,12 @@
 
   <h1 id="customerHeader">Your Profile</h1>
   <br>
-  <br>
-  <br>
   <div class="userInfo">
     <p id="user">Username: {{ customer.username}} </p>
     <br>
-    <br>
-    <br>
     <p id="email">Email: {{ customer.email}} </p>
     <br>
-    <br>
-    <br>
     <p id="dpm">Default payment method: {{ customer.defaultPaymentMethod }} </p>
-    <br>
-    <br>
     <br>
     <p id="date">Creation Date: {{ customer.creationDate }} </p>
   </div>
@@ -67,7 +59,7 @@
   <br>
   <br>
   <img src="../assets/sglogo.png" alt="logo">
-  <span style="font-size:60px; font-family: fantasy"> BROWSE HISTORY: </span>
+  <span style="font-size:30px; font-family: fantasy"> BROWSE HISTORY: </span>
   <div v-for="artwork in browseHistory" v-bind:key="artwork.artworkID">
       <a style="font-weight: bold; text-decoration: underline;" v-bind:href="getListingPageURL(artwork.listing.listingID)">{{ artwork.name }}</a>
       <br>

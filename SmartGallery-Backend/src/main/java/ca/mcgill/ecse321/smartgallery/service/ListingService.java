@@ -198,6 +198,10 @@ public class ListingService {
 		else if(galleryRepository.findGalleryByGalleryName(gallery.getGalleryName()) == null) {
 			error += "Gallery must exist";
 		}
+		
+		if(listingRepository.findById(artwork.getArtworkID() * artwork.getArtists().iterator().next().getUsername().hashCode()) != null) {
+			error += "Listing already exists";
+		}
 
 
 		if (error.length() > 0) {

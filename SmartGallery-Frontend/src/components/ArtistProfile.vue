@@ -42,9 +42,9 @@
   <div class="deleteArtist" v-show="showDelete">
     <p>Are you sure you want to delete your account?</p>
     <br>
-    <button class="button2" type="button" onclick="deleteArtist()"> Yes </button>
+    <button class="button2" type="button" v-on:click="deleteArtist()"> Yes </button>
     <br><br>
-    <button class="button2" type="button" v-on:click="showDelete= !showDelete"> No </button>
+    <button class="button2" type="button" v-on:click="showDelete = !showDelete"> No </button>
   </div>
   <br>
   <br>
@@ -69,7 +69,7 @@
     <br>
     <br>
   </div>
-  <span style="font-size:60px; font-family: fantasy"> BROWSE HISTORY: </span>
+  <span style="font-size:30px; font-family: fantasy"> BROWSE HISTORY: </span>
   <div v-for="artwork in browseHistory" v-bind:key="artwork.artworkID">
       <a style="font-weight: bold; text-decoration: underline;" v-bind:href="getListingPageURL(artwork.listing.listingID)">{{ artwork.name }}</a>
       <br>
