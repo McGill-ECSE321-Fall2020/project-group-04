@@ -28,6 +28,7 @@ export default {
 			artists: [],
 			errorArtist: '',
 			searchInput: '',
+			artistNameInput:'',
 			response: []
 		}
 	},
@@ -45,12 +46,12 @@ export default {
 		searchArtist: function(searchInput) {
 			if (searchInput.length != 0) {
 				this.searchArtistValid(searchInput);
-	
+
 			}
 			else {
 				alert("Please enter something into the search box.");
 			}
-			
+
 		},
 		searchArtistValid: function (searchInput) {
 			AXIOS.get('/artist/artistSearch/' + searchInput)
@@ -94,4 +95,3 @@ export default {
 		}
 	}
 }
-
