@@ -57,7 +57,6 @@ export default {
 		AXIOS.get('/artwork/getPromoted')
 			.then(response => {
 				this.artworks = response.data
-				console.log(listings)
 			})
 			.catch(e => {
 				this.errorArtwork = e

@@ -82,25 +82,14 @@ export default {
           this.listing = response.data
 
            var i =  Math.random()
-           if (i <= 0.3) {
-              promoteListing(this.listing);
+           alert(i)
+           if (i <= 0.4) {
+             AXIOS.put('/artwork/promote/'.concat(this.listing.artwork.artworkID))
            }
         })
         .catch(e => {
           this.errorListing = e
         })
     },
-    promoteListing: function (listingToPromote) {
-      AXIOS.put('/artwork/promote/'.concat(listingToPromote.artwork.artworkID)) 
-	}
-	,
-		goToProfile : function () {
-			AXIOS.get('/customer/name/'.concat(this.$route.params.username))
-			.then(response => {
-				window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
-			}).catch(e => {
-				window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
-			})
-		}
   }
 }
