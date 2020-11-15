@@ -100,7 +100,8 @@ export default {
         .then(response => {
           alert("Successful transaction")
           this.transaction = response.data
-          this.sold = "Sold"
+          this.sold ="Sold"
+          this.setImage()
         })
         .catch(e => {
           this.errorTransaction = e
@@ -133,5 +134,17 @@ export default {
     goToHome: function() {
       window.location.href = "/#/home/".concat(this.$route.params.username)
     },
+    addToBrowseHistory: function (artID) {
+      AXIOS.get('/customer/name/testcustomer/'.concat(this.$route.params.username))
+        .then(response => {
+          if (response != null) {
+            AXIOS.put('/customer/addToBrowseHistory/'.concat(this.$route.params.username, '/', artID))
+          }
+        })
+    },
+    setImage : function() {
+      alert("Setting image")
+      //var url = AXIOS.get('/artwork/'.concat(artworkID))
+    }
   }
 }

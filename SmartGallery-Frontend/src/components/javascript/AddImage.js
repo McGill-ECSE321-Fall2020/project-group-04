@@ -23,6 +23,7 @@ function ArtworkDTO(artists, gallery, name, year, price, isBeingPromoted, style,
   this.weight = weight;
   this.width = width;
   this.artworkID = artworkID;
+  this.imageUrl = "";
 }
 
 export default {
@@ -78,11 +79,9 @@ export default {
       AXIOS.post('/artwork/'.concat(artworkName) + '?year=' + year + '&price=' + price + '&style=' + style + '&height=' + height + '&weight=' + weight + '&width=' + width + '&artist=' + this.$route.params.username + '&gallery=testGallery')
         .then(response => {
           this.artwork = response.data
-          this.goToAddImage(response.data.artworkID)
         })
         .catch(e => {
           this.errorArtwork = e
-          this.goToAddImage(artwork.artworkID)
         })
     },
     logout : function () {
@@ -112,9 +111,15 @@ export default {
 		goToHome : function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
     },
-    goToAddImage: function(artworkID) {
-      alert(artworkID)
-      window.location.href = "/#/AddImage/".concat(this.$route.params.username, "/", artworkID)
-    },
+    confirmImage : function(imageUrl) {
+      document.getElementById("inputUrl").style.display = "none"
+      var encodedUrl = encodeURIComponent(imageUrl)
+      document.getElementById("picture").src = imageUrl
+      document.getElementById("image").style.display = "block"
+      var artworkID = this.$route.params.artworkID
+      AXIOS.put('/artwork/setImageUrl?artworkID='.concat(artworkID, "&imageUrl=", encodedUrl))
+      alert("Congratulations on uploading a new artwork!")
+      this.goToProfile()
+    }
   }
 }

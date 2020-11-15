@@ -19,7 +19,7 @@ function ListingDto(gallery, artwork, listedDate, isSold, listingID) {
   this.listingID = listingID;
 }
 
-function ArtworkDto(artists, gallery, name, year, price, isBeingPromoted, style, height, weight, width, artworkID) {
+function ArtworkDto(artists, gallery, name, year, price, isBeingPromoted, style, height, weight, width, artworkID, imageUrl) {
   this.artists = artists;
   this.gallery = gallery;
   this.name = name;
@@ -31,6 +31,7 @@ function ArtworkDto(artists, gallery, name, year, price, isBeingPromoted, style,
   this.weight = weight;
   this.width = width;
   this.artworkID = artworkID;
+  this.imageUrl = imageUrl;
 }
 
 function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod,
@@ -114,6 +115,16 @@ export default {
           }
         })
     },
+    deleteArtist: function() {
+      var username = this.$route.params.username
+      AXIOS.post('/artist/delete/'.concat(username))
+        .then(response => {
+          if (response.data) {
+            alert("Your account has been deleted.")
+            window.location.href = "/#/"
+          }
+        })
+      },
     goToArtworkSearch: function() {
       window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
     },
@@ -137,9 +148,16 @@ export default {
     goToCreateArtwork: function(){
       window.location.href = "/#/createartwork/".concat(this.$route.params.username)
     },
+    goToAddImage: function(artworkID) {
+      alert(artworkID)
+      window.location.href = "/#/AddImage/".concat(this.$route.params.username, "/", artworkID)
+    },
     getListingPageURL : function (listingID) {
 			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
-		}
+    },
+    goToUpdateArtwork: function() {
+        window.location.href = "/#/UpdateArtwork/".concat(this.$route.params.username)
+    }
   }
 
 }

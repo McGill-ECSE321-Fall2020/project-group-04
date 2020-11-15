@@ -12,6 +12,8 @@ import Home from '@/components/Home'
 import ArtistView from '@/components/ArtistView'
 import Customer from '@/components/Customer'
 import CreateListing from '@/components/CreateListing'
+import AddImage from '@/components/AddImage'
+// import { component } from 'vue/types/umd'
 Vue.use(Router)
 
 export default new Router({
@@ -74,6 +76,11 @@ export default new Router({
       path: '/CreateListing/:username',
       name: 'CreateListing',
       component: CreateListing
+    },
+    {
+      path: '/AddImage/:username/:artworkID',
+      name: 'AddImage',
+      component: AddImage
     }
   ]
 })

@@ -31,9 +31,5 @@ public interface ArtworkRepository extends CrudRepository<Artwork, Integer> {
 	
 	List<Artwork> findArtworkByIsBeingPromoted(boolean isBeingPromoted);
 	
-	//the longest method name ever written
-	List<Artwork> findArtworkByNameContainingAndYearBetweenAndPriceBetweenAndHeightBetweenAndWidthBetweenAndWeightBetweenAndStyle(
-			String nameFragment, int minYear, int maxYear, double minPrice, double maxPrice, int minHeight, int maxHeight,
-			int minWidth, int maxWidth, int minWeight, int maxWeight, ArtStyle artStyle);
 	
 }
