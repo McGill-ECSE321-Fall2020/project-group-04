@@ -1,1 +1,1 @@
-web: cd SmartGallery-Frontend && npm start
+web: cd SmartGallery-Frontend && npm run build
