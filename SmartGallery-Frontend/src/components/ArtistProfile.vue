@@ -117,6 +117,7 @@
   <br>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">
   <br>
+  <span style="font-size:35px; font-family: fantasy"> Transactions: </span>
   <div v-for="transaction in transactions">
     <br>
     Date Purchased:

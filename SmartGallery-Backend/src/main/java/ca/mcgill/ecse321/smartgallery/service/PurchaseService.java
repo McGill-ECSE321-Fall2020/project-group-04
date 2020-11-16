@@ -206,7 +206,7 @@ public class PurchaseService {
 	private boolean doesProfileExist(String name) {
 		// Uses existing method in artist repository to find an artist by username
 		Profile p = artistRepository.findArtistByUsername(name);
-
+		System.out.println(p.getUsername());
 		if (p == null) {
 			p = customerRepository.findCustomerByUsername(name);
 		}
