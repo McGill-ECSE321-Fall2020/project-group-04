@@ -59,6 +59,7 @@ export default {
     }
   },
   created: function() {
+	  this.checkIfLoggedIn()
     AXIOS.get('artist/name/'.concat(this.$route.params.artistUsername)) // artist/name/testartist to test
       .then(response => {
         this.artist = response.data
@@ -103,6 +104,28 @@ export default {
     },
     getListingPageURL: function(listingID) {
       return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
-    }
+	},
+    checkIfLoggedIn: function() {
+      var username = this.$route.params.username
+      AXIOS.get('/customer/name/'.concat(username))
+      .then(response => {
+        var isLoggedIn = response.data.isLoggedIn
+        if (!isLoggedIn) {
+          window.location.href = "/#/"
+        }
+      })
+      .catch(
+        AXIOS.get('/artist/name/'.concat(username))
+        .then(response => {
+        var isLoggedIn = response.data.isLoggedIn
+        if (!isLoggedIn) {
+          window.location.href = "/#/"
+        }
+      })
+      .catch(
+        window.location.href = "/#/"
+      )
+      )
+    }	
   }
 }
