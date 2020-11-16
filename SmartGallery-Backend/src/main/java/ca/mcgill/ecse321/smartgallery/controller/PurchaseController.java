@@ -96,13 +96,13 @@ public class PurchaseController {
 	/**
 	 * 
 	 * @param username
-	 * @return a customer's transactions
+	 * @return a Profiles's transactions
 	 */
 	@GetMapping(value = { "/transaction/search/username/{username}",
 			"transaction/search/username/{username}/" })
 	public List<TransactionDTO> getTransactionsByCustomer(@PathVariable("username") String username) {
-		Customer customer = registrationService.getCustomer(username);
-		return purchaseService.getTransactionByProfile(customer).stream().map(p -> Converters.convertToDto(p))
+		Profile profile = registrationService.getProfile(username);
+		return purchaseService.getTransactionByProfile(profile).stream().map(p -> Converters.convertToDto(p))
 				.collect(Collectors.toList());
 	}
 

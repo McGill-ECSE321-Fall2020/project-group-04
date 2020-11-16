@@ -21,7 +21,16 @@ function CustomerDTO(smartGallery, username, password, email, defaultPaymentMeth
   this.creationDate = creationDate;
   this.loggedIn = loggedIn;
 }
-
+function TransactionDTO(smartGallery, listing, customer, transactionID,
+  paymentMethod, deliveryMethod, paymentDate) {
+  this.customer = customer;
+  this.smartGallery = smartGallery;
+  this.listing = listing;
+  this.transactionID = transactionID;
+  this.paymentMethod = paymentMethod;
+  this.deliveryMethod = deliveryMethod;
+  this.paymentDate = paymentDate;
+}
 export default {
   data() {
     return {
@@ -31,6 +40,8 @@ export default {
       oldPasswordInput: '',
       newPasswordInput: '',
       newEmail: '',
+      transactions: [],
+      errorTransaction: '',
       passwordInput: '',
       customer: '',
       updated: '',
@@ -58,6 +69,13 @@ export default {
       .catch(e => {
         this.errorBrowseHistory = e
       })
+      AXIOS.get('/transaction/search/username/'+ this.$route.params.username)
+        .then(response => {
+          this.transactions = response.data
+        })
+        .catch(e => {
+          this.errorTransaction = e
+        })
   },
   methods: {
     logout: function() {
@@ -159,7 +177,7 @@ export default {
       )}
 
       )
-    }	
+    }
   }
 
 }

@@ -50,13 +50,13 @@
   </div>
 
     <br>
-  <input v-model="heightInput" placeholder="Height">
+  <input v-model="heightInput" placeholder="Height (cm)">
   <br>
   <br>
-  <input v-model="weightInput" placeholder="Weight">
+  <input v-model="weightInput" placeholder="Weight (kg)">
   <br>
   <br>
-  <input v-model="widthInput" placeholder="Width">
+  <input v-model="widthInput" placeholder="Width (cm)">
   <br>
 
   <br>

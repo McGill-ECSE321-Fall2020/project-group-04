@@ -105,10 +105,10 @@ export default {
           alert("You have been billed " + this.newListing.artwork.price + "$ The gallery received " + this.newListing.gallery.commissionPercentage/100*this.newListing.artwork.price + "$")
           this.transaction = response.data
           this.sold ="Sold"
-
           this.setImage()
         })
         .catch(e => {
+          alert("Transaction failed")
           this.errorTransaction = e
         })
     },
@@ -176,6 +176,6 @@ export default {
       )}
 
       )
-    }	
+    }
   }
 }
