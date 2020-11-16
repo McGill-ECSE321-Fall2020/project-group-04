@@ -25,4 +25,13 @@ The following tables provide details on the contributors to this project. It dis
 | Viet | Service methods [Purchase], Controller methods, Converters, DTOs, Service tests | 28 |
 | Oliver |Service methods [Browsing], Controller methods, Service tests [Browsing], Project Report  | 32 |
 
+**Sprint Three**
+| Member  |Main Responsibilities|Hours|
+|---------------------|-----------------------|-------|
+| Roey |  |  |
+| Stavros |   | |
+| Zachary |   |  |
+| Viet |   |  |
+| Oliver |  |  |
+
 A report on the sprints and more information can be found in our [wiki](https://github.com/McGill-ECSE321-Fall2020/project-group-04/wiki).
