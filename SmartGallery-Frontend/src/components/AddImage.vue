@@ -43,7 +43,9 @@
 #date{
   padding: 10px;
 }
-
+body {
+  background-color: #e8f4ff;
+}
 .artwork{
   padding: 30px;
 }

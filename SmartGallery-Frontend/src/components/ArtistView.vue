@@ -76,6 +76,9 @@ img{
   margin-right: 2px;
   margin-left: 7px;
 }
+body {
+  background-color: #e8f4ff;
+}
 .search2 {
   margin-right: 2px;
   margin-left: 5px;

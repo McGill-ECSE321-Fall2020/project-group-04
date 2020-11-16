@@ -1,14 +1,17 @@
 <template>
-<div style="font-size:25px; font-family: fantasy background-color: #e8f4ff; text-align: center;">
-  <h1>Artist Profile <br>
+<div>
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <img src="../assets/sglogo.png"  alt="logo">
   <button class="button2" v-on:click="goToHome()" type="button" name="home"> Home </button>
   <button class="button2" v-on:click="goToArtworkSearch()" type="button" name="artworkSearch"> Search Artwork </button>
   <button class="button2" v-on:click="goToArtistSearch()" type="button" name="artistSearch"> Search Artist </button>
   <button class="button2" v-on:click="goToProfile()" type="button" name="viewProfile"> View Profile </button>
   <button class="button2" v-on:click="goToCreateArtwork()" type="button" name="uploadArtwork"> Upload Artwork </button>
   <button class="button2" v-on:click="logout()" type="button" name="logout"> Logout </button>
-  </h1>
-  <div class="userInfo">
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <span style="font-size:60px; font-family: fantasy"> Artist Profile </span>
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <div class="userInfo" style="font-size:25px; font-weight: bold;">
     <p id="user">Username: {{ artist.username }} </p>
     <p id="email">Email: {{ artist.email}} </p>
     <p id="dpm">Default payment method: {{ artist.defaultPaymentMethod }}  </p>
@@ -49,12 +52,16 @@
   <br>
   <br>
   <div class="artwork">
-    <h2>Artwork</h2>
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <br>
+  <span style="font-size:35px; font-family: fantasy"> ARTWORKS </span>
+    <br>
     <br>
     <button class="button2" type="button" name="createListing" v-on:click="goToCreateListing()"> Create Listing </button>
     <button class="button2" type="button" name="updateListing" v-on:click="goToUpdateArtwork()"> Update Listing </button>
     <br>
     <br>
+    <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
     <span v-for="artwork in artist.artworks" v-bind:key="artwork.artworkID" style="font-style: italic;">
       Name: {{ artwork.name}}
       <br>
@@ -64,12 +71,15 @@
       <br>
       Price: {{ artwork.price }}
       <br>
-      <br>
+      <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
     </span>
-    <br>
-    <br>
   </div>
-  <span style="font-size:30px; font-family: fantasy"> BROWSE HISTORY: </span>
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <br>
+  <span style="font-size:35px; font-family: fantasy"> BROWSE HISTORY: </span>
+  <br>
+  <br>
+  <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
   <div v-for="artwork in browseHistory" v-bind:key="artwork.artworkID">
       <a style="font-weight: bold; text-decoration: underline;" v-bind:href="getListingPageURL(artwork.listing.listingID)">{{ artwork.name }}</a>
       <br>
@@ -87,8 +97,11 @@
       Price:
       <span style="font-style: italic;"> {{ artwork.price }} $ </span>
       <br>
+      <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
   </div>
-
+    <br>
+    <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+    <br>
 </div>
 </template>
 
@@ -96,7 +109,7 @@
 
 </script>
 
-<style lang="css" scoped>
+<style>
 #user{
   padding: 10px;
 }
@@ -129,7 +142,17 @@ button:hover {
   background-color: #000000;
   color: white
 }
+body {
+  background-color: #e8f4ff;
+}
 .artwork{
   padding: 30px;
+}
+img{
+    text-align: center;
+    width: 180px;
+    height: 105px;
+    left:10px;
+    top:15px;
 }
 </style>
