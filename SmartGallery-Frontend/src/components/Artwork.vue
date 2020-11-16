@@ -24,7 +24,6 @@
     <button class="button2" v-on:click="goToProfile()">Exit</button>
       <hr style="height:4px;border-width:0;color:gray;background-color:black">
       <span style="font-size:22px;font-family: fantasy"> Please fill in all the fields below: </span>
-    </p>
   </div>
   <br>
   <input v-model="artworkNameInput" placeholder="Artwork name">
