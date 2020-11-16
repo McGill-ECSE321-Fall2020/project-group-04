@@ -109,20 +109,27 @@ export default {
     var username = this.$route.params.username
     AXIOS.get('/customer/name/'.concat(username))
       .then(response => {
-        this.customer = response.data
-        if (!this.customer.loggedIn) {
+        console.log(response.data.loggedIn)
+        var isLoggedIn = response.data.loggedIn
+        console.log(isLoggedIn)
+        if (!isLoggedIn) {
           window.location.href = "/#/"
         }
       })
-      .catch(
-        AXIOS.get('/customer/name/'.concat(username))
-          .then(response => {
-            this.customer = response.data
-            if (!this.customer.loggedIn) {
-              window.location.href = "/#/"
-            }
-          })
+      .catch(e => {AXIOS.get('/artist/name/'.concat(username))
+        .then(response => {
+        var isLoggedIn = response.data.isLoggedIn
+        if (!isLoggedIn) {
+          window.location.href = "/#/"
+        }
+      })
+      .catch(e => {
+        window.location.href = "/#/"
+      }
+
+      )}
+
       )
-  }
+    }		
   }
 }
