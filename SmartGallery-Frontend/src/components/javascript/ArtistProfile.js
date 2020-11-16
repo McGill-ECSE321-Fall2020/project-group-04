@@ -54,6 +54,7 @@ export default {
       showEmail: false,
       showPassword: false,
       showDelete: false,
+      imageUrl: '',
       oldPasswordInput: '',
       newPasswordInput: '',
       newEmail: '',
