@@ -114,7 +114,6 @@ export default {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
     },
     goToAddImage: function(artworkID) {
-      alert(artworkID)
       window.location.href = "/#/AddImage/".concat(this.$route.params.username, "/", artworkID)
     },
     checkIfLoggedIn: function() {
@@ -142,6 +141,6 @@ export default {
       )}
 
       )
-    }	
+    }
   }
 }
