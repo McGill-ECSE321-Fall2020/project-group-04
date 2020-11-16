@@ -58,6 +58,8 @@ export default {
       newPasswordInput: '',
       newEmail: '',
       passwordInput: '',
+      transactions: [],
+      errorTransaction: '',
       artist: '',
       artwork: '',
       updated: '',
@@ -90,7 +92,13 @@ export default {
       .catch(e => {
         this.errorBrowseHistory = e
       })
-
+      AXIOS.get('/transaction/search/username/'+ this.$route.params.username)
+        .then(response => {
+          this.transactions = response.data
+        })
+        .catch(e => {
+          this.errorTransaction = e
+        })
   },
   methods: {
     updatePassword: function(oldPassword, newPassword) {
@@ -209,7 +217,7 @@ export default {
       )}
 
       )
-    }	
+    }
   }
 
 }
