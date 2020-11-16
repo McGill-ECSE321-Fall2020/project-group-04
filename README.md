@@ -28,10 +28,10 @@ The following tables provide details on the contributors to this project. It dis
 **Sprint Three**
 | Member  |Main Responsibilities|Hours|
 |---------------------|-----------------------|-------|
-| Roey |  |  |
-| Stavros |   | |
-| Zachary |   |  |
-| Viet |   |  |
-| Oliver |  |  |
+| Roey | Registration, login, delete profile, architecture mode | 31 |
+| Stavros | Update listing, create listing, delete listing/artwork, upload artwork  | 31 |
+| Zachary | Login, Registration, Attaching image to artwork, navigation  | 33 |
+| Viet | View listing, architecture model, backend fixes, frontend bug fixes  | 33 |
+| Oliver | Frontend formatting, search functionality, home page, artist page | 31 |
 
 A report on the sprints and more information can be found in our [wiki](https://github.com/McGill-ECSE321-Fall2020/project-group-04/wiki).
