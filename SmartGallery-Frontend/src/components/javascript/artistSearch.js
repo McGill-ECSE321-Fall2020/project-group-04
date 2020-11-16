@@ -11,15 +11,15 @@ var AXIOS = axios.create({
 
 
 function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod, creationDate, loggedIn, isVerified) {
-    this.smartGallery = smartGallery;
-    this.username = username;
-    this.password = password;
-    this.email = email;
-    this.defaultPaymentMethod = defaultPaymentMethod;
-    this.creationDate = creationDate;
-    this.loggedIn = loggedIn;
-    this.isVerified = isVerified;
-  }
+	this.smartGallery = smartGallery;
+	this.username = username;
+	this.password = password;
+	this.email = email;
+	this.defaultPaymentMethod = defaultPaymentMethod;
+	this.creationDate = creationDate;
+	this.loggedIn = loggedIn;
+	this.isVerified = isVerified;
+}
 
 export default {
 	name: 'artistsearch',
@@ -28,7 +28,7 @@ export default {
 			artists: [],
 			errorArtist: '',
 			searchInput: '',
-			artistNameInput:'',
+			artistNameInput: '',
 			response: []
 		}
 	},
@@ -44,13 +44,20 @@ export default {
       })
 	},
 	methods: {
-		searchArtist: function(searchInput) {
+		searchArtist: function (searchInput) {
 			if (searchInput.length != 0) {
-				this.searchArtistValid(searchInput);
+				if (!searchInput.replace(/\s/g, '').length) {
+					alert("The search cannot be empty")
+					this.artists = []
 
+				}
+				else {
+					this.searchArtistValid(searchInput);
+				}
 			}
 			else {
-				alert("Please enter something into the search box.");
+				alert("The search cannot be empty")
+				this.artists = []
 			}
 
 		},
@@ -58,63 +65,63 @@ export default {
 			AXIOS.get('/artist/artistSearch/' + searchInput)
 				.then(response => {
 					this.artists = response.data
+					if (this.artists.length == 0) {
+						alert("No artworks matched your search input")
+					}
 				})
 				.catch(e => {
 					this.errorArtist = e.message
 					alert(this.errorArtist);
 				})
 		},
-		logout : function () {
+		logout: function () {
 			var username = this.$route.params.username
-      		AXIOS.post('/logout'.concat("?username=", username))
-      		.then(response => {
-			if(response.data) {
-				alert ("You have been logged out.")
-        		window.location.href = "/#/"
-			}
-	    })
-	},
-		goToArtworkSearch : function () {
+			AXIOS.post('/logout'.concat("?username=", username))
+				.then(response => {
+					if (response.data) {
+						alert("You have been logged out.")
+						window.location.href = "/#/"
+					}
+				})
+		},
+		goToArtworkSearch: function () {
 			window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
 		},
-		goToArtistSearch : function () {
+		goToArtistSearch: function () {
 			window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
 		},
-		goToProfile : function () {
+		goToProfile: function () {
 			AXIOS.get('/customer/name/'.concat(this.$route.params.username))
-			.then(response => {
-				window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
-			}).catch(e => {
-				window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
-			})
+				.then(response => {
+					window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
+				}).catch(e => {
+					window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
+				})
 		},
-		goToHome : function () {
+		goToHome: function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
 		},
-		getArtistPageURL : function (artistUsername) {
+		getArtistPageURL: function (artistUsername) {
 			return '/#/artistView/'.concat(this.$route.params.username, '/', artistUsername)
 		},
-    checkIfLoggedIn: function() {
+		checkIfLoggedIn: function() {
       var username = this.$route.params.username
       AXIOS.get('/customer/name/'.concat(username))
-      .then(response => {
-        var isLoggedIn = response.data.isLoggedIn
-        if (!isLoggedIn) {
-          window.location.href = "/#/"
-        }
-      })
-      .catch(
-        AXIOS.get('/artist/name/'.concat(username))
         .then(response => {
-        var isLoggedIn = response.data.isLoggedIn
-        if (!isLoggedIn) {
-          window.location.href = "/#/"
-        }
-      })
-      .catch(
-        window.location.href = "/#/"
-      )
-      )
-    }	
+          this.customer = response.data
+          if (!this.customer.loggedIn) {
+            window.location.href = "/#/"
+          }
+        })
+        .catch(
+					AXIOS.get('/customer/name/'.concat(username))
+		        .then(response => {
+		          this.customer = response.data
+		          if (!this.customer.loggedIn) {
+		            window.location.href = "/#/"
+		          }
+		        })
+        )
+    }
 	}
 }
