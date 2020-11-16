@@ -1,6 +1,6 @@
 <template>
 <div>
-  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">
   <img src="../assets/sglogo.png"  alt="logo">
   <button class="button2" v-on:click="goToHome()" type="button" name="home"> Home </button>
   <button class="button2" v-on:click="goToArtworkSearch()" type="button" name="artworkSearch"> Search Artwork </button>
@@ -8,9 +8,9 @@
   <button class="button2" v-on:click="goToProfile()" type="button" name="viewProfile"> View Profile </button>
   <button class="button2" v-on:click="goToCreateArtwork()" type="button" name="uploadArtwork"> Upload Artwork </button>
   <button class="button2" v-on:click="logout()" type="button" name="logout"> Logout </button>
-  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">
   <span style="font-size:60px; font-family: fantasy"> Artist Profile </span>
-  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">
   <div class="userInfo" style="font-size:25px; font-weight: bold;">
     <p id="user">Username: {{ artist.username }} </p>
     <p id="email">Email: {{ artist.email}} </p>
@@ -52,7 +52,7 @@
   <br>
   <br>
   <div class="artwork">
-  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">
   <br>
   <span style="font-size:35px; font-family: fantasy"> ARTWORKS </span>
     <br>
@@ -61,7 +61,7 @@
     <button class="button2" type="button" name="updateListing" v-on:click="goToUpdateArtwork()"> Update Listing </button>
     <br>
     <br>
-    <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
+    <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">
     <span v-for="artwork in artist.artworks" v-bind:key="artwork.artworkID" style="font-style: italic;">
       Name: {{ artwork.name}}
       <br>
@@ -71,28 +71,30 @@
       <br>
       Price: {{ artwork.price }}
       <br>
-      <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
+      <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">
     </span>
   </div>
   <br><br>
-   <button type="button" v-show = "!deleteListing" v-on:click= "deleteListing = !deleteListing"> Delete a Listing and Artwork </button>
+   <button class="button2" type="button" v-show = "!deleteListing" v-on:click= "deleteListing = !deleteListing"> Delete a Listing and Artwork </button>
   <br>
     <div class = "deleteListing" v-show = "deleteListing">
-    <select v-model="selectedListingDelete">
+    Select an artwork
+    <br>
+    <select v-model="selectedListingDelete" placeholder>
       <option v-for="artwork in artist.artworks" v-bind:value="{ listingid: artwork.listing.listingID}" :key="artwork.name"> {{artwork.name}}</option>
     </select>
     <br><br>
-    <button type="button" v-on:click="deleteListingAndArtwork(selectedListingDelete.listingid); goToProfile()"> Delete </button>
+    <button class="button2" type="button" v-on:click="deleteListingAndArtwork(selectedListingDelete.listingid); goToProfile()"> Delete </button>
     <br><br>
-    <button type="button" v-on:click= "deleteListing= !deleteListing"> Cancel </button>
+    <button class="button2" type="button" v-on:click= "deleteListing= !deleteListing"> Cancel </button>
   </div>
   <br><br>
-  <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+  <hr style="height:4px;border-width:0;color:gray;background-color:black">
   <br>
   <span style="font-size:35px; font-family: fantasy"> BROWSE HISTORY: </span>
   <br>
   <br>
-  <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
+  <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">
   <div v-for="artwork in browseHistory" v-bind:key="artwork.artworkID">
       <a style="font-weight: bold; text-decoration: underline;" v-bind:href="getListingPageURL(artwork.listing.listingID)">{{ artwork.name }}</a>
       <br>
@@ -110,10 +112,10 @@
       Price:
       <span style="font-style: italic;"> {{ artwork.price }} $ </span>
       <br>
-      <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
+      <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">
   </div>
     <br>
-    <hr style="height:4px;border-width:0;color:gray;background-color:black">	
+    <hr style="height:4px;border-width:0;color:gray;background-color:black">
     <br>
 </div>
 </template>

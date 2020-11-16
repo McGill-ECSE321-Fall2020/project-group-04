@@ -50,7 +50,7 @@ function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod
 export default {
   data() {
     return {
-     deleteListing: false,
+      deleteListing: false,
       showEmail: false,
       showPassword: false,
       showDelete: false,
@@ -121,6 +121,8 @@ export default {
       AXIOS.post('listing/deleteListingAndArtwork/'.concat(listingID))
         .then(response => {
         this.listing = response.data
+        this.selectedListingDelete = ''
+        this.deleteListing = false
         alert("Listing and Artwork was succesfully deleted.")
         })
         .catch(e => {
@@ -194,6 +196,7 @@ export default {
       })
       .catch(e => {AXIOS.get('/artist/name/'.concat(username))
         .then(response => {
+
         var isLoggedIn = response.data.isLoggedIn
         if (!isLoggedIn) {
           window.location.href = "/#/"

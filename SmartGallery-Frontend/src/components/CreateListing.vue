@@ -31,9 +31,9 @@
   <br>
   <input v-model="listPrice" placeholder="Listing Price ($)">
   <br>
-  <br> 
   <br>
-  <button v-on:click ="createListing(selectedArtwork.id, listPrice, selectedArtwork.gallery); goToProfile()" class="uploadListing"> Create </button>  
+  <br>
+  <button v-on:click ="createListing(selectedArtwork.id, listPrice, selectedArtwork.gallery);goToProfile()" class="uploadListing"> Create </button>  
   <br>
   <br>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">
@@ -59,7 +59,7 @@ p{
   border-radius: 6px;
   border: 2px solid black;
   padding: 8px 40px
-  
+
 }
 button:hover {
   background-color: #000000;
@@ -93,5 +93,3 @@ body {
 }
 
 </style>
-
-

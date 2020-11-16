@@ -14,7 +14,7 @@
     <button v-on:click="goToProfile()">Exit</button>
     <br>
     <br>
-    <hr style="height:4px;border-width:0;color:gray;background-color:black"> 
+    <hr style="height:4px;border-width:0;color:gray;background-color:black">
     <br>
       <span style="font-size:22px;font-family: fantasy"> Please fill in all the fields below: </span>
 	 </p>
@@ -25,7 +25,7 @@
   <br>
 
   <select v-model="selectedListing">
-      <option v-for="artwork in artist.artworks" v-bind:value="{ listingid: artwork.listing.listingID, artworkid: artwork.artworkID}" :key="artwork.name"> {{artwork.name}}</option>
+      <option v-for="artwork in artist.artworks" :key="artwork.name"> {{artwork.name}}</option>
     </select>
 	<br>
 	<br>
@@ -71,7 +71,7 @@
     <button type="button" v-on:click= "addArtist= !addArtist"> Cancel </button>
   </div>
   <br>
-  <button  v-on:click="updateArtwork(selectedListing.listingid, artworkNameInput, yearInput, priceInput, selectedArtStyle, heightInput, widthInput, weightInput); goToProfile()" > UPDATE </button>
+  <button  v-on:click="updateArtwork(selectedListing, artworkNameInput, yearInput, priceInput, selectedArtStyle, heightInput, widthInput, weightInput); goToProfile()" > UPDATE </button>
   <br>
   <br>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">
