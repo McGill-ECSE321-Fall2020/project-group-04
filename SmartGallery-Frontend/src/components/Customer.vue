@@ -24,7 +24,7 @@
     <br>
     <p id="date">Creation Date: {{ customer.creationDate }} </p>
   </div>
-  </div>
+
   <br>
   <button class="button2" type="button" name="updateProfile" v-show="!showPassword" v-on:click="showPassword = !showPassword"> Update password </button>
   <div class="updatePassword" v-show="showPassword">

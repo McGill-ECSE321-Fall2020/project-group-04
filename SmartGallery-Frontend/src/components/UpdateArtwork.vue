@@ -14,12 +14,12 @@
     <button v-on:click="goToProfile()">Exit</button>
     <br>
     <br>
-    <hr style="height:4px;border-width:0;color:gray;background-color:black">
+    <hr style="height:4px;border-width:0;color:gray;background-color:black"> 
     <br>
       <span style="font-size:22px;font-family: fantasy"> Please fill in all the fields below: </span>
-	  </p>
+	 </p>
   </div>
-  </div>
+
   <br>
   Select a listing to update
   <br>
