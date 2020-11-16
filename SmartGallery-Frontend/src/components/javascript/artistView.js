@@ -105,9 +105,9 @@ export default {
     getListingPageURL: function(listingID) {
       return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
 	},
-    checkIfLoggedIn: function() {
-      var username = this.$route.params.username
-      AXIOS.get('/customer/name/'.concat(username))
+  checkIfLoggedIn: function() {
+    var username = this.$route.params.username
+    AXIOS.get('/customer/name/'.concat(username))
       .then(response => {
         console.log(response.data.loggedIn)
         var isLoggedIn = response.data.loggedIn

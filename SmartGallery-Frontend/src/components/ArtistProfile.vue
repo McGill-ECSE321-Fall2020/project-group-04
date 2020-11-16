@@ -74,6 +74,19 @@
       <hr style="width:1000px;height:2px;border-width:0;color:gray;background-color:black">	
     </span>
   </div>
+  <br><br>
+   <button type="button" v-show = "!deleteListing" v-on:click= "deleteListing = !deleteListing"> Delete a Listing and Artwork </button>
+  <br>
+    <div class = "deleteListing" v-show = "deleteListing">
+    <select v-model="selectedListingDelete">
+      <option v-for="artwork in artist.artworks" v-bind:value="{ listingid: artwork.listing.listingID}" :key="artwork.name"> {{artwork.name}}</option>
+    </select>
+    <br><br>
+    <button type="button" v-on:click="deleteListingAndArtwork(selectedListingDelete.listingid); goToProfile()"> Delete </button>
+    <br><br>
+    <button type="button" v-on:click= "deleteListing= !deleteListing"> Cancel </button>
+  </div>
+  <br><br>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	
   <br>
   <span style="font-size:35px; font-family: fantasy"> BROWSE HISTORY: </span>

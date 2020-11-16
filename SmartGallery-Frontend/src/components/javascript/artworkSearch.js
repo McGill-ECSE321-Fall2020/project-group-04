@@ -63,8 +63,8 @@ export default {
 		AXIOS.get('/listing')
 			.then(response => {
 				this.listings = response.data
-				for(var i = 0; i < this.listings.length; i++){
-					if(this.listings[i].sold){
+				for (var i = 0; i < this.listings.length; i++) {
+					if (this.listings[i].sold) {
 						this.listings.splice(i, 1);
 						i = i - 1;
 					}
@@ -78,7 +78,11 @@ export default {
 	methods: {
 		searchArtwork: function (searchInput, minPrice, maxPrice, style) {
 			if (searchInput.length != 0) {
-				if (minPrice.length == 0 || maxPrice.length == 0) {
+				if (!searchInput.replace(/\s/g, '').length) {
+					this.listings = []
+					alert("The search cannot be empty")
+				}
+				else if (minPrice.length == 0 || maxPrice.length == 0) {
 					if (style.length == 0) {
 						this.searchArtworkNoFilter(searchInput);
 					}
@@ -88,7 +92,14 @@ export default {
 				}
 				else {
 					if (style.length == 0) {
-						this.searchArtworkPriceFilter(searchInput, minPrice, maxPrice);
+						if (minPrice <= maxPrice) {
+							this.searchArtworkPriceFilter(searchInput, minPrice, maxPrice);
+						}
+						else {
+							this.listings = []
+							alert("The minimum price must be smaller than the maximum price")
+
+						}
 					}
 					else {
 						this.searchArtworkAllFilters(searchInput, minPrice, maxPrice, style);
@@ -96,7 +107,7 @@ export default {
 				}
 			}
 			else {
-				alert("Please enter something into the search box.");
+				alert("The search cannot be empty");
 			}
 
 		},
@@ -104,6 +115,9 @@ export default {
 			AXIOS.get('/listing/artworkSearch/' + searchInput + '/' + minPrice + '/' + maxPrice + '/' + style)
 				.then(response => {
 					this.listings = response.data
+					if (this.listings.length == 0) {
+						alert("No artworks matched your search input")
+					}
 				})
 				.catch(e => {
 					this.errorListing = e
@@ -113,6 +127,9 @@ export default {
 			AXIOS.get('/listing/artworkSearch/' + searchInput + '/' + minPrice + '/' + maxPrice)
 				.then(response => {
 					this.listings = response.data
+					if (this.listings.length == 0) {
+						alert("No artworks matched your search input")
+					}
 				})
 				.catch(e => {
 					this.errorListing = e
@@ -122,6 +139,9 @@ export default {
 			AXIOS.get('/listing/artworkSearch/' + searchInput + '/' + style)
 				.then(response => {
 					this.listings = response.data
+					if (this.listings.length == 0) {
+						alert("No artworks matched your search input")
+					}
 				})
 				.catch(e => {
 					this.errorListing = e
@@ -131,42 +151,45 @@ export default {
 			AXIOS.get('/listing/artworkSearch/' + searchInput)
 				.then(response => {
 					this.listings = response.data
+					if (this.listings.length == 0) {
+						alert("No artworks matched your search input")
+					}
 				})
 				.catch(e => {
 					this.errorListing = e
 				})
 		},
-		logout : function () {
+		logout: function () {
 			var username = this.$route.params.username
-      		AXIOS.post('/logout'.concat("?username=", username))
-      		.then(response => {
-			if(response.data) {
-				alert ("You have been logged out.")
-        		window.location.href = "/#/"
-			}
-	    })
-	},
-		goToArtworkSearch : function () {
+			AXIOS.post('/logout'.concat("?username=", username))
+				.then(response => {
+					if (response.data) {
+						alert("You have been logged out.")
+						window.location.href = "/#/"
+					}
+				})
+		},
+		goToArtworkSearch: function () {
 			window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
 		},
-		goToArtistSearch : function () {
+		goToArtistSearch: function () {
 			window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
 		},
-		goToProfile : function () {
+		goToProfile: function () {
 			AXIOS.get('/customer/name/'.concat(this.$route.params.username))
-			.then(response => {
-				window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
-			}).catch(e => {
-				window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
-			})
+				.then(response => {
+					window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
+				}).catch(e => {
+					window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
+				})
 		},
-		goToHome : function () {
+		goToHome: function () {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
 		},
-		getListingPageURL : function (listingID) {
+		getListingPageURL: function (listingID) {
 			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
 		},
-    checkIfLoggedIn: function() {
+		checkIfLoggedIn: function() {
       var username = this.$route.params.username
       AXIOS.get('/customer/name/'.concat(username))
       .then(response => {
