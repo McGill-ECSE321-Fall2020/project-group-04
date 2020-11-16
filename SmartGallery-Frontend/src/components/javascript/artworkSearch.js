@@ -189,27 +189,24 @@ export default {
 		getListingPageURL: function (listingID) {
 			return '/#/ViewListing/'.concat(this.$route.params.username, '/', listingID)
 		},
-    checkIfLoggedIn: function() {
+		checkIfLoggedIn: function() {
       var username = this.$route.params.username
       AXIOS.get('/customer/name/'.concat(username))
-      .then(response => {
-        var isLoggedIn = response.data.isLoggedIn
-        if (!isLoggedIn) {
-          window.location.href = "/#/"
-        }
-      })
-      .catch(
-        AXIOS.get('/artist/name/'.concat(username))
         .then(response => {
-        var isLoggedIn = response.data.isLoggedIn
-        if (!isLoggedIn) {
-          window.location.href = "/#/"
-        }
-      })
-      .catch(
-        window.location.href = "/#/"
-      )
-      )
-    }	
+          this.customer = response.data
+          if (!this.customer.loggedIn) {
+            window.location.href = "/#/"
+          }
+        })
+        .catch(
+					AXIOS.get('/customer/name/'.concat(username))
+		        .then(response => {
+		          this.customer = response.data
+		          if (!this.customer.loggedIn) {
+		            window.location.href = "/#/"
+		          }
+		        })
+        )
+    }
 	}
 }
