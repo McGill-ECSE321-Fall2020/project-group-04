@@ -98,7 +98,6 @@ export default {
 						else {
 							this.listings = []
 							alert("The minimum price must be smaller than the maximum price")
-
 						}
 					}
 					else {
@@ -107,6 +106,7 @@ export default {
 				}
 			}
 			else {
+				this.listings = []
 				alert("The search cannot be empty");
 			}
 

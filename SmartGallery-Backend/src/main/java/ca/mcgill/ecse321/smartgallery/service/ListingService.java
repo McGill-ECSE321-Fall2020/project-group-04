@@ -22,6 +22,8 @@ public class ListingService {
 	ArtistRepository artistRepository;
 	@Autowired 
 	GalleryRepository galleryRepository;
+	@Autowired
+	CustomerRepository customerRepository;
 
 	
 	/**
@@ -199,7 +201,7 @@ public class ListingService {
 			error += "Gallery must exist";
 		}
 		
-		if(listingRepository.findById(artwork.getArtworkID() * artwork.getArtists().iterator().next().getUsername().hashCode()) != null) {
+		if(artwork.getArtists()!=null && listingRepository.findListingByListingID(artwork.getArtworkID() * artwork.getArtists().iterator().next().getUsername().hashCode()) != null) {
 			error += "Listing already exists";
 		}
 
@@ -367,6 +369,17 @@ public class ListingService {
 			a.setArtworks(artworks);
 			artistRepository.save(a);
 		}
+		
+		
+		for(Profile p: artwork.getInterestedProfile()) {
+			p.getArtworksViewed().remove(artwork);
+			if(p instanceof Customer) {
+				customerRepository.save((Customer)p);
+			}else {
+				artistRepository.save((Artist)p);
+			}
+		}
+		
 		
 		if(transaction==null)
 		{
