@@ -112,7 +112,8 @@ export default {
 		addArtists: function(artworkID, artist) {
       AXIOS.put('/artwork/addArtist/'.concat(artworkID) + '/'.concat(artist))
         .then(response => {
-          this.artwork = response.data
+		  this.artwork = response.data
+		  alert("Artist succesfully added.")
         })
         .catch(e => {
           alert("Please choose an exisitng artwork and artist.");
