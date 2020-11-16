@@ -71,6 +71,7 @@ export default {
     }
   },
   created: function() {
+    this.checkIfLoggedIn()
     AXIOS.get('/artist/name/' + this.$route.params.username)
       .then(response => {
         this.artist = response.data
@@ -164,7 +165,29 @@ export default {
     },
     goToUpdateArtwork: function() {
         window.location.href = "/#/UpdateArtwork/".concat(this.$route.params.username)
-    }
+    },
+    checkIfLoggedIn: function() {
+      var username = this.$route.params.username
+      AXIOS.get('/customer/name/'.concat(username))
+      .then(response => {
+        var isLoggedIn = response.data.isLoggedIn
+        if (!isLoggedIn) {
+          window.location.href = "/#/"
+        }
+      })
+      .catch(
+        AXIOS.get('/artist/name/'.concat(username))
+        .then(response => {
+        var isLoggedIn = response.data.isLoggedIn
+        if (!isLoggedIn) {
+          window.location.href = "/#/"
+        }
+      })
+      .catch(
+        window.location.href = "/#/"
+      )
+      )
+    }	
   }
 
 }

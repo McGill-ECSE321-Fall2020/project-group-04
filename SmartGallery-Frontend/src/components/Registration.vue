@@ -11,26 +11,26 @@
       <br>
       <h3 align="left">
         <span style="font-size:28px; font-family: fantasy; margin-left:500px"> Username&emsp;  </span>
-        <input type="text" v-model="username" placeholder="Username"> </h3>
+        <input style="margin-left:100px" type="text" v-model="username" placeholder="Username"> </h3>
       <h3 align="left">
         <span style="font-size:28px; font-family: fantasy; margin-left:500px"> Email&emsp;  </span>
-        <input type="text" v-model="email" placeholder="Email"> </h3>
+        <input style="margin-left:155px" type="text" v-model="email" placeholder="Email"> </h3>
       <h3 align="left">
         <span style="font-size:28px; font-family: fantasy; margin-left:500px"> Password&emsp;  </span>
-        <input type="password" v-model="password" placeholder="Password"> </h3>
+        <input style="margin-left:105px" type="password" v-model="password" placeholder="Password"> </h3>
       <h3 align="left">
         <span style="font-size:28px; font-family: fantasy; margin-left:500px"> Re-enter password&emsp;  </span>
         <input type="password" v-model="passwordcheck" placeholder="Password"> </h3>
       <h3 align="left">
         <span style="font-size:28px; font-family: fantasy; margin-left:500px"> Account type&emsp; </span>
-        <select v-model="accountType">
+        <select style="margin-left:67px" v-model="accountType">
           <option>Customer</option>
           <option>Artist</option>
         </select>
       </h3>
       <h3 align="left">
         <span style="font-size:28px; font-family: fantasy; margin-left:500px"> Payment method&emsp; </span>
-        <select v-model="paymentType">
+        <select style="margin-left:24px" v-model="paymentType">
           <option>Credit</option>
           <option>Paypal</option>
         </select>

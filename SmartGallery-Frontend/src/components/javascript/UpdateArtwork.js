@@ -51,7 +51,8 @@ export default {
     }
   },
 
-  created: function() {
+   created: function() {
+     this.checkIfLoggedIn()
     AXIOS.get('/artist/name/' + this.$route.params.username)
       .then(response => {
         this.artist = response.data
@@ -92,14 +93,6 @@ export default {
           }
         })
     },
-    goToProfile: function() {
-      AXIOS.get('/customer/name/'.concat(this.$route.params.username))
-        .then(response => {
-          window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
-        }).catch(e => {
-          window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
-        })
-    },
 		addArtists: function(artworkID, artist) {
       AXIOS.put('/artwork/addArtist/'.concat(artworkID) + '/'.concat(artist))
         .then(response => {
@@ -110,6 +103,45 @@ export default {
           alert("Please choose an exisitng artwork and artist.");
           this.errorArtwork = e
         })
-    }
+    },
+		goToArtworkSearch : function () {
+			window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
+		},
+		goToArtistSearch : function () {
+			window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
+		},
+		goToProfile : function () {
+			AXIOS.get('/customer/name/'.concat(this.$route.params.username))
+			.then(response => {
+				window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
+			}).catch(e => {
+				window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
+			})
+		},
+		goToHome : function () {
+			window.location.href = "/#/home/".concat(this.$route.params.username)
+    },
+    checkIfLoggedIn: function() {
+      var username = this.$route.params.username
+      AXIOS.get('/customer/name/'.concat(username))
+      .then(response => {
+        var isLoggedIn = response.data.isLoggedIn
+        if (!isLoggedIn) {
+          window.location.href = "/#/"
+        }
+      })
+      .catch(
+        AXIOS.get('/artist/name/'.concat(username))
+        .then(response => {
+        var isLoggedIn = response.data.isLoggedIn
+        if (!isLoggedIn) {
+          window.location.href = "/#/"
+        }
+      })
+      .catch(
+        window.location.href = "/#/"
+      )
+      )
+    }	
   }
 }
