@@ -80,16 +80,23 @@ export default {
           gallery)
         .then(response => {
           this.listing = response.data
-
            var i =  Math.random()
-           alert(i)
            if (i <= 0.4) {
              AXIOS.put('/artwork/promote/'.concat(this.listing.artwork.artworkID))
            }
         })
         .catch(e => {
           this.errorListing = e
+          alert("Artwork has already been listed")
         })
     },
+    goToProfile : function () {
+			AXIOS.get('/customer/name/'.concat(this.$route.params.username))
+			.then(response => {
+				window.location.href = "/#/customerProfile/".concat(this.$route.params.username)
+			}).catch(e => {
+				window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
+			})
+		},
   }
 }

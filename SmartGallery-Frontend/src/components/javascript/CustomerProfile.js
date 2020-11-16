@@ -27,6 +27,7 @@ export default {
     return {
       showEmail: false,
       showPassword: false,
+      showDelete: false,
       oldPasswordInput: '',
       newPasswordInput: '',
       newEmail: '',
@@ -78,23 +79,29 @@ export default {
         }
       })
     },
-    updatePassword: function(oldPassword,newPassword){
-      AXIOS.post('/password/change/?username='+ customerName + '&oldPassword='+oldPassword+'&newPassword='+newPassword)
-      .then(response => {
-        this.updated = response.data
-      })
-      .catch(e => {
-        this.errorUpdated = e
-      })
+    updatePassword: function(oldPassword, newPassword) {
+      AXIOS.post('/password/change/?username=' + this.$route.params.username + '&oldPassword=' + oldPassword + '&newPassword=' + newPassword)
+        .then(response => {
+          this.updated = response.data
+          alert("Password has been successfully updated")
+          this.oldPasswordInput = ''
+          this.newPasswordInput = ''
+        })
+        .catch(e => {
+          this.errorUpdated = e
+        })
     },
-    updateEmail: function(email, password){
-      AXIOS.post('/email/change/?username='+ customerName +'&password='+password+'&newEmail=' + email)
-      .then(response => {
-        this.updated = response.data
-      })
-      .catch(e => {
-        this.errorUpdated = e
-      })
+    updateEmail: function(email, password) {
+      AXIOS.post('/email/change/?username=' + this.$route.params.username + '&password=' + password + '&newEmail=' + email)
+        .then(response => {
+          alert("Email has been successfully updated")
+          this.updated = response.data
+          this.newEmail = ''
+          this.passwordInput = ''
+        })
+        .catch(e => {
+          this.errorUpdated = e
+        })
     },
 		goToArtworkSearch : function () {
 			window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)

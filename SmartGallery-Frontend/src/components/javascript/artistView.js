@@ -62,7 +62,6 @@ export default {
     AXIOS.get('artist/name/'.concat(this.$route.params.artistUsername)) // artist/name/testartist to test
       .then(response => {
         this.artist = response.data
-        this.artworkss = new Array(this.artist.artworks.length)
         for (var i = 0; i < this.artist.artworks.length; i++) {
           if (this.artist.artworks[i].listing != null && !(this.artist.artworks[i].listing.sold)) {
             this.artworkss[i] = this.artist.artworks[i]

@@ -24,11 +24,6 @@
     <div v-for="artwork in artworkss" :key="artwork.artworkID" >
           <a style="font-weight: bold; text-decoration: underline;" v-bind:href="getListingPageURL(artwork.listing.listingID)">{{ artwork.name }}</a>
           <br>
-          Artist(s):
-          <span v-for="artist1 in artwork.artists"  :key="artist1.username" >
-          <span style="font-style: italic;"> {{ artist1.username }}, </span>
-          </span>
-          <br>
           Year Created:
           <span style="font-style: italic;"> {{artwork.year }} </span>
           <br>
@@ -80,6 +75,9 @@ img{
 .search1 {
   margin-right: 2px;
   margin-left: 7px;
+}
+body {
+  background-color: #e8f4ff;
 }
 .search2 {
   margin-right: 2px;

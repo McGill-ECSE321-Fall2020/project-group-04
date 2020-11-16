@@ -503,12 +503,19 @@ public class BrowsingService {
 		if (artwork == null) { // if no artwork was provided
 			throw new IllegalArgumentException("Artwork doesn't exist");
 		}
+		
+		if(profile instanceof Artist && artwork.getArtists().contains((Artist) profile)){
+			return profile.getArtworksViewed();
+		}
+		
 		if (profile.getArtworksViewed() == null) { // If the customer hasn't viewed anything yet
 			// Create the HashSet for the customer's browsing history
 			HashSet<Artwork> viewedArtworks = new HashSet<Artwork>();
 			viewedArtworks.add(artwork);
 			profile.setArtworksViewed(viewedArtworks);
 		}
+		
+		
 		Set<Artwork> viewedArtworks = profile.getArtworksViewed();
 		if (viewedArtworks.contains(artwork)) { // if that artwork was already in browsing history
 			viewedArtworks.remove(artwork); // put it back in front

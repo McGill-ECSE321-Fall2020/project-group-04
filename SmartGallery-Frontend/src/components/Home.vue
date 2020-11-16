@@ -70,6 +70,9 @@ button:hover {
   background-color: #e8f4ff;
     text-align: center;
 }
+body {
+  background-color: #e8f4ff;
+}
 img{
     text-align: center;
     width: 180px;
