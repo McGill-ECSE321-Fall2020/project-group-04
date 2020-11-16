@@ -7,6 +7,7 @@ Welcome to group 4's Online Art Gallery!
 **Team Members**:
 The following tables provide details on the contributors to this project. It displays their general roles and hours worked for each sprint.
 
+
 **Sprint One**
 | Member  |Main Responsibilities|Hours|
 |---------------------|-----------------------|-------|
@@ -15,6 +16,7 @@ The following tables provide details on the contributors to this project. It dis
 | Zachary | System Requirements, Initial Domain Model, Use Cases, Setup of Persistence Layer, Testing of Persistence Layer | 25 |
 | Viet | Gradle setup, Heroku setup, System Requirements, Class Diagram, Use Cases | 25 |
 | Oliver | System Requirements, Domain Model, Domain Model design choices in wiki, Use Cases, Testing of Persistence Layer | 23 |
+
 
 **Sprint Two**
 | Member  |Main Responsibilities|Hours|
@@ -25,6 +27,7 @@ The following tables provide details on the contributors to this project. It dis
 | Viet | Service methods [Purchase], Controller methods, Converters, DTOs, Service tests | 28 |
 | Oliver |Service methods [Browsing], Controller methods, Service tests [Browsing], Project Report  | 32 |
 
+
 **Sprint Three**
 | Member  |Main Responsibilities|Hours|
 |---------------------|-----------------------|-------|
@@ -32,6 +35,6 @@ The following tables provide details on the contributors to this project. It dis
 | Stavros | Update listing, create listing, delete listing/artwork, upload artwork  | 31 |
 | Zachary | Login, Registration, Attaching image to artwork, navigation  | 33 |
 | Viet | View listing, architecture model, backend fixes, frontend bug fixes  | 33 |
-| Oliver | Frontend formatting, search functionality, home page, artist page | 31 |
+| Oliver | Frontend formatting, search functionality, home page, artist page | 32 |
 
 A report on the sprints and more information can be found in our [wiki](https://github.com/McGill-ECSE321-Fall2020/project-group-04/wiki).
