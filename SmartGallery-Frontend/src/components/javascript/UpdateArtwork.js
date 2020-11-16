@@ -99,15 +99,26 @@ export default {
 			window.location.href = "/#/home/".concat(this.$route.params.username)
     },
     checkIfLoggedIn: function() {
-      	var username = this.$route.params.username
-      	AXIOS.get('/customer/name/'.concat(username))
-      	.then(response => {
-        	var isLoggedIn = response.data.isLoggedIn
-        	if (!isLoggedIn) {
-				 window.location.href = "/#/"
-				 alert("Please log in before continuing")
-        	}
-      	})
-    	},
+      var username = this.$route.params.username
+      AXIOS.get('/customer/name/'.concat(username))
+      .then(response => {
+        var isLoggedIn = response.data.isLoggedIn
+        if (!isLoggedIn) {
+          window.location.href = "/#/"
+        }
+      })
+      .catch(
+        AXIOS.get('/artist/name/'.concat(username))
+        .then(response => {
+        var isLoggedIn = response.data.isLoggedIn
+        if (!isLoggedIn) {
+          window.location.href = "/#/"
+        }
+      })
+      .catch(
+        window.location.href = "/#/"
+      )
+      )
+    }	
   }
 }
