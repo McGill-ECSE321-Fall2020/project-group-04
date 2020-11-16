@@ -4,7 +4,6 @@
     <img src="../assets/sglogo.png"  alt="logo">
     <hr style="height:4px;border-width:0;color:gray;background-color:black">
     <div id="registration">
-      <hr style="height:4px;border-width:0;color:gray;background-color:black">
       <br>
       <h1>
         <span style="font-size:38px; font-family: fantasy"> Please fill out the following fields to create an account  </span>
@@ -66,6 +65,9 @@
 <style>
 .header {
   font-size: 16px;
+}
+body {
+  background-color: #e8f4ff;
 }
 .button2 {
   font-family: fantasy;

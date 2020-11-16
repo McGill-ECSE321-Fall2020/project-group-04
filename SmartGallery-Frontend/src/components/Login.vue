@@ -4,7 +4,6 @@
     <img src="../assets/sglogo.png"  alt="logo">
     <hr style="height:4px;border-width:0;color:gray;background-color:black">
     <div id="login">
-      <hr style="height:4px;border-width:0;color:gray;background-color:black">
       <span style="font-size:60px; font-family: fantasy"> Login </span>
       <h3>
         <span style="font-size:28px; font-family: fantasy"> Username&nbsp;&nbsp;&nbsp;  </span>
@@ -54,6 +53,9 @@
 <style>
 .header {
   font-size: 16px;
+}
+body {
+  background-color: #e8f4ff;
 }
 .button2 {
   font-family: fantasy;

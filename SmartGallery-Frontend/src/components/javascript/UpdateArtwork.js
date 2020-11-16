@@ -92,12 +92,6 @@ export default {
           }
         })
     },
-    goToArtworkSearch: function() {
-      window.location.href = "/#/artworkSearch/".concat(this.$route.params.username)
-    },
-    goToArtistSearch: function() {
-      window.location.href = "/#/artistSearch/".concat(this.$route.params.username)
-    },
     goToProfile: function() {
       AXIOS.get('/customer/name/'.concat(this.$route.params.username))
         .then(response => {
@@ -105,9 +99,6 @@ export default {
         }).catch(e => {
           window.location.href = "/#/artistProfile/".concat(this.$route.params.username)
         })
-    },
-    goToHome: function() {
-      window.location.href = "/#/home/".concat(this.$route.params.username)
     },
 		addArtists: function(artworkID, artist) {
       AXIOS.put('/artwork/addArtist/'.concat(artworkID) + '/'.concat(artist))

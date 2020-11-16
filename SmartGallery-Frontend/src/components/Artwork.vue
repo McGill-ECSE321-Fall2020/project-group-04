@@ -14,20 +14,18 @@
   <hr style="height:4px;border-width:0;color:gray;background-color:black">
 
 <div>
-  <img src="../assets/sglogo.png" alt="logo">
   </div>
   <div class="header">
-    <h1> Upload Your Artwork!
-    </h1>
+    <span style="font-size:40px;font-family: fantasy"> Upload Your Artwork! </span>
   </div>
- 
   <div>
     <p>
-    Please fill in all the fields below.
-    <button class="button1" v-on:click="goToProfile()">Exit</button>
+    <br>
+    <button class="button2" v-on:click="goToProfile()">Exit</button>
+      <hr style="height:4px;border-width:0;color:gray;background-color:black">
+      <span style="font-size:22px;font-family: fantasy"> Please fill in all the fields below: </span>
     </p>
   </div>
-  <br>
   <br>
   <input v-model="artworkNameInput" placeholder="Artwork name">
   <br>
@@ -60,6 +58,8 @@
   <br>
 
   <button v-on:click="createArtwork(artworkNameInput, yearInput, priceInput, selected, heightInput, weightInput, widthInput)" class="uploadArtwork"> Confirm and select image </button>
+  <br>
+  <br>
 
 </body>
 </template>
@@ -72,36 +72,65 @@ p{
 }
 .button1
 {
-  border-radius: 20px;
-  position: absolute;
-  right: 30%;
-  background-color: black;
+  font-family: fantasy;
+  background-color: #008CBA;
   color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 6px;
+  border: 2px solid black;
+  padding: 8px 40px
+}
+.button2
+{
+  font-family: fantasy;
+  background-color: #008CBA;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 6px;
+  border: 2px solid black;
+  padding: 8px 40px
+}
 
+body {
+  background-color: #e8f4ff;
 }
 button:hover {
   background-color: #000000;
   color: white
 }
 .uploadArtwork{
-    border-radius: 50px;
-  background-color: black;
+  font-family: fantasy;
+  background-color: #008CBA;
   color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 6px;
+  border: 2px solid black;
+  padding: 8px 40px
 }
-img{
-   width: 250px;
-    height: 200px;
-    position: absolute;
-    left:0;
-    top:0;
-}
+
 
 .createArtwork {
   color:black;
   text-align: center;
-  background-image: url('../assets/circle paint.jpg');
   background-position: center;
   background-repeat: no-repeat;
-  font-family: fantasy;
 }
+
+img{
+    text-align: center;
+    width: 180px;
+    height: 105px;
+    left:10px;
+    top:5px;
+}
+
 </style>

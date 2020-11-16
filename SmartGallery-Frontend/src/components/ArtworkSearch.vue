@@ -71,6 +71,9 @@
 .header {
   font-size: 16px;
 }
+body {
+  background-color: #e8f4ff;
+}
 .button2 {
   font-family: fantasy;
   background-color: #008CBA;
@@ -97,6 +100,9 @@ img{
     height: 105px;
     left:10px;
     top:5px;
+}
+body {
+  background-color: #e8f4ff;
 }
 .search1 {
   margin-right: 2px;
