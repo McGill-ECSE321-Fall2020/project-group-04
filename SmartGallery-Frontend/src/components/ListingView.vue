@@ -12,7 +12,7 @@
   <h1 style="font-size:30px; font-family: fantasy"> Artist(s) Name (s) : <span v-for="artist in artwork.artists" v-bind:key="artist.username"> {{artist.username}} </span> </h1>
   <div class="container">
     <br>
-    <img class="artworkImage" id="image" v-bind:src="imageUrl"><br>
+    <img height="500px" width="500px" class="artworkImage" id="image" v-bind:src="imageUrl"><br>
     <br>
   </div>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">	

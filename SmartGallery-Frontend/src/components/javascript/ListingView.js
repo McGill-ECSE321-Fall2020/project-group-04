@@ -164,7 +164,7 @@ export default {
       })
       .catch(e => {AXIOS.get('/artist/name/'.concat(username))
         .then(response => {
-        var isLoggedIn = response.data.isLoggedIn
+        var isLoggedIn = response.data.loggedIn
         if (!isLoggedIn) {
           window.location.href = "/#/"
         }
