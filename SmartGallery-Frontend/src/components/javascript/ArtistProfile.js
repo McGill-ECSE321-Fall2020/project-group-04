@@ -50,6 +50,7 @@ function ArtistDTO(smartGallery, username, password, email, defaultPaymentMethod
 export default {
   data() {
     return {
+     deleteListing: false,
       showEmail: false,
       showPassword: false,
       showDelete: false,
@@ -60,6 +61,9 @@ export default {
       artist: '',
       artwork: '',
       updated: '',
+      listing: '',
+      selectedListingDelete: '',
+      errorListing: '',
       newListing: '',
       newArtwork: '',
       errorArtwork: '',
@@ -111,6 +115,17 @@ export default {
         })
         .catch(e => {
           this.errorUpdated = e
+        })
+    },
+     deleteListingAndArtwork: function(listingID) {
+      AXIOS.post('listing/deleteListingAndArtwork/'.concat(listingID))
+        .then(response => {
+        this.listing = response.data
+        alert("Listing and Artwork was succesfully deleted.")
+        })
+        .catch(e => {
+          alert("Artwork must be listed to be deleted.")
+          this.errorListing = e
         })
     },
     logout: function() {
