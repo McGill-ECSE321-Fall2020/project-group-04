@@ -1,5 +1,6 @@
 {
   "scripts": {
-    "postinstall": "cd SmartGallery-Frontend && npm install"
+    "postinstall": "cd SmartGallery-Frontend && npm install",
+	"start": "cd SmartGallery-Frontend && npm run build"
   }
 }
