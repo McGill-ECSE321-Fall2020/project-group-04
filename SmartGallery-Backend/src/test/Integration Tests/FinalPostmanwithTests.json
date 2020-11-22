@@ -1,0 +1,3217 @@
+{
+	"info": {
+		"_postman_id": "9e1fdb31-73dd-4dcc-ad41-0f50345dad51",
+		"name": "SmartGallery",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Gallery + SmartGallery",
+			"item": [
+				{
+					"name": "Clear Database",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc0b02c0-36fd-40d0-a301-efd4115ea1bb",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/delete/entire/database",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"delete",
+								"entire",
+								"database"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create SmartGallery",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "77f19c5e-df9b-4816-a0c5-75712529f3d8",
+								"exec": [
+									"setTimeout(function(){}, 2000);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "293df13a-638c-4705-b463-75799360b3d3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/smartGallery/123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"smartGallery",
+								"123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Gallery",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e2156de1-f442-4285-bf62-89f805d164cc",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/gallery/123/testGallery/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"gallery",
+								"123",
+								"testGallery",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View SmartGallery",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "621932ae-781e-49c5-a0c0-8bb70b8b6d55",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"{\\\"smartGalleryID\\\":123}\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/smartGallery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"smartGallery"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Gallery",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ea575c7a-29c5-4dbc-891b-d215c2ee9037",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"galleryName\\\":\\\"testGallery\\\"\");\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/gallery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"gallery"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Registration Testing",
+			"item": [
+				{
+					"name": "Create Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b497eeca-ddc8-4286-a1b3-e8eade254217",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/customer/testcustomer/testpassword/test@email.com/credit?smartGalleryID=123&username=testcustomer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"customer",
+								"testcustomer",
+								"testpassword",
+								"test@email.com",
+								"credit"
+							],
+							"query": [
+								{
+									"key": "smartGalleryID",
+									"value": "123"
+								},
+								{
+									"key": "username",
+									"value": "testcustomer"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Customers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "65db35c8-6918-482c-b266-3080ddbf70ea",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"username\\\":\\\"testcustomer\\\"\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/customer/name/testcustomer/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"customer",
+								"name",
+								"testcustomer",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Artist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "091a03ea-8e56-4734-83f5-5d045fe29060",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/testartist/?password=artpass&email=art@email.com&defaultPaymentMethod=credit&smartGalleryID=123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"testartist",
+								""
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "artpass"
+								},
+								{
+									"key": "email",
+									"value": "art@email.com"
+								},
+								{
+									"key": "defaultPaymentMethod",
+									"value": "credit"
+								},
+								{
+									"key": "smartGalleryID",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Artists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6dab49f1-7e76-4029-8dfe-3d7814a340a3",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"username\\\":\\\"testartist\\\"\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "40d81f64-a19c-4308-9665-4d2b68d02ded",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/login?username=testcustomer&password=testpassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "testcustomer"
+								},
+								{
+									"key": "password",
+									"value": "testpassword"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3a79e6bd-9103-4635-8f9b-fc8ed6346962",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/email/change/?username=testcustomer&password=testpassword&newEmail=second@email.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"email",
+								"change",
+								""
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "testcustomer"
+								},
+								{
+									"key": "password",
+									"value": "testpassword"
+								},
+								{
+									"key": "newEmail",
+									"value": "second@email.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "02a6bbd9-94c3-40e7-95d4-d33358943893",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/password/change/?username=testcustomer&oldPassword=testpassword&newPassword=secondpassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"password",
+								"change",
+								""
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "testcustomer"
+								},
+								{
+									"key": "oldPassword",
+									"value": "testpassword"
+								},
+								{
+									"key": "newPassword",
+									"value": "secondpassword"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Customers To Verify Login, Email, Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c22aa54b-777b-4c05-92ea-a49a1677215c",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"username\\\":\\\"testcustomer\\\"\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"loggedIn\\\":true\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"password\\\":\\\"secondpassword\\\"\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"email\\\":\\\"second@email.com\\\"\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/customer/name/testcustomer/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"customer",
+								"name",
+								"testcustomer",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "45bbd415-2770-4cfa-8f6e-139c8d045205",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/logout?username=testcustomer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"logout"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "testcustomer"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Customers To Verify Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e505b238-53d3-4e71-ae14-91141a99a922",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"username\\\":\\\"testcustomer\\\"\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"loggedIn\\\":false\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/customer/name/testcustomer/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"customer",
+								"name",
+								"testcustomer",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Second Artist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "62135310-041d-40f2-bc7d-c31126b1abb0",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/secondartist/?password=art2pass&email=artistsecond@email.com&defaultPaymentMethod=credit&smartGalleryID=123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"secondartist",
+								""
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "art2pass"
+								},
+								{
+									"key": "email",
+									"value": "artistsecond@email.com"
+								},
+								{
+									"key": "defaultPaymentMethod",
+									"value": "credit"
+								},
+								{
+									"key": "smartGalleryID",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Second Artist by Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c17df6e3-5522-410d-a41b-14be616d1293",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"username\\\":\\\"secondartist\\\"\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"email\\\":\\\"artistsecond@email.com\\\"\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/email/artistsecond@email.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"email",
+								"artistsecond@email.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Second Artist by Username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a153c45d-e273-4b09-a969-34a3adf8c630",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"username\\\":\\\"secondartist\\\"\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/name/secondartist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"name",
+								"secondartist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Second Artist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c2f5161b-bf1b-42a3-ad46-7ab20660ec0d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/verify/secondartist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"verify",
+								"secondartist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Verified Artists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9dcd473a-7ac9-4763-8937-827f253a3439",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"secondartist\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/verified",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"verified"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unverify Second Artist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97b391ef-18c0-4292-887d-33f4ce6bdf35",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/unverify/secondartist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"unverify",
+								"secondartist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Unverified Artists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ea17e8ee-32f3-43d1-a18d-32b7e0c1c99e",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"secondartist\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/nonverified",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"nonverified"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Second Artist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "67e8783a-aba2-4242-a75c-f7e3863b534d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/login?username=secondartist&password=art2pass",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "secondartist"
+								},
+								{
+									"key": "password",
+									"value": "art2pass"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Second Artist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1476bc92-736e-4b22-9c8b-dbf19d022364",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/delete/secondartist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"delete",
+								"secondartist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Artists Again",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9db36543-87b3-4f36-ae84-b6952eda7d55",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"secondartist\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Listing Testing",
+			"item": [
+				{
+					"name": "Create Artwork",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0a092c2b-16fd-4b10-9314-3c662a514432",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/firstartwork/?year=2020&price=50&isPromoted=No&style=Realist&height=30&width=20&weight=10&artist=testartist&gallery=testGallery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"firstartwork",
+								""
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2020"
+								},
+								{
+									"key": "price",
+									"value": "50"
+								},
+								{
+									"key": "isPromoted",
+									"value": "No"
+								},
+								{
+									"key": "style",
+									"value": "Realist"
+								},
+								{
+									"key": "height",
+									"value": "30"
+								},
+								{
+									"key": "width",
+									"value": "20"
+								},
+								{
+									"key": "weight",
+									"value": "10"
+								},
+								{
+									"key": "artist",
+									"value": "testartist"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Artwork",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bac8a275-ff29-4bed-8839-7dd548dd76e7",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"name\\\":\\\"firstartwork\\\"\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/1249842852",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"1249842852"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recreate Second Artist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "06aee320-cf3f-4060-b8f5-c51b60e441c1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/secondartist/?password=art2pass&email=secondart@email.com&defaultPaymentMethod=credit&smartGalleryID=123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"secondartist",
+								""
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "art2pass"
+								},
+								{
+									"key": "email",
+									"value": "secondart@email.com"
+								},
+								{
+									"key": "defaultPaymentMethod",
+									"value": "credit"
+								},
+								{
+									"key": "smartGalleryID",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Second Artist to Artwork",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fc2aec72-2a04-4d26-97c7-c3922862d6d8",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/addArtist/1249842852/secondartist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"addArtist",
+								"1249842852",
+								"secondartist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Listing",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/1249842852?price=100&gallery=testGallery&dateListed=11/01/2020",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"1249842852"
+							],
+							"query": [
+								{
+									"key": "price",
+									"value": "100"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								},
+								{
+									"key": "dateListed",
+									"value": "11/01/2020"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Listing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c22a3310-c7e6-4bab-a589-ee359d7dc8a2",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"listingID\\\":69687044\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"testartist\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"firstartwork\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/69687044",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"69687044"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View All Listings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "56818ce3-b81c-4e73-b4c5-db49082f4aec",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"listingID\\\":69687044\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"testartist\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"firstartwork\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Artwork",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/updateArtwork/69687044?artworkName=newName&year=2010&price=40&style=realist&height=30&width=20&weight=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"updateArtwork",
+								"69687044"
+							],
+							"query": [
+								{
+									"key": "artworkName",
+									"value": "newName"
+								},
+								{
+									"key": "year",
+									"value": "2010"
+								},
+								{
+									"key": "price",
+									"value": "40"
+								},
+								{
+									"key": "style",
+									"value": "realist"
+								},
+								{
+									"key": "height",
+									"value": "30"
+								},
+								{
+									"key": "width",
+									"value": "20"
+								},
+								{
+									"key": "weight",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Listing to Verify Updates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d3c33599-41b5-4c6f-b59b-3221ebc325c5",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"listingID\\\":69687044\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"2010\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"newName\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/69687044",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"69687044"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Listing and Artwork",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/deleteListingAndArtwork/69687044",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"deleteListingAndArtwork",
+								"69687044"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View All Listings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "96696e53-fed6-4e0b-9642-5d5ed25aed64",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"\\\"listingID\\\":69687044\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Purchase Testing",
+			"item": [
+				{
+					"name": "Recreate Artwork",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/firstartwork/?year=2020&price=50&isPromoted=No&style=Realist&height=30&width=20&weight=10&artist=testartist&gallery=testGallery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"firstartwork",
+								""
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2020"
+								},
+								{
+									"key": "price",
+									"value": "50"
+								},
+								{
+									"key": "isPromoted",
+									"value": "No"
+								},
+								{
+									"key": "style",
+									"value": "Realist"
+								},
+								{
+									"key": "height",
+									"value": "30"
+								},
+								{
+									"key": "width",
+									"value": "20"
+								},
+								{
+									"key": "weight",
+									"value": "10"
+								},
+								{
+									"key": "artist",
+									"value": "testartist"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recreate Listing",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/1249842852?price=100&gallery=testGallery&dateListed=11/01/2020",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"1249842852"
+							],
+							"query": [
+								{
+									"key": "price",
+									"value": "100"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								},
+								{
+									"key": "dateListed",
+									"value": "11/01/2020"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/transaction/?paymentMethod=credit&deliveryMethod=shipping&username=testcustomer&listingID=69687044",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"transaction",
+								""
+							],
+							"query": [
+								{
+									"key": "paymentMethod",
+									"value": "credit"
+								},
+								{
+									"key": "deliveryMethod",
+									"value": "shipping"
+								},
+								{
+									"key": "username",
+									"value": "testcustomer"
+								},
+								{
+									"key": "listingID",
+									"value": "69687044"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View All Transactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5b153ffa-314c-44c9-86c8-e403f1342092",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"transactionID\\\":767580608\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"testcustomer\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/transaction/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"transaction",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Transactions By Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a82dbcbc-376b-4727-b1dd-d915a928d55b",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"transactionID\\\":767580608\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"testcustomer\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/transaction/search/username/testcustomer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"transaction",
+								"search",
+								"username",
+								"testcustomer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ebc2fa8c-b0d3-42dc-a9ce-f314e06525a4",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"transactionID\\\":767580608\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"testcustomer\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/transaction/767580608",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"transaction",
+								"767580608"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Transactions by Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/transaction/searchdate/2020-11-01",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"transaction",
+								"searchdate",
+								"2020-11-01"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Browsing Testing",
+			"item": [
+				{
+					"name": "Create Test Artist 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0a7ce107-2dda-4842-8d46-7f338e5a7cba",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/artist1/?password=art1pass&email=art1@email.com&defaultPaymentMethod=credit&smartGalleryID=123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"artist1",
+								""
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "art1pass"
+								},
+								{
+									"key": "email",
+									"value": "art1@email.com"
+								},
+								{
+									"key": "defaultPaymentMethod",
+									"value": "credit"
+								},
+								{
+									"key": "smartGalleryID",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Test Artist 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2df13967-3fac-4927-ba7b-f2861137d428",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/artist2/?password=art2pass&email=art2@email.com&defaultPaymentMethod=credit&smartGalleryID=123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"artist2",
+								""
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "art2pass"
+								},
+								{
+									"key": "email",
+									"value": "art2@email.com"
+								},
+								{
+									"key": "defaultPaymentMethod",
+									"value": "credit"
+								},
+								{
+									"key": "smartGalleryID",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Test Artist 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fb07588e-fa95-4067-a37a-385698559b23",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/painter3/?password=art3pass&email=art3@email.com&defaultPaymentMethod=credit&smartGalleryID=123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"painter3",
+								""
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "art3pass"
+								},
+								{
+									"key": "email",
+									"value": "art3@email.com"
+								},
+								{
+									"key": "defaultPaymentMethod",
+									"value": "credit"
+								},
+								{
+									"key": "smartGalleryID",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Test Artist 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "420bd82a-401d-4d73-8789-da877fcc9686",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/painter4/?password=art4pass&email=art4@email.com&defaultPaymentMethod=credit&smartGalleryID=123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"painter4",
+								""
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "art4pass"
+								},
+								{
+									"key": "email",
+									"value": "art4@email.com"
+								},
+								{
+									"key": "defaultPaymentMethod",
+									"value": "credit"
+								},
+								{
+									"key": "smartGalleryID",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Test Artist 5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e959062-617c-41dd-826a-f41374da0ad5",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist/sculptor5/?password=art5pass&email=art5@email.com&defaultPaymentMethod=credit&smartGalleryID=123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist",
+								"sculptor5",
+								""
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "art5pass"
+								},
+								{
+									"key": "email",
+									"value": "art5@email.com"
+								},
+								{
+									"key": "defaultPaymentMethod",
+									"value": "credit"
+								},
+								{
+									"key": "smartGalleryID",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Artists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da430e57-41ce-4772-846c-0b7c2a7876c6",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"artist1\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"artist2\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"painter3\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"painter4\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"sculptor5\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Test Artwork 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8115c170-c748-457b-abd7-46c3a009763a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/artwork1/?year=2010&price=500&isPromoted=No&style=Surrealist&height=20&width=20&weight=5&artist=artist1&gallery=testGallery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"artwork1",
+								""
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2010"
+								},
+								{
+									"key": "price",
+									"value": "500"
+								},
+								{
+									"key": "isPromoted",
+									"value": "No"
+								},
+								{
+									"key": "style",
+									"value": "Surrealist"
+								},
+								{
+									"key": "height",
+									"value": "20"
+								},
+								{
+									"key": "width",
+									"value": "20"
+								},
+								{
+									"key": "weight",
+									"value": "5"
+								},
+								{
+									"key": "artist",
+									"value": "artist1"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Test Artwork 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b769dbe9-5777-4409-b5a1-efe6c3052f8d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/artwork2/?year=2015&price=70&isPromoted=No&style=Realist&height=40&width=10&weight=15&artist=artist2&gallery=testGallery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"artwork2",
+								""
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2015"
+								},
+								{
+									"key": "price",
+									"value": "70"
+								},
+								{
+									"key": "isPromoted",
+									"value": "No"
+								},
+								{
+									"key": "style",
+									"value": "Realist"
+								},
+								{
+									"key": "height",
+									"value": "40"
+								},
+								{
+									"key": "width",
+									"value": "10"
+								},
+								{
+									"key": "weight",
+									"value": "15"
+								},
+								{
+									"key": "artist",
+									"value": "artist2"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Test Artwork 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "db15805d-4d9b-48f8-aaec-f0dc8f6943a1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/artwork3/?year=2018&price=200&isPromoted=No&style=renaissance&height=25&width=30&weight=10&artist=painter3&gallery=testGallery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"artwork3",
+								""
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2018"
+								},
+								{
+									"key": "price",
+									"value": "200"
+								},
+								{
+									"key": "isPromoted",
+									"value": "No"
+								},
+								{
+									"key": "style",
+									"value": "renaissance"
+								},
+								{
+									"key": "height",
+									"value": "25"
+								},
+								{
+									"key": "width",
+									"value": "30"
+								},
+								{
+									"key": "weight",
+									"value": "10"
+								},
+								{
+									"key": "artist",
+									"value": "painter3"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Test Artwork 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5825f07c-f402-48ba-a5b7-53d8106aa449",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/masterpiece4/?year=2000&price=800&isPromoted=No&style=impressionist&height=50&width=50&weight=12&artist=painter4&gallery=testGallery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"masterpiece4",
+								""
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2000"
+								},
+								{
+									"key": "price",
+									"value": "800"
+								},
+								{
+									"key": "isPromoted",
+									"value": "No"
+								},
+								{
+									"key": "style",
+									"value": "impressionist"
+								},
+								{
+									"key": "height",
+									"value": "50"
+								},
+								{
+									"key": "width",
+									"value": "50"
+								},
+								{
+									"key": "weight",
+									"value": "12"
+								},
+								{
+									"key": "artist",
+									"value": "painter4"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Test Artwork 5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b28efd14-7ca4-43d7-9235-de04d645cbe7",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/statue5/?year=2020&price=1500&isPromoted=No&style=renaissance&height=100&width=40&weight=60&artist=sculptor5&gallery=testGallery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"statue5",
+								""
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2020"
+								},
+								{
+									"key": "price",
+									"value": "1500"
+								},
+								{
+									"key": "isPromoted",
+									"value": "No"
+								},
+								{
+									"key": "style",
+									"value": "renaissance"
+								},
+								{
+									"key": "height",
+									"value": "100"
+								},
+								{
+									"key": "width",
+									"value": "40"
+								},
+								{
+									"key": "weight",
+									"value": "60"
+								},
+								{
+									"key": "artist",
+									"value": "sculptor5"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Test Artwork 6",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "63ff160c-8048-4596-ab1c-1c3a8fd8f270",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/artwork6/?year=2012&price=135&isPromoted=No&style=Surrealist&height=40&width=28&weight=16&artist=artist1&gallery=testGallery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"artwork6",
+								""
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2012"
+								},
+								{
+									"key": "price",
+									"value": "135"
+								},
+								{
+									"key": "isPromoted",
+									"value": "No"
+								},
+								{
+									"key": "style",
+									"value": "Surrealist"
+								},
+								{
+									"key": "height",
+									"value": "40"
+								},
+								{
+									"key": "width",
+									"value": "28"
+								},
+								{
+									"key": "weight",
+									"value": "16"
+								},
+								{
+									"key": "artist",
+									"value": "artist1"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Artworks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3e857975-3bab-4d17-97cb-e43e41e36745",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"artwork1\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"artwork2\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"artwork3\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"masterpiece4\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"statue5\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"artwork6\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Listing 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9982ea2-889b-4e56-87af-165f1631674e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/952317474?price=500&gallery=testGallery&dateListed=11/01/2020",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"952317474"
+							],
+							"query": [
+								{
+									"key": "price",
+									"value": "500"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								},
+								{
+									"key": "dateListed",
+									"value": "11/01/2020"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Listing 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b1cff27b-4e8c-4dfd-a377-a787dca2610b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/-995629398?price=70&gallery=testGallery&dateListed=11/01/2020",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"-995629398"
+							],
+							"query": [
+								{
+									"key": "price",
+									"value": "70"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								},
+								{
+									"key": "dateListed",
+									"value": "11/01/2020"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Listing 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc494284-e2b6-4e70-bae8-27f03dd26fee",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/627894776?price=200&gallery=testGallery&dateListed=11/01/2020",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"627894776"
+							],
+							"query": [
+								{
+									"key": "price",
+									"value": "200"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								},
+								{
+									"key": "dateListed",
+									"value": "11/01/2020"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Listing 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "106e620c-3e15-4494-aa2f-a3e3ddab0f2d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/119565096?price=800&gallery=testGallery&dateListed=11/01/2020",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"119565096"
+							],
+							"query": [
+								{
+									"key": "price",
+									"value": "800"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								},
+								{
+									"key": "dateListed",
+									"value": "11/01/2020"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Listing 5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90ff3a7f-e0f7-4063-a9bc-97bf51cfb085",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/343108951?price=1500&gallery=testGallery&dateListed=11/01/2020",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"343108951"
+							],
+							"query": [
+								{
+									"key": "price",
+									"value": "1500"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								},
+								{
+									"key": "dateListed",
+									"value": "11/01/2020"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Listing 6",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c3bb2c35-e007-4080-8f0c-4ea0655df216",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/1585473300?price=135&gallery=testGallery&dateListed=11/01/2020",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"1585473300"
+							],
+							"query": [
+								{
+									"key": "price",
+									"value": "135"
+								},
+								{
+									"key": "gallery",
+									"value": "testGallery"
+								},
+								{
+									"key": "dateListed",
+									"value": "11/01/2020"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Listings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ee20934f-94c2-428e-a0b5-3cd1dc676563",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"listingID\\\":-1597904684\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"listingID\\\":-782638386\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"listingID\\\":-1856704576\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"listingID\\\":-90463128\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\\\"listingID\\\":-1158985023\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Price Filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e7a99f4f-46d0-496c-b827-42854eab1c72",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"70\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"500\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/artworkSearch/artwork/0/200",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"artworkSearch",
+								"artwork",
+								"0",
+								"200"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Style Filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "96ea3572-5b78-4a43-9841-2187981e635a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"REALIST\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"RENAISSANCE\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/listing/artworkSearch/artwork/realist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"listing",
+								"artworkSearch",
+								"artwork",
+								"realist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Promote Artwork 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "96964c4d-df13-4baf-b082-de7a8c5a904e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/promote/952317474",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"promote",
+								"952317474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Promoted Artworks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d572185d-1cfb-4d6c-b125-421c73f949d2",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"artwork1\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/getPromoted",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"getPromoted"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unpromote Artwork 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "50dfea42-e75c-4b58-b3f2-0dfdbfd6e802",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/unpromote/952317474",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"unpromote",
+								"952317474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Promoted Artworks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6acbd870-719b-4e53-b5d4-e14263050455",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"artwork1\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/artwork/getPromoted",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"artwork",
+								"getPromoted"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Artwork2 to Browsing History of testcustomer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7344c097-2883-4fdd-8d73-f02e6ad4cdc7",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/customer/addToBrowseHistory/testcustomer/-995629398",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"customer",
+								"addToBrowseHistory",
+								"testcustomer",
+								"-995629398"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Browsing History of testcustomer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5432/customer/viewBrowsingHistory/testcustomer/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5432",
+							"path": [
+								"customer",
+								"viewBrowsingHistory",
+								"testcustomer",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
