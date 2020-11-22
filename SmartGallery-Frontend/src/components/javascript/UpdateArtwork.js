@@ -72,10 +72,7 @@ export default {
 
   methods: {
     updateArtwork: function(artwork, artworkName, year, price, style, height, width, weight) {
-      if(artwork.listing == null){
-        alert("Artwork must be listed to be deleted.")
-        return
-      }
+
       AXIOS.put('/listing/updateArtwork/'.concat(artwork.listing.listingID) + '?artworkName=' + artworkName + '&year=' + year + '&price=' + price +
           '&style=' + style + '&height=' + height + '&width=' + width + '&weight=' + weight)
         .then(response => {

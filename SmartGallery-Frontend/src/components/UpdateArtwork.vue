@@ -25,7 +25,7 @@
   <br>
 
   <select v-model="selectedListing">
-      <option v-for="artwork in artist.artworks" :key="artwork.name"> {{artwork.name}}</option>
+      <option v-for="artwork in artist.artworks" v-bind:value="{artwork: artwork}" :key="artwork.name"> {{artwork.name}}</option>
     </select>
 	<br>
 	<br>
@@ -71,7 +71,7 @@
     <button type="button" v-on:click= "addArtist= !addArtist"> Cancel </button>
   </div>
   <br>
-  <button  v-on:click="updateArtwork(selectedListing, artworkNameInput, yearInput, priceInput, selectedArtStyle, heightInput, widthInput, weightInput); goToProfile()" > UPDATE </button>
+  <button  v-on:click="updateArtwork(selectedListing.artwork, artworkNameInput, yearInput, priceInput, selectedArtStyle, heightInput, widthInput, weightInput); goToProfile()" > UPDATE </button>
   <br>
   <br>
   <hr style="height:4px;border-width:0;color:gray;background-color:black">
