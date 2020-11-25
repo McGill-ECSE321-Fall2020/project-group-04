@@ -18,6 +18,8 @@
     <string name="listing_width">Width:</string>
     <string name="listing_weight">Weight:</string>
     <string name="listing_sold">Sold:</string>
+    <string name="listing_payment">PaymentMethod</string>
+    <string name="listing_delivery"> Delivery Method</string>
 
     <string name="listing_button">Purchase</string>
 </resources>
