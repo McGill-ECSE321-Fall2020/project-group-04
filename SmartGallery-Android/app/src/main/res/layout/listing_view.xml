@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="-60dp">
+
+        <TextView
+            android:id="@+id/listing_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="84dp"
+            android:text="@string/listing_title"
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/listing_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="30dp"
+            android:text="@string/listing_year" />
+
+        <TextView
+            android:id="@+id/listing_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:text="@string/listing_price" />
+
+        <TextView
+            android:id="@+id/listing_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:text="@string/listing_style" />
+
+        <TextView
+            android:id="@+id/listing_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:text="@string/listing_height" />
+
+        <TextView
+            android:id="@+id/listing_width"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:text="@string/listing_width" />
+
+        <TextView
+            android:id="@+id/listing_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:text="@string/listing_weight" />
+
+        <TextView
+            android:id="@+id/listing_sold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:text="@string/listing_sold" />
+
+
+        <Button
+            android:id="@+id/listing_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+
+            android:baselineAligned="false"
+            android:text="@string/listing_button" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
