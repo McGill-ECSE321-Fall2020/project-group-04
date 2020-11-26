@@ -33,6 +33,6 @@
     <string name="upload_width">Width (cm) </string>
     <string name="upload_button">Upload</string>
     <string name="upload_exit"> Exit</string>
-
+    <string name="upload_error"></string>
 
 </resources>
