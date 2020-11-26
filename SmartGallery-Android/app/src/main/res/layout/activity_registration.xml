@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/goto_register_button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/payment_type_textview" />
+
+    <TextView
+        android:id="@+id/register_delivery_type_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/delivery_method"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_account_type_textview"
+        tools:text="@string/delivery_method" />
+
+    <TextView
+        android:id="@+id/payment_type_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/payment_type"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_delivery_type_textview"
+        tools:text="@string/payment_type" />
+
+    <Spinner
+        android:id="@+id/delivery_method_spinner"
+        android:layout_width="200sp"
+        android:layout_height="30sp"
+        android:entries="@array/delivery_methods"
+        app:layout_constraintBottom_toBottomOf="@+id/register_delivery_type_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/register_account_type_textview"
+        app:layout_constraintTop_toTopOf="@+id/register_delivery_type_textview" />
+
+    <Spinner
+        android:id="@+id/payment_type_spinner"
+        android:layout_width="200sp"
+        android:layout_height="30sp"
+        android:entries="@array/payment_types"
+        app:layout_constraintBottom_toBottomOf="@+id/payment_type_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/register_account_type_textview"
+        app:layout_constraintTop_toTopOf="@+id/payment_type_textview" />
+
+    <TextView
+        android:id="@+id/register_email_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/email_hint"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_password_textview" />
+
+    <TextView
+        android:id="@+id/register_account_type_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/account_type"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_email_textview"
+        tools:text="@string/account_type" />
+
+    <EditText
+        android:id="@+id/register_password_input2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/password_hint"
+        android:autofillHints="@string/password_hint"
+        android:inputType="textPersonName|textPassword"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/register_password_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/register_username_textview"
+        app:layout_constraintTop_toTopOf="@+id/register_password_textview" />
+
+    <TextView
+        android:id="@+id/register_message_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/register_message"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/register_username_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/username_hint"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_message_textview" />
+
+    <TextView
+        android:id="@+id/register_password_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/password_hint"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_username_textview" />
+
+    <EditText
+        android:id="@+id/register_username_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/username_hint"
+        android:autofillHints="@string/username_hint"
+        android:inputType="textPersonName"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/register_username_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/register_username_textview"
+        app:layout_constraintTop_toTopOf="@+id/register_username_textview"
+        app:layout_constraintVertical_bias="0.6" />
+
+    <EditText
+        android:id="@+id/register_email_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/email_hint"
+        android:autofillHints="@string/email_hint"
+        android:inputType="textPersonName|textEmailAddress"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/register_email_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/register_username_textview"
+        app:layout_constraintTop_toTopOf="@+id/register_email_textview" />
+
+    <Spinner
+        android:id="@+id/account_type_spinner"
+        android:layout_width="200sp"
+        android:layout_height="30sp"
+        android:entries="@array/account_types"
+        app:layout_constraintBottom_toBottomOf="@+id/register_account_type_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/register_account_type_textview"
+        app:layout_constraintTop_toTopOf="@+id/register_account_type_textview" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

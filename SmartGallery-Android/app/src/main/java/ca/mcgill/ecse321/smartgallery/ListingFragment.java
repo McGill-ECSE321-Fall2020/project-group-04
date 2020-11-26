@@ -17,8 +17,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import ca.mcgill.ecse321.smartgallery.HttpUtils;
-import ca.mcgill.ecse321.smartgallery.R;
 import cz.msebera.android.httpclient.Header;
 
 public class ListingFragment extends Fragment {
@@ -33,7 +31,7 @@ public class ListingFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.listing_view, container, false);
+        return inflater.inflate(R.layout.listing, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
