@@ -22,4 +22,43 @@
     <string name="listing_delivery"> Delivery Method</string>
 
     <string name="listing_button">Purchase</string>
+
+    <string name="welcome_message">Welcome to SmartGallery!</string>
+    <string name="login_message">Log in below</string>
+    <string name="login">Login</string>
+    <string name="register_message">Fill out the information below to create an account</string>
+    <string name="or_register">Or, if you don\'t have an account yet:</string>
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="account_type">Account Type</string>
+    <string name="type_artist">Artist</string>
+    <string name="type_customer">Customer</string>
+    <string name="payment_type">Default Payment</string>
+    <string name="type_credit">Credit Card</string>
+    <string name="type_paypal">Paypal</string>
+    <string name="delivery_method">Delivery Method</string>
+    <string name="type_pickup">Pickup</string>
+    <string name="type_shipping">Delivery</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="login_success">You have been logged in!</string>
+    <string name="login_warning">This username and password do not match</string>
+    <string name="empty_username">Username cannot be empty</string>
+
+    <string name="empty_password">Password cannot be empty</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
+    <string-array name="account_types">
+        <item>Artist</item>
+        <item>Customer</item>
+    </string-array>
+    <string-array name="payment_types">
+        <item>Credit Card</item>
+        <item>Paypal</item>
+    </string-array>
+    <string-array name="delivery_methods">
+        <item>Pickup</item>
+        <item>Shipping</item>
+    </string-array>
+
 </resources>
