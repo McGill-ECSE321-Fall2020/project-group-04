@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.smartgallery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,17 @@ public class ViewArtist extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.artist_profile);
         getArtist();
+
+
+        //Bind upload button to transition
+        Button upload = findViewById(R.id.upload_artwork_button);
+        upload.setOnClickListener(v -> {
+            Intent intent = new Intent(ViewArtist.this, UploadActivity.class);
+            intent.putExtra("Username", ausername);
+            startActivity(intent);
+        });
+
+
     }
 
     /**
@@ -117,7 +129,7 @@ public class ViewArtist extends AppCompatActivity {
      *
      * @param v
      */
-    public void showEmail(View v){
+    public void showEmail(View v) {
         findViewById(R.id.artist_update_email_button).setVisibility(View.GONE);
         findViewById(R.id.artist_newemail).setVisibility(View.VISIBLE);
         findViewById(R.id.artist_password).setVisibility(View.VISIBLE);
@@ -130,7 +142,7 @@ public class ViewArtist extends AppCompatActivity {
      *
      * @param V
      */
-    public void hideEmail(View V){
+    public void hideEmail(View V) {
         findViewById(R.id.artist_update_email_button).setVisibility(View.VISIBLE);
         findViewById(R.id.artist_newemail).setVisibility(View.GONE);
         findViewById(R.id.artist_password).setVisibility(View.GONE);
@@ -140,6 +152,7 @@ public class ViewArtist extends AppCompatActivity {
 
     /**
      * Updates a user's email address
+     *
      * @param V
      */
     public void updateEmail(View V) {
@@ -161,9 +174,10 @@ public class ViewArtist extends AppCompatActivity {
 
     /**
      * Deletes the current user's account
+     *
      * @param V
      */
-    public void deleteAccount(View V){
+    public void deleteAccount(View V) {
 
         HttpUtils.post("/artist/delete/" + ausername, new RequestParams(), new JsonHttpResponseHandler() {
             @Override

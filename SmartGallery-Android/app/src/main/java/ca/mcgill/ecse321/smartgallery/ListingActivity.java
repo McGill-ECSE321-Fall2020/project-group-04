@@ -1,16 +1,13 @@
 package ca.mcgill.ecse321.smartgallery;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -24,7 +21,7 @@ import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 
-public class ListingFragment extends Fragment {
+public class ListingActivity extends AppCompatActivity {
     private String error = null;
     private ArrayList<String> paymentMethods;
     private ArrayAdapter<String> paymentAdapter;
@@ -36,40 +33,32 @@ public class ListingFragment extends Fragment {
     private HashMap<String, Integer> artworkNameToListingIDMap;
 
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.listing, container, false);
-    }
-
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        Spinner paymentSpinner = view.findViewById(R.id.payment_spinner);
-        Spinner shippingSpinner = view.findViewById(R.id.shipping_spinner);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.customer_profile);
+        getListings();
+        Spinner paymentSpinner = findViewById(R.id.payment_spinner);
+        Spinner shippingSpinner = findViewById(R.id.shipping_spinner);
 
         paymentMethods = new ArrayList<>();
         paymentMethods.add("credit");
         paymentMethods.add("paypal");
-        paymentAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, paymentMethods);
+        paymentAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, paymentMethods);
         paymentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         paymentSpinner.setAdapter(paymentAdapter);
 
         shippingMethods = new ArrayList<>();
         shippingMethods.add("shipping");
         shippingMethods.add("pickup");
-        shippingAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, shippingMethods);
+        shippingAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, shippingMethods);
         shippingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         shippingSpinner.setAdapter(shippingAdapter);
 
-        getListings(view);
 
         listingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                displayListing(view);
+                displayListing();
             }
 
             @Override
@@ -80,7 +69,8 @@ public class ListingFragment extends Fragment {
         });
     }
 
-    private void displayListing(View view) {
+
+    private void displayListing() {
         String artworkName = listingSpinner.getSelectedItem().toString();
         Integer listingID = artworkNameToListingIDMap.get(artworkName);
 
@@ -89,35 +79,29 @@ public class ListingFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    TextView title = (TextView) view.findViewById(R.id.listing_title);
+                    TextView title = findViewById(R.id.listing_title);
                     title.setText(response.getJSONObject("artwork").getString("name"));
 
-                    TextView year = (TextView) view.findViewById(R.id.listing_year);
+                    TextView year = findViewById(R.id.listing_year);
                     year.setText(String.valueOf(response.getJSONObject("artwork").getInt("year")));
 
-                    TextView price = (TextView) view.findViewById(R.id.listing_price);
+                    TextView price = findViewById(R.id.listing_price);
                     price.setText(String.valueOf(response.getJSONObject("artwork").getDouble("price")));
 
-                    TextView style = (TextView) view.findViewById(R.id.listing_style);
+                    TextView style = findViewById(R.id.listing_style);
                     style.setText(response.getJSONObject("artwork").getString("artStyle"));
 
-                    TextView height = (TextView) view.findViewById(R.id.listing_height);
+                    TextView height = findViewById(R.id.listing_height);
                     height.setText(String.valueOf(response.getJSONObject("artwork").getDouble("height")));
 
-                    TextView width = (TextView) view.findViewById(R.id.listing_width);
+                    TextView width = findViewById(R.id.listing_width);
                     width.setText(String.valueOf(response.getJSONObject("artwork").getDouble("width")));
 
-                    TextView weight = (TextView) view.findViewById(R.id.listing_weight);
+                    TextView weight = findViewById(R.id.listing_weight);
                     weight.setText(String.valueOf(response.getJSONObject("artwork").getDouble("weight")));
 
-                    TextView sold = (TextView) view.findViewById(R.id.listing_sold);
+                    TextView sold = findViewById(R.id.listing_sold);
                     sold.setText(String.valueOf(response.getBoolean("sold")));
-
-//                    TextView payment = (TextView) view.findViewById(R.id.listing_payment);
-//                    //??
-//
-//                    TextView shipping = (TextView) view.findViewById(R.id.listing_shipping);
-//                    //?
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -128,32 +112,32 @@ public class ListingFragment extends Fragment {
 
     /**
      * Gets all the listings that are not sold and adds them to a dropdown
-     * @param view
      */
-    public void getListings(View view) {
+    public void getListings() {
         error = "";
         HttpUtils.get("/listing", new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                    try {
-                        artworkNameToListingIDMap.clear(); // Re-determine which listings are not sold
-                        listingSpinner = view.findViewById(R.id.listing_spinner);
-                        listings = new ArrayList<>();
-                        for (int i = 0; i < response.length(); i++) {
-                            if (!response.getJSONObject(i).getBoolean("sold")) { // Only get unsold listings
-                                artworkNameToListingIDMap.put(response.getJSONObject(i).getJSONObject("artwork").getString("name"),
-                                        response.getJSONObject(i).getInt("listingID")); // Add to hashmap for later access
-                                listings.add(response.getJSONObject(i).getJSONObject("artwork").getString("name")); // For dropdown
-                            }
+                try {
+                    artworkNameToListingIDMap.clear(); // Re-determine which listings are not sold
+                    listingSpinner = findViewById(R.id.listing_spinner);
+                    listings = new ArrayList<>();
+                    for (int i = 0; i < response.length(); i++) {
+                        if (!response.getJSONObject(i).getBoolean("sold")) { // Only get unsold listings
+                            artworkNameToListingIDMap.put(response.getJSONObject(i).getJSONObject("artwork").getString("name"),
+                                    response.getJSONObject(i).getInt("listingID")); // Add to hashmap for later access
+                            listings.add(response.getJSONObject(i).getJSONObject("artwork").getString("name")); // For dropdown
                         }
-                        listingAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, listings);
-                        listingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        listingSpinner.setAdapter(listingAdapter);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
+        listingAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, shippingMethods);
+        listingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        listingSpinner.setAdapter(listingAdapter);
     }
 
     public void createTransaction(View view) {
@@ -169,7 +153,7 @@ public class ListingFragment extends Fragment {
 
 
         HttpUtils.post("/transaction/?paymentMethod=" + paymentMethod + "&deliveryMethod=" +
-        deliveryMethod + "&username=" + "INSERT_USERNAME_HERE" + "&listingID=" + listingID, new RequestParams(), new JsonHttpResponseHandler() {
+                deliveryMethod + "&username=" + "INSERT_USERNAME_HERE" + "&listingID=" + listingID, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // alert the user the transaction worked etc.

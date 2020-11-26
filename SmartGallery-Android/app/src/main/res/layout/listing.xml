@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListingFragment">
+    tools:context=".ListingActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -123,6 +123,7 @@
             android:layout_marginTop="30dp"
 
             android:baselineAligned="false"
+            android:onClick="createTransaction"
             android:text="@string/listing_button" />
 
     </LinearLayout>

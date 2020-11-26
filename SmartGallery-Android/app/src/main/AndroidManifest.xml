@@ -30,10 +30,11 @@
         <activity android:name=".ViewArtist"></activity>
         <activity
             android:name=".ViewCustomer"
-            android:label="@string/title_activity_registration"
-            android:theme="@style/Theme.SmartGalleryAndroid.NoActionBar">
+            android:theme="@style/Theme.SmartGalleryAndroid.NoActionBar"></activity>
+        <activity android:name=".UploadActivity">
+            android:name=".UploadActivity"
+            android:theme="@style/Theme.SmartGalleryAndroid.NoActionBar"
         </activity>
-
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
