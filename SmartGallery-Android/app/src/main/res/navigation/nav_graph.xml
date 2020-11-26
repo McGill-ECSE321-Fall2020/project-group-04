@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_listingFragment"
             app:destination="@id/ListingFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_viewArtist"
+            app:destination="@id/viewArtist" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -30,4 +33,8 @@
         android:name="ca.mcgill.ecse321.smartgallery.ListingFragment"
         android:label="listing_view"
         tools:layout="@layout/listing_view" />
+    <activity
+        android:id="@+id/viewArtist"
+        android:name="ca.mcgill.ecse321.smartgallery.ViewArtist"
+        android:label="ViewArtist" />
 </navigation>

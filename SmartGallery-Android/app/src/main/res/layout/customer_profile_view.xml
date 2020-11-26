@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            android:text="Customer Profile"
+            android:text="@string/customer_profile"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="Username:"
+            android:text="@string/username"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="Email:"
+            android:text="@string/email"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <TextView
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="Default Payment Method:"
+            android:text="@string/default_payment_method"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <TextView
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="Creation Date:"
+            android:text="@string/creation_date"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <Button
@@ -68,7 +68,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
-            android:text="Update Password" />
+            android:text="@string/customer_update_password_button" />
 
         <Button
             android:id="@+id/customer_update_email_button"
@@ -77,7 +77,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
-            android:text="Update Email" />
+            android:text="@string/customer_update_password_button" />
 
         <Button
             android:id="@+id/customer_delete_account_button"
@@ -86,7 +86,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
-            android:text="Delete Account" />
+            android:text="@string/customer_delete_account_button" />
 
     </LinearLayout>
 </ScrollView>

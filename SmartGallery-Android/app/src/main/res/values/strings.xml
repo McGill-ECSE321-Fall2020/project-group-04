@@ -35,22 +35,25 @@
     <string name="upload_exit"> Exit</string>
 
     <string name="customer_profile_title">Customer Profile</string>
-    <string name="customer_username">Username:</string>
-    <string name="customer_email">Email:</string>
-    <string name="customer_default_payment_method">Default Payment Method:</string>
-    <string name="customer_creation_date">Creation Date:</string>
     <string name="customer_update_password_button">Update Password</string>
     <string name="customer_update_email_button">Update Email</string>
     <string name="customer_delete_account_button">Delete Account</string>
 
     <string name="artist_profile_title">Artist Profile</string>
-    <string name="artist_username">Username:</string>
-    <string name="artist_email">Email:</string>
-    <string name="artist_default_payment_method">Default Payment Method:</string>
-    <string name="artist_creation_date">Creation Date:</string>
     <string name="artist_update_password_button">Update Password</string>
     <string name="artist_update_email_button">Update Email</string>
     <string name="artist_delete_account_button">Delete Account</string>
     <string name="upload_artwork_button">Upload Artwork</string>
+    <string name="customer_profile">Customer Profile</string>
+    <string name="email">Email:</string>
+    <string name="default_payment_method">Default Payment Method:</string>
+    <string name="creation_date">Creation Date:</string>
+    <string name="username">Username:</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="cancel">Cancel</string>
+    <string name="change">Change</string>
+    <string name="new_email">New Email</string>
+    <string name="password">Password</string>
 
 </resources>
