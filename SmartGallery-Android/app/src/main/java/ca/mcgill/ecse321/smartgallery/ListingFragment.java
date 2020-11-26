@@ -174,29 +174,8 @@ public class ListingFragment extends Fragment {
         deliveryMethod + "&username=" + "INSERT_USERNAME_HERE" + "&listingID=" + listingID, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                // alert the user the transaction worked etc.
             }
         });
     }
-
-//    createTransaction: function(paymentMethod, deliveryMethod) {
-//        AXIOS.post('/transaction/?paymentMethod=' + paymentMethod + '&deliveryMethod=' +
-//                deliveryMethod + '&username=' + this.$route.params.username + '&listingID=' + this.$route.params.listingNumber)
-//                .then(response => {
-//                alert("You have been billed " + this.newListing.artwork.price + "$ The gallery received " + this.newListing.gallery.commissionPercentage/100*this.newListing.artwork.price + "$")
-//                this.transaction = response.data
-//                this.sold ="Sold"
-//                this.setImage()
-//        })
-//        .catch(e => {
-//                alert("Transaction failed")
-//                this.errorTransaction = e
-//        })
-    }
-
-
 }
