@@ -23,7 +23,7 @@ public class ViewArtist extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.artist_profile_view);
+        setContentView(R.layout.artist_profile);
         getArtist();
     }
 

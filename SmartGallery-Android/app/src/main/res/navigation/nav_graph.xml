@@ -15,8 +15,8 @@
             android:id="@+id/action_FirstFragment_to_listingFragment"
             app:destination="@id/ListingFragment" />
         <action
-            android:id="@+id/action_FirstFragment_to_viewArtist"
-            app:destination="@id/viewArtist" />
+            android:id="@+id/action_FirstFragment_to_viewCustomer"
+            app:destination="@id/viewCustomer" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -32,10 +32,11 @@
         android:id="@+id/ListingFragment"
         android:name="ca.mcgill.ecse321.smartgallery.ListingFragment"
         android:label="listing_view"
-        tools:layout="@layout/listing_view" />
-
+        tools:layout="@layout/listing" />
     <activity
-        android:id="@+id/viewArtist"
-        android:name="ca.mcgill.ecse321.smartgallery.ViewArtist"
-        android:label="ViewArtist" />
+        android:id="@+id/viewCustomer"
+        android:name="ca.mcgill.ecse321.smartgallery.ViewCustomer"
+        android:label="customer_profile"
+        tools:layout="@layout/customer_profile" />
+
 </navigation>
