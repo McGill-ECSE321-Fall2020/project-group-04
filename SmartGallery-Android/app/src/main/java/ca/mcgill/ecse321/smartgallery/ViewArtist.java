@@ -223,9 +223,23 @@ public class ViewArtist extends AppCompatActivity {
     }
 
 
+    /**
+     * Logout the current user
+     * @param view
+     */
     public void logOut(View view) {
-        Intent intent = new Intent(ViewArtist.this, LoginActivity.class);
-        startActivity(intent);
+        HttpUtils.post("/logout?username="+ausername, new RequestParams(), new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Intent intent = new Intent(ViewArtist.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }

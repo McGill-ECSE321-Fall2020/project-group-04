@@ -120,6 +120,8 @@
     <string name="transaction_title">Transactions</string>
     <string name="transaction_created">Date:</string>
     <string name="view_transaction">View Transaction</string>
+    <string name="log_out">Log Out</string>
+    <string name="artists">Artists</string>
 
 
 </resources>

@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        createGalleries();
 
         btnLogin = findViewById(R.id.login_button);
         btnLogin.setOnClickListener(view -> login());
@@ -92,6 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                     etPassword.setText("");
                 } else {
                     //If their username and password match, log them in.
+                    Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+                    //Redirect to profile
                     successfulLogin();
                 }
 
@@ -127,5 +130,32 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void createGalleries() {
+        HttpUtils.post("/smartGallery/123" + username, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+
+            }
+        });
+
+        HttpUtils.post("/gallery/123/testGallery/" + username, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+
+            }
+        });
+
     }
 }
