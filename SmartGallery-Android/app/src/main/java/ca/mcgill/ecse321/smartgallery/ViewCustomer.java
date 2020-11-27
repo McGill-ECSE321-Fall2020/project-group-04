@@ -203,4 +203,10 @@ public class ViewCustomer extends AppCompatActivity {
             }
         });
     }
+
+
+    public void logOut(View view) {
+        Intent intent = new Intent(ViewCustomer.this, LoginActivity.class);
+        startActivity(intent);
+    }
 }

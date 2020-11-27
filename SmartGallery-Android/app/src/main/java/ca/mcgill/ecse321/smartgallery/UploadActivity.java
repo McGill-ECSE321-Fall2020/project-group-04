@@ -223,6 +223,13 @@ public class UploadActivity extends AppCompatActivity {
     }
 
 
+    public void logOut(View view) {
+        Intent intent = new Intent(UploadActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+
+
 
     /**
      * Method to obtain new error message in lieu of failed request
