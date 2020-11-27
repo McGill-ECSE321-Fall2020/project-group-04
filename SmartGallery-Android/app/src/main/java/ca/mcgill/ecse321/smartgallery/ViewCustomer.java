@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +17,7 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 public class ViewCustomer extends AppCompatActivity {
-    private String cusername = "Artist1";
+    private String cusername = "artist1";
     private String error = null;
 
     @Override
