@@ -3,14 +3,17 @@ package ca.mcgill.ecse321.smartgallery;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +30,12 @@ public class ViewCustomer extends AppCompatActivity {
         setContentView(R.layout.customer_profile);
         cusername = getIntent().getStringExtra("USERNAME");
         getCustomer();
+        Button listing = findViewById(R.id.customer_view_listing_button);
+        listing.setOnClickListener(v -> {
+            Intent intent = new Intent(ViewCustomer.this, ListingActivity.class);
+            intent.putExtra("USERNAME", cusername);
+            startActivity(intent);
+        });
     }
 
     /**
@@ -91,20 +100,23 @@ public class ViewCustomer extends AppCompatActivity {
     public void updatePassword(View v) {
         EditText oldPassword = findViewById(R.id.customer_oldpassword);
         EditText newPassword = findViewById(R.id.customer_newpassword);
-        HttpUtils.post("/password/change/?username=" + cusername + "&oldPassword=" + oldPassword.getText().toString() + "&newPassword=" + newPassword.getText().toString(), new RequestParams(), new AsyncHttpResponseHandler() {
+        HttpUtils.post("/password/change/?username=" + cusername + "&oldPassword=" + oldPassword.getText().toString() + "&newPassword=" + newPassword.getText().toString(), new RequestParams(), new TextHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                error += statusCode + "succesfully changed password";
-                oldPassword.setText("");
-                newPassword.setText("");
-                hidePass(v);
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
             }
 
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                ViewCustomer.this.error += statusCode + " Invalid Password";
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                if(responseString.equals("false")){
+                    Toast.makeText(ViewCustomer.this, "Password didn't match", Toast.LENGTH_SHORT).show();
+                }else {
+                    oldPassword.setText("");
+                    newPassword.setText("");
+                    hidePass(v);
+                    Toast.makeText(ViewCustomer.this, "Update Password", Toast.LENGTH_SHORT).show();
+                }
             }
-
-
         });
     }
 
@@ -141,20 +153,25 @@ public class ViewCustomer extends AppCompatActivity {
     public void updateEmail(View v) {
         EditText newEmail = findViewById(R.id.customer_newemail);
         EditText password = findViewById(R.id.customer_password);
-        HttpUtils.post("email/change/?username=" + cusername + "&password=" + password.getText() + "&newEmail=" + newEmail.getText(), new RequestParams(), new AsyncHttpResponseHandler() {
+        HttpUtils.post("email/change/?username=" + cusername + "&password=" + password.getText() + "&newEmail=" + newEmail.getText(), new RequestParams(), new TextHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                error += statusCode + "succesfully changed email";
-                //Refresh info
-                getCustomer();
-                newEmail.setText("");
-                password.setText("");
-                hideEmail(v);
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                ViewCustomer.this.error += statusCode + " Invalid Password or email";
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                if(responseString.equals("false")){
+                    Toast.makeText(ViewCustomer.this, "Invalid password or email format", Toast.LENGTH_SHORT).show();
+                }else{
+                    //Refresh info
+                    getCustomer();
+                    newEmail.setText("");
+                    password.setText("");
+                    hideEmail(v);
+                    Toast.makeText(ViewCustomer.this, "Updated email", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

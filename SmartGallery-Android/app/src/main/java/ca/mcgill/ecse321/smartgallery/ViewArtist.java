@@ -6,12 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +30,6 @@ public class ViewArtist extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.artist_profile);
-
         ausername = getIntent().getStringExtra("USERNAME");
         getArtist();
 
@@ -36,10 +37,17 @@ public class ViewArtist extends AppCompatActivity {
         Button upload = findViewById(R.id.upload_artwork_button);
         upload.setOnClickListener(v -> {
             Intent intent = new Intent(ViewArtist.this, UploadActivity.class);
-            intent.putExtra("Username", ausername);
+            intent.putExtra("USERNAME", ausername);
             startActivity(intent);
         });
 
+        //Bind button to go to listings
+        Button listing = findViewById(R.id.artist_view_listing_button);
+        listing.setOnClickListener(v -> {
+            Intent intent = new Intent(ViewArtist.this, ListingActivity.class);
+            intent.putExtra("USERNAME", ausername);
+            startActivity(intent);
+        });
 
     }
 
@@ -113,20 +121,23 @@ public class ViewArtist extends AppCompatActivity {
     public void updatePassword(View v) {
         EditText oldPassword = findViewById(R.id.artist_oldpassword);
         EditText newPassword = findViewById(R.id.artist_newPassword);
-        HttpUtils.post("/password/change/?username=" + ausername + "&oldPassword=" + oldPassword.getText().toString() + "&newPassword=" + newPassword.getText().toString(), new RequestParams(), new AsyncHttpResponseHandler() {
+        HttpUtils.post("/password/change/?username=" + ausername + "&oldPassword=" + oldPassword.getText().toString() + "&newPassword=" + newPassword.getText().toString(), new RequestParams(), new TextHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                error += statusCode + "succesfully changed password";
-                oldPassword.setText("");
-                newPassword.setText("");
-                hidePass(v);
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
             }
 
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                ViewArtist.this.error += statusCode + " Invalid Password";
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                if(responseString.equals("false")){
+                    Toast.makeText(ViewArtist.this, "Password didn't match", Toast.LENGTH_SHORT).show();
+                }else {
+                    oldPassword.setText("");
+                    newPassword.setText("");
+                    hidePass(v);
+                    Toast.makeText(ViewArtist.this, "Update Password", Toast.LENGTH_SHORT).show();
+                }
             }
-
-
         });
     }
 

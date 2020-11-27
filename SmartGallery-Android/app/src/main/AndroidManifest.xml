@@ -35,6 +35,8 @@
         <activity
             android:name=".UploadActivity"
             android:theme="@style/Theme.SmartGalleryAndroid.NoActionBar"></activity>
+
+        <activity android:name=".ListingActivity"></activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

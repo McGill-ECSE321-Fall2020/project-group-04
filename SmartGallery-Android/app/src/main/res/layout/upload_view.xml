@@ -44,9 +44,9 @@
             android:layout_marginTop="60dp"
             android:ems="10"
             android:gravity="center_horizontal"
+            android:hint="@string/upload_name"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            android:text="@string/upload_name"
             tools:ignore="LabelFor" />
 
         <EditText
@@ -57,9 +57,9 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:gravity="center_horizontal"
-            android:inputType="textPersonName|numberDecimal"
-            android:text="@string/upload_year"
+            android:hint="@string/upload_year"
             android:importantForAutofill="no"
+            android:inputType="textPersonName|numberDecimal"
             tools:ignore="LabelFor" />
 
         <EditText
@@ -70,9 +70,9 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:gravity="center_horizontal"
-            android:inputType="number|textPersonName"
-            android:text="@string/upload_price"
+            android:hint="@string/upload_price"
             android:importantForAutofill="no"
+            android:inputType="number|textPersonName"
             tools:ignore="LabelFor" />
 
         <TextView
@@ -100,9 +100,9 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:gravity="center_horizontal"
-            android:inputType="number|textPersonName"
-            android:text="@string/upload_height"
+            android:hint="@string/upload_height"
             android:importantForAutofill="no"
+            android:inputType="number|textPersonName"
             tools:ignore="LabelFor" />
 
         <EditText
@@ -113,9 +113,9 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:gravity="center_horizontal"
-            android:inputType="number|textPersonName"
-            android:text="@string/upload_weight"
+            android:hint="@string/upload_weight"
             android:importantForAutofill="no"
+            android:inputType="number|textPersonName"
             tools:ignore="LabelFor" />
 
         <EditText
@@ -126,9 +126,9 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:gravity="center_horizontal"
-            android:inputType="number|textPersonName"
-            android:text="@string/upload_width"
+            android:hint="@string/upload_width"
             android:importantForAutofill="no"
+            android:inputType="number|textPersonName"
             tools:ignore="LabelFor" />
 
         <Button

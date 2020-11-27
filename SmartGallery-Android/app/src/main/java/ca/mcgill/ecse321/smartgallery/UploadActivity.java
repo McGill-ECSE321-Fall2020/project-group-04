@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,12 +34,12 @@ public class UploadActivity extends AppCompatActivity {
 
     //get username string equivalent
     String username;
+
     /**
+     * @param savedInstanceState Overrides the existing onCreate() method
+     *                           Initializes art style spinner options
+     *                           Sets navigation from exit button to Artist profile page
      * @author Stavros Mitsoglou
-     * @param savedInstanceState
-     * Overrides the existing onCreate() method
-     * Initializes art style spinner options
-     * Sets navigation from exit button to Artist profile page
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,7 @@ public class UploadActivity extends AppCompatActivity {
         setContentView(R.layout.upload_view);
 
         //get the username from intent
-        username = getIntent().getStringExtra("Username");
+        username = getIntent().getStringExtra("USERNAME");
         //get the art style spinner form upload_view.xml
         Spinner styleSpinner = findViewById(R.id.upload_spinner);
         artStyleOptions = new ArrayList<>();
@@ -74,7 +73,7 @@ public class UploadActivity extends AppCompatActivity {
             //navigate to Artist profile page
             Intent intent = new Intent(UploadActivity.this,
                     ViewArtist.class);
-            intent.putExtra("Username", username);
+            intent.putExtra("USERNAME", username);
             startActivity(intent);
         });
 
@@ -87,15 +86,12 @@ public class UploadActivity extends AppCompatActivity {
         });
 
 
-
-
-
     }
 
 
     /**
      * @author Stavros Mitsoglou
-     *
+     * <p>
      * This method takes the values of the EditExt fields in the upload_view.xml page and uploads an artwork on success.
      * Success occurs when all fields are filled with appropriate values. On failure, a message is displayed on screen through
      * a TextView component.
@@ -152,9 +148,8 @@ public class UploadActivity extends AppCompatActivity {
         });
 
 
-
-
     }
+
     public void createListingOnSuccess() {
 
         getArtworkId();
@@ -169,7 +164,7 @@ public class UploadActivity extends AppCompatActivity {
                     //navigate to the Artist profile page
                     Intent intent = new Intent(UploadActivity.this,
                             ViewArtist.class);
-                    intent.putExtra("Username", username);
+                    intent.putExtra("USERNAME", username);
                     startActivity(intent);
                 });
             }
@@ -191,31 +186,26 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     /**
-
      * @return String representative of the artwork ID
      */
-    private void getArtworkId()
-    {
+    private void getArtworkId() {
 
-             EditText artworkToFind = findViewById(R.id.upload_name);
-            String artworkToFindString = artworkToFind.getText().toString();
+        EditText artworkToFind = findViewById(R.id.upload_name);
+        String artworkToFindString = artworkToFind.getText().toString();
         HttpUtils.get("artist/name/" + username, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                 try {
                     JSONArray artworkArray = response.getJSONArray("artworks");
-                    for (int i = 0, size = artworkArray.length(); i < size; i++)
-                    {
+                    for (int i = 0, size = artworkArray.length(); i < size; i++) {
                         JSONObject artwork = artworkArray.getJSONObject(i);
 
                         String artworkName = artwork.getString("name");
-                        if(artworkName.equals(artworkToFindString))
-                        {
+                        if (artworkName.equals(artworkToFindString)) {
                             int artworkIdInt = artwork.getInt("artworkID");
                             artworkID = Integer.toString(artworkIdInt);
                         }
-
 
 
                     }
@@ -240,12 +230,7 @@ public class UploadActivity extends AppCompatActivity {
         });
 
 
-
-
     }
-
-
-
 
 
     /**

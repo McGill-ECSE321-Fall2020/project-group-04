@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,7 +24,6 @@ import java.util.HashMap;
 import cz.msebera.android.httpclient.Header;
 
 public class ListingActivity extends AppCompatActivity {
-    private String error = null;
     private ArrayList<String> paymentMethods;
     private ArrayAdapter<String> paymentAdapter;
     private ArrayList<String> shippingMethods;
@@ -32,17 +31,16 @@ public class ListingActivity extends AppCompatActivity {
     private ArrayList<String> listings;
     private ArrayAdapter<String> listingAdapter;
     Spinner listingSpinner;
-    private HashMap<String, Integer> artworkNameToListingIDMap;
+    private HashMap<String, Integer> artworkNameToListingIDMap = new HashMap<>();
+    private String username;
 
-    //get intent from profile
-    Intent intent = getIntent();
-    //get username string equivalent
-    String username = intent.getStringExtra("Username");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.customer_profile);
+        setContentView(R.layout.listing);
+        //get username string equivalent
+        username = getIntent().getStringExtra("USERNAME");
         getListings();
         Spinner paymentSpinner = findViewById(R.id.payment_spinner);
         Spinner shippingSpinner = findViewById(R.id.shipping_spinner);
@@ -61,7 +59,7 @@ public class ListingActivity extends AppCompatActivity {
         shippingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         shippingSpinner.setAdapter(shippingAdapter);
 
-
+        listingSpinner = findViewById(R.id.listing_spinner);
         listingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -80,35 +78,35 @@ public class ListingActivity extends AppCompatActivity {
     private void displayListing() {
         String artworkName = listingSpinner.getSelectedItem().toString();
         Integer listingID = artworkNameToListingIDMap.get(artworkName);
-
-        error = "";
         HttpUtils.get("/listing/" + listingID, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     TextView title = findViewById(R.id.listing_title);
-                    title.setText(response.getJSONObject("artwork").getString("name"));
+                    title.setText("Title: " + response.getJSONObject("artwork").getString("name"));
 
                     TextView year = findViewById(R.id.listing_year);
-                    year.setText(String.valueOf(response.getJSONObject("artwork").getInt("year")));
+                    year.setText("Year Created: " + response.getJSONObject("artwork").getInt("year"));
 
                     TextView price = findViewById(R.id.listing_price);
-                    price.setText(String.valueOf(response.getJSONObject("artwork").getDouble("price")));
+                    price.setText("Price: " + response.getJSONObject("artwork").getDouble("price"));
 
                     TextView style = findViewById(R.id.listing_style);
-                    style.setText(response.getJSONObject("artwork").getString("artStyle"));
+                    style.setText("Art Style: " + response.getJSONObject("artwork").getString("artStyle"));
 
                     TextView height = findViewById(R.id.listing_height);
-                    height.setText(String.valueOf(response.getJSONObject("artwork").getDouble("height")));
+                    height.setText("Height(cm): " + response.getJSONObject("artwork").getDouble("height"));
 
                     TextView width = findViewById(R.id.listing_width);
-                    width.setText(String.valueOf(response.getJSONObject("artwork").getDouble("width")));
+                    width.setText("Width(cm): " + response.getJSONObject("artwork").getDouble("width"));
 
                     TextView weight = findViewById(R.id.listing_weight);
-                    weight.setText(String.valueOf(response.getJSONObject("artwork").getDouble("weight")));
+                    weight.setText("Weight(kg): " + response.getJSONObject("artwork").getDouble("weight"));
 
                     TextView sold = findViewById(R.id.listing_sold);
-                    sold.setText(String.valueOf(response.getBoolean("sold")));
+                    boolean available =response.getBoolean("sold");
+                    String soldText = available?"Sold":"Available";
+                    sold.setText("Availability: " + soldText);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -121,7 +119,6 @@ public class ListingActivity extends AppCompatActivity {
      * Gets all the listings that are not sold and adds them to a dropdown
      */
     public void getListings() {
-        error = "";
         HttpUtils.get("/listing", new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -136,26 +133,26 @@ public class ListingActivity extends AppCompatActivity {
                             listings.add(response.getJSONObject(i).getJSONObject("artwork").getString("name")); // For dropdown
                         }
                     }
+                    listingAdapter = new ArrayAdapter<>(ListingActivity.this, android.R.layout.simple_spinner_item, listings);
+                    listingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    listingSpinner.setAdapter(listingAdapter);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
-        listingAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, shippingMethods);
-        listingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        listingSpinner.setAdapter(listingAdapter);
+
     }
 
     public void createTransaction(View view) {
-        error = "";
         String artworkName = listingSpinner.getSelectedItem().toString();
         int listingID = artworkNameToListingIDMap.get(artworkName);
 
-        Spinner paymentSpinner = view.findViewById(R.id.payment_spinner);
+        Spinner paymentSpinner = findViewById(R.id.payment_spinner);
         String paymentMethod = paymentSpinner.getSelectedItem().toString();
 
-        Spinner shippingSpinner = view.findViewById(R.id.shipping_spinner);
+        Spinner shippingSpinner = findViewById(R.id.shipping_spinner);
         String deliveryMethod = shippingSpinner.getSelectedItem().toString();
 
 
@@ -163,7 +160,12 @@ public class ListingActivity extends AppCompatActivity {
                 deliveryMethod + "&username=" + username + "&listingID=" + listingID, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // alert the user the transaction worked etc.
+                Toast.makeText(ListingActivity.this, "Transaction was Successful", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+                Toast.makeText(ListingActivity.this, "Transaction Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
