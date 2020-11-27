@@ -152,6 +152,9 @@ public class ListingActivity extends AppCompatActivity {
                             listings.add(response.getJSONObject(i).getJSONObject("artwork").getString("name")); // For dropdown
                         }
                     }
+                    if (listings.size() == 0) {
+                        noListings(getWindow().getDecorView());
+                    }
                     // Fill the listing spinner
                     listingAdapter = new ArrayAdapter<>(ListingActivity.this, android.R.layout.simple_spinner_item, listings);
                     listingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -219,8 +222,8 @@ public class ListingActivity extends AppCompatActivity {
 
     /**
      * @author OliverStappas, ZachS
-     * @param view
      * Goes to the user's profile based on if they are an artist or a customer
+     * @param view
      */
     public void viewProfile(View view) {
         HttpUtils.get("/artist/name/" + username, new RequestParams(), new JsonHttpResponseHandler() {
@@ -240,5 +243,10 @@ public class ListingActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void noListings(View view) {
+        Toast.makeText(this, "There are no listings at this time. Please come back later.", Toast.LENGTH_SHORT).show();
+        viewProfile(view);
     }
 }

@@ -187,9 +187,9 @@ public class ViewArtist extends AppCompatActivity {
      * @param v
      */
     public void updateEmail(View v) {
-        EditText newEmail = findViewById(R.id.customer_newemail);
-        EditText password = findViewById(R.id.customer_password);
-        HttpUtils.post("email/change/?username=" + ausername + "&password=" + password.getText() + "&newEmail=" + newEmail.getText(), new RequestParams(), new TextHttpResponseHandler() {
+        EditText newEmail = findViewById(R.id.artist_newemail);
+        EditText password = findViewById(R.id.artist_password);
+        HttpUtils.post("email/change/?username=" + ausername + "&password=" + password.getText().toString() + "&newEmail=" + newEmail.getText().toString(), new RequestParams(), new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 

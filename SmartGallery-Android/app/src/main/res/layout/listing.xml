@@ -129,10 +129,10 @@
 
         <Button
             android:id="@+id/listing_button"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-
+            android:layout_gravity="center"
             android:baselineAligned="false"
             android:onClick="createTransaction"
             android:text="@string/listing_button" />
