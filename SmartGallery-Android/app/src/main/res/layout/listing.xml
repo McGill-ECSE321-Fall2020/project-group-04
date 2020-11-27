@@ -126,6 +126,16 @@
             android:onClick="createTransaction"
             android:text="@string/listing_button" />
 
+        <Button
+            android:id="@+id/view_profile"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:onClick="viewProfile"
+            android:text="@string/upload_exit" />
+
     </LinearLayout>
 
 </ScrollView>
