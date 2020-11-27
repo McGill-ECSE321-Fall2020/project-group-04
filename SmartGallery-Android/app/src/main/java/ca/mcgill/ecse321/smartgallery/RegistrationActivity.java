@@ -17,6 +17,10 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
+/**
+ * The Registration activity. Uses the activity_registration layout file. Users can input the
+ * required information to create a new account, or can redirect themselves back to the login page.
+ */
 public class RegistrationActivity extends AppCompatActivity {
     Button btnRegister;
     Button btnBackToLogin;
@@ -30,6 +34,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     /**
      * On creation of the registration activity, set the proper layout, as well as the onClicks.
+     * @author zsiciliani
      * @param savedInstanceState
      */
     @Override
@@ -40,13 +45,19 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         //set the onClick methods for the Register and Back to login buttons
-        btnRegister = (Button) findViewById(R.id.register_button);
+        btnRegister = findViewById(R.id.register_button);
         btnRegister.setOnClickListener(this::register);
 
-        btnBackToLogin = (Button) findViewById(R.id.register_back_to_login);
+        btnBackToLogin = findViewById(R.id.register_back_to_login);
         btnBackToLogin.setOnClickListener(this::goToLogin);
     }
 
+    /**
+     * Register a client for a new account. Verify that they have input valid parameters, and then
+     * register them as either a customer or as an artist.
+     * @author zsiciliani
+     * @param view
+     */
     public void register(View view) {
         //Assign each view item to its variable.
         etUsername = findViewById(R.id.register_username_input);
@@ -116,6 +127,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     /**
      * Register a customer for the SmartGallery by using the parameters they had input.
+     * @author zsiciliani
      * @param username The customer's username
      * @param password The customer's password
      * @param email The customer's email
@@ -139,10 +151,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
     /**
      * Register an artist for the SmartGallery by using the parameters they had input.
-     * @param username
-     * @param password
-     * @param email
-     * @param paymentType
+     * @author zsiciliani
+     * @param username The artist's username
+     * @param password The artist's password
+     * @param email The artist's email
+     * @param paymentType The artist's default payment type
      * @param view
      */
     public void registerArtist(String username, String password, String email, String paymentType, View view) {
@@ -164,6 +177,7 @@ public class RegistrationActivity extends AppCompatActivity {
     /**
      * Upon a successful registration, congratulate the user on their new account and bring them back
      * to the login page.
+     * @author zsiciliani
      * @param view
      */
     public void successfulRegistration(View view) {
@@ -174,6 +188,7 @@ public class RegistrationActivity extends AppCompatActivity {
     /**
      * Upon an unsuccessful registration, ask the user to verify their email address or to choose a
      * new username.
+     * @author zsiciliani
      */
     public void unsuccessfulRegistration() {
         Toast.makeText(this, getString(R.string.registration_failure), Toast.LENGTH_SHORT).show();
@@ -183,6 +198,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     /**
      * Go back to the login page
+     * @author zsiciliani
      * @param view
      */
     public void goToLogin(View view) {
