@@ -29,8 +29,10 @@ public class UploadActivity extends AppCompatActivity {
     //arraylists for art style spinner
     private ArrayList<String> artStyleOptions;
     private ArrayAdapter<String> styleAdapter;
-    private String username = "test";
-
+    //get intent from profile
+    Intent intent = getIntent();
+    //get username string equivalent
+    String username = intent.getStringExtra("Username");
     /**
      * @author Stavros Mitsoglou
      * @param savedInstanceState
@@ -106,8 +108,7 @@ public class UploadActivity extends AppCompatActivity {
         rp.add("height", height.getText().toString());
         rp.add("weight", weight.getText().toString());
         rp.add("width", width.getText().toString());
-        //add artist
-       // rp.add();
+        rp.add("artist", username);
         rp.add("gallery", "testGallery");
 
         HttpUtils.post("artwork/" + artworkName.getText().toString(), rp, new JsonHttpResponseHandler() {

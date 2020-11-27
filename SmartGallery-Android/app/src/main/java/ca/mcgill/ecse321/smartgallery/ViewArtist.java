@@ -18,7 +18,10 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 public class ViewArtist extends AppCompatActivity {
-    private String ausername = "artist1";
+    //get the intent
+    Intent intent = getIntent();
+    //get string equivalent of username
+    String ausername = intent.getStringExtra("USERNAME");
     private String error = null;
 
     @Override
