@@ -18,7 +18,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -31,11 +30,8 @@ public class UploadActivity extends AppCompatActivity {
     //arraylists for art style spinner
     private ArrayList<String> artStyleOptions;
     private ArrayAdapter<String> styleAdapter;
-
-
-
     //get username string equivalent
-    String username;
+    private String username;
 
     /**
      * @author Stavros Mitsoglou
@@ -111,7 +107,6 @@ public class UploadActivity extends AppCompatActivity {
         EditText height = findViewById(R.id.upload_height);
         EditText weight = findViewById(R.id.upload_weight);
         EditText width = findViewById(R.id.upload_width);
-        EditText imageLink = findViewById(R.id.upload_image_link);
         Spinner artStyle = findViewById(R.id.upload_spinner);
 
 
@@ -159,7 +154,7 @@ public class UploadActivity extends AppCompatActivity {
     /**
      * @author Stavros Mitsoglou
      * This method is used solely on a succesful artwork upload.
-     * It creates a listing wiith the artworkID that has just been uploaded.
+     * It creates a listing with the artworkID that has just been uploaded.
      *
      */
     public void createListingOnSuccess() {
@@ -226,7 +221,7 @@ public class UploadActivity extends AppCompatActivity {
     }
     /**
      * Logout the current user
-     * @param view
+     * @param view current view
      */
 
     public void logOut(View view) {
