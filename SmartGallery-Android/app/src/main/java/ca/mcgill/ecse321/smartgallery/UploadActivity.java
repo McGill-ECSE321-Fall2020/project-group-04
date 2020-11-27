@@ -29,17 +29,19 @@ public class UploadActivity extends AppCompatActivity {
     //arraylists for art style spinner
     private ArrayList<String> artStyleOptions;
     private ArrayAdapter<String> styleAdapter;
-    //private String artworkID = "";
+
 
 
     //get username string equivalent
     String username;
 
     /**
-     * @param savedInstanceState Overrides the existing onCreate() method
-     *                           Initializes art style spinner options
-     *                           Sets navigation from exit button to Artist profile page
      * @author Stavros Mitsoglou
+     * @param savedInstanceState
+     * Overrides the existing onCreate() method
+     * Initializes art style spinner options
+     * Sets navigation from exit button to Artist profile page
+     *
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +95,7 @@ public class UploadActivity extends AppCompatActivity {
     /**
      * @author Stavros Mitsoglou
      * <p>
-     * This method takes the values of the EditExt fields in the upload_view.xml page and uploads an artwork on success.
+     * This method takes the values of the EditExt fields in the upload_view.xml page and uploads an artwork and creates a listing on success.
      * Success occurs when all fields are filled with appropriate values. On failure, a message is displayed on screen through
      * a TextView component.
      **/
@@ -151,21 +153,29 @@ public class UploadActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * @author Stavros Mitsoglou
+     * This method is used solely on a succesful artwork upload.
+     * It creates a listing wiith the artworkID that has just been uploaded.
+     *
+     */
     public void createListingOnSuccess() {
 
-        //getArtworkIdFromJson();
+        //get the artwork ID
         String artworkID = this.getArtworkID();
-        System.out.println("calling getArtworkId " + artworkID);
+        //get the value in price text field
         EditText price = findViewById(R.id.upload_price);
+        //set the request params with price and gallery
         RequestParams rp = new RequestParams();
         rp.add("price", price.getText().toString());
         rp.add("gallery", "testGallery");
 
 
+        //list the artwork
         HttpUtils.post("listing/" + artworkID, rp, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                //redirect to customer profile, passing the username in a parameter
+                //redirect to artist profile, passing the username in a parameter
                 //transition for the  upload button
                 refreshErrorMessage();
                 //navigate to the Artist profile page
@@ -176,6 +186,7 @@ public class UploadActivity extends AppCompatActivity {
 
             }
 
+            //display message on failure
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
@@ -194,7 +205,10 @@ public class UploadActivity extends AppCompatActivity {
 
 
     /**
+     * @author Stavros Mitsoglou
      * @return String representative of the artwork ID
+     *
+     * This method calculates the hashcode of the uploaded artwork ID and returns a String equivalent.
      */
 
     private String getArtworkID() {
@@ -208,71 +222,7 @@ public class UploadActivity extends AppCompatActivity {
 
     }
 
-    /*
-    private void getArtworkIdFromJson() {
-        final String[] artworkID = {""};
-        EditText artworkToFind = findViewById(R.id.upload_name);
-        String artworkToFindString = artworkToFind.getText().toString().trim();
 
-    /**
-     * @return String representative of the artwork ID
-     */
-    /*
-    private void getArtworkId() {
-
-        EditText artworkToFind = findViewById(R.id.upload_name);
-        String artworkToFindString = artworkToFind.getText().toString();
-
-        HttpUtils.get("artist/name/" + username, new RequestParams(), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
-                try {
-                    JSONArray artworkArray = response.getJSONArray("artworks");
-                    for (int i = 0, size = artworkArray.length(); i < size; i++) {
-                        JSONObject artwork = artworkArray.getJSONObject(i);
-
-                        String artworkName = artwork.getString("name");
-                        if (artworkName.equals(artworkToFindString)) {
-                            int artworkIdInt = artwork.getInt("artworkID");
-                            artworkID[0] = Integer.toString(artworkIdInt);
-                            System.out.println("Got artwork ID");
-                            System.out.println(artworkID[0]);
-                            setArtworkID(artworkID[0]);
-                        }
-
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                refreshErrorMessage();
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                try {
-                    error += errorResponse.get("message").toString();
-                } catch (JSONException e) {
-                    error += e.getMessage();
-                }
-                refreshErrorMessage();
-
-                System.out.println("Failure in fetching artwork ID");
-            }
-        });
-
-
-
-        System.out.println("return value" + artworkID[0]);
-
-    }
-
-
-    }
-
-*/
 
     /**
      * Method to obtain new error message in lieu of failed request
@@ -289,15 +239,6 @@ public class UploadActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    public void setArtworkID(String str) {
-        this.artworkID = str;
-    }
 
-    public String getArtworkID()
-    {
-        return this.artworkID;
-    }
-*/
 
 }

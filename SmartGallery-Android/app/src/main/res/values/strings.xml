@@ -80,7 +80,7 @@
     <string name="upload_title">Upload Your Artwork</string>
     <string name="upload_name">Artwork Name</string>
     <string name="upload_year">Year (YYYY)</string>
-    <string name="upload_price">Valued Price ($)</string>
+    <string name="upload_price"> Price ($)</string>
     <string name="upload_style_name">Select Art Style</string>
     <string name="upload_height">Height (cm)</string>
     <string name="upload_weight">Weight (kg)</string>
