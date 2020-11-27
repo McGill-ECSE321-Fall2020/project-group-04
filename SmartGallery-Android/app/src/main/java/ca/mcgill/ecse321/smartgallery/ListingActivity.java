@@ -24,57 +24,57 @@ import java.util.HashMap;
 import cz.msebera.android.httpclient.Header;
 
 public class ListingActivity extends AppCompatActivity {
-    private ArrayList<String> paymentMethods;
-    private ArrayAdapter<String> paymentAdapter;
-    private ArrayList<String> shippingMethods;
-    private ArrayAdapter<String> shippingAdapter;
     private ArrayList<String> listings;
     private ArrayAdapter<String> listingAdapter;
     Spinner listingSpinner;
-    private HashMap<String, Integer> artworkNameToListingIDMap = new HashMap<>();
+    private final HashMap<String, Integer> artworkNameToListingIDMap = new HashMap<>();
     private String username;
 
-
+    /**
+     * @author Viet
+     * Displays all the listings information and buttons when the page is created
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listing);
-        //get username string equivalent
-        username = getIntent().getStringExtra("USERNAME");
-        getListings();
-        Spinner paymentSpinner = findViewById(R.id.payment_spinner);
-        Spinner shippingSpinner = findViewById(R.id.shipping_spinner);
+        // get username string equivalent
+        username = getIntent().getStringExtra("USERNAME"); // current username
+        getListings(); // display all the listings
+        Spinner paymentSpinner = findViewById(R.id.payment_spinner); // the payment method spinner
+        Spinner shippingSpinner = findViewById(R.id.shipping_spinner); // the delivery method spinner
 
-        paymentMethods = new ArrayList<>();
+        ArrayList<String> paymentMethods = new ArrayList<>();
         paymentMethods.add("credit");
         paymentMethods.add("paypal");
-        paymentAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, paymentMethods);
+        ArrayAdapter<String> paymentAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, paymentMethods);
         paymentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        paymentSpinner.setAdapter(paymentAdapter);
+        paymentSpinner.setAdapter(paymentAdapter); // fill the payment spinner
 
-        shippingMethods = new ArrayList<>();
+        ArrayList<String> shippingMethods = new ArrayList<>();
         shippingMethods.add("shipping");
         shippingMethods.add("pickup");
-        shippingAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, shippingMethods);
+        ArrayAdapter<String> shippingAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, shippingMethods);
         shippingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        shippingSpinner.setAdapter(shippingAdapter);
+        shippingSpinner.setAdapter(shippingAdapter); // fill the shipping spinner
 
+        // Display the selected selecting's information
         listingSpinner = findViewById(R.id.listing_spinner);
         listingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) { // If a listing is selected
                 displayListing();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
             }
-
         });
     }
 
-
+    /**
+     * @author OliverStappas
+     * Display the information about the selected listing.
+     */
     private void displayListing() {
         String artworkName = listingSpinner.getSelectedItem().toString();
         Integer listingID = artworkNameToListingIDMap.get(artworkName);
@@ -82,6 +82,8 @@ public class ListingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
+                    // Display all the listings information on the page, by getting the appropriate TextView
+                    // and information from the JSON response
                     TextView title = findViewById(R.id.listing_title);
                     title.setText("Title: " + response.getJSONObject("artwork").getString("name"));
 
@@ -116,6 +118,8 @@ public class ListingActivity extends AppCompatActivity {
     }
 
     /**
+     *
+     * @author OliverStappas*
      * Gets all the listings that are not sold and adds them to a dropdown
      */
     public void getListings() {
@@ -126,6 +130,7 @@ public class ListingActivity extends AppCompatActivity {
                     artworkNameToListingIDMap.clear(); // Re-determine which listings are not sold
                     listingSpinner = findViewById(R.id.listing_spinner);
                     listings = new ArrayList<>();
+                    // Store the artwork name mapped to the listing ID for later reference
                     for (int i = 0; i < response.length(); i++) {
                         if (!response.getJSONObject(i).getBoolean("sold")) { // Only get unsold listings
                             artworkNameToListingIDMap.put(response.getJSONObject(i).getJSONObject("artwork").getString("name"),
@@ -133,6 +138,7 @@ public class ListingActivity extends AppCompatActivity {
                             listings.add(response.getJSONObject(i).getJSONObject("artwork").getString("name")); // For dropdown
                         }
                     }
+                    // Fill the listing spinner
                     listingAdapter = new ArrayAdapter<>(ListingActivity.this, android.R.layout.simple_spinner_item, listings);
                     listingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     listingSpinner.setAdapter(listingAdapter);
@@ -144,22 +150,33 @@ public class ListingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * @author OliverStappas
+     * @param view
+     * Logs out the user by sending them to the log in page
+     *
+     */
     public void logOut(View view) {
         Intent intent = new Intent(ListingActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * @author OliverStappas
+     * @param view
+     * Creates a transaction with the current user and the listing they're viewing when they click on the "purchase" button
+     */
     public void createTransaction(View view) {
-        String artworkName = listingSpinner.getSelectedItem().toString();
+        String artworkName = listingSpinner.getSelectedItem().toString(); // artwork to purchase
         int listingID = artworkNameToListingIDMap.get(artworkName);
 
         Spinner paymentSpinner = findViewById(R.id.payment_spinner);
-        String paymentMethod = paymentSpinner.getSelectedItem().toString();
+        String paymentMethod = paymentSpinner.getSelectedItem().toString(); // Get selected payment method
 
         Spinner shippingSpinner = findViewById(R.id.shipping_spinner);
-        String deliveryMethod = shippingSpinner.getSelectedItem().toString();
+        String deliveryMethod = shippingSpinner.getSelectedItem().toString(); // Get selected delivery method
 
-
+        // Create the transaction
         HttpUtils.post("/transaction/?paymentMethod=" + paymentMethod + "&deliveryMethod=" +
                 deliveryMethod + "&username=" + username + "&listingID=" + listingID, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
@@ -176,11 +193,16 @@ public class ListingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * @author OliverStappas, ZachS
+     * @param view
+     * Goes to the user's profile based on if they are an artist or a customer
+     */
     public void viewProfile(View view) {
         HttpUtils.get("/artist/name/" + username, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                //redirect to customer profile, passing the username in a parameter
+                // redirect to artist  profile, passing the username in a parameter
                 Intent intent = new Intent(ListingActivity.this, ViewArtist.class);
                 intent.putExtra("USERNAME", username);
                 startActivity(intent);
@@ -188,6 +210,7 @@ public class ListingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+                // redirect to customer profile, passing the username in a parameter
                 Intent intent = new Intent(ListingActivity.this, ViewCustomer.class);
                 intent.putExtra("USERNAME", username);
                 startActivity(intent);
