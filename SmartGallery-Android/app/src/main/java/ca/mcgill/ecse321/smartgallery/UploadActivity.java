@@ -18,7 +18,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -111,7 +110,6 @@ public class UploadActivity extends AppCompatActivity {
         EditText height = findViewById(R.id.upload_height);
         EditText weight = findViewById(R.id.upload_weight);
         EditText width = findViewById(R.id.upload_width);
-        EditText imageLink = findViewById(R.id.upload_image_link);
         Spinner artStyle = findViewById(R.id.upload_spinner);
 
 
@@ -226,7 +224,7 @@ public class UploadActivity extends AppCompatActivity {
     }
     /**
      * Logout the current user
-     * @param view
+     * @param view current view
      */
 
     public void logOut(View view) {
