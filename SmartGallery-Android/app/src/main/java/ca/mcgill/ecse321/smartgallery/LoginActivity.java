@@ -7,13 +7,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONObject;
 
-import androidx.appcompat.app.AppCompatActivity;
 import cz.msebera.android.httpclient.Header;
 
 public class LoginActivity extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     String password;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -71,26 +72,32 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         //Attempt logging in
-        HttpUtils.post("/login/?username=" + username + "&password=" + password, new RequestParams(), new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
-                //Redirect to profile
-                successfulLogin();
-            }
+        HttpUtils.post("/login/?username=" + username + "&password=" + password, new RequestParams(), new TextHttpResponseHandler() {
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Toast.makeText(LoginActivity.this, getString(R.string.login_warning), Toast.LENGTH_SHORT).show();
-                etUsername.setText("");
-                etPassword.setText("");
-                System.out.println(statusCode);
-            }
-        });
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        if(responseString.equals("false")) {
+                            Toast.makeText(LoginActivity.this, getString(R.string.login_warning), Toast.LENGTH_SHORT).show();
+                            etUsername.setText("");
+                            etPassword.setText("");
+                        }else{
+                            Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+                            //Redirect to profile
+                            successfulLogin();
+                        }
+
+                    }
+
+
+                });
     }
 
     public void successfulLogin() {
-        System.out.println("We have a success!");
         Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
 
         //If login was successful, the profile exists. Check if it is an artist, and if so, redirect to artist profile

@@ -27,37 +27,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:gravity="center"
             android:spinnerMode="dropdown" />
 
         <TextView
             android:id="@+id/listing_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
             android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
             android:text="@string/listing_year" />
 
         <TextView
             android:id="@+id/listing_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
             android:text="@string/listing_price" />
 
         <TextView
             android:id="@+id/listing_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
             android:text="@string/listing_style" />
 
         <TextView
             android:id="@+id/listing_height"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:text="@string/listing_height" />
 
@@ -65,7 +66,7 @@
             android:id="@+id/listing_width"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:text="@string/listing_width" />
 
@@ -73,7 +74,7 @@
             android:id="@+id/listing_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:text="@string/listing_weight" />
 
@@ -81,7 +82,7 @@
             android:id="@+id/listing_sold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:text="@string/listing_sold" />
 
@@ -92,6 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal"
+            android:textStyle="bold|italic"
             android:text="@string/listing_payment" />
 
         <Spinner
@@ -107,6 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
+            android:textStyle="bold|italic"
             android:text="@string/listing_delivery" />
 
         <Spinner

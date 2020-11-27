@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -52,7 +51,7 @@ public class UploadActivity extends AppCompatActivity {
         setContentView(R.layout.upload_view);
 
         //get the username from intent
-        username = getIntent().getStringExtra("Username");
+        username = getIntent().getStringExtra("USERNAME");
         //get the art style spinner form upload_view.xml
         Spinner styleSpinner = findViewById(R.id.upload_spinner);
         artStyleOptions = new ArrayList<>();
@@ -75,7 +74,7 @@ public class UploadActivity extends AppCompatActivity {
             //navigate to Artist profile page
             Intent intent = new Intent(UploadActivity.this,
                     ViewArtist.class);
-            intent.putExtra("Username", username);
+            intent.putExtra("USERNAME", username);
             startActivity(intent);
         });
 
@@ -175,7 +174,7 @@ public class UploadActivity extends AppCompatActivity {
                     //navigate to the Artist profile page
                     Intent intent = new Intent(UploadActivity.this,
                             ViewArtist.class);
-                    intent.putExtra("Username", username);
+                    intent.putExtra("USERNAME", username);
                     startActivity(intent);
                 });
             }
@@ -195,6 +194,7 @@ public class UploadActivity extends AppCompatActivity {
 
 
     }
+
 
 
     /**
@@ -218,6 +218,16 @@ public class UploadActivity extends AppCompatActivity {
         final String[] artworkID = {""};
         EditText artworkToFind = findViewById(R.id.upload_name);
         String artworkToFindString = artworkToFind.getText().toString().trim();
+
+    /**
+     * @return String representative of the artwork ID
+     */
+    /*
+    private void getArtworkId() {
+
+        EditText artworkToFind = findViewById(R.id.upload_name);
+        String artworkToFindString = artworkToFind.getText().toString();
+
         HttpUtils.get("artist/name/" + username, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -259,9 +269,14 @@ public class UploadActivity extends AppCompatActivity {
         });
 
 
+
         System.out.println("return value" + artworkID[0]);
 
     }
+
+
+    }
+
 */
 
     /**

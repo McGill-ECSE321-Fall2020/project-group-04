@@ -185,5 +185,14 @@
             android:gravity="center_horizontal"
             android:text="@string/upload_artwork_button" />
 
+        <Button
+            android:id="@+id/artist_view_listing_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="@string/view_listing" />
+
     </LinearLayout>
 </ScrollView>

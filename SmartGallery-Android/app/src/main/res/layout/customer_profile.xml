@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="Username:"
+            android:text="@string/username"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <TextView
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="Email:"
+            android:text="@string/email"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <TextView
@@ -175,6 +175,15 @@
             android:gravity="center_horizontal"
             android:onClick="deleteAccount"
             android:text="@string/customer_delete_account_button" />
+
+        <Button
+            android:id="@+id/customer_view_listing_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:text="@string/view_listing" />
 
     </LinearLayout>
 </ScrollView>

@@ -113,6 +113,7 @@
     <string name="new_email">New Email</string>
     <string name="password">Password:</string>
     <string name="confirm_password">Confirm Password:</string>
+    <string name="view_listing">View Listings</string>
 
 
 </resources>
