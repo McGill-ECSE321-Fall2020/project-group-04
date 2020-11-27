@@ -31,16 +31,17 @@ public class UploadActivity extends AppCompatActivity {
     //arraylists for art style spinner
     private ArrayList<String> artStyleOptions;
     private ArrayAdapter<String> styleAdapter;
-    private String artworkID = "";
+    //private String artworkID = "";
+
 
     //get username string equivalent
     String username;
+
     /**
+     * @param savedInstanceState Overrides the existing onCreate() method
+     *                           Initializes art style spinner options
+     *                           Sets navigation from exit button to Artist profile page
      * @author Stavros Mitsoglou
-     * @param savedInstanceState
-     * Overrides the existing onCreate() method
-     * Initializes art style spinner options
-     * Sets navigation from exit button to Artist profile page
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +83,10 @@ public class UploadActivity extends AppCompatActivity {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 uploadAndListArtwork();
             }
         });
-
-
-
 
 
     }
@@ -95,7 +94,7 @@ public class UploadActivity extends AppCompatActivity {
 
     /**
      * @author Stavros Mitsoglou
-     *
+     * <p>
      * This method takes the values of the EditExt fields in the upload_view.xml page and uploads an artwork on success.
      * Success occurs when all fields are filled with appropriate values. On failure, a message is displayed on screen through
      * a TextView component.
@@ -124,7 +123,7 @@ public class UploadActivity extends AppCompatActivity {
         rp.add("artist", username);
         rp.add("gallery", "testGallery");
 
-        HttpUtils.post("artwork/" + artworkName.getText().toString(), rp, new JsonHttpResponseHandler() {
+        HttpUtils.post("artwork/" + artworkName.getText().toString().trim(), rp, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
@@ -152,13 +151,20 @@ public class UploadActivity extends AppCompatActivity {
         });
 
 
-
-
     }
+
     public void createListingOnSuccess() {
 
-        getArtworkId();
-        HttpUtils.post("listing/" + artworkID, new RequestParams(), new JsonHttpResponseHandler() {
+        //getArtworkIdFromJson();
+        String artworkID = this.getArtworkID();
+        System.out.println("calling getArtworkId " + artworkID);
+        EditText price = findViewById(R.id.upload_price);
+        RequestParams rp = new RequestParams();
+        rp.add("price", price.getText().toString());
+        rp.add("gallery", "testGallery");
+
+
+        HttpUtils.post("listing/" + artworkID, rp, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 //redirect to customer profile, passing the username in a parameter
@@ -190,32 +196,45 @@ public class UploadActivity extends AppCompatActivity {
 
     }
 
-    /**
 
+    /**
      * @return String representative of the artwork ID
      */
-    private void getArtworkId()
-    {
 
-             EditText artworkToFind = findViewById(R.id.upload_name);
-            String artworkToFindString = artworkToFind.getText().toString();
+    private String getArtworkID()
+    {
+        String artworkID = "";
+        EditText artworkName = findViewById(R.id.upload_name);
+        String artworkNameStr = artworkName.getText().toString().trim();
+        int hashCode = artworkNameStr.hashCode() * username.hashCode();
+        artworkID = Integer.toString(hashCode);
+        System.out.println("Hashcode is " +artworkID);
+        return artworkID;
+
+    }
+
+    /*
+    private void getArtworkIdFromJson() {
+        final String[] artworkID = {""};
+        EditText artworkToFind = findViewById(R.id.upload_name);
+        String artworkToFindString = artworkToFind.getText().toString().trim();
         HttpUtils.get("artist/name/" + username, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                 try {
                     JSONArray artworkArray = response.getJSONArray("artworks");
-                    for (int i = 0, size = artworkArray.length(); i < size; i++)
-                    {
+                    for (int i = 0, size = artworkArray.length(); i < size; i++) {
                         JSONObject artwork = artworkArray.getJSONObject(i);
 
                         String artworkName = artwork.getString("name");
-                        if(artworkName.equals(artworkToFindString))
-                        {
+                        if (artworkName.equals(artworkToFindString)) {
                             int artworkIdInt = artwork.getInt("artworkID");
-                            artworkID = Integer.toString(artworkIdInt);
+                            artworkID[0] = Integer.toString(artworkIdInt);
+                            System.out.println("Got artwork ID");
+                            System.out.println(artworkID[0]);
+                            setArtworkID(artworkID[0]);
                         }
-
 
 
                     }
@@ -240,13 +259,10 @@ public class UploadActivity extends AppCompatActivity {
         });
 
 
-
+        System.out.println("return value" + artworkID[0]);
 
     }
-
-
-
-
+*/
 
     /**
      * Method to obtain new error message in lieu of failed request
@@ -262,5 +278,16 @@ public class UploadActivity extends AppCompatActivity {
             tvError.setVisibility(View.VISIBLE);
         }
     }
+
+    /*
+    public void setArtworkID(String str) {
+        this.artworkID = str;
+    }
+
+    public String getArtworkID()
+    {
+        return this.artworkID;
+    }
+*/
 
 }
