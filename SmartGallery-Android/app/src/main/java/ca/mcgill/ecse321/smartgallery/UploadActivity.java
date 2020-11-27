@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -221,11 +222,24 @@ public class UploadActivity extends AppCompatActivity {
         return artworkID;
 
     }
-
+    /**
+     * Logout the current user
+     * @param view
+     */
 
     public void logOut(View view) {
-        Intent intent = new Intent(UploadActivity.this, LoginActivity.class);
-        startActivity(intent);
+        HttpUtils.post("/logout?username="+username, new RequestParams(), new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Intent intent = new Intent(UploadActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
