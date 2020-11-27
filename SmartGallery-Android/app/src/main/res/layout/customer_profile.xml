@@ -185,5 +185,14 @@
             android:gravity="center_horizontal"
             android:text="@string/view_listing" />
 
+        <Button
+            android:id="@+id/customer_view_transaction_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:text="@string/view_transaction" />
+
     </LinearLayout>
 </ScrollView>

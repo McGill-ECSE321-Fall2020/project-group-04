@@ -161,6 +161,8 @@ public class ListingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Toast.makeText(ListingActivity.this, "Transaction was Successful", Toast.LENGTH_SHORT).show();
+                getListings();
+                displayListing();
             }
 
             @Override

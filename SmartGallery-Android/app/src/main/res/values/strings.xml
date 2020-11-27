@@ -114,6 +114,9 @@
     <string name="password">Password:</string>
     <string name="confirm_password">Confirm Password:</string>
     <string name="view_listing">View Listings</string>
+    <string name="transaction_title">Transactions</string>
+    <string name="transaction_created">Date:</string>
+    <string name="view_transaction">View Transaction</string>
 
 
 </resources>

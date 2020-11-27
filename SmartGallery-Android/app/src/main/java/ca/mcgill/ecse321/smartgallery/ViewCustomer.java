@@ -36,6 +36,13 @@ public class ViewCustomer extends AppCompatActivity {
             intent.putExtra("USERNAME", cusername);
             startActivity(intent);
         });
+
+        Button transaction = findViewById(R.id.customer_view_transaction_button);
+        transaction.setOnClickListener(v -> {
+            Intent intent = new Intent(ViewCustomer.this, TransactionActivity.class);
+            intent.putExtra("USERNAME", cusername);
+            startActivity(intent);
+        });
     }
 
     /**

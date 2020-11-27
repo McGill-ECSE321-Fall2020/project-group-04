@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -169,14 +168,12 @@ public class UploadActivity extends AppCompatActivity {
                 //redirect to customer profile, passing the username in a parameter
                 //transition for the  upload button
                 refreshErrorMessage();
-                Button upload = findViewById(R.id.upload_button);
-                upload.setOnClickListener(v -> {
-                    //navigate to the Artist profile page
-                    Intent intent = new Intent(UploadActivity.this,
-                            ViewArtist.class);
-                    intent.putExtra("USERNAME", username);
-                    startActivity(intent);
-                });
+                //navigate to the Artist profile page
+                Intent intent = new Intent(UploadActivity.this,
+                        ViewArtist.class);
+                intent.putExtra("USERNAME", username);
+                startActivity(intent);
+
             }
 
             @Override
@@ -196,19 +193,17 @@ public class UploadActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * @return String representative of the artwork ID
      */
 
-    private String getArtworkID()
-    {
+    private String getArtworkID() {
         String artworkID = "";
         EditText artworkName = findViewById(R.id.upload_name);
         String artworkNameStr = artworkName.getText().toString().trim();
         int hashCode = artworkNameStr.hashCode() * username.hashCode();
         artworkID = Integer.toString(hashCode);
-        System.out.println("Hashcode is " +artworkID);
+        System.out.println("Hashcode is " + artworkID);
         return artworkID;
 
     }

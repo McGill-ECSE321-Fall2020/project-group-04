@@ -49,6 +49,13 @@ public class ViewArtist extends AppCompatActivity {
             startActivity(intent);
         });
 
+        Button transaction = findViewById(R.id.artist_view_transaction);
+        transaction.setOnClickListener(v -> {
+            Intent intent = new Intent(ViewArtist.this, TransactionActivity.class);
+            intent.putExtra("USERNAME", ausername);
+            startActivity(intent);
+        });
+
     }
 
     /**
