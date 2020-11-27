@@ -22,15 +22,15 @@ import org.json.JSONObject;
  * required information to create a new account, or can redirect themselves back to the login page.
  */
 public class RegistrationActivity extends AppCompatActivity {
-    Button btnRegister;
-    Button btnBackToLogin;
+    private Button btnRegister;
+    private Button btnBackToLogin;
 
-    EditText etUsername;
-    EditText etPassword;
-    EditText etConfirmPassword;
-    EditText etEmail;
-    Spinner spAccountType;
-    Spinner spPaymentType;
+    private EditText etUsername;
+    private EditText etPassword;
+    private EditText etConfirmPassword;
+    private EditText etEmail;
+    private Spinner spAccountType;
+    private Spinner spPaymentType;
 
     /**
      * On creation of the registration activity, set the proper layout, as well as the onClicks.

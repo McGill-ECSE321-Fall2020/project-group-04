@@ -22,13 +22,13 @@ import cz.msebera.android.httpclient.Header;
  * themselves to the registration activity.
  */
 public class LoginActivity extends AppCompatActivity {
-    Button btnLogin;
-    Button btnRegister;
+    private Button btnLogin;
+    private Button btnRegister;
 
-    EditText etUsername;
-    EditText etPassword;
-    String username;
-    String password;
+    private EditText etUsername;
+    private EditText etPassword;
+    private String username;
+    private String password;
 
     /**
      * On creation of the login activity, set the proper layout, as well as the onClicks.
