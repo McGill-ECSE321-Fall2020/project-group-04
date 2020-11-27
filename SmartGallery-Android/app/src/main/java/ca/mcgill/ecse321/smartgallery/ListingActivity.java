@@ -245,6 +245,11 @@ public class ListingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * @author zsiciliani
+     * If there are no listings to be viewed, inform the user of this, and redirect them back to their profile.
+     * @param view
+     */
     public void noListings(View view) {
         Toast.makeText(this, "There are no listings at this time. Please come back later.", Toast.LENGTH_SHORT).show();
         viewProfile(view);
