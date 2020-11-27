@@ -18,6 +18,8 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONObject;
 
 public class RegistrationActivity extends AppCompatActivity {
+    Button btnRegister;
+
     EditText etUsername;
     EditText etPassword;
     EditText etConfirmPassword;
@@ -30,7 +32,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        Button btnRegister = findViewById(R.id.register_button);
+        btnRegister = (Button) findViewById(R.id.register_button);
         btnRegister.setOnClickListener(this::register);
     }
 

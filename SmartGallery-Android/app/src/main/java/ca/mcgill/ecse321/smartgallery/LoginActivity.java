@@ -16,14 +16,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import cz.msebera.android.httpclient.Header;
 
 public class LoginActivity extends AppCompatActivity {
-    String error;
+    Button btnLogin;
+    Button btnRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_login);
 
-        Button btnLogin = findViewById(R.id.login_button);
+        btnLogin = (Button) findViewById(R.id.login_button);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -31,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button btnRegister = findViewById(R.id.goto_register_button);
+        btnRegister = (Button) findViewById(R.id.goto_register_button);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login() {
-        error = "";
 
         //Get the username and password input by the user
         final EditText etUsername = (EditText) findViewById(R.id.login_username_input);
