@@ -28,7 +28,7 @@ import cz.msebera.android.httpclient.Header;
 public class ListingActivity extends AppCompatActivity {
     private ArrayList<String> listings;
     private ArrayAdapter<String> listingAdapter;
-    Spinner listingSpinner;
+    private Spinner listingSpinner;
     private final HashMap<String, Integer> artworkNameToListingIDMap = new HashMap<>();
     private String username;
 
@@ -78,7 +78,7 @@ public class ListingActivity extends AppCompatActivity {
 
     /**
      * Displays a listings specification based on the dropdown selection
-     * @author OliverStappas
+     * @author Oliver Stappas, Viet Tran
      */
     private void displayListing() {
         String artworkName = listingSpinner.getSelectedItem().toString();
@@ -87,11 +87,11 @@ public class ListingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    ArrayList<String> artistnames = new ArrayList<>();
+                    ArrayList<String> artists = new ArrayList<>();
                     for(int i =0; i < response.getJSONObject("artwork").getJSONArray("artists").length(); i++){
-                        artistnames.add(response.getJSONObject("artwork").getJSONArray("artists").getJSONObject(i).getString("username"));
+                        artists.add(response.getJSONObject("artwork").getJSONArray("artists").getJSONObject(i).getString("username"));
                     }
-                    String joined = TextUtils.join(", ", artistnames);
+                    String joined = TextUtils.join(", ", artists);
                     TextView artistNames = findViewById(R.id.listing_artist);
                     artistNames.setText("Artists: " + joined);
 
@@ -120,7 +120,7 @@ public class ListingActivity extends AppCompatActivity {
                     weight.setText("Weight(kg): " + response.getJSONObject("artwork").getDouble("weight"));
 
                     TextView sold = findViewById(R.id.listing_sold);
-                    boolean available =response.getBoolean("sold");
+                    boolean available = response.getBoolean("sold");
                     String soldText = available?"Sold":"Available";
                     sold.setText("Availability: " + soldText);
 
@@ -133,8 +133,8 @@ public class ListingActivity extends AppCompatActivity {
 
     /**
      *
-     * @author OliverStappas*
      * Gets all the listings that are not sold and adds them to a dropdown
+     * @author OliverStappas
      */
     public void getListings() {
         HttpUtils.get("/listing", new RequestParams(), new JsonHttpResponseHandler() {

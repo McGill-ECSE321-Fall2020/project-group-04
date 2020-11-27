@@ -23,9 +23,13 @@ import cz.msebera.android.httpclient.Header;
 public class ViewArtist extends AppCompatActivity {
 
     //get string equivalent of username
-    String ausername;
-    private String error = null;
+    private String ausername;
 
+    /**
+     * On creation of the artist activity, set the proper layout, as well as the onClicks.
+     * @author Viet Tran
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,7 @@ public class ViewArtist extends AppCompatActivity {
             startActivity(intent);
         });
 
+        //Bind transaction button to go to transactions
         Button transaction = findViewById(R.id.artist_view_transaction);
         transaction.setOnClickListener(v -> {
             Intent intent = new Intent(ViewArtist.this, TransactionActivity.class);
@@ -60,6 +65,7 @@ public class ViewArtist extends AppCompatActivity {
 
     /**
      * Retrieves an Artist object from the backend
+     * @author Viet Tran
      */
     public void getArtist() {
         TextView username = findViewById(R.id.artist_username);
@@ -82,14 +88,14 @@ public class ViewArtist extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                error += statusCode + " Invalid Name";
+
             }
         });
     }
 
     /**
      * Shows the update password fields and buttons
-     *
+     * @author Viet Tran
      * @param v
      */
     public void showPass(View v) {
@@ -106,7 +112,7 @@ public class ViewArtist extends AppCompatActivity {
 
     /**
      * Hides the update password fields and buttons
-     *
+     * @author Viet Tran
      * @param v
      */
     public void hidePass(View v) {
@@ -124,6 +130,7 @@ public class ViewArtist extends AppCompatActivity {
 
     /**
      * Updates a user's password
+     * @author Viet Tran
      */
     public void updatePassword(View v) {
         EditText oldPassword = findViewById(R.id.artist_oldpassword);
@@ -150,7 +157,7 @@ public class ViewArtist extends AppCompatActivity {
 
     /**
      * Shows the update email fields and buttons
-     *
+     * @author Viet Tran
      * @param v
      */
     public void showEmail(View v) {
@@ -163,7 +170,7 @@ public class ViewArtist extends AppCompatActivity {
 
     /**
      * Hides the update email fields and buttons
-     *
+     * @author Viet Tran
      * @param V
      */
     public void hideEmail(View V) {
@@ -176,26 +183,33 @@ public class ViewArtist extends AppCompatActivity {
 
     /**
      * Updates a user's email address
-     *
+     * @author Viet Tran
      * @param v
      */
     public void updateEmail(View v) {
-        EditText newEmail = findViewById(R.id.artist_newemail);
-        EditText password = findViewById(R.id.artist_password);
-        HttpUtils.post("email/change/?username=" + ausername + "&password=" + password.getText() + "&newEmail=" + newEmail.getText(), new RequestParams(), new AsyncHttpResponseHandler() {
+        EditText newEmail = findViewById(R.id.customer_newemail);
+        EditText password = findViewById(R.id.customer_password);
+        HttpUtils.post("email/change/?username=" + ausername + "&password=" + password.getText() + "&newEmail=" + newEmail.getText(), new RequestParams(), new TextHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                error += statusCode + "succesfully changed email";
-                //Refresh info
-                getArtist();
-                newEmail.setText("");
-                password.setText("");
-                hideEmail(v);
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
             }
 
+            //Response is a boolean
+            //If the change is successful, the method will hide the fields and prompt the user
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                ViewArtist.this.error += statusCode + " Invalid Password or email";
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                if(responseString.equals("false")){
+                    Toast.makeText(ViewArtist.this, "Invalid password or email format", Toast.LENGTH_SHORT).show();
+                }else{
+                    //Refresh info
+                    getArtist();
+                    newEmail.setText("");
+                    password.setText("");
+                    hideEmail(v);
+                    Toast.makeText(ViewArtist.this, "Updated email", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -203,7 +217,7 @@ public class ViewArtist extends AppCompatActivity {
 
     /**
      * Deletes the current user's account
-     *
+     * @author Viet Tran
      * @param V
      */
     public void deleteAccount(View V) {

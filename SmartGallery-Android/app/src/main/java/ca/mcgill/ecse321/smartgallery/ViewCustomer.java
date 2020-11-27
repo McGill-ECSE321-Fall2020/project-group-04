@@ -24,7 +24,8 @@ public class ViewCustomer extends AppCompatActivity {
     private String cusername = "";
 
     /**
-     * Setups the customer profile xml
+     * On creation of the customer activity, set the proper layout, as well as the onClicks.
+     * @author Viet Tran
      * @param savedInstanceState
      */
     @Override
@@ -53,6 +54,7 @@ public class ViewCustomer extends AppCompatActivity {
 
     /**
      * Retrieves a Customer object from the backend
+     * @author Viet Tran
      */
     public void getCustomer() {
         TextView username = findViewById(R.id.customer_username);
@@ -82,7 +84,7 @@ public class ViewCustomer extends AppCompatActivity {
 
     /**
      * Shows the update password fields and buttons
-     *
+     * @author Viet Tran
      * @param v
      */
     public void showPass(View v) {
@@ -95,7 +97,7 @@ public class ViewCustomer extends AppCompatActivity {
 
     /**
      * Hides the update password fields and buttons
-     *
+     * @author Viet Tran
      * @param v
      */
     public void hidePass(View v) {
@@ -108,7 +110,8 @@ public class ViewCustomer extends AppCompatActivity {
 
 
     /**
-     * Updates a user's password
+     * Updates a user's password,updates information on success
+     * @author Viet Tran
      */
     public void updatePassword(View v) {
         EditText oldPassword = findViewById(R.id.customer_oldpassword);
@@ -135,7 +138,7 @@ public class ViewCustomer extends AppCompatActivity {
 
     /**
      * Shows the update email fields and buttons
-     *
+     * @author Viet Tran
      * @param v
      */
     public void showEmail(View v){
@@ -148,10 +151,10 @@ public class ViewCustomer extends AppCompatActivity {
 
     /**
      * Hides the update email fields and buttons
-     *
-     * @param V
+     * @author Viet Tran
+     * @param v
      */
-    public void hideEmail(View V){
+    public void hideEmail(View v){
         findViewById(R.id.customer_update_email_button).setVisibility(View.VISIBLE);
         findViewById(R.id.customer_newemail).setVisibility(View.GONE);
         findViewById(R.id.customer_password).setVisibility(View.GONE);
@@ -160,7 +163,8 @@ public class ViewCustomer extends AppCompatActivity {
     }
 
     /**
-     * Updates a user's email address
+     * Updates a user's email address,updates information on success
+     * @author Viet Tran
      * @param v
      */
     public void updateEmail(View v) {
@@ -172,6 +176,8 @@ public class ViewCustomer extends AppCompatActivity {
 
             }
 
+            //Response is a boolean
+            //If the change is successful, the method will hide the fields and prompt the user
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 if(responseString.equals("false")){
@@ -191,11 +197,11 @@ public class ViewCustomer extends AppCompatActivity {
     }
 
     /**
-     * Deletes the current user's account
-     * @param V
+     * Deletes the current user's account, returns the user to login upon success
+     * @author Viet Tran
+     * @param v
      */
-    public void deleteAccount(View V){
-
+    public void deleteAccount(View v){
         HttpUtils.post("/customer/delete/" + cusername, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -213,6 +219,7 @@ public class ViewCustomer extends AppCompatActivity {
 
     /**
      * Logout the current user
+     * @author Viet Tran
      * @param view
      */
     public void logOut(View view) {

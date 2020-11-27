@@ -31,11 +31,8 @@ public class UploadActivity extends AppCompatActivity {
     //arraylists for art style spinner
     private ArrayList<String> artStyleOptions;
     private ArrayAdapter<String> styleAdapter;
-
-
-
     //get username string equivalent
-    String username;
+    private String username;
 
     /**
      * @author Stavros Mitsoglou
@@ -159,7 +156,7 @@ public class UploadActivity extends AppCompatActivity {
     /**
      * @author Stavros Mitsoglou
      * This method is used solely on a succesful artwork upload.
-     * It creates a listing wiith the artworkID that has just been uploaded.
+     * It creates a listing with the artworkID that has just been uploaded.
      *
      */
     public void createListingOnSuccess() {
