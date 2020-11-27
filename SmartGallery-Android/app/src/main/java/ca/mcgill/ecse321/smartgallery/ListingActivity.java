@@ -48,7 +48,6 @@ public class ListingActivity extends AppCompatActivity {
         Spinner shippingSpinner = findViewById(R.id.shipping_spinner); // the delivery method spinner
 
         // Spinner for different payment methods
-        paymentMethods = new ArrayList<>();
         ArrayList<String> paymentMethods = new ArrayList<>();
         paymentMethods.add("credit");
         paymentMethods.add("paypal");
@@ -57,7 +56,6 @@ public class ListingActivity extends AppCompatActivity {
         paymentSpinner.setAdapter(paymentAdapter); // fill the payment spinner
 
         //Spinner for different shipping methods
-        shippingMethods = new ArrayList<>();
         ArrayList<String> shippingMethods = new ArrayList<>();
         shippingMethods.add("shipping");
         shippingMethods.add("pickup");
