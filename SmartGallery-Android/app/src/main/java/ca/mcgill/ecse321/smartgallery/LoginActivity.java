@@ -17,6 +17,10 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
+/**
+ * The Login activity. Uses the activity_login layout file. Allows the user to login, or to redirect
+ * themselves to the registration activity.
+ */
 public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     Button btnRegister;
@@ -28,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * On creation of the login activity, set the proper layout, as well as the onClicks.
+     * @author zsiciliani
      * @param savedInstanceState
      */
     @Override
@@ -45,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Go to the registration activity.
+     * @author zsiciliani
      * @param view
      */
     public void gotoRegistration(View view) {
@@ -55,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Verify that the user has input valid credentials. If they have, log them in and
      * redirect them to their profile page.
+     * @author zsiciliani
      */
     public void login() {
 
@@ -107,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Upon a successful login, inform the customer that they have been logged in, and redirect to the
      * correct profile page based on whether they are a customer or an artist.
+     * @author zsiciliani
      */
     public void successfulLogin() {
         Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
@@ -132,6 +140,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Attempt to create a new SmartGallery and Gallery. If they already exist, the post method
+     * will fail, and nothing needs to be done. If not, they will be created.
+     */
     public void createGalleries() {
         HttpUtils.post("/smartGallery/123" + username, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
