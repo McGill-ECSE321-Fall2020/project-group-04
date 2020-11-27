@@ -29,9 +29,12 @@
     <string name="register_message">Fill out the information below to create an account</string>
     <string name="or_register">Or, if you don\'t have an account yet:</string>
     <string name="register">Register</string>
+
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
     <string name="email_hint">Email</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+
     <string name="account_type">Account Type</string>
     <string name="type_artist">Artist</string>
     <string name="type_customer">Customer</string>
@@ -44,9 +47,17 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="login_success">You have been logged in!</string>
     <string name="login_warning">This username and password do not match</string>
-    <string name="empty_username">Username cannot be empty</string>
 
+    <string name="empty_username">Username cannot be empty</string>
     <string name="empty_password">Password cannot be empty</string>
+    <string name="empty_email">Email cannot be empty</string>
+    <string name="mismatched_password">Passwords do not match</string>
+    <string name="short_password">Password must be at least 7 characters</string>
+    <string name="invalid_email">Please enter a valid email address</string>
+    <string name="empty_account_type">Please choose an account type</string>
+    <string name="empty_payment_type">Please choose a payment type</string>
+    <string name="empty_delivery_method">Please choose a delivery method</string>
+
     <string name="title_activity_registration">RegistrationActivity</string>
     <string-array name="account_types">
         <item>Artist</item>
@@ -60,6 +71,9 @@
         <item>Pickup</item>
         <item>Shipping</item>
     </string-array>
+
+    <string name="registration_success">Congratulations on your new account!</string>
+    <string name="registration_failure">Verify that your email is valid. Otherwise, this username or email is already in use.</string>
 
     <string name="upload_title">Upload Your Artwork</string>
     <string name="upload_name">Artwork Name</string>
@@ -93,5 +107,6 @@
     <string name="change">Change</string>
     <string name="new_email">New Email</string>
     <string name="password">Password:</string>
+    <string name="confirm_password">Confirm Password:</string>
 
 </resources>
