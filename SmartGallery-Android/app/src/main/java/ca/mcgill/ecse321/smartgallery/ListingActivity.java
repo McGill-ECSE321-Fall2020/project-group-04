@@ -74,15 +74,6 @@ public class ListingActivity extends AppCompatActivity {
             }
 
         });
-
-        //Transition for view profile button
-        Button viewProfile = findViewById(R.id.view_profile);
-        viewProfile.setOnClickListener(v -> {
-            //navigate to  profile page
-            viewProfile();
-        });
-
-
     }
 
 
@@ -177,7 +168,7 @@ public class ListingActivity extends AppCompatActivity {
         });
     }
 
-    public void viewProfile() {
+    public void viewProfile(View view) {
         HttpUtils.get("/artist/name/" + username, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
