@@ -1,13 +1,14 @@
 package ca.mcgill.ecse321.smartgallery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -17,26 +18,26 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 public class ViewCustomer extends AppCompatActivity {
-    private String cusername = "artist1";
+    private String cusername = "";
     private String error = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customer_profile);
-        getArtist();
+        cusername = getIntent().getStringExtra("USERNAME");
+        getCustomer();
     }
 
     /**
      * Retrieves an Artist object from the backend
      */
-    public void getArtist() {
+    public void getCustomer() {
         TextView username = findViewById(R.id.customer_username);
         TextView email = findViewById(R.id.customer_email);
         TextView defaultPayment = findViewById(R.id.customer_default_payment_method);
         TextView creationDate = findViewById(R.id.customer_creation_date);
 
-        //TODO Testing with hardcoded customer, need to change this
         HttpUtils.get("/customer/name/" + cusername, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -44,7 +45,7 @@ public class ViewCustomer extends AppCompatActivity {
                     username.setText("Username: " + response.getString("username"));
                     email.setText("Email: " + response.getString("email"));
                     defaultPayment.setText("Default Payment Method: " + response.getString("defaultPaymentMethod"));
-                    creationDate.setText("Creation Date" + response.getString("creationDate"));
+                    creationDate.setText("Creation Date: " + response.getString("creationDate"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -90,17 +91,20 @@ public class ViewCustomer extends AppCompatActivity {
     public void updatePassword(View v) {
         EditText oldPassword = findViewById(R.id.customer_oldpassword);
         EditText newPassword = findViewById(R.id.customer_newpassword);
-        HttpUtils.post("/password/change/?username=" + cusername + "&oldPassword=" + oldPassword.getText().toString() + "&newPassword=" + newPassword.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.post("/password/change/?username=" + cusername + "&oldPassword=" + oldPassword.getText().toString() + "&newPassword=" + newPassword.getText().toString(), new RequestParams(), new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 error += statusCode + "succesfully changed password";
+                oldPassword.setText("");
+                newPassword.setText("");
                 hidePass(v);
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                error += statusCode + " Invalid Password";
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                ViewCustomer.this.error += statusCode + " Invalid Password";
             }
+
+
         });
     }
 
@@ -132,20 +136,25 @@ public class ViewCustomer extends AppCompatActivity {
 
     /**
      * Updates a user's email address
-     * @param V
+     * @param v
      */
-    public void updateEmail(View V) {
+    public void updateEmail(View v) {
         EditText newEmail = findViewById(R.id.customer_newemail);
         EditText password = findViewById(R.id.customer_password);
-        HttpUtils.post("/email/change/?username=" + cusername + "&password=" + password.getText() + "&newEmail=" + newEmail.getText(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.post("email/change/?username=" + cusername + "&password=" + password.getText() + "&newEmail=" + newEmail.getText(), new RequestParams(), new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                error += statusCode + "succesfully changed password";
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                error += statusCode + "succesfully changed email";
+                //Refresh info
+                getCustomer();
+                newEmail.setText("");
+                password.setText("");
+                hideEmail(v);
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                error += statusCode + " Invalid Password";
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                ViewCustomer.this.error += statusCode + " Invalid Password or email";
             }
         });
 
@@ -160,6 +169,8 @@ public class ViewCustomer extends AppCompatActivity {
         HttpUtils.post("/customer/delete/" + cusername, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Intent intent = new Intent(ViewCustomer.this, LoginActivity.class);
+                startActivity(intent);
             }
 
             @Override

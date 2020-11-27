@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -31,8 +32,6 @@ public class ViewArtist extends AppCompatActivity {
         ausername = getIntent().getStringExtra("USERNAME");
         getArtist();
 
-
-
         //Bind upload button to transition
         Button upload = findViewById(R.id.upload_artwork_button);
         upload.setOnClickListener(v -> {
@@ -53,7 +52,6 @@ public class ViewArtist extends AppCompatActivity {
         TextView defaultPayment = findViewById(R.id.artist_default_payment_method);
         TextView creationDate = findViewById(R.id.artist_creation_date);
 
-        //TODO Testing with hardcoded artist, need to change this
         HttpUtils.get("/artist/name/" + ausername, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -115,17 +113,20 @@ public class ViewArtist extends AppCompatActivity {
     public void updatePassword(View v) {
         EditText oldPassword = findViewById(R.id.artist_oldpassword);
         EditText newPassword = findViewById(R.id.artist_newPassword);
-        HttpUtils.post("/password/change/?username=" + ausername + "&oldPassword=" + oldPassword.getText() + "&newPassword=" + newPassword.getText(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.post("/password/change/?username=" + ausername + "&oldPassword=" + oldPassword.getText().toString() + "&newPassword=" + newPassword.getText().toString(), new RequestParams(), new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 error += statusCode + "succesfully changed password";
+                oldPassword.setText("");
+                newPassword.setText("");
                 hidePass(v);
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                error += statusCode + " Invalid Password";
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                ViewArtist.this.error += statusCode + " Invalid Password";
             }
+
+
         });
     }
 
@@ -158,20 +159,25 @@ public class ViewArtist extends AppCompatActivity {
     /**
      * Updates a user's email address
      *
-     * @param V
+     * @param v
      */
-    public void updateEmail(View V) {
+    public void updateEmail(View v) {
         EditText newEmail = findViewById(R.id.artist_newemail);
         EditText password = findViewById(R.id.artist_password);
-        HttpUtils.post("/email/change/?username=" + ausername + "&password=" + password.getText() + "&newEmail=" + newEmail.getText(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.post("email/change/?username=" + ausername + "&password=" + password.getText() + "&newEmail=" + newEmail.getText(), new RequestParams(), new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                error += statusCode + "succesfully changed password";
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                error += statusCode + "succesfully changed email";
+                //Refresh info
+                getArtist();
+                newEmail.setText("");
+                password.setText("");
+                hideEmail(v);
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                error += statusCode + " Invalid Password";
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                ViewArtist.this.error += statusCode + " Invalid Password or email";
             }
         });
 
@@ -187,11 +193,13 @@ public class ViewArtist extends AppCompatActivity {
         HttpUtils.post("/artist/delete/" + ausername, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Intent intent = new Intent(ViewArtist.this, LoginActivity.class);
+                startActivity(intent);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                error += statusCode + " Invalid Password";
+
             }
         });
     }
