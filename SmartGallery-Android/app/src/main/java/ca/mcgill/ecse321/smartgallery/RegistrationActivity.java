@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 public class RegistrationActivity extends AppCompatActivity {
     Button btnRegister;
+    Button btnBackToLogin;
 
     EditText etUsername;
     EditText etPassword;
@@ -27,23 +28,35 @@ public class RegistrationActivity extends AppCompatActivity {
     Spinner spAccountType;
     Spinner spPaymentType;
 
+    /**
+     * On creation of the registration activity, set the proper layout, as well as the onClicks.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //set the layout
         setContentView(R.layout.activity_registration);
 
+        //set the onClick methods for the Register and Back to login buttons
         btnRegister = (Button) findViewById(R.id.register_button);
         btnRegister.setOnClickListener(this::register);
+
+        btnBackToLogin = (Button) findViewById(R.id.register_back_to_login);
+        btnBackToLogin.setOnClickListener(this::goToLogin);
     }
 
     public void register(View view) {
-        etUsername = (EditText) findViewById(R.id.register_username_input);
-        etPassword = (EditText) findViewById(R.id.register_password_input);
-        etConfirmPassword = (EditText) findViewById(R.id.register_confirm_password_input);
-        etEmail = (EditText) findViewById(R.id.register_email_input);
-        spAccountType = (Spinner) findViewById(R.id.account_type_spinner);
-        spPaymentType = (Spinner) findViewById(R.id.payment_type_spinner);
+        //Assign each view item to its variable.
+        etUsername = findViewById(R.id.register_username_input);
+        etPassword = findViewById(R.id.register_password_input);
+        etConfirmPassword = findViewById(R.id.register_confirm_password_input);
+        etEmail = findViewById(R.id.register_email_input);
+        spAccountType = findViewById(R.id.account_type_spinner);
+        spPaymentType = findViewById(R.id.payment_type_spinner);
 
+        //Read the strings input by the user in the EditTexts.
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
         String confirmPassword = etConfirmPassword.getText().toString();
@@ -51,6 +64,8 @@ public class RegistrationActivity extends AppCompatActivity {
         String accountType = spAccountType.getSelectedItem().toString();
         String paymentType = spPaymentType.getSelectedItem().toString();
 
+        //Check the registration mistakes that could be made by a user. If they made one, alert them
+        //of it.
         if (username.equals("")) {
             Toast.makeText(this, getString(R.string.empty_username), Toast.LENGTH_SHORT).show();
             return;
@@ -89,6 +104,7 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
+        //Assuming all forms were properly filled out, register the user as either a Customer or an Artist.
         if (accountType.equalsIgnoreCase(getString(R.string.type_customer))) {
             registerCustomer(username, password, email, paymentType, view);
         }
@@ -98,6 +114,14 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Register a customer for the SmartGallery by using the parameters they had input.
+     * @param username The customer's username
+     * @param password The customer's password
+     * @param email The customer's email
+     * @param paymentType The customer's default payment type
+     * @param view
+     */
     public void registerCustomer(String username, String password, String email, String paymentType, View view) {
         HttpUtils.post("/customer/" + username + "/" + password + "/" + email + "/" + paymentType + "?smartGalleryID=123",
                 new RequestParams(), new JsonHttpResponseHandler() {
@@ -113,10 +137,17 @@ public class RegistrationActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Register an artist for the SmartGallery by using the parameters they had input.
+     * @param username
+     * @param password
+     * @param email
+     * @param paymentType
+     * @param view
+     */
     public void registerArtist(String username, String password, String email, String paymentType, View view) {
         String url = "/artist/" + username + "/?password=" + password + "&email=" + email +
                 "&defaultPaymentMethod=" + paymentType + "&smartGalleryID=123";
-        System.out.println(url);
         HttpUtils.post(url, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -130,17 +161,30 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Upon a successful registration, congratulate the user on their new account and bring them back
+     * to the login page.
+     * @param view
+     */
     public void successfulRegistration(View view) {
         Toast.makeText(this, getString(R.string.registration_success), Toast.LENGTH_SHORT).show();
         goToLogin(view);
     }
 
+    /**
+     * Upon an unsuccessful registration, ask the user to verify their email address or to choose a
+     * new username.
+     */
     public void unsuccessfulRegistration() {
         Toast.makeText(this, getString(R.string.registration_failure), Toast.LENGTH_SHORT).show();
         etPassword.setText("");
         etConfirmPassword.setText("");
     }
 
+    /**
+     * Go back to the login page
+     * @param view
+     */
     public void goToLogin(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

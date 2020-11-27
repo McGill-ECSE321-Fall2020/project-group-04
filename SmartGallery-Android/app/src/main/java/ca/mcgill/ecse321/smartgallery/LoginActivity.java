@@ -26,38 +26,40 @@ public class LoginActivity extends AppCompatActivity {
     String username;
     String password;
 
+    /**
+     * On creation of the login activity, set the proper layout, as well as the onClicks.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        btnLogin = (Button) findViewById(R.id.login_button);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login();
-            }
-        });
+        btnLogin = findViewById(R.id.login_button);
+        btnLogin.setOnClickListener(view -> login());
 
-        btnRegister = (Button) findViewById(R.id.goto_register_button);
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gotoRegistration(view);
-            }
-        });
+        btnRegister = findViewById(R.id.goto_register_button);
+        btnRegister.setOnClickListener(this::gotoRegistration);
     }
 
+    /**
+     * Go to the registration activity.
+     * @param view
+     */
     public void gotoRegistration(View view) {
         Intent intent = new Intent(this, RegistrationActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Verify that the user has input valid credentials. If they have, log them in and
+     * redirect them to their profile page.
+     */
     public void login() {
 
         //Get the username and password input by the user
-        etUsername = (EditText) findViewById(R.id.login_username_input);
-        etPassword = (EditText) findViewById(R.id.login_password_input);
+        etUsername = findViewById(R.id.login_username_input);
+        etPassword = findViewById(R.id.login_password_input);
         username = etUsername.getText().toString();
         password = etPassword.getText().toString();
 
@@ -73,30 +75,36 @@ public class LoginActivity extends AppCompatActivity {
 
         //Attempt logging in
         HttpUtils.post("/login/?username=" + username + "&password=" + password, new RequestParams(), new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                //A failure will not occur in the situation. When incorrect credentials are received, rather
+                //than throwing an exception, the login backend method will simply return false. This is addressed
+                //in the onSuccess method.
+            }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                //If false is returned, an incorrect username or password was typed. Inform the
+                //user of this and empty the text fields.
+                if (responseString.equals("false")) {
+                    Toast.makeText(LoginActivity.this, getString(R.string.login_warning), Toast.LENGTH_SHORT).show();
+                    etUsername.setText("");
+                    etPassword.setText("");
+                } else {
+                    //If their username and password match, log them in.
+                    successfulLogin();
+                }
 
-                    }
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        if(responseString.equals("false")) {
-                            Toast.makeText(LoginActivity.this, getString(R.string.login_warning), Toast.LENGTH_SHORT).show();
-                            etUsername.setText("");
-                            etPassword.setText("");
-                        }else{
-                            Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
-                            //Redirect to profile
-                            successfulLogin();
-                        }
-
-                    }
+            }
 
 
-                });
+        });
     }
 
+    /**
+     * Upon a successful login, inform the customer that they have been logged in, and redirect to the
+     * correct profile page based on whether they are a customer or an artist.
+     */
     public void successfulLogin() {
         Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
 
@@ -105,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
         HttpUtils.get("/artist/name/" + username, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                //redirect to customer profile, passing the username in a parameter
+                //redirect to an artist profile, passing the username in the intent.
                 Intent intent = new Intent(LoginActivity.this, ViewArtist.class);
                 intent.putExtra("USERNAME", username);
                 startActivity(intent);
@@ -113,12 +121,11 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+                //redirect to a customer profile, passing the username in the intent.
                 Intent intent = new Intent(LoginActivity.this, ViewCustomer.class);
                 intent.putExtra("USERNAME", username);
                 startActivity(intent);
             }
         });
-
-
     }
 }

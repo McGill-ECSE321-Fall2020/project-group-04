@@ -17,6 +17,7 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -109,6 +110,7 @@ public class UploadActivity extends AppCompatActivity {
         EditText height = findViewById(R.id.upload_height);
         EditText weight = findViewById(R.id.upload_weight);
         EditText width = findViewById(R.id.upload_width);
+        EditText imageLink = findViewById(R.id.upload_image_link);
         Spinner artStyle = findViewById(R.id.upload_spinner);
 
 
@@ -127,9 +129,9 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
+
                 //create the listing with artwork
                 createListingOnSuccess();
-
             }
 
             /*

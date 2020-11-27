@@ -28,9 +28,11 @@
     <string name="welcome_message">Welcome to SmartGallery!</string>
     <string name="login_message">Log in below</string>
     <string name="login">Login</string>
+    <string name="logout">Log Out</string>
     <string name="register_message">Fill out the information below to create an account</string>
     <string name="or_register">Or, if you don\'t have an account yet:</string>
     <string name="register">Register</string>
+    <string name="back_to_login">Back to Login</string>
 
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
@@ -85,6 +87,7 @@
     <string name="upload_height">Height (cm)</string>
     <string name="upload_weight">Weight (kg)</string>
     <string name="upload_width">Width (cm) </string>
+    <string name="upload_image_link">Image Link</string>
     <string name="upload_button">Upload</string>
     <string name="upload_exit"> Exit</string>
 
