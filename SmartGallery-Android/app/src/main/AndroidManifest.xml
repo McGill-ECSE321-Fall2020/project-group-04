@@ -16,8 +16,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/Theme.SmartGalleryAndroid.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.SmartGalleryAndroid.NoActionBar"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -29,7 +28,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".ViewArtist"></activity>
-
+        <activity
+            android:name=".ViewCustomer"
+            android:theme="@style/Theme.SmartGalleryAndroid.NoActionBar"></activity>
+        <activity android:name=".UploadActivity">
+            android:name=".UploadActivity"
+            android:theme="@style/Theme.SmartGalleryAndroid.NoActionBar"
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

@@ -86,6 +86,9 @@
     <string name="upload_button">Upload</string>
     <string name="upload_exit"> Exit</string>
 
+    <string name="upload_error"></string>
+
+
     <string name="customer_profile_title">Customer Profile</string>
     <string name="customer_update_password_button">Update Password</string>
     <string name="customer_update_email_button">Update Email</string>
@@ -108,5 +111,6 @@
     <string name="new_email">New Email</string>
     <string name="password">Password:</string>
     <string name="confirm_password">Confirm Password:</string>
+
 
 </resources>
