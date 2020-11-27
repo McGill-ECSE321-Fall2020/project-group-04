@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -70,24 +71,20 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         //Attempt logging in
-        String url = "/login?username=" + username + "&password=" + password;
-        System.out.println(url);
-        HttpUtils.post(url, new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.post("/login/?username=" + username + "&password=" + password, new RequestParams(), new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String response){
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+                //Redirect to profile
                 successfulLogin();
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                System.out.println(responseString);
-                if (responseString.equals("true")) {
-                    successfulLogin();
-                    return;
-                }
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Toast.makeText(LoginActivity.this, getString(R.string.login_warning), Toast.LENGTH_SHORT).show();
                 etUsername.setText("");
                 etPassword.setText("");
+                System.out.println(statusCode);
             }
         });
     }
