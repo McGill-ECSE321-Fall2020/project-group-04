@@ -167,16 +167,6 @@
             android:visibility="gone" />
 
         <Button
-            android:id="@+id/customer_delete_account_button"
-            android:layout_width="144dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:gravity="center_horizontal"
-            android:onClick="deleteAccount"
-            android:text="@string/customer_delete_account_button" />
-
-        <Button
             android:id="@+id/customer_view_listing_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -199,7 +189,7 @@
             android:layout_width="144dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
             android:onClick="logOut"
             android:text="@string/log_out" />

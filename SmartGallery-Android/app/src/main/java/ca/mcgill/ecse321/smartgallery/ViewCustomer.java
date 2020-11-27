@@ -197,27 +197,6 @@ public class ViewCustomer extends AppCompatActivity {
     }
 
     /**
-     * Deletes the current user's account, returns the user to login upon success
-     * @author Viet Tran
-     * @param v
-     */
-    public void deleteAccount(View v){
-        HttpUtils.post("/customer/delete/" + cusername, new RequestParams(), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Intent intent = new Intent(ViewCustomer.this, LoginActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-
-            }
-        });
-    }
-
-
-    /**
      * Logout the current user
      * @author Viet Tran
      * @param view

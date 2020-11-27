@@ -110,7 +110,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         if (!(paymentType.equalsIgnoreCase(getString(R.string.type_credit))
-                || accountType.equalsIgnoreCase(getString(R.string.type_paypal)))) {
+                || paymentType.equalsIgnoreCase(getString(R.string.type_paypal)))) {
             Toast.makeText(this, getString(R.string.empty_payment_type), Toast.LENGTH_SHORT).show();
             return;
         }

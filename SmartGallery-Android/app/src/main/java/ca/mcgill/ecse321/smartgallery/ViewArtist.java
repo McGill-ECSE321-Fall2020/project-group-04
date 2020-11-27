@@ -216,28 +216,6 @@ public class ViewArtist extends AppCompatActivity {
     }
 
     /**
-     * Deletes the current user's account
-     * @author Viet Tran
-     * @param V
-     */
-    public void deleteAccount(View V) {
-
-        HttpUtils.post("/artist/delete/" + ausername, new RequestParams(), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Intent intent = new Intent(ViewArtist.this, LoginActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-
-            }
-        });
-    }
-
-
-    /**
      * Logout the current user
      * @param view
      */
