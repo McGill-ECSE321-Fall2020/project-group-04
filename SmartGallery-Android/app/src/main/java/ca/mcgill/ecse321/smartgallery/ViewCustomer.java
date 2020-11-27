@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +18,7 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 public class ViewCustomer extends AppCompatActivity {
-    private String cusername = "artist1";
+    private String cusername = "Artist1";
     private String error = null;
 
     @Override
@@ -90,7 +91,7 @@ public class ViewCustomer extends AppCompatActivity {
     public void updatePassword(View v) {
         EditText oldPassword = findViewById(R.id.customer_oldpassword);
         EditText newPassword = findViewById(R.id.customer_newpassword);
-        HttpUtils.post("/password/change/?username=" + cusername + "&oldPassword=" + oldPassword.getText() + "&newPassword=" + newPassword.getText(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.post("/password/change/?username=" + cusername + "&oldPassword=" + oldPassword.getText().toString() + "&newPassword=" + newPassword.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 error += statusCode + "succesfully changed password";
