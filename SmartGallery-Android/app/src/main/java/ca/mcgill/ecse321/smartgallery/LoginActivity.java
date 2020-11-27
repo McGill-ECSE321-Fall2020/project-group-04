@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        createGalleries();
 
         btnLogin = (Button) findViewById(R.id.login_button);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -74,27 +75,27 @@ public class LoginActivity extends AppCompatActivity {
         //Attempt logging in
         HttpUtils.post("/login/?username=" + username + "&password=" + password, new RequestParams(), new TextHttpResponseHandler() {
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 
-                    }
+            }
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        if(responseString.equals("false")) {
-                            Toast.makeText(LoginActivity.this, getString(R.string.login_warning), Toast.LENGTH_SHORT).show();
-                            etUsername.setText("");
-                            etPassword.setText("");
-                        }else{
-                            Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
-                            //Redirect to profile
-                            successfulLogin();
-                        }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                if (responseString.equals("false")) {
+                    Toast.makeText(LoginActivity.this, getString(R.string.login_warning), Toast.LENGTH_SHORT).show();
+                    etUsername.setText("");
+                    etPassword.setText("");
+                } else {
+                    Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+                    //Redirect to profile
+                    successfulLogin();
+                }
 
-                    }
+            }
 
 
-                });
+        });
     }
 
     public void successfulLogin() {
@@ -119,6 +120,33 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    public void createGalleries() {
+        HttpUtils.post("/smartGallery/123" + username, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+
+            }
+        });
+
+        HttpUtils.post("/gallery/123/testGallery/" + username, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+
+            }
+        });
 
     }
 }

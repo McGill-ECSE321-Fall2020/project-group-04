@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.smartgallery;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +36,10 @@ public class ListingActivity extends AppCompatActivity {
     private HashMap<String, Integer> artworkNameToListingIDMap = new HashMap<>();
     private String username;
 
-
+    /**
+     * Setup the listing xml
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +50,7 @@ public class ListingActivity extends AppCompatActivity {
         Spinner paymentSpinner = findViewById(R.id.payment_spinner);
         Spinner shippingSpinner = findViewById(R.id.shipping_spinner);
 
+        //Spinner for different payment methods
         paymentMethods = new ArrayList<>();
         paymentMethods.add("credit");
         paymentMethods.add("paypal");
@@ -52,6 +58,7 @@ public class ListingActivity extends AppCompatActivity {
         paymentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         paymentSpinner.setAdapter(paymentAdapter);
 
+        //Spinner for different shipping methods
         shippingMethods = new ArrayList<>();
         shippingMethods.add("shipping");
         shippingMethods.add("pickup");
@@ -59,6 +66,7 @@ public class ListingActivity extends AppCompatActivity {
         shippingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         shippingSpinner.setAdapter(shippingAdapter);
 
+        //Set listener to update page info
         listingSpinner = findViewById(R.id.listing_spinner);
         listingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -75,6 +83,9 @@ public class ListingActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Displays a listings specification based on the dropdown selection
+     */
     private void displayListing() {
         String artworkName = listingSpinner.getSelectedItem().toString();
         Integer listingID = artworkNameToListingIDMap.get(artworkName);
@@ -82,6 +93,16 @@ public class ListingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
+
+                    ArrayList<String> artistnames = new ArrayList<>();
+                    for(int i =0; i < response.getJSONObject("artwork").getJSONArray("artists").length(); i++){
+                        artistnames.add(response.getJSONObject("artwork").getJSONArray("artists").getJSONObject(i).getString("username"));
+                    }
+                    String joined = TextUtils.join(", ", artistnames);
+                    TextView artistNames = findViewById(R.id.listing_artist);
+                    artistNames.setText("Artists: " + joined);
+
+
                     TextView title = findViewById(R.id.listing_title);
                     title.setText("Title: " + response.getJSONObject("artwork").getString("name"));
 
@@ -144,11 +165,29 @@ public class ListingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Logout the current user
+     * @param view
+     */
     public void logOut(View view) {
-        Intent intent = new Intent(ListingActivity.this, LoginActivity.class);
-        startActivity(intent);
+        HttpUtils.post("/logout?username="+username, new RequestParams(), new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Intent intent = new Intent(ListingActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
+    /**
+     * Create a transaction for the current user
+     * @param view
+     */
     public void createTransaction(View view) {
         String artworkName = listingSpinner.getSelectedItem().toString();
         int listingID = artworkNameToListingIDMap.get(artworkName);
@@ -176,6 +215,10 @@ public class ListingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Go to a user's profile
+     * @param view
+     */
     public void viewProfile(View view) {
         HttpUtils.get("/artist/name/" + username, new RequestParams(), new JsonHttpResponseHandler() {
             @Override

@@ -22,8 +22,11 @@ import cz.msebera.android.httpclient.Header;
 
 public class ViewCustomer extends AppCompatActivity {
     private String cusername = "";
-    private String error = null;
 
+    /**
+     * Setups the customer profile xml
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +34,15 @@ public class ViewCustomer extends AppCompatActivity {
         cusername = getIntent().getStringExtra("USERNAME");
         getCustomer();
         Button listing = findViewById(R.id.customer_view_listing_button);
+
+        //Bind the listing button for transitions
         listing.setOnClickListener(v -> {
             Intent intent = new Intent(ViewCustomer.this, ListingActivity.class);
             intent.putExtra("USERNAME", cusername);
             startActivity(intent);
         });
 
+        //Bind the transaction button for transitions
         Button transaction = findViewById(R.id.customer_view_transaction_button);
         transaction.setOnClickListener(v -> {
             Intent intent = new Intent(ViewCustomer.this, TransactionActivity.class);
@@ -46,7 +52,7 @@ public class ViewCustomer extends AppCompatActivity {
     }
 
     /**
-     * Retrieves an Artist object from the backend
+     * Retrieves a Customer object from the backend
      */
     public void getCustomer() {
         TextView username = findViewById(R.id.customer_username);
@@ -69,7 +75,7 @@ public class ViewCustomer extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                error += statusCode + " Invalid Name";
+
             }
         });
     }
@@ -199,14 +205,28 @@ public class ViewCustomer extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                error += statusCode + " Invalid Password";
+
             }
         });
     }
 
 
+    /**
+     * Logout the current user
+     * @param view
+     */
     public void logOut(View view) {
-        Intent intent = new Intent(ViewCustomer.this, LoginActivity.class);
-        startActivity(intent);
+        HttpUtils.post("/logout?username="+cusername, new RequestParams(), new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Intent intent = new Intent(ViewCustomer.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -7,11 +7,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +31,10 @@ public class TransactionActivity extends AppCompatActivity {
     private ArrayAdapter transactionAdapter;
     private String username;
 
+    /**
+     * Setup the transaction layout and the necessary spinners
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,13 +50,16 @@ public class TransactionActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
+                Toast.makeText(TransactionActivity.this, "No transactions for this profile exist", Toast.LENGTH_SHORT).show();
             }
 
         });
 
     }
 
+    /**
+     * Display the transactions based on the dropdown
+     */
     private void displayTransaction() {
         Spinner transactionSpinner = findViewById(R.id.transaction_spinner);
         String artworkName = transactionSpinner.getSelectedItem().toString();
@@ -93,7 +102,11 @@ public class TransactionActivity extends AppCompatActivity {
                     transactionAdapter = new ArrayAdapter<>(TransactionActivity.this, android.R.layout.simple_spinner_item, artworkNames);
                     transactionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     transactionSpinner.setAdapter(transactionAdapter);
-                    displayTransaction();
+                    if(artworkNames.size() > 0) {
+                        displayTransaction();
+                    }else{
+                        Toast.makeText(TransactionActivity.this, "No transactions exist for this profile", Toast.LENGTH_SHORT).show();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -125,8 +138,22 @@ public class TransactionActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Logout the current user
+     * @param view
+     */
     public void logOut(View view) {
-        Intent intent = new Intent(TransactionActivity.this, LoginActivity.class);
-        startActivity(intent);
+        HttpUtils.post("/logout?username="+username, new RequestParams(), new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Intent intent = new Intent(TransactionActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
