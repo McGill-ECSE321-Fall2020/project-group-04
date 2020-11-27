@@ -18,17 +18,19 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 public class ViewArtist extends AppCompatActivity {
-    //get the intent
-    Intent intent = getIntent();
+
     //get string equivalent of username
-    String ausername = intent.getStringExtra("USERNAME");
+    String ausername;
     private String error = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.artist_profile);
+
+        ausername = getIntent().getStringExtra("USERNAME");
         getArtist();
+
 
 
         //Bind upload button to transition
