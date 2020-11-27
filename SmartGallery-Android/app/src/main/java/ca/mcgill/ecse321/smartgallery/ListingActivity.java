@@ -1,9 +1,11 @@
 package ca.mcgill.ecse321.smartgallery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -31,6 +33,11 @@ public class ListingActivity extends AppCompatActivity {
     private ArrayAdapter<String> listingAdapter;
     Spinner listingSpinner;
     private HashMap<String, Integer> artworkNameToListingIDMap;
+
+    //get intent from profile
+    Intent intent = getIntent();
+    //get username string equivalent
+    String username = intent.getStringExtra("Username");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +74,15 @@ public class ListingActivity extends AppCompatActivity {
             }
 
         });
+
+        //Transition for view profile button
+        Button viewProfile = findViewById(R.id.view_profile);
+        viewProfile.setOnClickListener(v -> {
+            //navigate to  profile page
+            viewProfile();
+        });
+
+
     }
 
 
@@ -153,10 +169,29 @@ public class ListingActivity extends AppCompatActivity {
 
 
         HttpUtils.post("/transaction/?paymentMethod=" + paymentMethod + "&deliveryMethod=" +
-                deliveryMethod + "&username=" + "INSERT_USERNAME_HERE" + "&listingID=" + listingID, new RequestParams(), new JsonHttpResponseHandler() {
+                deliveryMethod + "&username=" + username + "&listingID=" + listingID, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // alert the user the transaction worked etc.
+            }
+        });
+    }
+
+    public void viewProfile() {
+        HttpUtils.get("/artist/name/" + username, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                //redirect to customer profile, passing the username in a parameter
+                Intent intent = new Intent(ListingActivity.this, ViewArtist.class);
+                intent.putExtra("USERNAME", username);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+                Intent intent = new Intent(ListingActivity.this, ViewCustomer.class);
+                intent.putExtra("USERNAME", username);
+                startActivity(intent);
             }
         });
     }
