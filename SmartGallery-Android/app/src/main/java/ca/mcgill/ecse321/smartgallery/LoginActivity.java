@@ -19,6 +19,11 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     Button btnRegister;
 
+    EditText etUsername;
+    EditText etPassword;
+    String username;
+    String password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -49,35 +54,67 @@ public class LoginActivity extends AppCompatActivity {
     public void login() {
 
         //Get the username and password input by the user
-        final EditText etUsername = (EditText) findViewById(R.id.login_username_input);
-        final EditText etPassword = (EditText) findViewById(R.id.login_password_input);
-        String username = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
+        etUsername = (EditText) findViewById(R.id.login_username_input);
+        etPassword = (EditText) findViewById(R.id.login_password_input);
+        username = etUsername.getText().toString();
+        password = etPassword.getText().toString();
 
         //Check that neither field is empty
-        if (username == "") {
+        if (username.equals("")) {
             Toast.makeText(this, getString(R.string.empty_username), Toast.LENGTH_SHORT).show();
             return;
         }
-        if (password == "") {
+        if (password.equals("")) {
             Toast.makeText(this, getString(R.string.empty_password), Toast.LENGTH_SHORT).show();
             return;
         }
 
         //Attempt logging in
-        HttpUtils.post("/login/?username=" + username + "&password=" + password, new RequestParams(), new JsonHttpResponseHandler() {
+        String url = "/login?username=" + username + "&password=" + password;
+        System.out.println(url);
+        HttpUtils.post(url, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
-                Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
-                //Redirect to profile
+            public void onSuccess(int statusCode, Header[] headers, String response){
+                successfulLogin();
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                System.out.println(responseString);
+                if (responseString.equals("true")) {
+                    successfulLogin();
+                    return;
+                }
                 Toast.makeText(LoginActivity.this, getString(R.string.login_warning), Toast.LENGTH_SHORT).show();
                 etUsername.setText("");
                 etPassword.setText("");
             }
         });
+    }
+
+    public void successfulLogin() {
+        System.out.println("We have a success!");
+        Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+
+        //If login was successful, the profile exists. Check if it is an artist, and if so, redirect to artist profile
+        //page. If not, they must be a customer, so redirect to customer page.
+        HttpUtils.get("/artist/name/" + username, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                //redirect to customer profile, passing the username in a parameter
+                Intent intent = new Intent(LoginActivity.this, ViewArtist.class);
+                intent.putExtra("USERNAME", username);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+                Intent intent = new Intent(LoginActivity.this, ViewCustomer.class);
+                intent.putExtra("USERNAME", username);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }

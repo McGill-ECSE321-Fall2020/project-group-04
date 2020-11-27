@@ -73,17 +73,20 @@ public class RegistrationActivity extends AppCompatActivity {
 
         if (!password.equals(confirmPassword)) {
             Toast.makeText(this, getString(R.string.mismatched_password), Toast.LENGTH_SHORT).show();
+            return;
         }
 
         if (!(accountType.equalsIgnoreCase(getString(R.string.type_customer))
                 || accountType.equalsIgnoreCase(getString(R.string.type_artist))))
         {
             Toast.makeText(this, getString(R.string.empty_account_type), Toast.LENGTH_SHORT).show();
+            return;
         }
 
         if (!(paymentType.equalsIgnoreCase(getString(R.string.type_credit))
                 || accountType.equalsIgnoreCase(getString(R.string.type_paypal)))) {
             Toast.makeText(this, getString(R.string.empty_payment_type), Toast.LENGTH_SHORT).show();
+            return;
         }
 
         if (accountType.equalsIgnoreCase(getString(R.string.type_customer))) {
@@ -111,8 +114,10 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void registerArtist(String username, String password, String email, String paymentType, View view) {
-        HttpUtils.post("/artist/" + username + "?password=" + password + "&email=" + email +
-                "&defaultMethod=" + paymentType + "&smartGalleryID=123", new RequestParams(), new JsonHttpResponseHandler() {
+        String url = "/artist/" + username + "/?password=" + password + "&email=" + email +
+                "&defaultPaymentMethod=" + paymentType + "&smartGalleryID=123";
+        System.out.println(url);
+        HttpUtils.post(url, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 successfulRegistration(view);
