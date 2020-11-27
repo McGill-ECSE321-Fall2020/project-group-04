@@ -37,4 +37,13 @@ The following tables provide details on the contributors to this project. It dis
 | Viet | View listing, architecture model, backend fixes, frontend bug fixes  | 33 |
 | Oliver | Frontend formatting, search functionality, home page, artist page | 32 |
 
+**Sprint Four**
+| Member  |Main Responsibilities|Hours|
+|---------------------|-----------------------|-------|
+| Roey | |  |
+| Stavros |  |  |
+| Zachary |  |  |
+| Viet |  |  |
+| Oliver |  |  |
+
 A report on the sprints and more information can be found in our [wiki](https://github.com/McGill-ECSE321-Fall2020/project-group-04/wiki).
