@@ -40,10 +40,10 @@ The following tables provide details on the contributors to this project. It dis
 **Sprint Four**
 | Member  |Main Responsibilities|Hours|
 |---------------------|-----------------------|-------|
-| Roey | |  |
-| Stavros |  |  |
-| Zachary |  |  |
-| Viet |  |  |
-| Oliver |  |  |
+| Roey | Customer/Artist profile pages, project report | 12 |
+| Stavros | Upload/List page and functionality | 17 |
+| Zachary | Login and Registration pages and functionality | 17 |
+| Viet | Listings/transaction/artist/customer pages, general bug fixing and documentation | 19 |
+| Oliver | Listings/Purchase page, Documentation | 15 |
 
 A report on the sprints and more information can be found in our [wiki](https://github.com/McGill-ECSE321-Fall2020/project-group-04/wiki).
