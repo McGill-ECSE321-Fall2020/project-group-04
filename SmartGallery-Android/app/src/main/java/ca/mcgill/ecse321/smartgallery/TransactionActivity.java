@@ -124,4 +124,9 @@ public class TransactionActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void logOut(View view) {
+        Intent intent = new Intent(TransactionActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
 }

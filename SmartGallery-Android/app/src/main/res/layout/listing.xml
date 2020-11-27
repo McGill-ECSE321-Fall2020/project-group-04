@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="30dp"
             android:text="@string/listing_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -123,7 +123,7 @@
             android:id="@+id/listing_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
 
             android:baselineAligned="false"
             android:onClick="createTransaction"
@@ -132,12 +132,24 @@
         <Button
             android:id="@+id/view_profile"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_horizontal"
             android:onClick="viewProfile"
             android:text="@string/upload_exit" />
+
+
+        <Button
+            android:id="@+id/log_out"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:onClick="logOut"
+            android:text="Log Out" />
+
 
     </LinearLayout>
 

@@ -222,4 +222,10 @@ public class ViewArtist extends AppCompatActivity {
         });
     }
 
+
+    public void logOut(View view) {
+        Intent intent = new Intent(ViewArtist.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
 }

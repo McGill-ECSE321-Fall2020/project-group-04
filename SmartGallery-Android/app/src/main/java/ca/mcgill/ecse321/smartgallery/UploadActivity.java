@@ -208,6 +208,11 @@ public class UploadActivity extends AppCompatActivity {
 
     }
 
+    public void logOut(View view) {
+        Intent intent = new Intent(UploadActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
     /*
     private void getArtworkIdFromJson() {
         final String[] artworkID = {""};

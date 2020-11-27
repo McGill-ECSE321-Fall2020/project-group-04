@@ -142,7 +142,11 @@ public class ListingActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    public void logOut(View view) {
+        Intent intent = new Intent(ListingActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 
     public void createTransaction(View view) {
