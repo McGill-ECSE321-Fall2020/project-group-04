@@ -120,8 +120,8 @@ public class UploadActivity extends AppCompatActivity {
         rp.add("width", width.getText().toString());
         rp.add("artist", username);
         rp.add("gallery", "testGallery");
-
-        HttpUtils.post("artwork/" + artworkName.getText().toString().trim(), rp, new JsonHttpResponseHandler() {
+        String urlArtwork = artworkName.getText().toString().replaceAll("\\s","%20");;
+        HttpUtils.post("artwork/" + urlArtwork, rp, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
